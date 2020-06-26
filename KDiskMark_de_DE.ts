@@ -15,25 +15,23 @@
         <translation></translation>
     </message>
     <message>
+        <source>&lt;p align=&quot;center&quot;&gt;Read [MB/s]&lt;/p&gt;</source>
+        <translation>&lt;p align=&quot;center&quot;&gt;Чтение [MB/s]&lt;/p&gt;</translation>
+    </message>
+    <message>
         <location filename="mainwindow.ui" line="125"/>
         <source>SEQ1M
 Q8T1</source>
         <translation></translation>
     </message>
     <message>
+        <source>&lt;p align=&quot;center&quot;&gt;Write [MB/s]&lt;/p&gt;</source>
+        <translation type="vanished">&lt;p align=&quot;center&quot;&gt;Запись [MB/s]&lt;/p&gt;/translation>
+    </message>
+    <message>
         <location filename="mainwindow.ui" line="14"/>
         <source>KDiskMark</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="112"/>
-        <source>&lt;p align=&quot;center&quot;&gt;Read [MB/s]&lt;/p&gt;</source>
-        <translation>&lt;p align=&quot;center&quot;&gt;Чтение [MB/s]&lt;/p&gt;</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="163"/>
-        <source>&lt;p align=&quot;center&quot;&gt;Write [MB/s]&lt;/p&gt;</source>
-        <translation>&lt;p align=&quot;center&quot;&gt;Запись [MB/s]&lt;/p&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="180"/>
