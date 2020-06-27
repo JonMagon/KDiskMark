@@ -65,13 +65,15 @@ Q8T1</source>
     </message>
     <message>
         <location filename="mainwindow.ui" line="112"/>
-        <source>&lt;p align=&quot;center&quot;&gt;Read [MB/s]&lt;/p&gt;</source>
-        <translation>&lt;p align=&quot;center&quot;&gt;Lesen [MB/s]&lt;/p&gt;</translation>
+        <source>&lt;p align=&quot;center&quot;&gt;Read [MiB/s]&lt;/p&gt;</source>
+        <oldsource>&lt;p align=&quot;center&quot;&gt;Read [MB/s]&lt;/p&gt;</oldsource>
+        <translation>&lt;p align=&quot;center&quot;&gt;Lesen [MiB/s]&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="163"/>
-        <source>&lt;p align=&quot;center&quot;&gt;Write [MB/s]&lt;/p&gt;</source>
-        <translation>&lt;p align=&quot;center&quot;&gt;Schreiben [MB/s]&lt;/p&gt;</translation>
+        <source>&lt;p align=&quot;center&quot;&gt;Write [MiB/s]&lt;/p&gt;</source>
+        <oldsource>&lt;p align=&quot;center&quot;&gt;Write [MB/s]&lt;/p&gt;</oldsource>
+        <translation>&lt;p align=&quot;center&quot;&gt;Schreiben [MiB/s]&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="180"/>
@@ -185,6 +187,11 @@ Q1T1</source>
         <location filename="mainwindow.ui" line="517"/>
         <source>10 min</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="53"/>
+        <source>MiB</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

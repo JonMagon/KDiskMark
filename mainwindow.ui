@@ -109,7 +109,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;p align=&quot;center&quot;&gt;Read [MB/s]&lt;/p&gt;</string>
+     <string>&lt;p align=&quot;center&quot;&gt;Read [MiB/s]&lt;/p&gt;</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_SEQ1M_Q8T1">
@@ -160,7 +160,7 @@ Q8T1</string>
      </rect>
     </property>
     <property name="text">
-     <string>&lt;p align=&quot;center&quot;&gt;Write [MB/s]&lt;/p&gt;</string>
+     <string>&lt;p align=&quot;center&quot;&gt;Write [MiB/s]&lt;/p&gt;</string>
     </property>
    </widget>
    <widget class="QComboBox" name="comboBox_3">

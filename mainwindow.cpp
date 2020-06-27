@@ -50,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     int size = 16;
     for (int i = 0; i < 10; i++) {
         size *= 2;
-        ui->comboBox->addItem(QString("%1 %2").arg(QString::number(size), "MiB"));
+        ui->comboBox->addItem(QString("%1 %2").arg(QString::number(size), tr("MiB")));
     }
 
     QProgressBar* progressBars[] = {
@@ -64,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent)
         progressBar->setFormat("0.00");
         progressBar->setToolTip(toolTipRaw.arg("0.000", "0.000", "0.000", "0.000"));
     }
+
+    ui->pushButton_SEQ1M_Q8T1->setToolTip("<h1>Sequential 1 MiB/s<br/>Queues=8<br/>Threads=1</h1>");
 
     Benchmark *benchmark = new Benchmark;
     benchmark->moveToThread(&benchmarkThread);

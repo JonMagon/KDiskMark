@@ -28,12 +28,10 @@ FORMS += \
     mainwindow.ui
 
 TRANSLATIONS += \
-    KDiskMark_ru_RU.ts
+    KDiskMark_ru_RU.ts \
+    KDiskMark_de_DE.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-DISTFILES += \
-    KDiskMark_de_DE.ts

@@ -65,23 +65,25 @@ Q8T1</source>
     </message>
     <message>
         <location filename="mainwindow.ui" line="112"/>
-        <source>&lt;p align=&quot;center&quot;&gt;Read [MB/s]&lt;/p&gt;</source>
-        <translation>&lt;p align=&quot;center&quot;&gt;Чтение [MB/s]&lt;/p&gt;</translation>
+        <source>&lt;p align=&quot;center&quot;&gt;Read [MiB/s]&lt;/p&gt;</source>
+        <oldsource>&lt;p align=&quot;center&quot;&gt;Read [MB/s]&lt;/p&gt;</oldsource>
+        <translation>&lt;p align=&quot;center&quot;&gt;Чтение [МиБ/с]&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="163"/>
-        <source>&lt;p align=&quot;center&quot;&gt;Write [MB/s]&lt;/p&gt;</source>
-        <translation>&lt;p align=&quot;center&quot;&gt;Запись [MB/s]&lt;/p&gt;</translation>
+        <source>&lt;p align=&quot;center&quot;&gt;Write [MiB/s]&lt;/p&gt;</source>
+        <oldsource>&lt;p align=&quot;center&quot;&gt;Write [MB/s]&lt;/p&gt;</oldsource>
+        <translation>&lt;p align=&quot;center&quot;&gt;Запись [МиБ/с]&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="180"/>
         <source>MB/s</source>
-        <translation></translation>
+        <translation>МБ/с</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="185"/>
         <source>GB/s</source>
-        <translation></translation>
+        <translation>ГБ/с</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="190"/>
@@ -185,6 +187,11 @@ Q1T1</source>
         <location filename="mainwindow.ui" line="517"/>
         <source>10 min</source>
         <translation>10 мин</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="53"/>
+        <source>MiB</source>
+        <translation>МиБ</translation>
     </message>
 </context>
 </TS>
