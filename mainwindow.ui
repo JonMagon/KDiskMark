@@ -401,6 +401,22 @@ Q1T1</string>
     <property name="title">
      <string>Settings</string>
     </property>
+    <widget class="QMenu" name="menuInterval_Time">
+     <property name="title">
+      <string>Interval Time</string>
+     </property>
+     <addaction name="action0_sec"/>
+     <addaction name="action1_sec"/>
+     <addaction name="action3_sec"/>
+     <addaction name="action5_sec"/>
+     <addaction name="action10_sec"/>
+     <addaction name="action30_sec"/>
+     <addaction name="action1_min"/>
+     <addaction name="action3_min"/>
+     <addaction name="action5_min"/>
+     <addaction name="action10_min"/>
+    </widget>
+    <addaction name="menuInterval_Time"/>
    </widget>
    <widget class="QMenu" name="menuProfile">
     <property name="title">
@@ -418,6 +434,89 @@ Q1T1</string>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="action0_sec">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>0 sec</string>
+   </property>
+  </action>
+  <action name="action1_sec">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>1 sec</string>
+   </property>
+  </action>
+  <action name="action3_sec">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>3 sec</string>
+   </property>
+  </action>
+  <action name="action5_sec">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>5 sec</string>
+   </property>
+  </action>
+  <action name="action10_sec">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>10 sec</string>
+   </property>
+  </action>
+  <action name="action30_sec">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>30 sec</string>
+   </property>
+  </action>
+  <action name="action1_min">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>1 min</string>
+   </property>
+  </action>
+  <action name="action3_min">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>3 min</string>
+   </property>
+  </action>
+  <action name="action5_min">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>5 min</string>
+   </property>
+  </action>
+  <action name="action10_min">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>10 min</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

@@ -1,22 +1,21 @@
 #include "benchmark.h"
 
 #include <QProcess>
-#include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QThread>
 
-Benchmark::PerformanceResult Benchmark::DoBenchmark(QString name, int loops, int size, int block_size,
-                                                    int queue_depth, int threads, const char* rw)
+Benchmark::PerformanceResult Benchmark::startFIO(int loops, int size, int block_size,
+                                                 int queue_depth, int threads, const QString rw)
 {
     process_ = new QProcess();
     process_->start("fio", QStringList()
-                    << "--stonewall"
                     << "--output-format=json"
                     << "--ioengine=libaio"
                     << "--direct=1"
                     << "--filename=/home/jonmagon/fiotest.tmp"
-                    << QString("--name=%1").arg(name)
+                    << QString("--name=%1").arg(rw)
                     << QString("--loops=%1").arg(loops)
                     << QString("--size=%1k").arg(size)
                     << QString("--bs=%1k").arg(block_size)
@@ -26,10 +25,10 @@ Benchmark::PerformanceResult Benchmark::DoBenchmark(QString name, int loops, int
                     );
     process_->waitForFinished();
 
-    return ParseResult();
+    return parseResult();
 }
 
-Benchmark::PerformanceResult Benchmark::ParseResult()
+Benchmark::PerformanceResult Benchmark::parseResult()
 {
     QJsonDocument jsonResponse = QJsonDocument::fromJson(QString(process_->readAllStandardOutput()).toUtf8());
     QJsonObject jsonObject = jsonResponse.object();
@@ -42,13 +41,13 @@ Benchmark::PerformanceResult Benchmark::ParseResult()
 
     QJsonValue job = jobs.takeAt(0);
 
-    if (job["jobname"].toString().contains("Read")) {
+    if (job["jobname"].toString().contains("read")) {
         QJsonObject readResults = job["read"].toObject();
 
         result.Bandwidth = readResults.value("bw").toInt() / 1000.0; // to kbytes
         result.IOPS = readResults.value("iops").toDouble();
         result.Latency = readResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0; // from nsec to usec
-    } else if (job["jobname"].toString().contains("Write")) {
+    } else if (job["jobname"].toString().contains("write")) {
         QJsonObject writeResults = job["write"].toObject();
 
         result.Bandwidth = writeResults.value("bw").toInt() / 1000.0; // to kbytes
@@ -59,43 +58,49 @@ Benchmark::PerformanceResult Benchmark::ParseResult()
     return result;
 }
 
-void Benchmark::SEQ1M_Q8T1_Read(Benchmark::PerformanceResult& result, int loops)
+void Benchmark::waitTask(int sec)
 {
-    result = DoBenchmark(__func__, loops, 32 * 1024, 1024, 8, 1, kRW_READ);
+    for (int i = 0; i < sec; i++) {
+        emit benchmarkStatusUpdated(tr("Interval Time %1/%2 sec").arg(i).arg(sec));
+        QThread::sleep(1);
+    }
 }
 
-void Benchmark::SEQ1M_Q8T1_Write(Benchmark::PerformanceResult& result, int loops)
+void Benchmark::runBenchmark(QProgressBar *progressBar, Benchmark::Type type, int loops)
 {
-    result = DoBenchmark(__func__, loops, 32 * 1024, 1024, 8, 1, kRW_WRITE);
+    switch (type)
+    {
+    case SEQ1M_Q8T1_Read:
+        emit benchmarkStatusUpdated(tr("Sequential Read"));
+        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 8, 1, kRW_READ));
+        break;
+    case SEQ1M_Q8T1_Write:
+        emit benchmarkStatusUpdated(tr("Sequential Write"));
+        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 8, 1, kRW_WRITE));
+        break;
+    case SEQ1M_Q1T1_Read:
+        emit benchmarkStatusUpdated(tr("Sequential Read"));
+        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 1, 1, kRW_READ));
+        break;
+    case SEQ1M_Q1T1_Write:
+        emit benchmarkStatusUpdated(tr("Sequential Write"));
+        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 1, 1, kRW_WRITE));
+        break;
+    case RND4K_Q32T16_Read:
+        emit benchmarkStatusUpdated(tr("Random Read"));
+        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 4, 32, 16, kRW_RANDREAD));
+        break;
+    case RND4K_Q32T16_Write:
+        emit benchmarkStatusUpdated(tr("Random Write"));
+        emit resultReady(progressBar, startFIO( loops, 16 * 1024, 4, 32, 16, kRW_RANDWRITE));
+        break;
+    case RND4K_Q1T1_Read:
+        emit benchmarkStatusUpdated(tr("Random Read"));
+        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 4, 1, 1, kRW_RANDREAD));
+        break;
+    case RND4K_Q1T1_Write:
+        emit benchmarkStatusUpdated(tr("Random Write"));
+        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 4, 1, 1, kRW_RANDWRITE));
+        break;
+    }
 }
-
-void Benchmark::SEQ1M_Q1T1_Read(Benchmark::PerformanceResult& result, int loops)
-{
-    result = DoBenchmark(__func__, loops, 32 * 1024, 1024, 1, 1, kRW_READ);
-}
-
-void Benchmark::SEQ1M_Q1T1_Write(Benchmark::PerformanceResult& result, int loops)
-{
-    result = DoBenchmark(__func__, loops, 32 * 1024, 1024, 1, 1, kRW_WRITE);
-}
-
-void Benchmark::RND4K_Q32T16_Read(Benchmark::PerformanceResult& result, int loops)
-{
-    result = DoBenchmark(__func__, loops, 32 * 1024, 4, 32, 16, kRW_RANDREAD);
-}
-
-void Benchmark::RND4K_Q32T16_Write(Benchmark::PerformanceResult& result, int loops)
-{
-    result = DoBenchmark(__func__, loops, 32 * 1024, 4, 32, 16, kRW_RANDWRITE);
-}
-
-void Benchmark::RND4K_Q1T1_Read(Benchmark::PerformanceResult& result, int loops)
-{
-    result = DoBenchmark(__func__, loops, 32 * 1024, 4, 1, 1, kRW_RANDREAD);
-}
-
-void Benchmark::RND4K_Q1T1_Write(Benchmark::PerformanceResult& result, int loops)
-{
-    result = DoBenchmark(__func__, loops, 32 * 1024, 4, 1, 1, kRW_RANDWRITE);
-}
-

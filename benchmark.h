@@ -1,55 +1,57 @@
 #ifndef FIO_H
 #define FIO_H
 
-class QProcess;
-class QStringList;
-class QString;
+#include <QProcess>
+#include <QStringList>
+#include <QString>
+#include <QProgressBar>
+#include <QObject>
 
-class Benchmark
+class Benchmark : public QObject
 {
+    Q_OBJECT
+
 public:
+    enum Type {
+        SEQ1M_Q8T1_Read,
+        SEQ1M_Q8T1_Write,
+        SEQ1M_Q1T1_Read,
+        SEQ1M_Q1T1_Write,
+        RND4K_Q32T16_Read,
+        RND4K_Q32T16_Write,
+        RND4K_Q1T1_Read,
+        RND4K_Q1T1_Write
+    };
+
     struct PerformanceResult
     {
         float Bandwidth;
         float IOPS;
         float Latency;
     };
-private:
-    const char* kRW_READ = "read";
-    const char* kRW_WRITE = "write";
-    const char* kRW_RANDREAD = "randread";
-    const char* kRW_RANDWRITE = "randwrite";
-    QProcess* process_;
-    QStringList* args_;
-    PerformanceResult DoBenchmark(QString name, int loops, int size, int block_size, int queue_depth,
-                                  int threads, const char* rw);
-    PerformanceResult ParseResult();
-
-
-public:
-    void SEQ1M_Q8T1_Read(PerformanceResult& result, int loops);
-    void SEQ1M_Q8T1_Write(PerformanceResult& result, int loops);
-    void SEQ1M_Q1T1_Read(PerformanceResult& result, int loops);
-    void SEQ1M_Q1T1_Write(PerformanceResult& result, int loops);
-    void RND4K_Q32T16_Read(PerformanceResult& result, int loops);
-    void RND4K_Q32T16_Write(PerformanceResult& result, int loops);
-    void RND4K_Q1T1_Read(PerformanceResult& result, int loops);
-    void RND4K_Q1T1_Write(PerformanceResult& result, int loops);
-
-/* Singleton part */
 
 private:
-    Benchmark() {}
-    ~Benchmark() {}
-    Benchmark(const Benchmark&);
-    Benchmark& operator=(const Benchmark&);
+    const QString kRW_READ = "read";
+    const QString kRW_WRITE = "write";
+    const QString kRW_RANDREAD = "randread";
+    const QString kRW_RANDWRITE = "randwrite";
 
-public:
-  static Benchmark& Instance()
-  {
-    static Benchmark singleton;
-    return singleton;
-  }
+    QProcess *process_;
+    QStringList *args_;
+    PerformanceResult startFIO(int loops, int size, int block_size, int queue_depth,
+                               int threads, const QString rw);
+    PerformanceResult parseResult();
+
+public slots:
+    void runBenchmark(QProgressBar *progressBar, Benchmark::Type type, int loops);
+    void waitTask(int sec);
+
+signals:
+    void benchmarkStatusUpdated(const QString &name);
+    void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
 };
+
+Q_DECLARE_METATYPE(Benchmark::Type);
+Q_DECLARE_METATYPE(Benchmark::PerformanceResult);
 
 #endif // FIO_H

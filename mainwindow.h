@@ -4,6 +4,8 @@
 #include <QMainWindow>
 
 #include <QProgressBar>
+#include <QThreadPool>
+
 #include "benchmark.h"
 
 QT_BEGIN_NAMESPACE
@@ -13,6 +15,7 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
+    QThread benchmarkThread;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -27,8 +30,18 @@ private slots:
 
     void on_pushButton_RND4K_Q1T1_clicked();
 
+    void on_pushButton_All_clicked();
+
+public slots:
+    void benchmarkStatusUpdated(const QString &name);
+    void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
+    void timeIntervalSelected(QAction* act);
+
+signals:
+    void runBenchmark(QProgressBar *progressBar, Benchmark::Type type, int loops);
+    void waitTask(int sec);
+
 private:
     Ui::MainWindow *ui;
-    void SetBenchmarkResult(QProgressBar* progressBar, Benchmark::PerformanceResult& result);
 };
 #endif // MAINWINDOW_H
