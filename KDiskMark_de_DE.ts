@@ -194,6 +194,30 @@ Q1T1</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="65"/>
+        <source>&lt;h2&gt;Sequential 1 MiB&lt;br/&gt;Queues=8&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Sequential 1 MiB&lt;br/&gt;Queues=8&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="66"/>
+        <source>&lt;h2&gt;Sequential 1 MiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Sequential 1 MiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="67"/>
+        <source>&lt;h2&gt;Random 4 KiB&lt;br/&gt;Queues=32&lt;br/&gt;Threads=16&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Random 4 KiB&lt;br/&gt;Queues=32&lt;br/&gt;Threads=16&lt;/h1&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="68"/>
+        <source>&lt;h2&gt;Random 4 KiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Random 4 KiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="mainwindow.h" line="20"/>
         <source>&lt;h1&gt;%1 MiB/s&lt;br/&gt;%2 GiB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
         <translation></translation>

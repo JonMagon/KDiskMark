@@ -194,6 +194,30 @@ Q1T1</source>
         <translation>МиБ</translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="65"/>
+        <source>&lt;h2&gt;Sequential 1 MiB&lt;br/&gt;Queues=8&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Sequential 1 MiB&lt;br/&gt;Queues=8&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
+        <translation>&lt;h2&gt;Последовательно 1 МиБ&lt;br/&gt;Очереди=8&lt;br/&gt;Потоки=1&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="66"/>
+        <source>&lt;h2&gt;Sequential 1 MiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Sequential 1 MiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
+        <translation>&lt;h2&gt;Последовательно 1 МиБ&lt;br/&gt;Очереди=1&lt;br/&gt;Потоки=1&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="67"/>
+        <source>&lt;h2&gt;Random 4 KiB&lt;br/&gt;Queues=32&lt;br/&gt;Threads=16&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Random 4 KiB&lt;br/&gt;Queues=32&lt;br/&gt;Threads=16&lt;/h1&gt;</oldsource>
+        <translation>&lt;h2&gt;Случайно 4 КиБ&lt;br/&gt;Очереди=32&lt;br/&gt;Потоки=16&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="68"/>
+        <source>&lt;h2&gt;Random 4 KiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
+        <oldsource>&lt;h1&gt;Random 4 KiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
+        <translation>&lt;h2&gt;Случайно 4 КиБ&lt;br/&gt;Очереди=1&lt;br/&gt;Потоки=1&lt;/h2&gt;</translation>
+    </message>
+    <message>
         <location filename="mainwindow.h" line="20"/>
         <source>&lt;h1&gt;%1 MiB/s&lt;br/&gt;%2 GiB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;%1 МиБ/с&lt;br/&gt;%2 ГиБ/с&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>

@@ -62,7 +62,10 @@ MainWindow::MainWindow(QWidget *parent)
         progressBar->setToolTip(toolTipRaw.arg("0.000", "0.000", "0.000", "0.000"));
     }
 
-    ui->pushButton_SEQ1M_Q8T1->setToolTip("<h1>Sequential 1 MiB/s<br/>Queues=8<br/>Threads=1</h1>");
+    ui->pushButton_SEQ1M_Q8T1->setToolTip(tr("<h2>Sequential 1 MiB<br/>Queues=8<br/>Threads=1</h2>"));
+    ui->pushButton_SEQ1M_Q1T1->setToolTip(tr("<h2>Sequential 1 MiB<br/>Queues=1<br/>Threads=1</h2>"));
+    ui->pushButton_RND4K_Q32T16->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=32<br/>Threads=16</h2>"));
+    ui->pushButton_RND4K_Q1T1->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=1<br/>Threads=1</h2>"));
 
     Benchmark *benchmark = new Benchmark;
     benchmark->moveToThread(&benchmarkThread);
