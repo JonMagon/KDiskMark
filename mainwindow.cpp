@@ -10,9 +10,6 @@
 
 #include "benchmark.h"
 
-static int waitSecondsBeforeNewTask = 5;
-const QString toolTipRaw = "<h1>%1 MB/s<br/>%2 GB/s<br/>%3 IOPS<br/>%4 μs</h1>";
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)

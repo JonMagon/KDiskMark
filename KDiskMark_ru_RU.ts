@@ -189,9 +189,14 @@ Q1T1</source>
         <translation>10 мин</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="53"/>
+        <location filename="mainwindow.cpp" line="50"/>
         <source>MiB</source>
         <translation>МиБ</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.h" line="20"/>
+        <source>&lt;h1&gt;%1 MiB/s&lt;br/&gt;%2 GiB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
+        <translation>&lt;h1&gt;%1 МиБ/с&lt;br/&gt;%2 ГиБ/с&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
 </context>
 </TS>

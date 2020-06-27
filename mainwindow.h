@@ -16,6 +16,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
     QThread benchmarkThread;
+    int waitSecondsBeforeNewTask = 5;
+    const QString toolTipRaw = tr("<h1>%1 MiB/s<br/>%2 GiB/s<br/>%3 IOPS<br/>%4 μs</h1>");
 
 public:
     MainWindow(QWidget *parent = nullptr);
