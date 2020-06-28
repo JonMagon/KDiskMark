@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<Benchmark::Type>("Benchmark::Type");
     qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
+    qRegisterMetaType<QMap<Benchmark::Type,QProgressBar*>>("QMap<Benchmark::Type,QProgressBar*>");
 
     QTranslator translator;
         if (translator.load(QLocale(), QLatin1String("KDiskMark"), QLatin1String("_")))

@@ -6,6 +6,7 @@
 #include <QString>
 #include <QProgressBar>
 #include <QObject>
+#include <QMap>
 
 class Benchmark : public QObject
 {
@@ -43,12 +44,14 @@ private:
     PerformanceResult parseResult();
 
 public slots:
-    void runBenchmark(QProgressBar *progressBar, Benchmark::Type type, int loops);
-    void waitTask(int sec);
+    // TODO: pass all params except tests as one object
+    void runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loops, int intervalTime);
 
 signals:
     void benchmarkStatusUpdated(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
+    void finished();
+    void isRunning(bool *state);
 };
 
 Q_DECLARE_METATYPE(Benchmark::Type);

@@ -47,7 +47,8 @@ Benchmark::PerformanceResult Benchmark::parseResult()
         result.Bandwidth = readResults.value("bw").toInt() / 1024.0; // to kib
         result.IOPS = readResults.value("iops").toDouble();
         result.Latency = readResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0; // from nsec to usec
-    } else if (job["jobname"].toString().contains("write")) {
+    }
+    else if (job["jobname"].toString().contains("write")) {
         QJsonObject writeResults = job["write"].toObject();
 
         result.Bandwidth = writeResults.value("bw").toInt() / 1024.0; // to kib
@@ -58,49 +59,76 @@ Benchmark::PerformanceResult Benchmark::parseResult()
     return result;
 }
 
-void Benchmark::waitTask(int sec)
+void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loops, int intervalTime)
 {
-    for (int i = 0; i < sec; i++) {
-        emit benchmarkStatusUpdated(tr("Interval Time %1/%2 sec").arg(i).arg(sec));
-        QThread::sleep(1);
-    }
-}
+    bool state = true;
+    QMapIterator<Benchmark::Type, QProgressBar*> iter(tests);
 
-void Benchmark::runBenchmark(QProgressBar *progressBar, Benchmark::Type type, int loops)
-{
-    switch (type)
-    {
-    case SEQ1M_Q8T1_Read:
-        emit benchmarkStatusUpdated(tr("Sequential Read"));
-        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 8, 1, kRW_READ));
-        break;
-    case SEQ1M_Q8T1_Write:
-        emit benchmarkStatusUpdated(tr("Sequential Write"));
-        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 8, 1, kRW_WRITE));
-        break;
-    case SEQ1M_Q1T1_Read:
-        emit benchmarkStatusUpdated(tr("Sequential Read"));
-        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 1, 1, kRW_READ));
-        break;
-    case SEQ1M_Q1T1_Write:
-        emit benchmarkStatusUpdated(tr("Sequential Write"));
-        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 1024, 1, 1, kRW_WRITE));
-        break;
-    case RND4K_Q32T16_Read:
-        emit benchmarkStatusUpdated(tr("Random Read"));
-        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 4, 32, 16, kRW_RANDREAD));
-        break;
-    case RND4K_Q32T16_Write:
-        emit benchmarkStatusUpdated(tr("Random Write"));
-        emit resultReady(progressBar, startFIO( loops, 16 * 1024, 4, 32, 16, kRW_RANDWRITE));
-        break;
-    case RND4K_Q1T1_Read:
-        emit benchmarkStatusUpdated(tr("Random Read"));
-        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 4, 1, 1, kRW_RANDREAD));
-        break;
-    case RND4K_Q1T1_Write:
-        emit benchmarkStatusUpdated(tr("Random Write"));
-        emit resultReady(progressBar, startFIO(loops, 16 * 1024, 4, 1, 1, kRW_RANDWRITE));
-        break;
+    // set to 0 all the progressbars for current tests
+    while (iter.hasNext()) {
+        iter.next();
+        emit resultReady(iter.value(), PerformanceResult());
     }
+
+    iter.toFront();
+
+    while (iter.hasNext()) {
+
+        emit isRunning(&state);
+        if (!state) {
+            emit finished();
+            return;
+        }
+
+        iter.next();
+        switch (iter.key())
+        {
+        case SEQ1M_Q8T1_Read:
+            emit benchmarkStatusUpdated(tr("Sequential Read"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 1024, 8, 1, kRW_READ));
+            break;
+        case SEQ1M_Q8T1_Write:
+            emit benchmarkStatusUpdated(tr("Sequential Write"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 1024, 8, 1, kRW_WRITE));
+            break;
+        case SEQ1M_Q1T1_Read:
+            emit benchmarkStatusUpdated(tr("Sequential Read"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 1024, 1, 1, kRW_READ));
+            break;
+        case SEQ1M_Q1T1_Write:
+            emit benchmarkStatusUpdated(tr("Sequential Write"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 1024, 1, 1, kRW_WRITE));
+            break;
+        case RND4K_Q32T16_Read:
+            emit benchmarkStatusUpdated(tr("Random Read"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 4, 32, 16, kRW_RANDREAD));
+            break;
+        case RND4K_Q32T16_Write:
+            emit benchmarkStatusUpdated(tr("Random Write"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 4, 32, 16, kRW_RANDWRITE));
+            break;
+        case RND4K_Q1T1_Read:
+            emit benchmarkStatusUpdated(tr("Random Read"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 4, 1, 1, kRW_RANDREAD));
+            break;
+        case RND4K_Q1T1_Write:
+            emit benchmarkStatusUpdated(tr("Random Write"));
+            emit resultReady(iter.value(), startFIO(loops, 16 * 1024, 4, 1, 1, kRW_RANDWRITE));
+            break;
+        }
+
+        if (iter.hasNext()) {
+            for (int i = 0; i < intervalTime; i++, emit isRunning(&state)) {
+                if (!state) {
+                    emit finished();
+                    return;
+                }
+
+                emit benchmarkStatusUpdated(tr("Interval Time %1/%2 sec").arg(i).arg(intervalTime));
+                QThread::sleep(1);
+            }
+        }
+    }
+
+    emit finished();
 }

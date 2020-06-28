@@ -2,33 +2,46 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru_RU">
 <context>
+    <name>About</name>
+    <message>
+        <location filename="about.ui" line="14"/>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="about.ui" line="26"/>
+        <source>PushButton</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Benchmark</name>
     <message>
-        <location filename="benchmark.cpp" line="64"/>
+        <location filename="benchmark.cpp" line="127"/>
         <source>Interval Time %1/%2 sec</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="benchmark.cpp" line="74"/>
-        <location filename="benchmark.cpp" line="82"/>
+        <location filename="benchmark.cpp" line="87"/>
+        <location filename="benchmark.cpp" line="95"/>
         <source>Sequential Read</source>
         <translation>Sequentielles Lesen</translation>
     </message>
     <message>
-        <location filename="benchmark.cpp" line="78"/>
-        <location filename="benchmark.cpp" line="86"/>
+        <location filename="benchmark.cpp" line="91"/>
+        <location filename="benchmark.cpp" line="99"/>
         <source>Sequential Write</source>
         <translation>Sequentielles Schreiben</translation>
     </message>
     <message>
-        <location filename="benchmark.cpp" line="90"/>
-        <location filename="benchmark.cpp" line="98"/>
+        <location filename="benchmark.cpp" line="103"/>
+        <location filename="benchmark.cpp" line="111"/>
         <source>Random Read</source>
         <translation>Zufälliges Lesen</translation>
     </message>
     <message>
-        <location filename="benchmark.cpp" line="94"/>
-        <location filename="benchmark.cpp" line="102"/>
+        <location filename="benchmark.cpp" line="107"/>
+        <location filename="benchmark.cpp" line="115"/>
         <source>Random Write</source>
         <translation>Zufälliges Schreiben</translation>
     </message>
@@ -37,6 +50,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui" line="30"/>
+        <location filename="mainwindow.cpp" line="101"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
@@ -139,82 +153,101 @@ Q1T1</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="442"/>
+        <location filename="mainwindow.ui" line="443"/>
         <source>0 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="450"/>
+        <location filename="mainwindow.ui" line="451"/>
         <source>1 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="458"/>
+        <location filename="mainwindow.ui" line="459"/>
         <source>3 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="469"/>
+        <location filename="mainwindow.ui" line="470"/>
         <source>5 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="477"/>
+        <location filename="mainwindow.ui" line="478"/>
         <source>10 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="485"/>
+        <location filename="mainwindow.ui" line="486"/>
         <source>30 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="493"/>
+        <location filename="mainwindow.ui" line="494"/>
         <source>1 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="501"/>
+        <location filename="mainwindow.ui" line="502"/>
         <source>3 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="509"/>
+        <location filename="mainwindow.ui" line="510"/>
         <source>5 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="517"/>
+        <location filename="mainwindow.ui" line="518"/>
         <source>10 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="50"/>
+        <location filename="mainwindow.ui" line="523"/>
+        <source>About KDiskMark</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="51"/>
         <source>MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="65"/>
+        <location filename="mainwindow.cpp" line="66"/>
         <source>&lt;h2&gt;Sequential 1 MiB&lt;br/&gt;Queues=8&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
         <oldsource>&lt;h1&gt;Sequential 1 MiB&lt;br/&gt;Queues=8&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="66"/>
+        <location filename="mainwindow.cpp" line="67"/>
         <source>&lt;h2&gt;Sequential 1 MiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
         <oldsource>&lt;h1&gt;Sequential 1 MiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="67"/>
+        <location filename="mainwindow.cpp" line="68"/>
         <source>&lt;h2&gt;Random 4 KiB&lt;br/&gt;Queues=32&lt;br/&gt;Threads=16&lt;/h2&gt;</source>
         <oldsource>&lt;h1&gt;Random 4 KiB&lt;br/&gt;Queues=32&lt;br/&gt;Threads=16&lt;/h1&gt;</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="68"/>
+        <location filename="mainwindow.cpp" line="69"/>
         <source>&lt;h2&gt;Random 4 KiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h2&gt;</source>
         <oldsource>&lt;h1&gt;Random 4 KiB&lt;br/&gt;Queues=1&lt;br/&gt;Threads=1&lt;/h1&gt;</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="116"/>
+        <source>Stopping...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="126"/>
+        <location filename="mainwindow.cpp" line="127"/>
+        <location filename="mainwindow.cpp" line="128"/>
+        <location filename="mainwindow.cpp" line="129"/>
+        <location filename="mainwindow.cpp" line="130"/>
+        <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

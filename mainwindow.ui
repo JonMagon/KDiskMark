@@ -427,6 +427,7 @@ Q1T1</string>
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSettings"/>
@@ -515,6 +516,11 @@ Q1T1</string>
    </property>
    <property name="text">
     <string>10 min</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About KDiskMark</string>
    </property>
   </action>
  </widget>

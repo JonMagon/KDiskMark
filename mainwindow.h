@@ -15,9 +15,12 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    QThread benchmarkThread;
-    int waitSecondsBeforeNewTask = 5;
+
+private:
     const QString toolTipRaw = tr("<h1>%1 MiB/s<br/>%2 GiB/s<br/>%3 IOPS<br/>%4 μs</h1>");
+    QThread benchmarkThread_;
+    int waitSecondsBeforeNewTask_ = 5;
+    bool isBenchmarkRunning_ = false;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -38,12 +41,15 @@ public slots:
     void benchmarkStatusUpdated(const QString &name);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void timeIntervalSelected(QAction* act);
+    void isBenchmarkRunning(bool *state);
+    void allTestsAreFinished();
 
 signals:
-    void runBenchmark(QProgressBar *progressBar, Benchmark::Type type, int loops);
-    void waitTask(int sec);
+    void runBenchmark(QMap<Benchmark::Type, QProgressBar*>, int loops, int intervalTime);
 
 private:
     Ui::MainWindow *ui;
+    bool changeTaskState();
+
 };
 #endif // MAINWINDOW_H
