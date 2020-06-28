@@ -68,18 +68,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_RND4K_Q32T16->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=32<br/>Threads=16</h2>"));
     ui->pushButton_RND4K_Q1T1->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=1<br/>Threads=1</h2>"));
 
-    Benchmark *benchmark = new Benchmark;
-    benchmark->moveToThread(&benchmarkThread_);
-    connect(&benchmarkThread_, &QThread::finished, benchmark, &QObject::deleteLater);
-    connect(this, &MainWindow::runBenchmark, benchmark, &Benchmark::runBenchmark);
-    connect(benchmark, &Benchmark::isRunning, this, &MainWindow::isBenchmarkRunning);
-    connect(benchmark, &Benchmark::benchmarkStatusUpdated, this, &MainWindow::benchmarkStatusUpdated);
-    connect(benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
-    connect(benchmark, &Benchmark::finished, this, &MainWindow::allTestsAreFinished);
+    benchmark_ = new Benchmark;
+    benchmark_->moveToThread(&benchmarkThread_);
+    connect(&benchmarkThread_, &QThread::finished, benchmark_, &QObject::deleteLater);
+    connect(this, &MainWindow::runBenchmark, benchmark_, &Benchmark::runBenchmark);
+    connect(benchmark_, &Benchmark::isRunning, this, &MainWindow::isBenchmarkRunning);
+    connect(benchmark_, &Benchmark::benchmarkStatusUpdated, this, &MainWindow::benchmarkStatusUpdated);
+    connect(benchmark_, &Benchmark::resultReady, this, &MainWindow::handleResults);
+    connect(benchmark_, &Benchmark::finished, this, &MainWindow::allTestsAreFinished);
     benchmarkThread_.start();
 
     // About button
-    connect(ui->actionAbout, &QAction::triggered, this, [](){ About about; about.exec(); });
+    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
 }
 
 MainWindow::~MainWindow()
@@ -87,6 +87,25 @@ MainWindow::~MainWindow()
     benchmarkThread_.quit();
     benchmarkThread_.wait();
     delete ui;
+}
+
+void MainWindow::showAbout()
+{
+    About about;
+    about.setAppVersion(appVersion);
+    about.setFIOVersion(benchmark_->FIOVersion);
+    about.setFixedSize(435, 244);
+    about.exec();
+}
+
+bool MainWindow::checkIfFIOInstalled()
+{
+    if (!benchmark_->detectFIO()) {
+        QMessageBox::critical(this, "KDiskMark", "No FIO was found. Please install FIO before using KDiskMark.");
+        return false;
+    }
+
+    return true;
 }
 
 void MainWindow::isBenchmarkRunning(bool *state)

@@ -31,6 +31,9 @@ public:
         float Latency;
     };
 
+    QString FIOVersion;
+    bool detectFIO();
+
 private:
     const QString kRW_READ = "read";
     const QString kRW_WRITE = "write";

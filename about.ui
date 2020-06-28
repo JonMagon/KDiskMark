@@ -2,34 +2,50 @@
 <ui version="4.0">
  <class>About</class>
  <widget class="QDialog" name="About">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>258</width>
-    <height>209</height>
+    <width>435</width>
+    <height>244</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>About KDiskMark</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>kdiskmark.svg</normaloff>kdiskmark.svg</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>false</bool>
+  </property>
+  <property name="modal">
+   <bool>false</bool>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>231</width>
-     <height>151</height>
+     <x>140</x>
+     <y>20</y>
+     <width>281</width>
+     <height>161</height>
     </rect>
    </property>
    <property name="autoFillBackground">
     <bool>true</bool>
    </property>
    <property name="title">
-    <string>KDiskMark</string>
+    <string/>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -41,8 +57,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>58</width>
+      <y>10</y>
+      <width>111</width>
       <height>18</height>
      </rect>
     </property>
@@ -50,12 +66,12 @@
      <string>Version:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_version">
+   <widget class="QLabel" name="label_Version">
     <property name="geometry">
      <rect>
-      <x>70</x>
-      <y>30</y>
-      <width>58</width>
+      <x>130</x>
+      <y>10</y>
+      <width>131</width>
       <height>18</height>
      </rect>
     </property>
@@ -68,7 +84,7 @@
      <rect>
       <x>10</x>
       <y>50</y>
-      <width>58</width>
+      <width>111</width>
       <height>18</height>
      </rect>
     </property>
@@ -79,7 +95,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>130</x>
       <y>50</y>
       <width>58</width>
       <height>18</height>
@@ -94,7 +110,7 @@
      <rect>
       <x>10</x>
       <y>70</y>
-      <width>58</width>
+      <width>111</width>
       <height>18</height>
      </rect>
     </property>
@@ -105,7 +121,7 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>130</x>
       <y>70</y>
       <width>58</width>
       <height>18</height>
@@ -120,7 +136,7 @@
      <rect>
       <x>10</x>
       <y>90</y>
-      <width>58</width>
+      <width>111</width>
       <height>18</height>
      </rect>
     </property>
@@ -131,7 +147,7 @@
    <widget class="QLabel" name="label_Autor">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>130</x>
       <y>90</y>
       <width>61</width>
       <height>18</height>
@@ -152,7 +168,7 @@
      <rect>
       <x>10</x>
       <y>110</y>
-      <width>58</width>
+      <width>111</width>
       <height>18</height>
      </rect>
     </property>
@@ -163,7 +179,7 @@
    <widget class="QLabel" name="label_Email">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>130</x>
       <y>110</y>
       <width>141</width>
       <height>18</height>
@@ -179,19 +195,99 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>121</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Flexible I/O Tester:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_FIO">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>30</y>
+      <width>111</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>111</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Application Icon:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_IconAutor">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>130</y>
+      <width>91</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="openExternalLinks">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
-  <widget class="QDialogButtonBox" name="buttonBox">
+  <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>170</y>
-     <width>83</width>
-     <height>24</height>
+     <x>10</x>
+     <y>20</y>
+     <width>128</width>
+     <height>161</height>
     </rect>
    </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Close</set>
+   <property name="text">
+    <string/>
    </property>
+   <property name="pixmap">
+    <pixmap>kdiskmark.png</pixmap>
+   </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>190</y>
+     <width>421</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Close</set>
+      </property>
+      <property name="centerButtons">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

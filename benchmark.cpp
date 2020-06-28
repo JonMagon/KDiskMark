@@ -6,6 +6,16 @@
 #include <QJsonArray>
 #include <QThread>
 
+bool Benchmark::detectFIO()
+{
+    process_ = new QProcess();
+    process_->start("fio", QStringList() << "--version");
+    process_->waitForFinished();
+    FIOVersion = process_->readAllStandardOutput().simplified();
+
+    return FIOVersion.contains("fio");
+}
+
 Benchmark::PerformanceResult Benchmark::startFIO(int loops, int size, int block_size,
                                                  int queue_depth, int threads, const QString rw)
 {

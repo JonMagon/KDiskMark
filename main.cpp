@@ -2,7 +2,6 @@
 
 #include <QApplication>
 #include <QTranslator>
-
 #include "benchmark.h"
 
 int main(int argc, char *argv[])
@@ -18,7 +17,9 @@ int main(int argc, char *argv[])
             a.installTranslator(&translator);
 
     MainWindow w;
-    w.setFixedSize(531, 405);
-    w.show();
+    if (w.checkIfFIOInstalled()) {
+        w.setFixedSize(531, 405);
+        w.show();
+    }
     return a.exec();
 }

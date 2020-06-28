@@ -17,14 +17,17 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 private:
+    const QString appVersion = "1.0.0-alpha";
     const QString toolTipRaw = tr("<h1>%1 MiB/s<br/>%2 GiB/s<br/>%3 IOPS<br/>%4 μs</h1>");
+    Benchmark *benchmark_;
     QThread benchmarkThread_;
     int waitSecondsBeforeNewTask_ = 5;
-    bool isBenchmarkRunning_ = false;
+    bool isBenchmarkRunning_ = false; 
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    bool checkIfFIOInstalled();
 
 private slots:
     void on_pushButton_SEQ1M_Q8T1_clicked();
@@ -36,6 +39,8 @@ private slots:
     void on_pushButton_RND4K_Q1T1_clicked();
 
     void on_pushButton_All_clicked();
+
+    void showAbout();
 
 public slots:
     void benchmarkStatusUpdated(const QString &name);

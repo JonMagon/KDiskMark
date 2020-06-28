@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>KDiskMark</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>kdiskmark.svg</normaloff>kdiskmark.svg</iconset>
+  </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
