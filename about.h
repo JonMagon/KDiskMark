@@ -17,7 +17,6 @@ public:
     explicit About(QWidget *parent = nullptr);
     ~About();
     void setFIOVersion(const QString &version);
-    void setAppVersion(const QString &version);
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton *);

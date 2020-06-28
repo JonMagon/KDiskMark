@@ -92,7 +92,6 @@ MainWindow::~MainWindow()
 void MainWindow::showAbout()
 {
     About about;
-    about.setAppVersion(appVersion);
     about.setFIOVersion(benchmark_->FIOVersion);
     about.setFixedSize(435, 244);
     about.exec();

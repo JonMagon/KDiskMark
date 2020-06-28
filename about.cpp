@@ -9,6 +9,8 @@ About::About(QWidget *parent) :
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+    ui->label_Version->setText(VERSION_APP);
 }
 
 About::~About()
@@ -20,12 +22,6 @@ void About::setFIOVersion(const QString &version)
 {
     ui->label_FIO->setText(version);
 }
-
-void About::setAppVersion(const QString &version)
-{
-    ui->label_Version->setText(version);
-}
-
 
 void About::on_buttonBox_clicked(QAbstractButton *)
 {
