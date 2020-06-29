@@ -6,21 +6,22 @@
 #include <QJsonArray>
 #include <QThread>
 
-bool Benchmark::detectFIO()
+Benchmark::Benchmark()
 {
-    process_ = new QProcess();
-    process_->start("fio", QStringList() << "--version");
-    process_->waitForFinished();
-    FIOVersion = process_->readAllStandardOutput().simplified();
+    m_process = new QProcess();
+    m_process->start("fio", QStringList() << "--version");
+    m_process->waitForFinished();
+    FIOVersion = m_process->readAllStandardOutput().simplified();
+    m_process->close();
 
-    return FIOVersion.contains("fio");
+    delete m_process;
 }
 
 Benchmark::PerformanceResult Benchmark::startFIO(int loops, int size, int block_size,
                                                  int queue_depth, int threads, const QString rw)
 {
-    process_ = new QProcess();
-    process_->start("fio", QStringList()
+    m_process = new QProcess();
+    m_process->start("fio", QStringList()
                     << "--output-format=json"
                     << "--ioengine=libaio"
                     << "--direct=1"
@@ -33,14 +34,14 @@ Benchmark::PerformanceResult Benchmark::startFIO(int loops, int size, int block_
                     << QString("--iodepth=%1").arg(queue_depth)
                     << QString("--numjobs=%1").arg(threads)
                     );
-    process_->waitForFinished();
+    m_process->waitForFinished();
 
     return parseResult();
 }
 
 Benchmark::PerformanceResult Benchmark::parseResult()
 {
-    QJsonDocument jsonResponse = QJsonDocument::fromJson(QString(process_->readAllStandardOutput()).toUtf8());
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(QString(m_process->readAllStandardOutput()).toUtf8());
     QJsonObject jsonObject = jsonResponse.object();
     QJsonArray jobs = jsonObject["jobs"].toArray();
 
@@ -65,6 +66,10 @@ Benchmark::PerformanceResult Benchmark::parseResult()
         result.IOPS = writeResults.value("iops").toDouble();
         result.Latency = writeResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0; // from nsec to usec
     }
+
+    m_process->close();
+
+    delete m_process;
 
     return result;
 }

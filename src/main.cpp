@@ -2,7 +2,7 @@
 
 #include <QApplication>
 #include <QTranslator>
-#include "benchmark.h"
+#include <QMessageBox>
 #include "cmake.h"
 
 int main(int argc, char *argv[])
@@ -17,14 +17,21 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QMap<Benchmark::Type,QProgressBar*>>("QMap<Benchmark::Type,QProgressBar*>");
 
     QTranslator translator;
-        if (translator.load(QLocale(), QLatin1String("KDiskMark"), QLatin1String("_")))
-            a.installTranslator(&translator);
+    if (translator.load(QLocale(), QLatin1String("KDiskMark"), QLatin1String("_"))) {
+        a.installTranslator(&translator);
+    }
 
-    MainWindow w;
-    if (w.checkIfFIOInstalled()) {
+    const AppSettings settings;
+    Benchmark benchmark;
+
+    if (benchmark.FIOVersion.contains("fio")) {
+        MainWindow w(settings, &benchmark);
         w.setFixedSize(531, 405);
         w.show();
         return a.exec();
     }
-    else return -1;
+    else {
+        QMessageBox::critical(0, "KDiskMark", "No FIO was found. Please install FIO before using KDiskMark.");
+        return -1;
+    }
 }

@@ -11,11 +11,12 @@ About::About(QWidget *parent) :
     ui(new Ui::About)
 {
     ui->setupUi(this);
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->label_Version->setText(qApp->applicationVersion());
 
     setWindowIcon(QIcon("icons/kdiskmark.svg"));
+
     ui->label_Icon->setPixmap(QPixmap("icons/kdiskmark.png"));
 }
 

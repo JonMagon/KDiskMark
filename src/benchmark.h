@@ -13,6 +13,8 @@ class Benchmark : public QObject
     Q_OBJECT
 
 public:
+    Benchmark();
+
     enum Type {
         SEQ1M_Q8T1_Read,
         SEQ1M_Q8T1_Write,
@@ -32,7 +34,6 @@ public:
     };
 
     QString FIOVersion;
-    bool detectFIO();
 
 private:
     const QString kRW_READ = "read";
@@ -40,8 +41,8 @@ private:
     const QString kRW_RANDREAD = "randread";
     const QString kRW_RANDWRITE = "randwrite";
 
-    QProcess *process_;
-    QStringList *args_;
+    QProcess *m_process;
+
     PerformanceResult startFIO(int loops, int size, int block_size, int queue_depth,
                                int threads, const QString rw);
     PerformanceResult parseResult();

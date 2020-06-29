@@ -7,6 +7,7 @@
 #include <QThreadPool>
 
 #include "benchmark.h"
+#include "appsettings.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,15 +19,14 @@ class MainWindow : public QMainWindow
 
 private:
     const QString toolTipRaw = tr("<h1>%1 MiB/s<br/>%2 GiB/s<br/>%3 IOPS<br/>%4 μs</h1>");
-    Benchmark *benchmark_;
+    Benchmark *m_benchmark;
     QThread benchmarkThread_;
     int waitSecondsBeforeNewTask_ = 5;
     bool isBenchmarkRunning_ = false; 
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(const AppSettings &settings, Benchmark *benchmark, QWidget *parent = nullptr);
     ~MainWindow();
-    bool checkIfFIOInstalled();
 
 private slots:
     void on_pushButton_SEQ1M_Q8T1_clicked();
@@ -54,6 +54,6 @@ signals:
 private:
     Ui::MainWindow *ui;
     bool changeTaskState();
-
+    void closeEvent(QCloseEvent *event);
 };
 #endif // MAINWINDOW_H

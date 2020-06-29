@@ -6,12 +6,12 @@
 #include <QToolTip>
 #include <QMessageBox>
 #include <QThread>
+#include <QStorageInfo>
+
 #include "math.h"
 #include "about.h"
 
-#include "benchmark.h"
-
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const AppSettings &settings, Benchmark *benchmark, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -70,14 +70,22 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton_RND4K_Q32T16->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=32<br/>Threads=16</h2>"));
     ui->pushButton_RND4K_Q1T1->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=1<br/>Threads=1</h2>"));
 
-    benchmark_ = new Benchmark;
-    benchmark_->moveToThread(&benchmarkThread_);
-    connect(&benchmarkThread_, &QThread::finished, benchmark_, &QObject::deleteLater);
-    connect(this, &MainWindow::runBenchmark, benchmark_, &Benchmark::runBenchmark);
-    connect(benchmark_, &Benchmark::isRunning, this, &MainWindow::isBenchmarkRunning);
-    connect(benchmark_, &Benchmark::benchmarkStatusUpdated, this, &MainWindow::benchmarkStatusUpdated);
-    connect(benchmark_, &Benchmark::resultReady, this, &MainWindow::handleResults);
-    connect(benchmark_, &Benchmark::finished, this, &MainWindow::allTestsAreFinished);
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+        if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
+            if (!(storage.device().indexOf("/dev/sd") == -1 && storage.device().indexOf("/dev/nvme") == -1)) {
+                ui->comboBox_FSPoints->addItem(storage.rootPath());
+            }
+        }
+    }
+
+    m_benchmark = benchmark;
+    benchmark->moveToThread(&benchmarkThread_);
+    connect(&benchmarkThread_, &QThread::finished, m_benchmark, &QObject::deleteLater);
+    connect(this, &MainWindow::runBenchmark, m_benchmark, &Benchmark::runBenchmark);
+    connect(m_benchmark, &Benchmark::isRunning, this, &MainWindow::isBenchmarkRunning);
+    connect(m_benchmark, &Benchmark::benchmarkStatusUpdated, this, &MainWindow::benchmarkStatusUpdated);
+    connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
+    connect(m_benchmark, &Benchmark::finished, this, &MainWindow::allTestsAreFinished);
     benchmarkThread_.start();
 
     // About button
@@ -91,22 +99,18 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::closeEvent(QCloseEvent *)
+{
+    // doesn't work :(
+    isBenchmarkRunning_ = false;
+}
+
 void MainWindow::showAbout()
 {
     About about;
-    about.setFIOVersion(benchmark_->FIOVersion);
+    about.setFIOVersion(m_benchmark->FIOVersion);
     about.setFixedSize(467, 244);
     about.exec();
-}
-
-bool MainWindow::checkIfFIOInstalled()
-{
-    if (!benchmark_->detectFIO()) {
-        QMessageBox::critical(this, "KDiskMark", "No FIO was found. Please install FIO before using KDiskMark.");
-        return false;
-    }
-
-    return true;
 }
 
 void MainWindow::isBenchmarkRunning(bool *state)

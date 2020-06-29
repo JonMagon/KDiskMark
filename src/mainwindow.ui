@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>KDiskMark</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>kdiskmark.svg</normaloff>kdiskmark.svg</iconset>
-  </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
   </property>
@@ -66,9 +62,9 @@
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="comboBox_FSPoints">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -77,6 +73,9 @@
       <width>161</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="editable">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QProgressBar" name="readBar_SEQ1M_Q8T1">
