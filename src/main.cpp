@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     if (w.checkIfFIOInstalled()) {
         w.setFixedSize(531, 405);
         w.show();
+        return a.exec();
     }
-    return a.exec();
+    else return -1;
 }
