@@ -17,6 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    setWindowIcon(QIcon("icons/kdiskmark.svg"));
+
     statusBar()->setSizeGripEnabled(false);
 
     QActionGroup *timeIntervalGroup = new QActionGroup(this);
@@ -93,7 +95,7 @@ void MainWindow::showAbout()
 {
     About about;
     about.setFIOVersion(benchmark_->FIOVersion);
-    about.setFixedSize(435, 244);
+    about.setFixedSize(467, 244);
     about.exec();
 }
 

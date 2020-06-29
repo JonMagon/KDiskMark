@@ -3,9 +3,13 @@
 #include <QApplication>
 #include <QTranslator>
 #include "benchmark.h"
+#include "cmake.h"
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setApplicationVersion(QStringLiteral("%1.%2.%3").arg(PROJECT_VERSION_MAJOR)
+                                            .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
+
     QApplication a(argc, argv);
 
     qRegisterMetaType<Benchmark::Type>("Benchmark::Type");

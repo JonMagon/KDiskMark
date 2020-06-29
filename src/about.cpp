@@ -1,7 +1,10 @@
 #include "about.h"
 #include "ui_about.h"
 
+#include "cmake.h"
+
 #include <QAbstractButton>
+#include <QIcon>
 
 About::About(QWidget *parent) :
     QDialog(parent),
@@ -10,7 +13,10 @@ About::About(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    ui->label_Version->setText(VERSION_APP);
+    ui->label_Version->setText(qApp->applicationVersion());
+
+    setWindowIcon(QIcon("icons/kdiskmark.svg"));
+    ui->label_Icon->setPixmap(QPixmap("icons/kdiskmark.png"));
 }
 
 About::~About()
