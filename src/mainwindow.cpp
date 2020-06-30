@@ -132,7 +132,7 @@ void MainWindow::showAbout()
 {
     About about;
     about.setFIOVersion(m_benchmark->FIOVersion);
-    about.setFixedSize(467, 244);
+    about.setFixedSize(about.size());
     about.exec();
 }
 
@@ -143,8 +143,13 @@ void MainWindow::runOrStopBenchmarkThread()
         benchmarkStatusUpdated(tr("Stopping..."));
     }
     else {
-        m_benchmark->setRunning(true);
-        m_benchmarkThread.start();
+        if (QMessageBox::Yes ==
+                QMessageBox::warning(this, tr("Confirmation"),
+                                     tr("This action destroys the data in %1.\nDo you want to continue?"),
+                                     QMessageBox::Yes | QMessageBox::No)) {
+            m_benchmark->setRunning(true);
+            m_benchmarkThread.start();
+        }
     }
 }
 

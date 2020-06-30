@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
     if (benchmark.FIOVersion.contains("fio")) {
         MainWindow w(settings, &benchmark);
-        w.setFixedSize(531, 405);
+        w.setFixedSize(w.size());
         w.show();
         return a.exec();
     }
