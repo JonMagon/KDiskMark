@@ -21,8 +21,8 @@ private:
     const QString toolTipRaw = tr("<h1>%1 MiB/s<br/>%2 GiB/s<br/>%3 IOPS<br/>%4 μs</h1>");
     Benchmark *m_benchmark;
     QThread m_benchmarkThread;
-    int waitSecondsBeforeNewTask_ = 5;
-    bool isBenchmarkRunning_ = false; 
+    int m_waitSecondsBeforeNewTask = 5;
+    bool m_isBenchmarkThreadRunning = false;
 
 public:
     MainWindow(const AppSettings &settings, Benchmark *benchmark, QWidget *parent = nullptr);
@@ -45,14 +45,14 @@ public slots:
     void benchmarkStatusUpdated(const QString &name);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void timeIntervalSelected(QAction* act);
-    void allTestsAreFinished();
+    void benchmarkStateChanged(bool state);
 
 signals:
     void runBenchmark(QMap<Benchmark::Type, QProgressBar*>, int loops, int intervalTime);
 
 private:
     Ui::MainWindow *ui;
-    bool changeTaskState();
+    void runOrStopBenchmarkThread();
     void closeEvent(QCloseEvent *event);
 };
 #endif // MAINWINDOW_H

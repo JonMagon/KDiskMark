@@ -80,11 +80,11 @@ MainWindow::MainWindow(const AppSettings &settings, Benchmark *benchmark, QWidge
 
     m_benchmark = benchmark;
     benchmark->moveToThread(&m_benchmarkThread);
-    connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::terminate);
     connect(this, &MainWindow::runBenchmark, m_benchmark, &Benchmark::runBenchmark);
+    connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdated, this, &MainWindow::benchmarkStatusUpdated);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
-    connect(m_benchmark, &Benchmark::finished, this, &MainWindow::allTestsAreFinished);
+    connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::terminate);
 
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
@@ -102,6 +102,32 @@ void MainWindow::closeEvent(QCloseEvent *)
     m_benchmark->setRunning(false);
 }
 
+void MainWindow::benchmarkStateChanged(bool state)
+{
+    if (state) {
+        ui->pushButton_All->setText(tr("Stop"));
+        ui->pushButton_SEQ1M_Q8T1->setText(tr("Stop"));
+        ui->pushButton_SEQ1M_Q1T1->setText(tr("Stop"));
+        ui->pushButton_RND4K_Q32T16->setText(tr("Stop"));
+        ui->pushButton_RND4K_Q1T1->setText(tr("Stop"));
+    }
+    else {
+        setWindowTitle("KDiskMark");
+        ui->pushButton_All->setText(tr("All"));
+        ui->pushButton_SEQ1M_Q8T1->setText("SEQ1M\nQ8T1");
+        ui->pushButton_SEQ1M_Q1T1->setText("SEQ1M\nQ1T1");
+        ui->pushButton_RND4K_Q32T16->setText("RND4K\nQ32T16");
+        ui->pushButton_RND4K_Q1T1->setText("RND4K\nQ1T1");
+        ui->pushButton_All->setEnabled(true);
+        ui->pushButton_SEQ1M_Q8T1->setEnabled(true);
+        ui->pushButton_SEQ1M_Q1T1->setEnabled(true);
+        ui->pushButton_RND4K_Q32T16->setEnabled(true);
+        ui->pushButton_RND4K_Q1T1->setEnabled(true);
+    }
+
+    m_isBenchmarkThreadRunning = state;
+}
+
 void MainWindow::showAbout()
 {
     About about;
@@ -110,56 +136,26 @@ void MainWindow::showAbout()
     about.exec();
 }
 
-void MainWindow::allTestsAreFinished()
+void MainWindow::runOrStopBenchmarkThread()
 {
-    isBenchmarkRunning_ = false;
-    setWindowTitle("KDiskMark");
-    ui->pushButton_All->setText(tr("All"));
-    ui->pushButton_SEQ1M_Q8T1->setText("SEQ1M\nQ8T1");
-    ui->pushButton_SEQ1M_Q1T1->setText("SEQ1M\nQ1T1");
-    ui->pushButton_RND4K_Q32T16->setText("RND4K\nQ32T16");
-    ui->pushButton_RND4K_Q1T1->setText("RND4K\nQ1T1");
-    ui->pushButton_All->setEnabled(true);
-    ui->pushButton_SEQ1M_Q8T1->setEnabled(true);
-    ui->pushButton_SEQ1M_Q1T1->setEnabled(true);
-    ui->pushButton_RND4K_Q32T16->setEnabled(true);
-    ui->pushButton_RND4K_Q1T1->setEnabled(true);
-}
-
-bool MainWindow::changeTaskState()
-{
-    if (isBenchmarkRunning_) {
+    if (m_isBenchmarkThreadRunning) {
         m_benchmark->setRunning(false);
         benchmarkStatusUpdated(tr("Stopping..."));
-        isBenchmarkRunning_ = false;
-        ui->pushButton_All->setEnabled(false);
-        ui->pushButton_SEQ1M_Q8T1->setEnabled(false);
-        ui->pushButton_SEQ1M_Q1T1->setEnabled(false);
-        ui->pushButton_RND4K_Q32T16->setEnabled(false);
-        ui->pushButton_RND4K_Q1T1->setEnabled(false);
     }
     else {
         m_benchmark->setRunning(true);
         m_benchmarkThread.start();
-        isBenchmarkRunning_ = true;
-        ui->pushButton_All->setText(tr("Stop"));
-        ui->pushButton_SEQ1M_Q8T1->setText(tr("Stop"));
-        ui->pushButton_SEQ1M_Q1T1->setText(tr("Stop"));
-        ui->pushButton_RND4K_Q32T16->setText(tr("Stop"));
-        ui->pushButton_RND4K_Q1T1->setText(tr("Stop"));
     }
-
-    return isBenchmarkRunning_;
 }
 
 void MainWindow::timeIntervalSelected(QAction* act)
 {
-    waitSecondsBeforeNewTask_ = act->property("interval").toInt();
+    m_waitSecondsBeforeNewTask = act->property("interval").toInt();
 }
 
 void MainWindow::benchmarkStatusUpdated(const QString &name)
 {
-    if (isBenchmarkRunning_)
+    if (m_isBenchmarkThreadRunning)
         setWindowTitle(QString("KDiskMark - %1").arg(name));
 }
 
@@ -179,56 +175,71 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
 
 void MainWindow::on_pushButton_SEQ1M_Q8T1_clicked()
 {
-    if (!changeTaskState()) return;
-    runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                     {Benchmark::SEQ1M_Q8T1_Read, ui->readBar_SEQ1M_Q8T1},
-                     {Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ1M_Q8T1}
-                 },
-                 ui->loopsCount->value(), waitSecondsBeforeNewTask_);
+    runOrStopBenchmarkThread();
+
+    if (m_isBenchmarkThreadRunning) {
+        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+                         {Benchmark::SEQ1M_Q8T1_Read, ui->readBar_SEQ1M_Q8T1},
+                         {Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ1M_Q8T1}
+                     },
+                     ui->loopsCount->value(), m_waitSecondsBeforeNewTask);
+    }
 }
 
 void MainWindow::on_pushButton_SEQ1M_Q1T1_clicked()
 {
-    if (!changeTaskState()) return;
-    runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                     {Benchmark::SEQ1M_Q1T1_Read, ui->readBar_SEQ1M_Q1T1},
-                     {Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ1M_Q1T1}
-                 },
-                 ui->loopsCount->value(), waitSecondsBeforeNewTask_);
+    runOrStopBenchmarkThread();
+
+    if (m_isBenchmarkThreadRunning) {
+        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+                         {Benchmark::SEQ1M_Q1T1_Read, ui->readBar_SEQ1M_Q1T1},
+                         {Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ1M_Q1T1}
+                     },
+                     ui->loopsCount->value(), m_waitSecondsBeforeNewTask);
+    }
 }
 
 void MainWindow::on_pushButton_RND4K_Q32T16_clicked()
 {
-    if (!changeTaskState()) return;
-    runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                     {Benchmark::RND4K_Q32T16_Read, ui->readBar_RND4K_Q32T16},
-                     {Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND4K_Q32T16}
-                 },
-                 ui->loopsCount->value(), waitSecondsBeforeNewTask_);
+    runOrStopBenchmarkThread();
+
+    if (m_isBenchmarkThreadRunning) {
+        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+                         {Benchmark::RND4K_Q32T16_Read, ui->readBar_RND4K_Q32T16},
+                         {Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND4K_Q32T16}
+                     },
+                     ui->loopsCount->value(), m_waitSecondsBeforeNewTask);
+    }
 }
 
 void MainWindow::on_pushButton_RND4K_Q1T1_clicked()
 {
-    if (!changeTaskState()) return;
-    runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                     {Benchmark::RND4K_Q1T1_Read, ui->readBar_RND4K_Q1T1},
-                     {Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND4K_Q1T1}
-                 },
-                 ui->loopsCount->value(), waitSecondsBeforeNewTask_);
+    runOrStopBenchmarkThread();
+
+    if (m_isBenchmarkThreadRunning) {
+        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+                         {Benchmark::RND4K_Q1T1_Read, ui->readBar_RND4K_Q1T1},
+                         {Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND4K_Q1T1}
+                     },
+                     ui->loopsCount->value(), m_waitSecondsBeforeNewTask);
+    }
 }
 
 void MainWindow::on_pushButton_All_clicked()
 {
-    if (!changeTaskState()) return;
-    runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                     {Benchmark::SEQ1M_Q8T1_Read, ui->readBar_SEQ1M_Q8T1},
-                     {Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ1M_Q8T1},
-                     {Benchmark::SEQ1M_Q1T1_Read, ui->readBar_SEQ1M_Q1T1},
-                     {Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ1M_Q1T1},
-                     {Benchmark::RND4K_Q32T16_Read, ui->readBar_RND4K_Q32T16},
-                     {Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND4K_Q32T16},
-                     {Benchmark::RND4K_Q1T1_Read, ui->readBar_RND4K_Q1T1},
-                     {Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND4K_Q1T1}
-                 },
-                 ui->loopsCount->value(), waitSecondsBeforeNewTask_);
+    runOrStopBenchmarkThread();
+
+    if (m_isBenchmarkThreadRunning) {
+        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+                         {Benchmark::SEQ1M_Q8T1_Read, ui->readBar_SEQ1M_Q8T1},
+                         {Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ1M_Q8T1},
+                         {Benchmark::SEQ1M_Q1T1_Read, ui->readBar_SEQ1M_Q1T1},
+                         {Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ1M_Q1T1},
+                         {Benchmark::RND4K_Q32T16_Read, ui->readBar_RND4K_Q32T16},
+                         {Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND4K_Q32T16},
+                         {Benchmark::RND4K_Q1T1_Read, ui->readBar_RND4K_Q1T1},
+                         {Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND4K_Q1T1}
+                     },
+                     ui->loopsCount->value(), m_waitSecondsBeforeNewTask);
+    }
 }

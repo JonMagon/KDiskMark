@@ -74,13 +74,14 @@ Benchmark::PerformanceResult Benchmark::parseResult()
     return result;
 }
 
-void Benchmark::setRunning(bool running)
+void Benchmark::setRunning(bool state)
 {
-    if (m_running == running)
+    if (m_running == state)
         return;
 
-    m_running = running;
-    //emit runningChanged(running);
+    m_running = state;
+
+    emit runningStateChanged(state);
 }
 
 void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loops, int intervalTime)
@@ -141,5 +142,6 @@ void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loo
         }
     }
 
+    setRunning(false);
     emit finished();
 }

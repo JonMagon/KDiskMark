@@ -52,13 +52,13 @@ private:
 public slots:
     // TODO: pass all params except tests as one object
     void runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loops, int intervalTime);
-    void setRunning(bool running);
+    void setRunning(bool state);
 
 signals:
     void benchmarkStatusUpdated(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void finished();
-    void isRunning(bool *state);
+    void runningStateChanged(bool state);
 };
 
 Q_DECLARE_METATYPE(Benchmark::Type);
