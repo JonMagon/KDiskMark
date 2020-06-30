@@ -74,9 +74,17 @@ Benchmark::PerformanceResult Benchmark::parseResult()
     return result;
 }
 
+void Benchmark::setRunning(bool running)
+{
+    if (m_running == running)
+        return;
+
+    m_running = running;
+    //emit runningChanged(running);
+}
+
 void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loops, int intervalTime)
 {
-    bool state = true;
     QMapIterator<Benchmark::Type, QProgressBar*> iter(tests);
 
     // set to 0 all the progressbars for current tests
@@ -87,14 +95,7 @@ void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loo
 
     iter.toFront();
 
-    while (iter.hasNext()) {
-
-        emit isRunning(&state);
-        if (!state) {
-            emit finished();
-            return;
-        }
-
+    while (iter.hasNext() && m_running) {
         iter.next();
         switch (iter.key())
         {
@@ -133,12 +134,7 @@ void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loo
         }
 
         if (iter.hasNext()) {
-            for (int i = 0; i < intervalTime; i++, emit isRunning(&state)) {
-                if (!state) {
-                    emit finished();
-                    return;
-                }
-
+            for (int i = 0; i < intervalTime && m_running; i++) {
                 emit benchmarkStatusUpdated(tr("Interval Time %1/%2 sec").arg(i).arg(intervalTime));
                 QThread::sleep(1);
             }

@@ -79,14 +79,12 @@ MainWindow::MainWindow(const AppSettings &settings, Benchmark *benchmark, QWidge
     }
 
     m_benchmark = benchmark;
-    benchmark->moveToThread(&benchmarkThread_);
-    connect(&benchmarkThread_, &QThread::finished, m_benchmark, &QObject::deleteLater);
+    benchmark->moveToThread(&m_benchmarkThread);
+    connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::terminate);
     connect(this, &MainWindow::runBenchmark, m_benchmark, &Benchmark::runBenchmark);
-    connect(m_benchmark, &Benchmark::isRunning, this, &MainWindow::isBenchmarkRunning);
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdated, this, &MainWindow::benchmarkStatusUpdated);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::finished, this, &MainWindow::allTestsAreFinished);
-    benchmarkThread_.start();
 
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
@@ -94,15 +92,14 @@ MainWindow::MainWindow(const AppSettings &settings, Benchmark *benchmark, QWidge
 
 MainWindow::~MainWindow()
 {
-    benchmarkThread_.quit();
-    benchmarkThread_.wait();
+    m_benchmarkThread.quit();
+    m_benchmarkThread.wait();
     delete ui;
 }
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
-    // doesn't work :(
-    isBenchmarkRunning_ = false;
+    m_benchmark->setRunning(false);
 }
 
 void MainWindow::showAbout()
@@ -111,11 +108,6 @@ void MainWindow::showAbout()
     about.setFIOVersion(m_benchmark->FIOVersion);
     about.setFixedSize(467, 244);
     about.exec();
-}
-
-void MainWindow::isBenchmarkRunning(bool *state)
-{
-    *state = isBenchmarkRunning_;
 }
 
 void MainWindow::allTestsAreFinished()
@@ -137,6 +129,7 @@ void MainWindow::allTestsAreFinished()
 bool MainWindow::changeTaskState()
 {
     if (isBenchmarkRunning_) {
+        m_benchmark->setRunning(false);
         benchmarkStatusUpdated(tr("Stopping..."));
         isBenchmarkRunning_ = false;
         ui->pushButton_All->setEnabled(false);
@@ -146,6 +139,8 @@ bool MainWindow::changeTaskState()
         ui->pushButton_RND4K_Q1T1->setEnabled(false);
     }
     else {
+        m_benchmark->setRunning(true);
+        m_benchmarkThread.start();
         isBenchmarkRunning_ = true;
         ui->pushButton_All->setText(tr("Stop"));
         ui->pushButton_SEQ1M_Q8T1->setText(tr("Stop"));

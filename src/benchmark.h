@@ -12,6 +12,8 @@ class Benchmark : public QObject
 {
     Q_OBJECT
 
+    bool m_running;
+
 public:
     Benchmark();
 
@@ -50,6 +52,7 @@ private:
 public slots:
     // TODO: pass all params except tests as one object
     void runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loops, int intervalTime);
+    void setRunning(bool running);
 
 signals:
     void benchmarkStatusUpdated(const QString &name);
