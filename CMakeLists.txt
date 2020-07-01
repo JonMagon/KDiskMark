@@ -33,6 +33,9 @@ add_executable(KDiskMark
     src/about.ui
     src/appsettings.h
     src/appsettings.cpp
+    src/settings.cpp
+    src/settings.h
+    src/settings.ui
 )
 
 target_link_libraries(KDiskMark PRIVATE Qt5::Widgets)

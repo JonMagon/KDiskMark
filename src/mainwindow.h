@@ -9,6 +9,8 @@
 #include "benchmark.h"
 #include "appsettings.h"
 
+class QStorageInfo;
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -29,17 +31,19 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_SEQ1M_Q8T1_clicked();
+    void on_pushButton_SEQ_1_clicked();
 
-    void on_pushButton_SEQ1M_Q1T1_clicked();
+    void on_pushButton_SEQ_2_clicked();
 
-    void on_pushButton_RND4K_Q32T16_clicked();
+    void on_pushButton_RND_1_clicked();
 
-    void on_pushButton_RND4K_Q1T1_clicked();
+    void on_pushButton_RND_2_clicked();
 
     void on_pushButton_All_clicked();
 
     void showAbout();
+
+    void showSettings();
 
     void on_comboBox_Dirs_currentIndexChanged(int index);
 
@@ -61,5 +65,7 @@ private:
     void closeEvent(QCloseEvent *event);
     QString formatSize(quint64 available, quint64 total);
     bool disableDirItemIfIsNotWritable(int index);
+    void updateBenchmarkButtonsContent();
+
 };
 #endif // MAINWINDOW_H

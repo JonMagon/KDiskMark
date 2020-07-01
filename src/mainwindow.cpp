@@ -8,9 +8,11 @@
 #include <QThread>
 #include <QStorageInfo>
 #include <QStandardItemModel>
+#include <QLineEdit>
 
 #include "math.h"
 #include "about.h"
+#include "settings.h"
 
 MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent)
     : QMainWindow(parent)
@@ -21,6 +23,8 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     setWindowIcon(QIcon("icons/kdiskmark.svg"));
 
     statusBar()->setSizeGripEnabled(false);
+
+    ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
 
     m_settings = settings;
 
@@ -53,17 +57,15 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     connect(timeIntervalGroup, SIGNAL(triggered(QAction*)), this, SLOT(timeIntervalSelected(QAction*)));
 
-    int size = 16;
-    for (int i = 0; i < 10; i++) {
-        size *= 2;
-        ui->comboBox->addItem(QLatin1String("%1 %2").arg(QString::number(size), tr("MiB")));
+    for (int i = 1; i < 10; i *= 2) {
+        ui->comboBox->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("MiB")));
     }
 
     QProgressBar* progressBars[] = {
-        ui->readBar_SEQ1M_Q8T1, ui->writeBar_SEQ1M_Q8T1,
-        ui->readBar_SEQ1M_Q1T1, ui->writeBar_SEQ1M_Q1T1,
-        ui->readBar_RND4K_Q32T16, ui->writeBar_RND4K_Q32T16,
-        ui->readBar_RND4K_Q1T1, ui->writeBar_RND4K_Q1T1
+        ui->readBar_SEQ_1, ui->writeBar_SEQ_1,
+        ui->readBar_SEQ_2, ui->writeBar_SEQ_2,
+        ui->readBar_RND_1, ui->writeBar_RND_1,
+        ui->readBar_RND_2, ui->writeBar_RND_2
     };
 
     for (auto const& progressBar: progressBars) {
@@ -71,10 +73,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
         progressBar->setToolTip(toolTipRaw.arg("0.000", "0.000", "0.000", "0.000"));
     }
 
-    ui->pushButton_SEQ1M_Q8T1->setToolTip(tr("<h2>Sequential 1 MiB<br/>Queues=8<br/>Threads=1</h2>"));
-    ui->pushButton_SEQ1M_Q1T1->setToolTip(tr("<h2>Sequential 1 MiB<br/>Queues=1<br/>Threads=1</h2>"));
-    ui->pushButton_RND4K_Q32T16->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=32<br/>Threads=16</h2>"));
-    ui->pushButton_RND4K_Q1T1->setToolTip(tr("<h2>Random 4 KiB<br/>Queues=1<br/>Threads=1</h2>"));
+    updateBenchmarkButtonsContent();
 
     bool isSomeDeviceMountAsHome = false;
     bool isThereWritableDir = false;
@@ -135,10 +134,10 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     else {
         ui->comboBox_Dirs->setCurrentIndex(-1);
         ui->pushButton_All->setEnabled(false);
-        ui->pushButton_SEQ1M_Q8T1->setEnabled(false);
-        ui->pushButton_SEQ1M_Q1T1->setEnabled(false);
-        ui->pushButton_RND4K_Q32T16->setEnabled(false);
-        ui->pushButton_RND4K_Q1T1->setEnabled(false);
+        ui->pushButton_SEQ_1->setEnabled(false);
+        ui->pushButton_SEQ_2->setEnabled(false);
+        ui->pushButton_RND_1->setEnabled(false);
+        ui->pushButton_RND_2->setEnabled(false);
     }
 
     // Move Benchmark to another thread and set callbacks
@@ -153,6 +152,9 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
+
+    // Settings
+    connect(ui->actionQueues_Threads, &QAction::triggered, this, &MainWindow::showSettings);
 }
 
 MainWindow::~MainWindow()
@@ -165,6 +167,35 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent *)
 {
     m_benchmark->setRunning(false);
+}
+
+void MainWindow::updateBenchmarkButtonsContent()
+{
+    AppSettings::BenchmarkParams params;
+
+    params = m_settings->SEQ_1;
+    ui->pushButton_SEQ_1->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
+                                  .arg(params.Queues).arg(params.Threads));
+     ui->pushButton_SEQ_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
+                                      .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
+
+    params = m_settings->SEQ_2;
+    ui->pushButton_SEQ_2->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
+                                  .arg(params.Queues).arg(params.Threads));
+    ui->pushButton_SEQ_2->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
+                                     .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
+
+    params = m_settings->RND_1;
+    ui->pushButton_RND_1->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
+                                  .arg(params.Queues).arg(params.Threads));
+    ui->pushButton_RND_1->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
+                                     .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
+
+    params = m_settings->RND_2;
+    ui->pushButton_RND_2->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
+                                  .arg(params.Queues).arg(params.Threads));
+    ui->pushButton_RND_2->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
+                                     .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
 }
 
 bool MainWindow::disableDirItemIfIsNotWritable(int index)
@@ -213,24 +244,30 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 void MainWindow::benchmarkStateChanged(bool state)
 {
     if (state) {
+        ui->menubar->setEnabled(false);
+        ui->loopsCount->setEnabled(false);
+        ui->comboBox_Dirs->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
-        ui->pushButton_SEQ1M_Q8T1->setText(tr("Stop"));
-        ui->pushButton_SEQ1M_Q1T1->setText(tr("Stop"));
-        ui->pushButton_RND4K_Q32T16->setText(tr("Stop"));
-        ui->pushButton_RND4K_Q1T1->setText(tr("Stop"));
+        ui->pushButton_SEQ_1->setText(tr("Stop"));
+        ui->pushButton_SEQ_2->setText(tr("Stop"));
+        ui->pushButton_RND_1->setText(tr("Stop"));
+        ui->pushButton_RND_2->setText(tr("Stop"));
     }
     else {
         setWindowTitle(qAppName());
+        ui->menubar->setEnabled(true);
+        ui->loopsCount->setEnabled(true);
+        ui->comboBox_Dirs->setEnabled(true);
         ui->pushButton_All->setText(tr("All"));
-        ui->pushButton_SEQ1M_Q8T1->setText("SEQ1M\nQ8T1");
-        ui->pushButton_SEQ1M_Q1T1->setText("SEQ1M\nQ1T1");
-        ui->pushButton_RND4K_Q32T16->setText("RND4K\nQ32T16");
-        ui->pushButton_RND4K_Q1T1->setText("RND4K\nQ1T1");
+        ui->pushButton_SEQ_1->setText("SEQ1M\nQ8T1");
+        ui->pushButton_SEQ_2->setText("SEQ1M\nQ1T1");
+        ui->pushButton_RND_1->setText("RND4K\nQ32T16");
+        ui->pushButton_RND_2->setText("RND4K\nQ1T1");
         ui->pushButton_All->setEnabled(true);
-        ui->pushButton_SEQ1M_Q8T1->setEnabled(true);
-        ui->pushButton_SEQ1M_Q1T1->setEnabled(true);
-        ui->pushButton_RND4K_Q32T16->setEnabled(true);
-        ui->pushButton_RND4K_Q1T1->setEnabled(true);
+        ui->pushButton_SEQ_1->setEnabled(true);
+        ui->pushButton_SEQ_2->setEnabled(true);
+        ui->pushButton_RND_1->setEnabled(true);
+        ui->pushButton_RND_2->setEnabled(true);
     }
 
     m_isBenchmarkThreadRunning = state;
@@ -241,6 +278,13 @@ void MainWindow::showAbout()
     About about(m_benchmark->FIOVersion());
     about.setFixedSize(about.size());
     about.exec();
+}
+
+void MainWindow::showSettings()
+{
+    Settings settings(m_settings);
+    settings.setFixedSize(settings.size());
+    settings.exec();
 }
 
 void MainWindow::runOrStopBenchmarkThread()
@@ -289,50 +333,50 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
                 );
 }
 
-void MainWindow::on_pushButton_SEQ1M_Q8T1_clicked()
+void MainWindow::on_pushButton_SEQ_1_clicked()
 {
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                         { Benchmark::SEQ1M_Q8T1_Read,  ui->readBar_SEQ1M_Q8T1 },
-                         { Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ1M_Q8T1 }
+                         { Benchmark::SEQ1M_Q8T1_Read,  ui->readBar_SEQ_1},
+                         { Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ_1 }
                      });
     }
 }
 
-void MainWindow::on_pushButton_SEQ1M_Q1T1_clicked()
+void MainWindow::on_pushButton_SEQ_2_clicked()
 {
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                         { Benchmark::SEQ1M_Q1T1_Read,  ui->readBar_SEQ1M_Q1T1 },
-                         { Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ1M_Q1T1 }
+                         { Benchmark::SEQ1M_Q1T1_Read,  ui->readBar_SEQ_2 },
+                         { Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ_2 }
                      });
     }
 }
 
-void MainWindow::on_pushButton_RND4K_Q32T16_clicked()
+void MainWindow::on_pushButton_RND_1_clicked()
 {
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND4K_Q32T16 },
-                         { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND4K_Q32T16 }
+                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND_1 },
+                         { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND_1 }
                      });
     }
 }
 
-void MainWindow::on_pushButton_RND4K_Q1T1_clicked()
+void MainWindow::on_pushButton_RND_2_clicked()
 {
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                         { Benchmark::RND4K_Q1T1_Read,  ui->readBar_RND4K_Q1T1 },
-                         { Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND4K_Q1T1 }
+                         { Benchmark::RND4K_Q1T1_Read,  ui->readBar_RND_2 },
+                         { Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND_2 }
                      });
     }
 }
@@ -343,14 +387,14 @@ void MainWindow::on_pushButton_All_clicked()
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                         { Benchmark::SEQ1M_Q8T1_Read,    ui->readBar_SEQ1M_Q8T1 },
-                         { Benchmark::SEQ1M_Q8T1_Write,   ui->writeBar_SEQ1M_Q8T1 },
-                         { Benchmark::SEQ1M_Q1T1_Read,    ui->readBar_SEQ1M_Q1T1 },
-                         { Benchmark::SEQ1M_Q1T1_Write,   ui->writeBar_SEQ1M_Q1T1 },
-                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND4K_Q32T16 },
-                         { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND4K_Q32T16 },
-                         { Benchmark::RND4K_Q1T1_Read,    ui->readBar_RND4K_Q1T1 },
-                         { Benchmark::RND4K_Q1T1_Write,   ui->writeBar_RND4K_Q1T1 }
+                         { Benchmark::SEQ1M_Q8T1_Read,    ui->readBar_SEQ_1 },
+                         { Benchmark::SEQ1M_Q8T1_Write,   ui->writeBar_SEQ_1 },
+                         { Benchmark::SEQ1M_Q1T1_Read,    ui->readBar_SEQ_2 },
+                         { Benchmark::SEQ1M_Q1T1_Write,   ui->writeBar_SEQ_2 },
+                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND_1 },
+                         { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND_1 },
+                         { Benchmark::RND4K_Q1T1_Read,    ui->readBar_RND_2 },
+                         { Benchmark::RND4K_Q1T1_Write,   ui->writeBar_RND_2 }
                      });
     }
 }

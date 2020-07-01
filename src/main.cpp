@@ -3,6 +3,8 @@
 #include <QApplication>
 #include <QTranslator>
 #include <QMessageBox>
+#include <QLibraryInfo>
+
 #include "cmake.h"
 
 int main(int argc, char *argv[])
@@ -22,6 +24,13 @@ int main(int argc, char *argv[])
         a.installTranslator(&translator);
     }
 
+    QTranslator qtBaseTranslator;
+    if (qtBaseTranslator.load("qtbase_" + QLocale::system().name(),
+                              QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+    {
+        a.installTranslator(&qtBaseTranslator);
+    }
+
     AppSettings settings;
     Benchmark benchmark(&settings);
 
@@ -32,7 +41,8 @@ int main(int argc, char *argv[])
         return a.exec();
     }
     else {
-        QMessageBox::critical(0, qAppName(), "No FIO was found. Please install FIO before using KDiskMark.");
+        QMessageBox::critical(0, qAppName(),
+                              QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
         return -1;
     }
 }

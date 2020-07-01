@@ -84,7 +84,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QProgressBar" name="readBar_SEQ1M_Q8T1">
+   <widget class="QProgressBar" name="readBar_SEQ_1">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -121,7 +121,7 @@
      <string>&lt;p align=&quot;center&quot;&gt;Read [MiB/s]&lt;/p&gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_SEQ1M_Q8T1">
+   <widget class="QPushButton" name="pushButton_SEQ_1">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -131,11 +131,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>SEQ1M
-Q8T1</string>
+     <string>SEQ 1</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="writeBar_SEQ1M_Q8T1">
+   <widget class="QProgressBar" name="writeBar_SEQ_1">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -205,7 +204,7 @@ Q8T1</string>
      </property>
     </item>
    </widget>
-   <widget class="QProgressBar" name="readBar_SEQ1M_Q1T1">
+   <widget class="QProgressBar" name="readBar_SEQ_2">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -229,7 +228,7 @@ Q8T1</string>
      <string>%v</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="writeBar_SEQ1M_Q1T1">
+   <widget class="QProgressBar" name="writeBar_SEQ_2">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -253,7 +252,7 @@ Q8T1</string>
      <string>%v</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_SEQ1M_Q1T1">
+   <widget class="QPushButton" name="pushButton_SEQ_2">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -263,11 +262,10 @@ Q8T1</string>
      </rect>
     </property>
     <property name="text">
-     <string>SEQ1M
-Q1T1</string>
+     <string>SEQ 2</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="writeBar_RND4K_Q32T16">
+   <widget class="QProgressBar" name="writeBar_RND_1">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -291,7 +289,7 @@ Q1T1</string>
      <string>%v</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="readBar_RND4K_Q32T16">
+   <widget class="QProgressBar" name="readBar_RND_1">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -315,7 +313,7 @@ Q1T1</string>
      <string>%v</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_RND4K_Q32T16">
+   <widget class="QPushButton" name="pushButton_RND_1">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -325,11 +323,10 @@ Q1T1</string>
      </rect>
     </property>
     <property name="text">
-     <string>RND4K
-Q32T16</string>
+     <string>RND 1</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="readBar_RND4K_Q1T1">
+   <widget class="QProgressBar" name="readBar_RND_2">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -353,7 +350,7 @@ Q32T16</string>
      <string>%v</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_RND4K_Q1T1">
+   <widget class="QPushButton" name="pushButton_RND_2">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -363,11 +360,10 @@ Q32T16</string>
      </rect>
     </property>
     <property name="text">
-     <string>RND4K
-Q1T1</string>
+     <string>RND 2</string>
     </property>
    </widget>
-   <widget class="QProgressBar" name="writeBar_RND4K_Q1T1">
+   <widget class="QProgressBar" name="writeBar_RND_2">
     <property name="geometry">
      <rect>
       <x>320</x>
@@ -426,6 +422,7 @@ Q1T1</string>
      <addaction name="action10_min"/>
     </widget>
     <addaction name="menuInterval_Time"/>
+    <addaction name="actionQueues_Threads"/>
    </widget>
    <widget class="QMenu" name="menuProfile">
     <property name="title">
@@ -530,6 +527,11 @@ Q1T1</string>
   <action name="actionAbout">
    <property name="text">
     <string>About KDiskMark</string>
+   </property>
+  </action>
+  <action name="actionQueues_Threads">
+   <property name="text">
+    <string>Queues &amp;&amp; Threads</string>
    </property>
   </action>
  </widget>

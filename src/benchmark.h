@@ -48,8 +48,7 @@ public:
     };
 
 private:
-    PerformanceResult startFIO(int size, int block_size, int queue_depth,
-                               int threads, const QString rw);
+    PerformanceResult startFIO(int block_size, int queue_depth, int threads, const QString rw);
     PerformanceResult parseResult();
 
 public slots:
