@@ -134,6 +134,11 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     }
     else {
         ui->comboBox_Dirs->setCurrentIndex(-1);
+        ui->pushButton_All->setEnabled(false);
+        ui->pushButton_SEQ1M_Q8T1->setEnabled(false);
+        ui->pushButton_SEQ1M_Q1T1->setEnabled(false);
+        ui->pushButton_RND4K_Q32T16->setEnabled(false);
+        ui->pushButton_RND4K_Q1T1->setEnabled(false);
     }
 
     // Move Benchmark to another thread and set callbacks
