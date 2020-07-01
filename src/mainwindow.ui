@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>531</width>
+    <width>578</width>
     <height>405</height>
    </rect>
   </property>
@@ -38,7 +38,7 @@
      <rect>
       <x>110</x>
       <y>10</y>
-      <width>31</width>
+      <width>41</width>
       <height>31</height>
      </rect>
     </property>
@@ -61,7 +61,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>150</x>
+      <x>160</x>
       <y>10</y>
       <width>81</width>
       <height>31</height>
@@ -74,9 +74,9 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>240</x>
+      <x>250</x>
       <y>10</y>
-      <width>211</width>
+      <width>231</width>
       <height>31</height>
      </rect>
     </property>
@@ -89,7 +89,7 @@
      <rect>
       <x>110</x>
       <y>80</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -113,7 +113,7 @@
      <rect>
       <x>110</x>
       <y>50</y>
-      <width>201</width>
+      <width>221</width>
       <height>20</height>
      </rect>
     </property>
@@ -137,9 +137,9 @@
    <widget class="QProgressBar" name="writeBar_SEQ_1">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>340</x>
       <y>80</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -161,9 +161,9 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>340</x>
       <y>50</y>
-      <width>201</width>
+      <width>221</width>
       <height>20</height>
      </rect>
     </property>
@@ -177,20 +177,20 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>458</x>
+      <x>490</x>
       <y>10</y>
-      <width>61</width>
+      <width>71</width>
       <height>31</height>
      </rect>
     </property>
     <item>
      <property name="text">
-      <string>MB/s</string>
+      <string>MiB/s</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>GB/s</string>
+      <string>GiB/s</string>
      </property>
     </item>
     <item>
@@ -209,7 +209,7 @@
      <rect>
       <x>110</x>
       <y>150</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -231,9 +231,9 @@
    <widget class="QProgressBar" name="writeBar_SEQ_2">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>340</x>
       <y>150</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -268,9 +268,9 @@
    <widget class="QProgressBar" name="writeBar_RND_1">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>340</x>
       <y>220</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -294,7 +294,7 @@
      <rect>
       <x>110</x>
       <y>220</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -331,7 +331,7 @@
      <rect>
       <x>110</x>
       <y>290</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -366,9 +366,9 @@
    <widget class="QProgressBar" name="writeBar_RND_2">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>340</x>
       <y>290</y>
-      <width>200</width>
+      <width>221</width>
       <height>61</height>
      </rect>
     </property>
@@ -393,7 +393,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>531</width>
+     <width>578</width>
      <height>23</height>
     </rect>
    </property>

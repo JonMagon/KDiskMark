@@ -1,5 +1,5 @@
 # KDiskMark
-### Current version: `1.1.2`
+### Current version: `1.2.0`
 
 ## Installation
 ### Requirements

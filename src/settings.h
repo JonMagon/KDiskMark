@@ -4,6 +4,7 @@
 #include <QDialog>
 
 class AppSettings;
+class QAbstractButton;
 
 namespace Ui {
 class Settings;
@@ -19,8 +20,12 @@ public:
     explicit Settings(AppSettings *settings, QWidget *parent = nullptr);
     ~Settings();
 
+private slots:
+    void on_buttonBox_clicked(QAbstractButton *button);
+
 private:
     Ui::Settings *ui;
+    void setActualValues();
 };
 
 #endif // SETTINGS_H

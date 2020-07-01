@@ -26,15 +26,13 @@ public:
     BenchmarkParams RND_1 = default_RND_1;
     BenchmarkParams RND_2 = default_RND_2;
 
-public:
-    AppSettings();
+    AppSettings() {};
     void setLoopsCount(int loops);
     int getLoopsCount();
     void setIntervalTime(int intervalTime);
     int getIntervalTime();
     void setDir(QString dir);
     QString getBenchmarkFile();
-
 };
 
 #endif // APPSETTINGS_H

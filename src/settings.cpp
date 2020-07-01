@@ -1,13 +1,21 @@
 #include "settings.h"
 #include "ui_settings.h"
 
+#include <QAbstractButton>
+#include <QIcon>
+
 #include "appsettings.h"
+#include "global.h"
 
 Settings::Settings(AppSettings *settings, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Settings)
 {
     ui->setupUi(this);
+
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
+    setWindowIcon(QIcon(Global::Instance().getIconSVGPath()));
 
     m_settings = settings;
 
@@ -43,6 +51,16 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
         ui->comboBox_Threads_RND_2->addItem(i_str, i);
     }
 
+    setActualValues();
+}
+
+Settings::~Settings()
+{
+    delete ui;
+}
+
+void Settings::setActualValues()
+{
     ui->comboBox_BlockSize_SEQ_1->
             setCurrentIndex(ui->comboBox_BlockSize_SEQ_1->findData(m_settings->SEQ_1.BlockSize));
     ui->comboBox_BlockSize_SEQ_2->
@@ -71,7 +89,33 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
             setCurrentIndex(ui->comboBox_Threads_RND_2->findData(m_settings->RND_2.Threads));
 }
 
-Settings::~Settings()
+void Settings::on_buttonBox_clicked(QAbstractButton *button)
 {
-    delete ui;
+    if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
+        m_settings->SEQ_1.BlockSize = ui->comboBox_BlockSize_SEQ_1->currentData().toInt();
+        m_settings->SEQ_1.Queues = ui->comboBox_Queues_SEQ_1->currentData().toInt();
+        m_settings->SEQ_1.Threads = ui->comboBox_Threads_SEQ_1->currentData().toInt();
+
+        m_settings->SEQ_2.BlockSize = ui->comboBox_BlockSize_SEQ_2->currentData().toInt();
+        m_settings->SEQ_2.Queues = ui->comboBox_Queues_SEQ_2->currentData().toInt();
+        m_settings->SEQ_2.Threads = ui->comboBox_Threads_SEQ_2->currentData().toInt();
+
+        m_settings->RND_1.BlockSize = ui->comboBox_BlockSize_RND_1->currentData().toInt();
+        m_settings->RND_1.Queues = ui->comboBox_Queues_RND_1->currentData().toInt();
+        m_settings->RND_1.Threads = ui->comboBox_Threads_RND_1->currentData().toInt();
+
+        m_settings->RND_2.BlockSize = ui->comboBox_BlockSize_RND_2->currentData().toInt();
+        m_settings->RND_2.Queues = ui->comboBox_Queues_RND_2->currentData().toInt();
+        m_settings->RND_2.Threads = ui->comboBox_Threads_RND_2->currentData().toInt();
+
+        close();
+    }
+    else if (ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
+        m_settings->SEQ_1 = m_settings->default_SEQ_1;
+        m_settings->SEQ_2 = m_settings->default_SEQ_2;
+        m_settings->RND_1 = m_settings->default_RND_1;
+        m_settings->RND_2 = m_settings->default_RND_2;
+
+        setActualValues();
+    }
 }

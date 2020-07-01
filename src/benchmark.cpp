@@ -127,56 +127,56 @@ void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests)
         switch (iter.key())
         {
         case SEQ1M_Q8T1_Read:
-            emit benchmarkStatusUpdated(tr("Sequential Read"));
+            emit benchmarkStatusUpdate(tr("Sequential Read"));
             emit resultReady(iter.value(), startFIO(m_settings->SEQ_1.BlockSize,
                                                     m_settings->SEQ_1.Queues,
                                                     m_settings->SEQ_1.Threads,
                                                     kRW_READ));
             break;
         case SEQ1M_Q8T1_Write:
-            emit benchmarkStatusUpdated(tr("Sequential Write"));
+            emit benchmarkStatusUpdate(tr("Sequential Write"));
             emit resultReady(iter.value(), startFIO(m_settings->SEQ_1.BlockSize,
                                                     m_settings->SEQ_1.Queues,
                                                     m_settings->SEQ_1.Threads,
                                                     kRW_WRITE));
             break;
         case SEQ1M_Q1T1_Read:
-            emit benchmarkStatusUpdated(tr("Sequential Read"));
+            emit benchmarkStatusUpdate(tr("Sequential Read"));
             emit resultReady(iter.value(), startFIO(m_settings->SEQ_2.BlockSize,
                                                     m_settings->SEQ_2.Queues,
                                                     m_settings->SEQ_2.Threads,
                                                     kRW_READ));
             break;
         case SEQ1M_Q1T1_Write:
-            emit benchmarkStatusUpdated(tr("Sequential Write"));
+            emit benchmarkStatusUpdate(tr("Sequential Write"));
             emit resultReady(iter.value(), startFIO(m_settings->SEQ_2.BlockSize,
                                                     m_settings->SEQ_2.Queues,
                                                     m_settings->SEQ_2.Threads,
                                                     kRW_WRITE));
             break;
         case RND4K_Q32T16_Read:
-            emit benchmarkStatusUpdated(tr("Random Read"));
+            emit benchmarkStatusUpdate(tr("Random Read"));
             emit resultReady(iter.value(), startFIO(m_settings->RND_1.BlockSize,
                                                     m_settings->RND_1.Queues,
                                                     m_settings->RND_1.Threads,
                                                     kRW_RANDREAD));
             break;
         case RND4K_Q32T16_Write:
-            emit benchmarkStatusUpdated(tr("Random Write"));
+            emit benchmarkStatusUpdate(tr("Random Write"));
             emit resultReady(iter.value(), startFIO(m_settings->RND_1.BlockSize,
                                                     m_settings->RND_1.Queues,
                                                     m_settings->RND_1.Threads,
                                                     kRW_RANDWRITE));
             break;
         case RND4K_Q1T1_Read:
-            emit benchmarkStatusUpdated(tr("Random Read"));
+            emit benchmarkStatusUpdate(tr("Random Read"));
             emit resultReady(iter.value(), startFIO(m_settings->RND_2.BlockSize,
                                                     m_settings->RND_2.Queues,
                                                     m_settings->RND_2.Threads,
                                                     kRW_RANDREAD));
             break;
         case RND4K_Q1T1_Write:
-            emit benchmarkStatusUpdated(tr("Random Write"));
+            emit benchmarkStatusUpdate(tr("Random Write"));
             emit resultReady(iter.value(), startFIO(m_settings->RND_2.BlockSize,
                                                     m_settings->RND_2.Queues,
                                                     m_settings->RND_2.Threads,
@@ -186,7 +186,7 @@ void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests)
 
         if (iter.hasNext()) {
             for (int i = 0; i < m_settings->getIntervalTime() && m_running; i++) {
-                emit benchmarkStatusUpdated(tr("Interval Time %1/%2 sec").arg(i).arg(m_settings->getIntervalTime()));
+                emit benchmarkStatusUpdate(tr("Interval Time %1/%2 sec").arg(i).arg(m_settings->getIntervalTime()));
                 QThread::sleep(1);
             }
         }

@@ -2,6 +2,7 @@
 #include "ui_about.h"
 
 #include "cmake.h"
+#include "global.h"
 
 #include <QAbstractButton>
 #include <QIcon>
@@ -17,9 +18,9 @@ About::About(const QString &FIOVersion, QWidget *parent) :
     ui->label_Version->setText(qApp->applicationVersion());
     ui->label_FIO->setText(FIOVersion);
 
-    setWindowIcon(QIcon("icons/kdiskmark.svg"));
+    setWindowIcon(QIcon(Global::Instance().getIconSVGPath()));
 
-    ui->label_Icon->setPixmap(QPixmap("icons/kdiskmark.png"));
+    ui->label_Icon->setPixmap(QPixmap(Global::Instance().getIconPNGPath()));
 }
 
 About::~About()

@@ -20,7 +20,6 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 private:
-    const QString toolTipRaw = tr("<h1>%1 MiB/s<br/>%2 GiB/s<br/>%3 IOPS<br/>%4 μs</h1>");
     Benchmark *m_benchmark;
     AppSettings *m_settings;
     QThread m_benchmarkThread;
@@ -50,7 +49,7 @@ private slots:
     void on_loopsCount_valueChanged(int arg1);
 
 public slots:
-    void benchmarkStatusUpdated(const QString &name);
+    void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void timeIntervalSelected(QAction* act);
@@ -66,6 +65,5 @@ private:
     QString formatSize(quint64 available, quint64 total);
     bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
-
 };
 #endif // MAINWINDOW_H

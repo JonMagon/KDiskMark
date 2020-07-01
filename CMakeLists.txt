@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(KDiskMark VERSION 1.1.2 LANGUAGES CXX)
+project(KDiskMark VERSION 1.2.0 LANGUAGES CXX)
 
 configure_file(src/cmake.h.in cmake.h)
 include_directories(${PROJECT_BINARY_BIN})
@@ -36,6 +36,8 @@ add_executable(KDiskMark
     src/settings.cpp
     src/settings.h
     src/settings.ui
+    src/global.cpp
+    src/global.h
 )
 
 target_link_libraries(KDiskMark PRIVATE Qt5::Widgets)

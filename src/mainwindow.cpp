@@ -13,6 +13,7 @@
 #include "math.h"
 #include "about.h"
 #include "settings.h"
+#include "global.h"
 
 MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent)
     : QMainWindow(parent)
@@ -20,7 +21,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 {
     ui->setupUi(this);
 
-    setWindowIcon(QIcon("icons/kdiskmark.svg"));
+    setWindowIcon(QIcon(Global::Instance().getIconSVGPath()));
 
     statusBar()->setSizeGripEnabled(false);
 
@@ -70,7 +71,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     for (auto const& progressBar: progressBars) {
         progressBar->setFormat("0.00");
-        progressBar->setToolTip(toolTipRaw.arg("0.000", "0.000", "0.000", "0.000"));
+        progressBar->setToolTip(Global::Instance().getToolTipTemplate().arg("0.000", "0.000", "0.000", "0.000"));
     }
 
     updateBenchmarkButtonsContent();
@@ -145,7 +146,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     benchmark->moveToThread(&m_benchmarkThread);
     connect(this, &MainWindow::runBenchmark, m_benchmark, &Benchmark::runBenchmark);
     connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
-    connect(m_benchmark, &Benchmark::benchmarkStatusUpdated, this, &MainWindow::benchmarkStatusUpdated);
+    connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
     connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::terminate);
@@ -213,7 +214,7 @@ bool MainWindow::disableDirItemIfIsNotWritable(int index)
 
 QString MainWindow::formatSize(quint64 available, quint64 total)
 {
-    QStringList units = { "Bytes", "KiB", "MiB", "GiB", "TiB", "PiB" };
+    QStringList units = { tr("Bytes"), tr("KiB"), tr("MiB"), tr("GiB"), tr("TiB"), tr("PiB") };
     int i;
     double outputAvailable = available;
     double outputTotal = total;
@@ -285,13 +286,15 @@ void MainWindow::showSettings()
     Settings settings(m_settings);
     settings.setFixedSize(settings.size());
     settings.exec();
+
+    updateBenchmarkButtonsContent();
 }
 
 void MainWindow::runOrStopBenchmarkThread()
 {
     if (m_isBenchmarkThreadRunning) {
         m_benchmark->setRunning(false);
-        benchmarkStatusUpdated(tr("Stopping..."));
+        benchmarkStatusUpdate(tr("Stopping..."));
     }
     else {
         if (m_settings->getBenchmarkFile().isNull()) {
@@ -300,7 +303,8 @@ void MainWindow::runOrStopBenchmarkThread()
         else if (QMessageBox::Yes ==
                 QMessageBox::warning(this, tr("Confirmation"),
                                      tr("This action destroys the data in %1\nDo you want to continue?")
-                                     .arg(m_settings->getBenchmarkFile()),
+                                     .arg(m_settings->getBenchmarkFile()
+                                          .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
             m_benchmark->setRunning(true);
             m_benchmarkThread.start();
@@ -313,7 +317,7 @@ void MainWindow::benchmarkFailed(const QString &error)
     QMessageBox::critical(this, tr("Benchmark Failed"), error);
 }
 
-void MainWindow::benchmarkStatusUpdated(const QString &name)
+void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
     if (m_isBenchmarkThreadRunning)
         setWindowTitle(QLatin1String("%1 - %2").arg(qAppName(), name));
@@ -324,7 +328,7 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
     progressBar->setFormat(QString::number(result.Bandwidth, 'f', 2));
     progressBar->setValue(result.Bandwidth == 0 ? 0 : 16.666666666666 * log10(result.Bandwidth * 10));
     progressBar->setToolTip(
-                toolTipRaw.arg(
+                Global::Instance().getToolTipTemplate().arg(
                     QString::number(result.Bandwidth, 'f', 3),
                     QString::number(result.Bandwidth / 1000, 'f', 3),
                     QString::number(result.IOPS, 'f', 3),

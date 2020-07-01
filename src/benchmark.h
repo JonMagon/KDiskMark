@@ -1,5 +1,5 @@
-#ifndef FIO_H
-#define FIO_H
+#ifndef BENCHMARK_H
+#define BENCHMARK_H
 
 #include <QProcess>
 #include <QStringList>
@@ -57,7 +57,7 @@ public slots:
     void setRunning(bool state);
 
 signals:
-    void benchmarkStatusUpdated(const QString &name);
+    void benchmarkStatusUpdate(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void failed(const QString &error);
     void finished();
@@ -67,4 +67,4 @@ signals:
 Q_DECLARE_METATYPE(Benchmark::Type);
 Q_DECLARE_METATYPE(Benchmark::PerformanceResult);
 
-#endif // FIO_H
+#endif // BENCHMARK_H

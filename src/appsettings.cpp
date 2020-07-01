@@ -1,10 +1,5 @@
 #include "appsettings.h"
 
-AppSettings::AppSettings()
-{
-
-}
-
 void AppSettings::setLoopsCount(int loops)
 {
     m_loopsCount = loops;
