@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(KDiskMark VERSION 1.0.0 LANGUAGES CXX)
+project(KDiskMark VERSION 1.1.2 LANGUAGES CXX)
 
 configure_file(src/cmake.h.in cmake.h)
 include_directories(${PROJECT_BINARY_BIN})
