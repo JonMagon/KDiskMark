@@ -14,9 +14,8 @@ class About : public QDialog
     Q_OBJECT
 
 public:
-    explicit About(QWidget *parent = nullptr);
+    explicit About(const QString &FIOVersion, QWidget *parent = nullptr);
     ~About();
-    void setFIOVersion(const QString &version);
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton *);

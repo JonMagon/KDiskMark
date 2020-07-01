@@ -7,6 +7,7 @@
 
 int main(int argc, char *argv[])
 {
+    QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
     QCoreApplication::setApplicationVersion(QStringLiteral("%1.%2.%3").arg(PROJECT_VERSION_MAJOR)
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
 
@@ -17,21 +18,21 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QMap<Benchmark::Type,QProgressBar*>>("QMap<Benchmark::Type,QProgressBar*>");
 
     QTranslator translator;
-    if (translator.load(QLocale(), QLatin1String("KDiskMark"), QLatin1String("_"))) {
+    if (translator.load(QLocale(), qAppName(), QLatin1String("_"))) {
         a.installTranslator(&translator);
     }
 
-    const AppSettings settings;
-    Benchmark benchmark;
+    AppSettings settings;
+    Benchmark benchmark(&settings);
 
-    if (benchmark.FIOVersion.contains("fio")) {
-        MainWindow w(settings, &benchmark);
+    if (benchmark.isFIODetected()) {
+        MainWindow w(&settings, &benchmark);
         w.setFixedSize(w.size());
         w.show();
         return a.exec();
     }
     else {
-        QMessageBox::critical(0, "KDiskMark", "No FIO was found. Please install FIO before using KDiskMark.");
+        QMessageBox::critical(0, qAppName(), "No FIO was found. Please install FIO before using KDiskMark.");
         return -1;
     }
 }

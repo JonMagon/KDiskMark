@@ -6,14 +6,16 @@
 #include <QAbstractButton>
 #include <QIcon>
 
-About::About(QWidget *parent) :
+About::About(const QString &FIOVersion, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::About)
 {
     ui->setupUi(this);
 
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
     ui->label_Version->setText(qApp->applicationVersion());
+    ui->label_FIO->setText(FIOVersion);
 
     setWindowIcon(QIcon("icons/kdiskmark.svg"));
 
@@ -23,11 +25,6 @@ About::About(QWidget *parent) :
 About::~About()
 {
     delete ui;
-}
-
-void About::setFIOVersion(const QString &version)
-{
-    ui->label_FIO->setText(version);
 }
 
 void About::on_buttonBox_clicked(QAbstractButton *)

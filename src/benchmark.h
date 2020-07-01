@@ -8,14 +8,26 @@
 #include <QObject>
 #include <QMap>
 
+class AppSettings;
+
 class Benchmark : public QObject
 {
     Q_OBJECT
 
+    const QString kRW_READ = "read";
+    const QString kRW_WRITE = "write";
+    const QString kRW_RANDREAD = "randread";
+    const QString kRW_RANDWRITE = "randwrite";
+
+    AppSettings *m_settings;
+    QProcess *m_process;
     bool m_running;
+    QString m_FIOVersion;
 
 public:
-    Benchmark();
+    Benchmark(AppSettings *settings);
+    QString FIOVersion();
+    bool isFIODetected();
 
     enum Type {
         SEQ1M_Q8T1_Read,
@@ -35,28 +47,20 @@ public:
         float Latency;
     };
 
-    QString FIOVersion;
-
 private:
-    const QString kRW_READ = "read";
-    const QString kRW_WRITE = "write";
-    const QString kRW_RANDREAD = "randread";
-    const QString kRW_RANDWRITE = "randwrite";
-
-    QProcess *m_process;
-
-    PerformanceResult startFIO(int loops, int size, int block_size, int queue_depth,
+    PerformanceResult startFIO(int size, int block_size, int queue_depth,
                                int threads, const QString rw);
     PerformanceResult parseResult();
 
 public slots:
     // TODO: pass all params except tests as one object
-    void runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests, int loops, int intervalTime);
+    void runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests);
     void setRunning(bool state);
 
 signals:
     void benchmarkStatusUpdated(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
+    void failed(const QString &error);
     void finished();
     void runningStateChanged(bool state);
 };
