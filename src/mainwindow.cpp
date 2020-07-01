@@ -92,14 +92,14 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
                 QString path = storage.rootPath();
 
-                ui->comboBox_FSPoints->addItem(
+                ui->comboBox_Dirs->addItem(
                             tr("%1 %2% (%3)").arg(path)
                             .arg(available * 100 / total)
                             .arg(formatSize(available, total)),
                             QVariant(path)
                             );
 
-                if (!disableDirItemIfIsNotWritable(ui->comboBox_FSPoints->count() - 1)
+                if (!disableDirItemIfIsNotWritable(ui->comboBox_Dirs->count() - 1)
                         && isThereWritableDir == false) {
                     isThereWritableDir = true;
                 }
@@ -116,7 +116,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
         QString path = QDir::homePath();
 
-        ui->comboBox_FSPoints->insertItem(0,
+        ui->comboBox_Dirs->insertItem(0,
                     tr("%1 %2% (%3)").arg(path)
                     .arg(storage.bytesAvailable() * 100 / total)
                     .arg(formatSize(available, total)),
@@ -130,10 +130,10 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     }
 
     if (isThereWritableDir) {
-        ui->comboBox_FSPoints->setCurrentIndex(0);
+        ui->comboBox_Dirs->setCurrentIndex(0);
     }
     else {
-        ui->comboBox_FSPoints->setCurrentIndex(-1);
+        ui->comboBox_Dirs->setCurrentIndex(-1);
     }
 
     // Move Benchmark to another thread and set callbacks
@@ -164,9 +164,9 @@ void MainWindow::closeEvent(QCloseEvent *)
 
 bool MainWindow::disableDirItemIfIsNotWritable(int index)
 {
-    if (!QFileInfo(ui->comboBox_FSPoints->itemData(index).toString()).isWritable()) {
+    if (!QFileInfo(ui->comboBox_Dirs->itemData(index).toString()).isWritable()) {
         const QStandardItemModel* model =
-                dynamic_cast<QStandardItemModel*>(ui->comboBox_FSPoints->model());
+                dynamic_cast<QStandardItemModel*>(ui->comboBox_Dirs->model());
         QStandardItem* item = model->item(index);
         item->setEnabled(false);
 
@@ -200,9 +200,9 @@ void MainWindow::on_loopsCount_valueChanged(int arg1)
     m_settings->setLoopsCount(arg1);
 }
 
-void MainWindow::on_comboBox_FSPoints_currentIndexChanged(int index)
+void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 {
-    m_settings->setDir(ui->comboBox_FSPoints->itemData(index).toString());
+    m_settings->setDir(ui->comboBox_Dirs->itemData(index).toString());
 }
 
 void MainWindow::benchmarkStateChanged(bool state)

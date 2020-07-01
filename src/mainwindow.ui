@@ -68,7 +68,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_FSPoints">
+   <widget class="QComboBox" name="comboBox_Dirs">
     <property name="enabled">
      <bool>true</bool>
     </property>

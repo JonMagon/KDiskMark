@@ -41,7 +41,7 @@ private slots:
 
     void showAbout();
 
-    void on_comboBox_FSPoints_currentIndexChanged(int index);
+    void on_comboBox_Dirs_currentIndexChanged(int index);
 
     void on_loopsCount_valueChanged(int arg1);
 
