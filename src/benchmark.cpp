@@ -5,6 +5,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QThread>
+#include <QFile>
 
 #include "appsettings.h"
 
@@ -167,6 +168,8 @@ void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests)
             }
         }
     }
+
+    QFile(m_settings->getBenchmarkFile()).remove();
 
     setRunning(false);
     emit finished();
