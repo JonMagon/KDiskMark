@@ -1,5 +1,6 @@
 # KDiskMark
 ### Current version: `1.2.0`
+### Supported languages: English (default), Russian, German (75%)
 
 ## Installation
 ### Requirements
