@@ -110,77 +110,77 @@ void Benchmark::setRunning(bool state)
     emit runningStateChanged(state);
 }
 
-void Benchmark::runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests)
+void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
 {
-    QMapIterator<Benchmark::Type, QProgressBar*> iter(tests);
-
+    QListIterator<QPair<Benchmark::Type, QProgressBar*>> iter(tests);
     // Set to 0 all the progressbars for current tests
     while (iter.hasNext()) {
-        iter.next();
-        emit resultReady(iter.value(), PerformanceResult());
+        emit resultReady(iter.next().second, PerformanceResult());
     }
 
     iter.toFront();
 
+    QPair<Benchmark::Type, QProgressBar*> item;
+
     while (iter.hasNext() && m_running) {
-        iter.next();
-        switch (iter.key())
+        item = iter.next();
+        switch (item.first)
         {
         case SEQ1M_Q8T1_Read:
             emit benchmarkStatusUpdate(tr("Sequential Read"));
-            emit resultReady(iter.value(), startFIO(m_settings->SEQ_1.BlockSize,
-                                                    m_settings->SEQ_1.Queues,
-                                                    m_settings->SEQ_1.Threads,
-                                                    kRW_READ));
+            emit resultReady(item.second, startFIO(m_settings->SEQ_1.BlockSize,
+                                                   m_settings->SEQ_1.Queues,
+                                                   m_settings->SEQ_1.Threads,
+                                                   kRW_READ));
             break;
         case SEQ1M_Q8T1_Write:
             emit benchmarkStatusUpdate(tr("Sequential Write"));
-            emit resultReady(iter.value(), startFIO(m_settings->SEQ_1.BlockSize,
-                                                    m_settings->SEQ_1.Queues,
-                                                    m_settings->SEQ_1.Threads,
-                                                    kRW_WRITE));
+            emit resultReady(item.second, startFIO(m_settings->SEQ_1.BlockSize,
+                                                   m_settings->SEQ_1.Queues,
+                                                   m_settings->SEQ_1.Threads,
+                                                   kRW_WRITE));
             break;
         case SEQ1M_Q1T1_Read:
             emit benchmarkStatusUpdate(tr("Sequential Read"));
-            emit resultReady(iter.value(), startFIO(m_settings->SEQ_2.BlockSize,
+            emit resultReady(item.second, startFIO(m_settings->SEQ_2.BlockSize,
                                                     m_settings->SEQ_2.Queues,
                                                     m_settings->SEQ_2.Threads,
                                                     kRW_READ));
             break;
         case SEQ1M_Q1T1_Write:
             emit benchmarkStatusUpdate(tr("Sequential Write"));
-            emit resultReady(iter.value(), startFIO(m_settings->SEQ_2.BlockSize,
-                                                    m_settings->SEQ_2.Queues,
-                                                    m_settings->SEQ_2.Threads,
-                                                    kRW_WRITE));
+            emit resultReady(item.second, startFIO(m_settings->SEQ_2.BlockSize,
+                                                   m_settings->SEQ_2.Queues,
+                                                   m_settings->SEQ_2.Threads,
+                                                   kRW_WRITE));
             break;
         case RND4K_Q32T16_Read:
             emit benchmarkStatusUpdate(tr("Random Read"));
-            emit resultReady(iter.value(), startFIO(m_settings->RND_1.BlockSize,
-                                                    m_settings->RND_1.Queues,
-                                                    m_settings->RND_1.Threads,
-                                                    kRW_RANDREAD));
+            emit resultReady(item.second, startFIO(m_settings->RND_1.BlockSize,
+                                                   m_settings->RND_1.Queues,
+                                                   m_settings->RND_1.Threads,
+                                                   kRW_RANDREAD));
             break;
         case RND4K_Q32T16_Write:
             emit benchmarkStatusUpdate(tr("Random Write"));
-            emit resultReady(iter.value(), startFIO(m_settings->RND_1.BlockSize,
-                                                    m_settings->RND_1.Queues,
-                                                    m_settings->RND_1.Threads,
-                                                    kRW_RANDWRITE));
+            emit resultReady(item.second, startFIO(m_settings->RND_1.BlockSize,
+                                                   m_settings->RND_1.Queues,
+                                                   m_settings->RND_1.Threads,
+                                                   kRW_RANDWRITE));
             break;
         case RND4K_Q1T1_Read:
             emit benchmarkStatusUpdate(tr("Random Read"));
-            emit resultReady(iter.value(), startFIO(m_settings->RND_2.BlockSize,
-                                                    m_settings->RND_2.Queues,
-                                                    m_settings->RND_2.Threads,
-                                                    kRW_RANDREAD));
+            emit resultReady(item.second, startFIO(m_settings->RND_2.BlockSize,
+                                                   m_settings->RND_2.Queues,
+                                                   m_settings->RND_2.Threads,
+                                                   kRW_RANDREAD));
             break;
         case RND4K_Q1T1_Write:
             emit benchmarkStatusUpdate(tr("Random Write"));
-            emit resultReady(iter.value(), startFIO(m_settings->RND_2.BlockSize,
-                                                    m_settings->RND_2.Queues,
-                                                    m_settings->RND_2.Threads,
-                                                    kRW_RANDWRITE));
+            emit resultReady(item.second, startFIO(m_settings->RND_2.BlockSize,
+                                                   m_settings->RND_2.Queues,
+                                                   m_settings->RND_2.Threads,
+                                                   kRW_RANDWRITE));
             break;
         }
 

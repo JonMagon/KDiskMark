@@ -24,6 +24,7 @@ private:
     AppSettings *m_settings;
     QThread m_benchmarkThread;
     bool m_isBenchmarkThreadRunning = false;
+    QVector<QProgressBar*> m_progressBars;
 
 public:
     MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent = nullptr);
@@ -48,6 +49,8 @@ private slots:
 
     void on_loopsCount_valueChanged(int arg1);
 
+    void on_comboBox_ComparisonField_currentIndexChanged(int index);
+
 public slots:
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
@@ -56,7 +59,7 @@ public slots:
     void benchmarkStateChanged(bool state);
 
 signals:
-    void runBenchmark(QMap<Benchmark::Type, QProgressBar*>);
+    void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>>);
 
 private:
     Ui::MainWindow *ui;
@@ -65,5 +68,6 @@ private:
     QString formatSize(quint64 available, quint64 total);
     bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
+    void updateProgressBar(QProgressBar *progressBar);
 };
 #endif // MAINWINDOW_H

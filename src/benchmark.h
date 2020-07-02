@@ -6,7 +6,6 @@
 #include <QString>
 #include <QProgressBar>
 #include <QObject>
-#include <QMap>
 
 class AppSettings;
 
@@ -53,7 +52,7 @@ private:
 
 public slots:
     // TODO: pass all params except tests as one object
-    void runBenchmark(QMap<Benchmark::Type, QProgressBar*> tests);
+    void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);
     void setRunning(bool state);
 
 signals:

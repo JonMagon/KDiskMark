@@ -171,9 +171,9 @@
      <string>&lt;p align=&quot;center&quot;&gt;Write [MiB/s]&lt;/p&gt;</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox_3">
+   <widget class="QComboBox" name="comboBox_ComparisonField">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>

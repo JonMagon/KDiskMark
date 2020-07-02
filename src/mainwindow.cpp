@@ -9,6 +9,7 @@
 #include <QStorageInfo>
 #include <QStandardItemModel>
 #include <QLineEdit>
+#include <QMetaEnum>
 
 #include "math.h"
 #include "about.h"
@@ -69,14 +70,16 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     ui->comboBox_fileSize->
             setCurrentIndex(ui->comboBox_fileSize->findData(m_settings->getFileSize()));
 
-    QProgressBar* progressBars[] = {
-        ui->readBar_SEQ_1, ui->writeBar_SEQ_1,
-        ui->readBar_SEQ_2, ui->writeBar_SEQ_2,
-        ui->readBar_RND_1, ui->writeBar_RND_1,
-        ui->readBar_RND_2, ui->writeBar_RND_2
-    };
+    m_progressBars << ui->readBar_SEQ_1 << ui->writeBar_SEQ_1 << ui->readBar_SEQ_2 << ui->writeBar_SEQ_2
+                   << ui->readBar_RND_1 << ui->writeBar_RND_1 << ui->readBar_RND_2 << ui->writeBar_RND_2;
 
-    for (auto const& progressBar: progressBars) {
+    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+
+    for (auto const& progressBar: m_progressBars) {
+        progressBar->setProperty(metaEnum.valueToKey(AppSettings::MiBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(AppSettings::GiBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), 0);
+        progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), 0);
         progressBar->setFormat("0.00");
         progressBar->setToolTip(Global::Instance().getToolTipTemplate().arg("0.000", "0.000", "0.000", "0.000"));
     }
@@ -184,7 +187,7 @@ void MainWindow::updateBenchmarkButtonsContent()
     params = m_settings->SEQ_1;
     ui->pushButton_SEQ_1->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
                                   .arg(params.Queues).arg(params.Threads));
-     ui->pushButton_SEQ_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
+    ui->pushButton_SEQ_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
                                       .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
 
     params = m_settings->SEQ_2;
@@ -234,6 +237,15 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
             .arg(outputTotal, 0, 'f', 2).arg(units[i]);
 }
 
+void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
+{
+    m_settings->comprasionField = AppSettings::ComparisonField(index);
+
+    for (auto const& progressBar: m_progressBars) {
+        updateProgressBar(progressBar);
+    }
+}
+
 void MainWindow::timeIntervalSelected(QAction* act)
 {
     m_settings->setIntervalTime(act->property("interval").toInt());
@@ -256,6 +268,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->loopsCount->setEnabled(false);
         ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Dirs->setEnabled(false);
+        ui->comboBox_ComparisonField->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
         ui->pushButton_SEQ_1->setText(tr("Stop"));
         ui->pushButton_SEQ_2->setText(tr("Stop"));
@@ -268,6 +281,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Dirs->setEnabled(true);
+        ui->comboBox_ComparisonField->setEnabled(true);
         ui->pushButton_All->setText(tr("All"));
         ui->pushButton_SEQ_1->setText("SEQ1M\nQ8T1");
         ui->pushButton_SEQ_2->setText("SEQ1M\nQ1T1");
@@ -335,16 +349,57 @@ void MainWindow::benchmarkStatusUpdate(const QString &name)
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
 {
-    progressBar->setFormat(QString::number(result.Bandwidth, 'f', 2));
-    progressBar->setValue(result.Bandwidth == 0 ? 0 : 16.666666666666 * log10(result.Bandwidth * 10));
+    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+
+    progressBar->setProperty(metaEnum.valueToKey(AppSettings::MiBPerSec), result.Bandwidth);
+    progressBar->setProperty(metaEnum.valueToKey(AppSettings::GiBPerSec), result.Bandwidth / 1024.0);
+    progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), result.IOPS);
+    progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), result.Latency);
+
     progressBar->setToolTip(
                 Global::Instance().getToolTipTemplate().arg(
                     QString::number(result.Bandwidth, 'f', 3),
-                    QString::number(result.Bandwidth / 1000, 'f', 3),
+                    QString::number(result.Bandwidth / 1024, 'f', 3),
                     QString::number(result.IOPS, 'f', 3),
                     QString::number(result.Latency, 'f', 3)
                     )
                 );
+
+    updateProgressBar(progressBar);
+}
+
+void MainWindow::updateProgressBar(QProgressBar *progressBar)
+{
+    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+
+    float score = progressBar->property(metaEnum.valueToKey(AppSettings::MiBPerSec)).toFloat();
+
+    float value;
+
+    switch (m_settings->comprasionField) {
+    case AppSettings::MiBPerSec:
+        progressBar->setFormat(score >= 1000000.0 ? QString::number((int)score) : QString::number(score, 'f', 2));
+        break;
+    case AppSettings::GiBPerSec:
+        value = progressBar->property(metaEnum.valueToKey(AppSettings::GiBPerSec)).toFloat();
+        progressBar->setFormat(QString::number(value, 'f', 3));
+        break;
+    case AppSettings::IOPS:
+        value = progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat();
+        progressBar->setFormat(value >= 1000000.0 ? QString::number((int)value) : QString::number(value, 'f', 2));
+        break;
+    case AppSettings::Latency:
+        value = progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat();
+        progressBar->setFormat(value >= 1000000.0 ? QString::number((int)value) : QString::number(value, 'f', 2));
+        break;
+    }
+
+    if (m_settings->comprasionField == AppSettings::Latency) {
+        progressBar->setValue(value <= 0.0000000001 ? 0 : 100 - 16.666666666666 * log10(value));
+    }
+    else {
+        progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
+    }
 }
 
 void MainWindow::on_pushButton_SEQ_1_clicked()
@@ -352,7 +407,7 @@ void MainWindow::on_pushButton_SEQ_1_clicked()
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
-        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+        runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::SEQ1M_Q8T1_Read,  ui->readBar_SEQ_1},
                          { Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ_1 }
                      });
@@ -364,7 +419,7 @@ void MainWindow::on_pushButton_SEQ_2_clicked()
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
-        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+        runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::SEQ1M_Q1T1_Read,  ui->readBar_SEQ_2 },
                          { Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ_2 }
                      });
@@ -376,7 +431,7 @@ void MainWindow::on_pushButton_RND_1_clicked()
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
-        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+        runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND_1 },
                          { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND_1 }
                      });
@@ -388,7 +443,7 @@ void MainWindow::on_pushButton_RND_2_clicked()
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
-        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
+        runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::RND4K_Q1T1_Read,  ui->readBar_RND_2 },
                          { Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND_2 }
                      });
@@ -400,14 +455,14 @@ void MainWindow::on_pushButton_All_clicked()
     runOrStopBenchmarkThread();
 
     if (m_isBenchmarkThreadRunning) {
-        runBenchmark(QMap<Benchmark::Type, QProgressBar*> {
-                         { Benchmark::SEQ1M_Q8T1_Read,    ui->readBar_SEQ_1 },
+        runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
+                         { Benchmark::SEQ1M_Q8T1_Read,    ui->readBar_SEQ_1  },
+                         { Benchmark::SEQ1M_Q1T1_Read,    ui->readBar_SEQ_2  },
+                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND_1  },
+                         { Benchmark::RND4K_Q1T1_Read,    ui->readBar_RND_2  },
                          { Benchmark::SEQ1M_Q8T1_Write,   ui->writeBar_SEQ_1 },
-                         { Benchmark::SEQ1M_Q1T1_Read,    ui->readBar_SEQ_2 },
                          { Benchmark::SEQ1M_Q1T1_Write,   ui->writeBar_SEQ_2 },
-                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND_1 },
                          { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND_1 },
-                         { Benchmark::RND4K_Q1T1_Read,    ui->readBar_RND_2 },
                          { Benchmark::RND4K_Q1T1_Write,   ui->writeBar_RND_2 }
                      });
     }

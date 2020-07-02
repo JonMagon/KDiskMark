@@ -1,10 +1,13 @@
 #ifndef APPSETTINGS_H
 #define APPSETTINGS_H
 
+#include <QObject>
 #include <QString>
 
-class AppSettings
+class AppSettings : public QObject
 {
+    Q_OBJECT
+
     int m_loopsCount = 5;
     int m_fileSize = 1024;
     int m_intervalTime = 5;
@@ -16,6 +19,15 @@ public:
         int Queues;
         int Threads;
     };
+
+    enum ComparisonField {
+        MiBPerSec,
+        GiBPerSec,
+        IOPS,
+        Latency,
+    } comprasionField = MiBPerSec;
+
+    Q_ENUM(ComparisonField);
 
     const BenchmarkParams default_SEQ_1 { 1024,  8,  1 };
     const BenchmarkParams default_SEQ_2 { 1024,  1,  1 };

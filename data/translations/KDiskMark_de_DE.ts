@@ -75,13 +75,13 @@
         <location filename="../../src/benchmark.cpp" line="130"/>
         <location filename="../../src/benchmark.cpp" line="144"/>
         <source>Sequential Read</source>
-        <translation>Sequentielles Lesen</translation>
+        <translation>Sequenzielles Lesen</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="137"/>
         <location filename="../../src/benchmark.cpp" line="151"/>
         <source>Sequential Write</source>
-        <translation>Sequentielles Schreiben</translation>
+        <translation>Sequenzielles Schreiben</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="158"/>
@@ -98,7 +98,7 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="189"/>
         <source>Interval Time %1/%2 sec</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause zwischen Überprüfungen %1/%2 sec</translation>
     </message>
 </context>
 <context>
@@ -110,7 +110,7 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="262"/>
+        <location filename="../../src/mainwindow.cpp" line="285"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
@@ -184,17 +184,17 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="407"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="411"/>
         <source>Interval Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Pause zwischen Überprüfungen</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="429"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="434"/>
@@ -259,90 +259,91 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="534"/>
         <source>Queues &amp;&amp; Threads</source>
-        <translation type="unfinished"></translation>
+        <translation>Warteschlangen und Threads</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="62"/>
-        <location filename="../../src/mainwindow.cpp" line="217"/>
+        <location filename="../../src/mainwindow.cpp" line="63"/>
+        <location filename="../../src/mainwindow.cpp" line="227"/>
         <source>MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="96"/>
-        <location filename="../../src/mainwindow.cpp" line="120"/>
+        <location filename="../../src/mainwindow.cpp" line="106"/>
+        <location filename="../../src/mainwindow.cpp" line="130"/>
         <source>%1 %2% (%3)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="180"/>
-        <location filename="../../src/mainwindow.cpp" line="186"/>
+        <location filename="../../src/mainwindow.cpp" line="190"/>
+        <location filename="../../src/mainwindow.cpp" line="196"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Sequenziell %1 MiB&lt;br/&gt;Warteschlangen=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="192"/>
-        <location filename="../../src/mainwindow.cpp" line="198"/>
+        <location filename="../../src/mainwindow.cpp" line="202"/>
+        <location filename="../../src/mainwindow.cpp" line="208"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;Zufällig %1 KiB&lt;br/&gt;Warteschlangen=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="217"/>
+        <location filename="../../src/mainwindow.cpp" line="227"/>
         <source>Bytes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="217"/>
+        <location filename="../../src/mainwindow.cpp" line="227"/>
         <source>KiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="217"/>
+        <location filename="../../src/mainwindow.cpp" line="67"/>
+        <location filename="../../src/mainwindow.cpp" line="227"/>
         <source>GiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="217"/>
+        <location filename="../../src/mainwindow.cpp" line="227"/>
         <source>TiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="217"/>
+        <location filename="../../src/mainwindow.cpp" line="227"/>
         <source>PiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="297"/>
+        <location filename="../../src/mainwindow.cpp" line="320"/>
         <source>Stopping...</source>
         <translation>Wird gestoppt...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="301"/>
+        <location filename="../../src/mainwindow.cpp" line="324"/>
         <source>Not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht verfügbar</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="304"/>
+        <location filename="../../src/mainwindow.cpp" line="327"/>
         <source>Confirmation</source>
         <translation>Bestätigung</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="305"/>
+        <location filename="../../src/mainwindow.cpp" line="328"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Diese Aktion wird alle Datei in%1 zerstören.
 Wollen Sie fortfahren?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="317"/>
+        <location filename="../../src/mainwindow.cpp" line="341"/>
         <source>Benchmark Failed</source>
         <translation>Aktion fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="251"/>
-        <location filename="../../src/mainwindow.cpp" line="252"/>
-        <location filename="../../src/mainwindow.cpp" line="253"/>
-        <location filename="../../src/mainwindow.cpp" line="254"/>
-        <location filename="../../src/mainwindow.cpp" line="255"/>
+        <location filename="../../src/mainwindow.cpp" line="272"/>
+        <location filename="../../src/mainwindow.cpp" line="273"/>
+        <location filename="../../src/mainwindow.cpp" line="274"/>
+        <location filename="../../src/mainwindow.cpp" line="275"/>
+        <location filename="../../src/mainwindow.cpp" line="276"/>
         <source>Stop</source>
         <translation></translation>
     </message>
@@ -365,54 +366,54 @@ Wollen Sie fortfahren?</translation>
     <message>
         <location filename="../../src/settings.ui" line="14"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="29"/>
         <source>Sequential (1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sequenziell (1)</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="85"/>
         <source>Sequential (2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sequenziell (2)</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="151"/>
         <source>Random (1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zufällig (1)</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="167"/>
         <source>Random (2)</source>
-        <translation type="unfinished"></translation>
+        <translation>Zufällig (2)</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="213"/>
         <source>Block Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Blockgröße</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="229"/>
         <source>Queues</source>
-        <translation type="unfinished"></translation>
+        <translation>Warteschlangen</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="245"/>
         <source>Threads</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="29"/>
         <location filename="../../src/settings.cpp" line="30"/>
         <source>MiB</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="43"/>
         <location filename="../../src/settings.cpp" line="44"/>
         <source>KiB</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>
