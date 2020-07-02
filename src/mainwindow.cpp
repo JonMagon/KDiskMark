@@ -58,9 +58,16 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     connect(timeIntervalGroup, SIGNAL(triggered(QAction*)), this, SLOT(timeIntervalSelected(QAction*)));
 
-    for (int i = 1; i < 10; i *= 2) {
-        ui->comboBox->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("MiB")));
+    for (int i = 16; i <= 512; i *= 2) {
+        ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("MiB")), i);
     }
+
+    for (int i = 1; i <= 64; i *= 2) {
+        ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("GiB")), i * 1024);
+    }
+
+    ui->comboBox_fileSize->
+            setCurrentIndex(ui->comboBox_fileSize->findData(m_settings->getFileSize()));
 
     QProgressBar* progressBars[] = {
         ui->readBar_SEQ_1, ui->writeBar_SEQ_1,
@@ -96,7 +103,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                             tr("%1 %2% (%3)").arg(path)
                             .arg(available * 100 / total)
                             .arg(formatSize(available, total)),
-                            QVariant(path)
+                            path
                             );
 
                 if (!disableDirItemIfIsNotWritable(ui->comboBox_Dirs->count() - 1)
@@ -120,7 +127,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                     tr("%1 %2% (%3)").arg(path)
                     .arg(storage.bytesAvailable() * 100 / total)
                     .arg(formatSize(available, total)),
-                    QVariant(path)
+                    path
                     );
 
         if (!disableDirItemIfIsNotWritable(0)
@@ -247,6 +254,7 @@ void MainWindow::benchmarkStateChanged(bool state)
     if (state) {
         ui->menubar->setEnabled(false);
         ui->loopsCount->setEnabled(false);
+        ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Dirs->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
         ui->pushButton_SEQ_1->setText(tr("Stop"));
@@ -258,6 +266,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         setWindowTitle(qAppName());
         ui->menubar->setEnabled(true);
         ui->loopsCount->setEnabled(true);
+        ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Dirs->setEnabled(true);
         ui->pushButton_All->setText(tr("All"));
         ui->pushButton_SEQ_1->setText("SEQ1M\nQ8T1");
@@ -306,6 +315,7 @@ void MainWindow::runOrStopBenchmarkThread()
                                      .arg(m_settings->getBenchmarkFile()
                                           .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
+            m_settings->setFileSize(ui->comboBox_fileSize->currentData().toInt());
             m_benchmark->setRunning(true);
             m_benchmarkThread.start();
         }

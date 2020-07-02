@@ -10,6 +10,16 @@ int AppSettings::getLoopsCount()
     return m_loopsCount;
 }
 
+void AppSettings::setFileSize(int size)
+{
+    m_fileSize = size;
+}
+
+int AppSettings::getFileSize()
+{
+    return m_fileSize;
+}
+
 void AppSettings::setIntervalTime(int intervalTime)
 {
     m_intervalTime = intervalTime;

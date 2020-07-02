@@ -44,7 +44,7 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
                     << QString("--filename=%1").arg(m_settings->getBenchmarkFile())
                     << QString("--name=%1").arg(rw)
                     << QString("--loops=%1").arg(m_settings->getLoopsCount())
-                    << QString("--size=%1k").arg(16 * 1024)
+                    << QString("--size=%1m").arg(m_settings->getFileSize())
                     << QString("--bs=%1k").arg(block_size)
                     << QString("--rw=%1").arg(rw)
                     << QString("--iodepth=%1").arg(queue_depth)

@@ -6,6 +6,7 @@
 class AppSettings
 {
     int m_loopsCount = 5;
+    int m_fileSize = 1024;
     int m_intervalTime = 5;
     QString m_dir;
 
@@ -29,6 +30,8 @@ public:
     AppSettings() {};
     void setLoopsCount(int loops);
     int getLoopsCount();
+    void setFileSize(int size);
+    int getFileSize();
     void setIntervalTime(int intervalTime);
     int getIntervalTime();
     void setDir(QString dir);
