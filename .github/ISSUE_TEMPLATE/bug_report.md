@@ -7,8 +7,10 @@ assignees: ''
 
 ---
 
+- Linux-distro: 
+- Desktop Environment (KDE/GNOME etc.): 
 - KDiskMark Version: #.#.#
-~ FIO Version: fio-#.#
+- FIO Version: fio-#.#
 
 ### Description:
 
