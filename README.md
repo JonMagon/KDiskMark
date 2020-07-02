@@ -1,4 +1,5 @@
 # KDiskMark
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Build Status](https://travis-ci.com/JonMagon/KDiskMark.svg?branch=master)](https://travis-ci.com/JonMagon/KDiskMark)
 ### Current Version: `1.2.0`
 ### Supported Languages: English (default), Russian, German (75%)
 
