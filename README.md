@@ -3,6 +3,10 @@
 ### Current Version: `1.2.1`
 ### Supported Languages: English (default), Russian, German (75%)
 
+<p align="center">
+   <img src="https://raw.githubusercontent.com/JonMagon/KDiskMark/master/assets/images/kdiskmark.png"/>
+</p>
+
 ## Installation
 ### Requirements
 KDiskMark requires [Flexible I/O Tester](https://github.com/axboe/fio).
