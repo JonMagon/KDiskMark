@@ -33,6 +33,8 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     // Default values
     ui->loopsCount->setValue(m_settings->getLoopsCount());
 
+    on_comboBox_ComparisonField_currentIndexChanged(0);
+
     QActionGroup *timeIntervalGroup = new QActionGroup(this);
 
     ui->action0_sec->setProperty("interval", 0);
@@ -87,7 +89,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     updateBenchmarkButtonsContent();
 
     bool isSomeDeviceMountAsHome = false;
-    bool isThereWritableDir = false;
+    bool isThereAWritableDir = false;
 
     // Add each device and its mount point if is writable
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
@@ -110,8 +112,8 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                             );
 
                 if (!disableDirItemIfIsNotWritable(ui->comboBox_Dirs->count() - 1)
-                        && isThereWritableDir == false) {
-                    isThereWritableDir = true;
+                        && isThereAWritableDir == false) {
+                    isThereAWritableDir = true;
                 }
             }
         }
@@ -134,12 +136,12 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                     );
 
         if (!disableDirItemIfIsNotWritable(0)
-                && isThereWritableDir == false) {
-            isThereWritableDir = true;
+                && isThereAWritableDir == false) {
+            isThereAWritableDir = true;
         }
     }
 
-    if (isThereWritableDir) {
+    if (isThereAWritableDir) {
         ui->comboBox_Dirs->setCurrentIndex(0);
     }
     else {
@@ -240,6 +242,12 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
 void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
 {
     m_settings->comprasionField = AppSettings::ComparisonField(index);
+
+    ui->label_Read->setText(Global::Instance().getComparisonLabelTemplate()
+                            .arg(tr("Read"), ui->comboBox_ComparisonField->currentText()));
+
+    ui->label_Write->setText(Global::Instance().getComparisonLabelTemplate()
+                             .arg(tr("Write"), ui->comboBox_ComparisonField->currentText()));
 
     for (auto const& progressBar: m_progressBars) {
         updateProgressBar(progressBar);
@@ -352,7 +360,7 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::MiBPerSec), result.Bandwidth);
-    progressBar->setProperty(metaEnum.valueToKey(AppSettings::GiBPerSec), result.Bandwidth / 1024.0);
+    progressBar->setProperty(metaEnum.valueToKey(AppSettings::GiBPerSec), result.Bandwidth / 1024);
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), result.IOPS);
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), result.Latency);
 
@@ -408,8 +416,8 @@ void MainWindow::on_pushButton_SEQ_1_clicked()
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
-                         { Benchmark::SEQ1M_Q8T1_Read,  ui->readBar_SEQ_1},
-                         { Benchmark::SEQ1M_Q8T1_Write, ui->writeBar_SEQ_1 }
+                         { Benchmark::SEQ_1_Read,  ui->readBar_SEQ_1  },
+                         { Benchmark::SEQ_1_Write, ui->writeBar_SEQ_1 }
                      });
     }
 }
@@ -420,8 +428,8 @@ void MainWindow::on_pushButton_SEQ_2_clicked()
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
-                         { Benchmark::SEQ1M_Q1T1_Read,  ui->readBar_SEQ_2 },
-                         { Benchmark::SEQ1M_Q1T1_Write, ui->writeBar_SEQ_2 }
+                         { Benchmark::SEQ_2_Read,  ui->readBar_SEQ_2  },
+                         { Benchmark::SEQ_2_Write, ui->writeBar_SEQ_2 }
                      });
     }
 }
@@ -432,8 +440,8 @@ void MainWindow::on_pushButton_RND_1_clicked()
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
-                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND_1 },
-                         { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND_1 }
+                         { Benchmark::RND_1_Read,  ui->readBar_RND_1  },
+                         { Benchmark::RND_1_Write, ui->writeBar_RND_1 }
                      });
     }
 }
@@ -444,8 +452,8 @@ void MainWindow::on_pushButton_RND_2_clicked()
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
-                         { Benchmark::RND4K_Q1T1_Read,  ui->readBar_RND_2 },
-                         { Benchmark::RND4K_Q1T1_Write, ui->writeBar_RND_2 }
+                         { Benchmark::RND_2_Read,  ui->readBar_RND_2  },
+                         { Benchmark::RND_2_Write, ui->writeBar_RND_2 }
                      });
     }
 }
@@ -456,14 +464,14 @@ void MainWindow::on_pushButton_All_clicked()
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
-                         { Benchmark::SEQ1M_Q8T1_Read,    ui->readBar_SEQ_1  },
-                         { Benchmark::SEQ1M_Q1T1_Read,    ui->readBar_SEQ_2  },
-                         { Benchmark::RND4K_Q32T16_Read,  ui->readBar_RND_1  },
-                         { Benchmark::RND4K_Q1T1_Read,    ui->readBar_RND_2  },
-                         { Benchmark::SEQ1M_Q8T1_Write,   ui->writeBar_SEQ_1 },
-                         { Benchmark::SEQ1M_Q1T1_Write,   ui->writeBar_SEQ_2 },
-                         { Benchmark::RND4K_Q32T16_Write, ui->writeBar_RND_1 },
-                         { Benchmark::RND4K_Q1T1_Write,   ui->writeBar_RND_2 }
+                         { Benchmark::SEQ_1_Read,  ui->readBar_SEQ_1  },
+                         { Benchmark::SEQ_2_Read,  ui->readBar_SEQ_2  },
+                         { Benchmark::RND_1_Read,  ui->readBar_RND_1  },
+                         { Benchmark::RND_2_Read,  ui->readBar_RND_2  },
+                         { Benchmark::SEQ_1_Write, ui->writeBar_SEQ_1 },
+                         { Benchmark::SEQ_2_Write, ui->writeBar_SEQ_2 },
+                         { Benchmark::RND_1_Write, ui->writeBar_RND_1 },
+                         { Benchmark::RND_2_Write, ui->writeBar_RND_2 }
                      });
     }
 }

@@ -1,7 +1,8 @@
 # KDiskMark
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Build Status](https://travis-ci.com/JonMagon/KDiskMark.svg?branch=master)](https://travis-ci.com/JonMagon/KDiskMark)
-### Current Version: `1.3.0`
-### Supported Languages: English (default), Russian, German
+### Current Version: `1.3.1`
+
+KDiskMark is a HDD and SSD benchmark tool with a very friendly graphical user interface. KDiskMark with its presets and poweful GUI calls [Flexible I/O Tester](https://github.com/axboe/fio) and handles the output to provide an easy to view and interpret comprehensive benchmark result.
 
 <p align="center">
    <img src="https://raw.githubusercontent.com/JonMagon/KDiskMark/master/assets/images/kdiskmark.png"/>
@@ -10,6 +11,12 @@
 ## Installation
 ### Requirements
 KDiskMark requires [Flexible I/O Tester](https://github.com/axboe/fio).
+
+## Translations
+Languages currently available:
+* English (default)
+* Russian
+* German
 
 ## Credits
 Application Icon  

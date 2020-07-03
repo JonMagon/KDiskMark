@@ -29,14 +29,14 @@ public:
     bool isFIODetected();
 
     enum Type {
-        SEQ1M_Q8T1_Read,
-        SEQ1M_Q8T1_Write,
-        SEQ1M_Q1T1_Read,
-        SEQ1M_Q1T1_Write,
-        RND4K_Q32T16_Read,
-        RND4K_Q32T16_Write,
-        RND4K_Q1T1_Read,
-        RND4K_Q1T1_Write
+        SEQ_1_Read,
+        SEQ_1_Write,
+        SEQ_2_Read,
+        SEQ_2_Write,
+        RND_1_Read,
+        RND_1_Write,
+        RND_2_Read,
+        RND_2_Write
     };
 
     struct PerformanceResult

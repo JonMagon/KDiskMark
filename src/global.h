@@ -21,6 +21,7 @@ public:
   QString getIconSVGPath();
   QString getIconPNGPath();
   QString getToolTipTemplate();
+  QString getComparisonLabelTemplate();
 };
 
 #endif // GLOBAL_H
