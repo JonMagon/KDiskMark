@@ -6,24 +6,25 @@
 #include <QLibraryInfo>
 #include <QStyleFactory>
 #include <QStandardPaths>
-#include <QDebug>
 
 #include "cmake.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setApplicationName(QStringLiteral(APPLICATION_NAME));
+    QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
     QCoreApplication::setApplicationVersion(QStringLiteral("%1.%2.%3").arg(PROJECT_VERSION_MAJOR)
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
 
     QApplication a(argc, argv);
+
+    a.setStyle(QStyleFactory::create("Fusion"));
 
     qRegisterMetaType<Benchmark::Type>("Benchmark::Type");
     qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
     qRegisterMetaType<QList<QPair<Benchmark::Type,QProgressBar*>>>("QList<QPair<Benchmark::Type,QProgressBar*>>");
 
     QTranslator translator;
-    if (translator.load(QLocale(), PROJECT_NAME, QLatin1String("_"),
+    if (translator.load(QLocale(), qAppName(), QLatin1String("_"),
                         QStandardPaths::locate(QStandardPaths::AppDataLocation,
                                                QStringLiteral("translations"),
                                                QStandardPaths::LocateDirectory)
@@ -48,7 +49,7 @@ int main(int argc, char *argv[])
         return a.exec();
     }
     else {
-        QMessageBox::critical(0, qAppName(),
+        QMessageBox::critical(0, "KDiskMark",
                               QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
         return -1;
     }

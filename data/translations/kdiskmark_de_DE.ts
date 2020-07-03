@@ -358,7 +358,7 @@ Wollen Sie fortfahren?</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/main.cpp" line="52"/>
+        <location filename="../../src/main.cpp" line="53"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>Kein FIO gefunden. Bitte installieren Sie FIO um KDiskMark zu benutzen.</translation>
     </message>

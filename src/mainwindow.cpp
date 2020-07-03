@@ -355,7 +355,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->pushButton_RND_2->setText(tr("Stop"));
     }
     else {
-        setWindowTitle(qAppName());
+        setWindowTitle("KDiskMark");
         ui->menubar->setEnabled(true);
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
@@ -423,7 +423,7 @@ void MainWindow::benchmarkFailed(const QString &error)
 void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
     if (m_isBenchmarkThreadRunning)
-        setWindowTitle(QString("%1 - %2").arg(qAppName(), name));
+        setWindowTitle(QString("KDiskMark - %1").arg(name));
 }
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
