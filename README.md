@@ -8,6 +8,11 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
    <img src="https://raw.githubusercontent.com/JonMagon/KDiskMark/master/assets/images/kdiskmark.png"/>
 </p>
 
+## Build
+### Requirements
+* GCC/Clang C++17 (or later)
+* Qt >= 5.14
+
 ## Installation
 ### Requirements
 KDiskMark requires [Flexible I/O Tester](https://github.com/axboe/fio).
