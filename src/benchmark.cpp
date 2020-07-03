@@ -68,7 +68,7 @@ Benchmark::PerformanceResult Benchmark::parseResult()
         emit failed("Bad FIO output.");
     }
     else {
-        QJsonValue job = jobs.takeAt(0);
+        QJsonObject job = jobs.takeAt(0).toObject();
 
         if (job["error"].toInt() == 0) {
             if (job["jobname"].toString().contains("read")) {

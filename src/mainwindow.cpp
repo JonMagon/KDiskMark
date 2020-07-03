@@ -318,7 +318,7 @@ void MainWindow::copyBenchmarkResult()
             .arg(QDate::currentDate().toString("yyyy/MM/dd"))
             .arg(QTime::currentTime().toString("hh:mm:ss"));
 
-    output += QString("     OS: %1 %2 [%3, %4]\n").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
+    output += QString("     OS: %1 %2 [%3 %4]\n").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
             .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
 
     QClipboard *clipboard = QApplication::clipboard();
@@ -423,7 +423,7 @@ void MainWindow::benchmarkFailed(const QString &error)
 void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
     if (m_isBenchmarkThreadRunning)
-        setWindowTitle(QLatin1String("%1 - %2").arg(qAppName(), name));
+        setWindowTitle(QString("%1 - %2").arg(qAppName(), name));
 }
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)

@@ -1,6 +1,6 @@
 # KDiskMark
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Build Status](https://travis-ci.com/JonMagon/KDiskMark.svg?branch=master)](https://travis-ci.com/JonMagon/KDiskMark)
-### Current Version: `1.4.0`
+### Current Version: `1.4.1`
 
 KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user interface. KDiskMark with its presets and powerful GUI calls [Flexible I/O Tester](https://github.com/axboe/fio) and handles the output to provide an easy to view and interpret comprehensive benchmark result.
 
@@ -10,8 +10,8 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
 
 ## Build
 ### Requirements
-* GCC/Clang C++17 (or later)
-* Qt >= 5.14
+* GCC/Clang C++11 (or later)
+* Qt >= 5.9
 
 ## Installation
 ### Requirements

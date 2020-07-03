@@ -4,12 +4,15 @@
 #include <QTranslator>
 #include <QMessageBox>
 #include <QLibraryInfo>
+#include <QStyleFactory>
+#include <QStandardPaths>
+#include <QDebug>
 
 #include "cmake.h"
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
+    QCoreApplication::setApplicationName(QStringLiteral(APPLICATION_NAME));
     QCoreApplication::setApplicationVersion(QStringLiteral("%1.%2.%3").arg(PROJECT_VERSION_MAJOR)
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
 
@@ -20,7 +23,11 @@ int main(int argc, char *argv[])
     qRegisterMetaType<QList<QPair<Benchmark::Type,QProgressBar*>>>("QList<QPair<Benchmark::Type,QProgressBar*>>");
 
     QTranslator translator;
-    if (translator.load(QLocale(), qAppName(), QLatin1String("_"))) {
+    if (translator.load(QLocale(), PROJECT_NAME, QLatin1String("_"),
+                        QStandardPaths::locate(QStandardPaths::AppDataLocation,
+                                               QStringLiteral("translations"),
+                                               QStandardPaths::LocateDirectory)
+                        )) {
         a.installTranslator(&translator);
     }
 
