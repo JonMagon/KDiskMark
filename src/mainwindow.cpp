@@ -10,6 +10,8 @@
 #include <QStandardItemModel>
 #include <QLineEdit>
 #include <QMetaEnum>
+#include <QClipboard>
+#include <QDate>
 
 #include "math.h"
 #include "about.h"
@@ -78,8 +80,8 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
     for (auto const& progressBar: m_progressBars) {
-        progressBar->setProperty(metaEnum.valueToKey(AppSettings::MiBPerSec), 0);
-        progressBar->setProperty(metaEnum.valueToKey(AppSettings::GiBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(AppSettings::MBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(AppSettings::GBPerSec), 0);
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), 0);
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), 0);
         progressBar->setFormat("0.00");
@@ -168,6 +170,8 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     // Settings
     connect(ui->actionQueues_Threads, &QAction::triggered, this, &MainWindow::showSettings);
+
+    connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
 }
 
 MainWindow::~MainWindow()
@@ -252,6 +256,73 @@ void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
     for (auto const& progressBar: m_progressBars) {
         updateProgressBar(progressBar);
     }
+}
+
+void MainWindow::combineOutputTestResult(QString &output, const QString &name, const QProgressBar *progressBar,
+                                         const AppSettings::BenchmarkParams &params)
+{
+    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+
+    output +=
+            QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>\n")
+            .arg(name)
+            .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
+            .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
+            .arg(QString::number(params.Queues).rightJustified(2, ' '))
+            .arg(QString::number(params.Threads).rightJustified(2, ' '))
+            .arg(QString::number(
+                     progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3)
+                 .rightJustified(9, ' '))
+            .arg(QString::number(
+                     progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 1)
+                 .rightJustified(8, ' '))
+            .arg(QString::number(
+                     progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 2)
+                 .rightJustified(8, ' '))
+            .rightJustified(Global::Instance().getOutputColumnsCount(), ' ');
+}
+
+void MainWindow::copyBenchmarkResult()
+{
+    QString output;
+
+    output += QString("KDiskMark: https://github.com/JonMagon/KDiskMark\n")
+            .rightJustified(Global::Instance().getOutputColumnsCount(), ' ');
+    output += QString("-").repeated(Global::Instance().getOutputColumnsCount() - 1) + "\n";
+    output += "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]\n";
+    output += "* KB = 1000 bytes, KiB = 1024 bytes\n";
+
+    output += "\n[Read]\n";
+    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_1, m_settings->SEQ_1);
+    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_2, m_settings->SEQ_2);
+    combineOutputTestResult(output, "Random", ui->readBar_RND_1, m_settings->RND_1);
+    combineOutputTestResult(output, "Random", ui->readBar_RND_1, m_settings->RND_2);
+
+    output += "\n[Write]\n";
+    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_1, m_settings->SEQ_1);
+    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_2, m_settings->SEQ_2);
+    combineOutputTestResult(output, "Random", ui->writeBar_RND_1, m_settings->RND_1);
+    combineOutputTestResult(output, "Random", ui->writeBar_RND_1, m_settings->RND_2);
+
+    output += "\nProfile: Default\n"; // TODO: future
+
+    output += QString("   Test: %1\n")
+            .arg("%1 %2 (x%3) [Interval: %4 %5]")
+            .arg(m_settings->getFileSize() >= 1024 ? m_settings->getFileSize() / 1024 : m_settings->getFileSize())
+            .arg(m_settings->getFileSize() >= 1024 ? "GiB" : "MiB")
+            .arg(m_settings->getLoopsCount())
+            .arg(m_settings->getIntervalTime() >= 60 ? m_settings->getIntervalTime() / 60 : m_settings->getIntervalTime())
+            .arg(m_settings->getIntervalTime() >= 60 ? "min" : "sec");
+
+    output += QString("   Date: %1 %2\n")
+            .arg(QDate::currentDate().toString("yyyy/MM/dd"))
+            .arg(QTime::currentTime().toString("hh:mm:ss"));
+
+    output += QString("     OS: %1 %2 [%3, %4]\n").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
+            .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(output);
 }
 
 void MainWindow::timeIntervalSelected(QAction* act)
@@ -359,15 +430,15 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
-    progressBar->setProperty(metaEnum.valueToKey(AppSettings::MiBPerSec), result.Bandwidth);
-    progressBar->setProperty(metaEnum.valueToKey(AppSettings::GiBPerSec), result.Bandwidth / 1024);
+    progressBar->setProperty(metaEnum.valueToKey(AppSettings::MBPerSec), result.Bandwidth);
+    progressBar->setProperty(metaEnum.valueToKey(AppSettings::GBPerSec), result.Bandwidth / 1000);
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), result.IOPS);
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), result.Latency);
 
     progressBar->setToolTip(
                 Global::Instance().getToolTipTemplate().arg(
                     QString::number(result.Bandwidth, 'f', 3),
-                    QString::number(result.Bandwidth / 1024, 'f', 3),
+                    QString::number(result.Bandwidth / 1000, 'f', 3),
                     QString::number(result.IOPS, 'f', 3),
                     QString::number(result.Latency, 'f', 3)
                     )
@@ -380,16 +451,16 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
-    float score = progressBar->property(metaEnum.valueToKey(AppSettings::MiBPerSec)).toFloat();
+    float score = progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat();
 
     float value;
 
     switch (m_settings->comprasionField) {
-    case AppSettings::MiBPerSec:
+    case AppSettings::MBPerSec:
         progressBar->setFormat(score >= 1000000.0 ? QString::number((int)score) : QString::number(score, 'f', 2));
         break;
-    case AppSettings::GiBPerSec:
-        value = progressBar->property(metaEnum.valueToKey(AppSettings::GiBPerSec)).toFloat();
+    case AppSettings::GBPerSec:
+        value = progressBar->property(metaEnum.valueToKey(AppSettings::GBPerSec)).toFloat();
         progressBar->setFormat(QString::number(value, 'f', 3));
         break;
     case AppSettings::IOPS:

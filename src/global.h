@@ -22,6 +22,7 @@ public:
   QString getIconPNGPath();
   QString getToolTipTemplate();
   QString getComparisonLabelTemplate();
+  int getOutputColumnsCount();
 };
 
 #endif // GLOBAL_H

@@ -51,6 +51,8 @@ private slots:
 
     void on_comboBox_ComparisonField_currentIndexChanged(int index);
 
+    void copyBenchmarkResult();
+
 public slots:
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
@@ -69,5 +71,7 @@ private:
     bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
     void updateProgressBar(QProgressBar *progressBar);
+    void combineOutputTestResult(QString &output, const QString &name, const QProgressBar *progressBar,
+                                 const AppSettings::BenchmarkParams &params);
 };
 #endif // MAINWINDOW_H

@@ -21,11 +21,11 @@ public:
     };
 
     enum ComparisonField {
-        MiBPerSec,
-        GiBPerSec,
+        MBPerSec,
+        GBPerSec,
         IOPS,
         Latency,
-    } comprasionField = MiBPerSec;
+    } comprasionField = MBPerSec;
 
     Q_ENUM(ComparisonField);
 

@@ -185,12 +185,12 @@
     </property>
     <item>
      <property name="text">
-      <string>MiB/s</string>
+      <string>MB/s</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>GiB/s</string>
+      <string>GB/s</string>
      </property>
     </item>
     <item>
@@ -401,6 +401,7 @@
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionCopy"/>
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
@@ -532,6 +533,11 @@
   <action name="actionQueues_Threads">
    <property name="text">
     <string>Queues &amp;&amp; Threads</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
    </property>
   </action>
  </widget>
