@@ -13,7 +13,8 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
 * GCC/Clang C++11 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
-* [Flexible I/O Tester](https://github.com/axboe/fio) >= 3.1
+* [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
+    * If you build FIO from source, install `libaio-dev` package.
 * Qt >= 5.9
 
 ## Installation
