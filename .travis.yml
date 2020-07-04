@@ -24,7 +24,7 @@ before_install:
       && sudo apt-get update -qq
       && sudo apt-get install -qq qt${QT_VERSION_MM}base qt${QT_VERSION_MM}script qt${QT_VERSION_MM}tools
       && export CMAKE_PREFIX_PATH=/opt/qt${QT_VERSION_MM}
-      && sudo apt-get install mesa-common-dev libglu1-mesa-dev;
+      && sudo apt-get install mesa-common-dev libglu1-mesa-dev extra-cmake-modules;
     fi
 
 before_script:
