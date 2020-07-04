@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(kdiskmark VERSION 1.4.1 LANGUAGES CXX)
+project(kdiskmark VERSION 1.4.2 LANGUAGES CXX)
 
 set(APPLICATION_NAME "KDiskMark")
+set(DESKTOP_FILE kdiskmark.desktop)
 
 configure_file(src/cmake.h.in cmake.h)
 include_directories(${PROJECT_BINARY_BIN})
@@ -28,16 +29,23 @@ set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY >=)
 set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
 set(CPACK_RPM_PACKAGE_LICENSE GPLv3)
 set(CPACK_RPM_PACKAGE_GROUP Applications/System)
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.0)")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
 find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
 
+find_package(ECM REQUIRED NO_MODULE)
+list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
 include(CPack)
 include(GNUInstallDirs)
+include(ECMInstallIcons)
 
-set(TS_FILES data/translations/${PROJECT_NAME}_ru_RU.ts data/translations/${PROJECT_NAME}_de_DE.ts)
+set(TS_FILES
+    data/translations/${PROJECT_NAME}_ru_RU.ts
+    data/translations/${PROJECT_NAME}_de_DE.ts
+)
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
@@ -63,8 +71,20 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 
-set(ICONS_FILES data/icons/${PROJECT_NAME}.svg data/icons/${PROJECT_NAME}.png)
+set(APP_ICONS
+    data/icons/16-apps-kdiskmark.png
+    data/icons/20-apps-kdiskmark.png
+    data/icons/24-apps-kdiskmark.png
+    data/icons/32-apps-kdiskmark.png
+    data/icons/48-apps-kdiskmark.png
+    data/icons/64-apps-kdiskmark.png
+    data/icons/128-apps-kdiskmark.png
+    data/icons/256-apps-kdiskmark.png
+    data/icons/512-apps-kdiskmark.png
+)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/translations)
-install(FILES ${ICONS_FILES} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/icons)
+install(FILES data/${DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
+
+ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)

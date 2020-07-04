@@ -24,8 +24,6 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 {
     ui->setupUi(this);
 
-    setWindowIcon(QIcon(Global::Instance().getIconSVGPath()));
-
     statusBar()->setSizeGripEnabled(false);
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);

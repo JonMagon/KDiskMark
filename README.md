@@ -1,6 +1,6 @@
 # KDiskMark
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Build Status](https://travis-ci.com/JonMagon/KDiskMark.svg?branch=master)](https://travis-ci.com/JonMagon/KDiskMark)
-### Current Version: `1.4.1`
+### Current Version: `1.4.2`
 
 KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user interface. KDiskMark with its presets and powerful GUI calls [Flexible I/O Tester](https://github.com/axboe/fio) and handles the output to provide an easy to view and interpret comprehensive benchmark result.
 
@@ -8,16 +8,20 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
    <img src="https://raw.githubusercontent.com/JonMagon/KDiskMark/master/assets/images/kdiskmark.png"/>
 </p>
 
-## Build
-### Requirements
+## Dependencies
+### Required
 * GCC/Clang C++11 (or later)
+* [CMake](https://cmake.org/) >= 3.5
+* [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
+* [Flexible I/O Tester](https://github.com/axboe/fio) >= 3.1
 * Qt >= 5.9
 
 ## Installation
-### Requirements
-KDiskMark requires [Flexible I/O Tester](https://github.com/axboe/fio).
+Downloads are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
 
-## Translations
+## Localization
+To help with localization you can use [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html). Add a new language file to the TS_FILES variable in CMakeLists.txt, translate it and create a pull request. 
+
 Languages currently available:
 * English (default)
 * Russian

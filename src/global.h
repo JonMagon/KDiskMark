@@ -18,8 +18,6 @@ public:
     return singleton;
   }
 
-  QString getIconSVGPath();
-  QString getIconPNGPath();
   QString getToolTipTemplate();
   QString getComparisonLabelTemplate();
   int getOutputColumnsCount();

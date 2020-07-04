@@ -1,0 +1,13 @@
+[Desktop Entry]
+Name=KDiskMark
+GenericName=KDiskMark
+Comment=A disk drive benchmark tool
+Comment[ru]=Тестирование производительности диска
+Keywords=benchmark;disk;
+Keywords[ru]=производительность;диск;
+Exec=kdiskmark
+Icon=kdiskmark
+Terminal=false
+StartupNotify=false
+Type=Application
+Categories=System

@@ -2,21 +2,6 @@
 
 #include <QString>
 #include <QObject>
-#include <QStandardPaths>
-
-QString Global::getIconSVGPath()
-{
-    return QStandardPaths::locate(QStandardPaths::AppDataLocation,
-                                  QStringLiteral("icons/kdiskmark.svg"),
-                                  QStandardPaths::LocateFile);
-}
-
-QString Global::getIconPNGPath()
-{
-    return QStandardPaths::locate(QStandardPaths::AppDataLocation,
-                                  QStringLiteral("icons/kdiskmark.png"),
-                                  QStandardPaths::LocateFile);
-}
 
 QString Global::getToolTipTemplate()
 {

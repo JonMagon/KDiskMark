@@ -15,8 +15,6 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
 
     setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
-    setWindowIcon(QIcon(Global::Instance().getIconSVGPath()));
-
     m_settings = settings;
 
     QString i_str, j_str;
