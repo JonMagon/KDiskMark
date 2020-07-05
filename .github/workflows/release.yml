@@ -1,0 +1,37 @@
+name: Release
+on:
+  release:
+    types: created
+jobs:
+  Release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        include:
+          - os: ubuntu-18.04
+            cmake-defines: '-D CPACK_GENERATOR="DEB;RPM;7Z" -D CMAKE_BUILD_TYPE=Release'
+            upload-files: 'build/*.deb;build/*.rpm;build/*.7z'
+    steps:
+    - name: Clone repo
+      uses: actions/checkout@v2.2.0
+
+    - name: Install dependent apt packages
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install extra-cmake-modules libqt5x11extras5-dev qttools5-dev qtmultimedia5-dev rpm
+
+    - name: Build
+      run: |
+        mkdir build
+        cd build
+        cmake ${{ matrix.cmake-defines }} ..
+        cmake --build . --target package --parallel 2 --config Release
+
+    - name: Upload
+      uses: AButler/upload-release-assets@v2.0
+      with:
+        files: ${{ matrix.upload-files }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+ 
