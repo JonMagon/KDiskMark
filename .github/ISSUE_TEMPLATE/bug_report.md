@@ -9,6 +9,7 @@ assignees: ''
 
 - Linux-distro: 
 - Desktop Environment (KDE/GNOME etc.): 
+- Qt Version: 
 - KDiskMark Version: #.#.#
 - FIO Version: fio-#.#
 
