@@ -22,20 +22,20 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
 * KB = 1000 bytes, KiB = 1024 bytes
 
 [Read]
-Sequential 1 MiB (Q= 8, T= 1):   531.561 MB/s [    531.6 IOPS] < 14416.00 us>
-Sequential 1 MiB (Q= 1, T= 1):   451.977 MB/s [    452.0 IOPS] <  2199.04 us>
-    Random 4 KiB (Q=32, T=16):    26.626 MB/s [   6816.4 IOPS] <  4684.30 us>
-    Random 4 KiB (Q= 1, T= 1):    26.626 MB/s [   6816.4 IOPS] <  4684.30 us>
+Sequential 1 MiB (Q= 8, T= 1):   528.053 MB/s [    528.1 IOPS] < 14449.94 us>
+Sequential 1 MiB (Q= 1, T= 1):   453.257 MB/s [    453.3 IOPS] <  2193.73 us>
+    Random 4 KiB (Q=32, T=16):    25.059 MB/s [   6415.0 IOPS] <  4977.93 us>
+    Random 4 KiB (Q= 1, T= 1):    41.917 MB/s [  10730.9 IOPS] <    90.83 us>
 
 [Write]
-Sequential 1 MiB (Q= 8, T= 1):   498.441 MB/s [    498.4 IOPS] < 15406.50 us>
-Sequential 1 MiB (Q= 1, T= 1):   422.163 MB/s [    422.2 IOPS] <  2353.70 us>
-    Random 4 KiB (Q=32, T=16):    19.768 MB/s [   5060.5 IOPS] <  6300.33 us>
-    Random 4 KiB (Q= 1, T= 1):    19.768 MB/s [   5060.5 IOPS] <  6300.33 us>
+Sequential 1 MiB (Q= 8, T= 1):   496.894 MB/s [    496.9 IOPS] < 15459.55 us>
+Sequential 1 MiB (Q= 1, T= 1):   424.402 MB/s [    424.4 IOPS] <  2337.63 us>
+    Random 4 KiB (Q=32, T=16):    20.581 MB/s [   5268.8 IOPS] <  6051.35 us>
+    Random 4 KiB (Q= 1, T= 1):   101.073 MB/s [  25874.9 IOPS] <    36.84 us>
 
 Profile: Default
    Test: 32 MiB (x5) [Interval: 5 sec]
-   Date: 2020/07/05 13:52:21
+   Date: 2020/07/05 13:58:27
      OS: neon 18.04 [linux 5.3.0-62-generic]
 ```
 

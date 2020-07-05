@@ -293,13 +293,13 @@ void MainWindow::copyBenchmarkResult()
     combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_1, m_settings->SEQ_1);
     combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_2, m_settings->SEQ_2);
     combineOutputTestResult(output, "Random", ui->readBar_RND_1, m_settings->RND_1);
-    combineOutputTestResult(output, "Random", ui->readBar_RND_1, m_settings->RND_2);
+    combineOutputTestResult(output, "Random", ui->readBar_RND_2, m_settings->RND_2);
 
     output += "\n[Write]\n";
     combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_1, m_settings->SEQ_1);
     combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_2, m_settings->SEQ_2);
     combineOutputTestResult(output, "Random", ui->writeBar_RND_1, m_settings->RND_1);
-    combineOutputTestResult(output, "Random", ui->writeBar_RND_1, m_settings->RND_2);
+    combineOutputTestResult(output, "Random", ui->writeBar_RND_2, m_settings->RND_2);
 
     output += "\nProfile: Default\n"; // TODO: future
 
