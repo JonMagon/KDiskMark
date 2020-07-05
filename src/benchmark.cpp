@@ -52,7 +52,18 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
                     );
     m_process->waitForFinished();
 
-    return parseResult();
+    if (m_process->exitStatus() == QProcess::NormalExit) {
+        return parseResult();
+    }
+    else {
+        setRunning(false);
+
+        m_process->close();
+
+        delete m_process;
+
+        return PerformanceResult();
+    }
 }
 
 Benchmark::PerformanceResult Benchmark::parseResult()
@@ -63,7 +74,13 @@ Benchmark::PerformanceResult Benchmark::parseResult()
 
     PerformanceResult result = PerformanceResult();
 
-    if (jobs.count() == 0) {
+    QString errorOutput = m_process->readAllStandardError();
+
+    if (jobs.count() == 0 && !errorOutput.isEmpty()) {
+        setRunning(false);
+        emit failed(errorOutput);
+    }
+    else if (jobs.count() == 0) {
         setRunning(false);
         emit failed("Bad FIO output.");
     }
@@ -88,8 +105,7 @@ Benchmark::PerformanceResult Benchmark::parseResult()
         }
         else {
             setRunning(false);
-            QString errorOutput = m_process->readAllStandardError().simplified();
-            emit failed(errorOutput.mid(errorOutput.lastIndexOf("=") + 1));
+            emit failed(errorOutput.mid(errorOutput.simplified().lastIndexOf("=") + 1));
         }
     }
 
@@ -106,6 +122,9 @@ void Benchmark::setRunning(bool state)
         return;
 
     m_running = state;
+
+    if (!m_running)
+        m_process->kill();
 
     emit runningStateChanged(state);
 }

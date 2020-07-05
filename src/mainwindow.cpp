@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDebug>
 #include <QProcess>
 #include <QToolTip>
 #include <QMessageBox>
@@ -161,7 +160,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
-    connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::terminate);
+    connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::quit);
 
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
@@ -232,7 +231,7 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
     int i;
     double outputAvailable = available;
     double outputTotal = total;
-    for(i = 0; i < units.size() - 1; i++) {
+    for (i = 0; i < units.size() - 1; i++) {
         if (outputTotal < 1024) break;
         outputAvailable = outputAvailable / 1024;
         outputTotal = outputTotal / 1024;
@@ -398,7 +397,7 @@ void MainWindow::runOrStopBenchmarkThread()
     }
     else {
         if (m_settings->getBenchmarkFile().isNull()) {
-            QMessageBox::critical(this, tr("Not available"), "Directory is not specified.");
+            QMessageBox::critical(this, tr("Not available"), tr("Directory is not specified."));
         }
         else if (QMessageBox::Yes ==
                 QMessageBox::warning(this, tr("Confirmation"),
