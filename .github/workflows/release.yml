@@ -20,7 +20,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install extra-cmake-modules libqt5x11extras5-dev qttools5-dev qtmultimedia5-dev rpm
+        sudo apt-get install extra-cmake-modules qttools5-dev rpm
 
     - name: Build
       run: |
