@@ -34,6 +34,10 @@ Languages currently available:
 * Russian
 * German
 
+## TODO
+* Auto-detection disk manufacturer name
+* Windows compatibility
+
 ## Credits
 Application Icon  
 Copyright (c) https://www.iconfinder.com/baitisstudio
