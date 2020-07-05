@@ -82,7 +82,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), 0);
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), 0);
         progressBar->setFormat("0.00");
-        progressBar->setToolTip(Global::Instance().getToolTipTemplate().arg("0.000", "0.000", "0.000", "0.000"));
+        progressBar->setToolTip(Global::getToolTipTemplate().arg("0.000", "0.000", "0.000", "0.000"));
     }
 
     updateBenchmarkButtonsContent();
@@ -244,10 +244,10 @@ void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
 {
     m_settings->comprasionField = AppSettings::ComparisonField(index);
 
-    ui->label_Read->setText(Global::Instance().getComparisonLabelTemplate()
+    ui->label_Read->setText(Global::getComparisonLabelTemplate()
                             .arg(tr("Read"), ui->comboBox_ComparisonField->currentText()));
 
-    ui->label_Write->setText(Global::Instance().getComparisonLabelTemplate()
+    ui->label_Write->setText(Global::getComparisonLabelTemplate()
                              .arg(tr("Write"), ui->comboBox_ComparisonField->currentText()));
 
     for (auto const& progressBar: m_progressBars) {
@@ -276,7 +276,7 @@ void MainWindow::combineOutputTestResult(QString &output, const QString &name, c
             .arg(QString::number(
                      progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 2)
                  .rightJustified(8, ' '))
-            .rightJustified(Global::Instance().getOutputColumnsCount(), ' ');
+            .rightJustified(Global::getOutputColumnsCount(), ' ');
 }
 
 void MainWindow::copyBenchmarkResult()
@@ -284,8 +284,8 @@ void MainWindow::copyBenchmarkResult()
     QString output;
 
     output += QString("KDiskMark: https://github.com/JonMagon/KDiskMark\n")
-            .rightJustified(Global::Instance().getOutputColumnsCount(), ' ');
-    output += QString("-").repeated(Global::Instance().getOutputColumnsCount() - 1) + "\n";
+            .rightJustified(Global::getOutputColumnsCount(), ' ');
+    output += QString("-").repeated(Global::getOutputColumnsCount() - 1) + "\n";
     output += "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]\n";
     output += "* KB = 1000 bytes, KiB = 1024 bytes\n";
 
@@ -433,7 +433,7 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), result.Latency);
 
     progressBar->setToolTip(
-                Global::Instance().getToolTipTemplate().arg(
+                Global::getToolTipTemplate().arg(
                     QString::number(result.Bandwidth, 'f', 3),
                     QString::number(result.Bandwidth / 1000, 'f', 3),
                     QString::number(result.IOPS, 'f', 3),
