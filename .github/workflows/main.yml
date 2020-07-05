@@ -37,4 +37,5 @@ jobs:
       run: |
         mkdir build
         cd build
+        cmake ..
         cmake --build . --parallel 2
