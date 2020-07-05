@@ -9,14 +9,19 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
    <img src="https://raw.githubusercontent.com/JonMagon/KDiskMark/master/assets/images/kdiskmark.png"/>
 </p>
 
+## Features
+* Configurable block size, queues, and threads count for each test
+* Many languages support
+* Report generation
+
 ## Dependencies
 ### Required
 * GCC/Clang C++11 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
+* Qt with Widgets >= 5.9
 * [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
     * If you build FIO from source, install `libaio-dev` package.
-* Qt >= 5.9
 
 ## Installation
 Downloads are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
