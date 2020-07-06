@@ -2,7 +2,7 @@
 
 #include <QString>
 #include <QProcess>
-#include <QDebug>
+#include <QFile>
 
 QString DiskDriveInfo::getModelName(const QString &volume)
 {
@@ -13,16 +13,16 @@ QString DiskDriveInfo::getModelName(const QString &volume)
     QString device = process->readAllStandardOutput().simplified();
 
     process->close();
-
-    process = new QProcess();
-    process->start("cat", QStringList(QString("/sys/block/%1/device/model").arg(device)));
-    process->waitForFinished();
-
-    QString model = process->readAllStandardOutput().simplified();
-
-    process->close();
-
     delete process;
+
+    QFile sysBlock(QString("/sys/block/%1/device/model").arg(device));
+
+    if (!sysBlock.open(QIODevice::ReadOnly | QIODevice::Text))
+        return QString();
+
+    QString model = sysBlock.readAll();
+
+    sysBlock.close();
 
     return model;
 }
