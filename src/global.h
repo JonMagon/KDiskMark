@@ -4,9 +4,13 @@
 class QString;
 
 namespace Global {
+    int getOutputColumnsCount();
     QString getToolTipTemplate();
     QString getComparisonLabelTemplate();
-    int getOutputColumnsCount();
+    QString getRWRead();
+    QString getRWWrite();
+    QString getRWRandomRead();
+    QString getRWRandomWrite();
 }
 
 #endif // GLOBAL_H

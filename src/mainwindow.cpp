@@ -375,7 +375,7 @@ void MainWindow::benchmarkStateChanged(bool state)
 
 void MainWindow::showAbout()
 {
-    About about(m_benchmark->FIOVersion());
+    About about(m_benchmark->getFIOVersion());
     about.setFixedSize(about.size());
     about.exec();
 }

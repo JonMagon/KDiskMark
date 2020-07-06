@@ -13,11 +13,6 @@ class Benchmark : public QObject
 {
     Q_OBJECT
 
-    const QString kRW_READ = "read";
-    const QString kRW_WRITE = "write";
-    const QString kRW_RANDREAD = "randread";
-    const QString kRW_RANDWRITE = "randwrite";
-
     AppSettings *m_settings;
     QProcess *m_process;
     bool m_running;
@@ -25,7 +20,7 @@ class Benchmark : public QObject
 
 public:
     Benchmark(AppSettings *settings);
-    QString FIOVersion();
+    QString getFIOVersion();
     bool isFIODetected();
 
     enum Type {

@@ -18,8 +18,8 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
     m_settings = settings;
 
     QString i_str, j_str;
-    for (int i = 1, j = 1; i <= 64; i++, (j <= 512 ? j *= 2 : j)) {
 
+    for (int i = 1, j = 1; i <= 64; i++, (j <= 512 ? j *= 2 : j)) {
         i_str = QString::number(i);
         j_str = QString::number(j);
 

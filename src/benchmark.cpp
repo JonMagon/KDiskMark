@@ -8,6 +8,7 @@
 #include <QFile>
 
 #include "appsettings.h"
+#include "global.h"
 
 Benchmark::Benchmark(AppSettings *settings)
 {
@@ -24,7 +25,7 @@ Benchmark::Benchmark(AppSettings *settings)
     delete m_process;
 }
 
-QString Benchmark::FIOVersion()
+QString Benchmark::getFIOVersion()
 {
     return m_FIOVersion;
 }
@@ -150,56 +151,56 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             emit resultReady(item.second, startFIO(m_settings->SEQ_1.BlockSize,
                                                    m_settings->SEQ_1.Queues,
                                                    m_settings->SEQ_1.Threads,
-                                                   kRW_READ));
+                                                   Global::getRWRead()));
             break;
         case SEQ_1_Write:
             emit benchmarkStatusUpdate(tr("Sequential Write"));
             emit resultReady(item.second, startFIO(m_settings->SEQ_1.BlockSize,
                                                    m_settings->SEQ_1.Queues,
                                                    m_settings->SEQ_1.Threads,
-                                                   kRW_WRITE));
+                                                   Global::getRWWrite()));
             break;
         case SEQ_2_Read:
             emit benchmarkStatusUpdate(tr("Sequential Read"));
             emit resultReady(item.second, startFIO(m_settings->SEQ_2.BlockSize,
                                                     m_settings->SEQ_2.Queues,
                                                     m_settings->SEQ_2.Threads,
-                                                    kRW_READ));
+                                                    Global::getRWRead()));
             break;
         case SEQ_2_Write:
             emit benchmarkStatusUpdate(tr("Sequential Write"));
             emit resultReady(item.second, startFIO(m_settings->SEQ_2.BlockSize,
                                                    m_settings->SEQ_2.Queues,
                                                    m_settings->SEQ_2.Threads,
-                                                   kRW_WRITE));
+                                                   Global::getRWWrite()));
             break;
         case RND_1_Read:
             emit benchmarkStatusUpdate(tr("Random Read"));
             emit resultReady(item.second, startFIO(m_settings->RND_1.BlockSize,
                                                    m_settings->RND_1.Queues,
                                                    m_settings->RND_1.Threads,
-                                                   kRW_RANDREAD));
+                                                   Global::getRWRandomRead()));
             break;
         case RND_1_Write:
             emit benchmarkStatusUpdate(tr("Random Write"));
             emit resultReady(item.second, startFIO(m_settings->RND_1.BlockSize,
                                                    m_settings->RND_1.Queues,
                                                    m_settings->RND_1.Threads,
-                                                   kRW_RANDWRITE));
+                                                   Global::getRWRandomWrite()));
             break;
         case RND_2_Read:
             emit benchmarkStatusUpdate(tr("Random Read"));
             emit resultReady(item.second, startFIO(m_settings->RND_2.BlockSize,
                                                    m_settings->RND_2.Queues,
                                                    m_settings->RND_2.Threads,
-                                                   kRW_RANDREAD));
+                                                   Global::getRWRandomRead()));
             break;
         case RND_2_Write:
             emit benchmarkStatusUpdate(tr("Random Write"));
             emit resultReady(item.second, startFIO(m_settings->RND_2.BlockSize,
                                                    m_settings->RND_2.Queues,
                                                    m_settings->RND_2.Threads,
-                                                   kRW_RANDWRITE));
+                                                   Global::getRWRandomWrite()));
             break;
         }
 
