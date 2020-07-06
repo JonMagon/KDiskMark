@@ -70,6 +70,8 @@ add_executable(${PROJECT_NAME}
     src/settings.ui
     src/global.cpp
     src/global.h
+    src/diskdriveinfo.cpp
+    src/diskdriveinfo.h
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)

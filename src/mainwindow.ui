@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>575</width>
-    <height>405</height>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -385,6 +385,24 @@
     </property>
     <property name="format">
      <string>%v</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deviceModel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>360</y>
+      <width>551</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
   </widget>

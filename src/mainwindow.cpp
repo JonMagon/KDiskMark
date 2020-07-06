@@ -11,10 +11,12 @@
 #include <QMetaEnum>
 #include <QClipboard>
 #include <QDate>
+#include <QDebug>
 
 #include "math.h"
 #include "about.h"
 #include "settings.h"
+#include "diskdriveinfo.h"
 #include "global.h"
 
 MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent)
@@ -103,11 +105,13 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
                 QString path = storage.rootPath();
 
+                QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
+
                 ui->comboBox_Dirs->addItem(
                             tr("%1 %2% (%3)").arg(path)
                             .arg(available * 100 / total)
                             .arg(formatSize(available, total)),
-                            path
+                            QVariant::fromValue(volumeInfo)
                             );
 
                 if (!disableDirItemIfIsNotWritable(ui->comboBox_Dirs->count() - 1)
@@ -127,11 +131,13 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
         QString path = QDir::homePath();
 
+        QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
+
         ui->comboBox_Dirs->insertItem(0,
                     tr("%1 %2% (%3)").arg(path)
                     .arg(storage.bytesAvailable() * 100 / total)
                     .arg(formatSize(available, total)),
-                    path
+                    QVariant::fromValue(volumeInfo)
                     );
 
         if (!disableDirItemIfIsNotWritable(0)
@@ -214,13 +220,19 @@ void MainWindow::updateBenchmarkButtonsContent()
 
 bool MainWindow::disableDirItemIfIsNotWritable(int index)
 {
-    if (!QFileInfo(ui->comboBox_Dirs->itemData(index).toString()).isWritable()) {
-        const QStandardItemModel* model =
-                dynamic_cast<QStandardItemModel*>(ui->comboBox_Dirs->model());
-        QStandardItem* item = model->item(index);
-        item->setEnabled(false);
+    QVariant variant = ui->comboBox_Dirs->itemData(index);
+    if (variant.canConvert<QStringList>()) {
+        QStringList volumeInfo = variant.value<QStringList>();
 
-        return true;
+        if (!QFileInfo(volumeInfo[0]).isWritable()) {
+            const QStandardItemModel* model =
+                    dynamic_cast<QStandardItemModel*>(ui->comboBox_Dirs->model());
+            QStandardItem* item = model->item(index);
+            item->setEnabled(false);
+
+            return true;
+        }
+        else return false;
     }
     else return false;
 }
@@ -334,7 +346,12 @@ void MainWindow::on_loopsCount_valueChanged(int arg1)
 
 void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 {
-    m_settings->setDir(ui->comboBox_Dirs->itemData(index).toString());
+    QVariant variant = ui->comboBox_Dirs->itemData(index);
+    if (variant.canConvert<QStringList>()) {
+        QStringList volumeInfo = variant.value<QStringList>();
+        m_settings->setDir(volumeInfo[0]);
+        ui->deviceModel->setText(volumeInfo[1]);
+    }
 }
 
 void MainWindow::benchmarkStateChanged(bool state)
