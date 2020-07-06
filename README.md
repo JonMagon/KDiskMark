@@ -60,7 +60,6 @@ Languages currently available:
 * German
 
 ## TODO
-* Auto-detection disk manufacturer name
 * Windows compatibility
 
 ## Credits
