@@ -54,18 +54,20 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
                     );
     m_process->waitForFinished();
 
-    qInfo() << m_process->error();
-    if (m_process->exitStatus() == QProcess::NormalExit) {
-        return parseResult();
-    }
-    else {
+    if (m_process->error() == QProcess::Timedout || m_process->exitStatus() != QProcess::NormalExit) {
         setRunning(false);
+
+        if (m_process->error() == QProcess::Timedout)
+            emit failed("Timed out waiting for benchmark process.");
 
         m_process->close();
 
         delete m_process;
 
         return PerformanceResult();
+    }
+    else {
+        return parseResult();
     }
 }
 
