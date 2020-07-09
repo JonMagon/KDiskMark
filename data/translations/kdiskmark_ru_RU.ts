@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="150"/>
-        <location filename="../../src/benchmark.cpp" line="164"/>
+        <location filename="../../src/benchmark.cpp" line="153"/>
+        <location filename="../../src/benchmark.cpp" line="167"/>
         <source>Sequential Read</source>
         <translation>Последовательное чтение</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="157"/>
-        <location filename="../../src/benchmark.cpp" line="171"/>
+        <location filename="../../src/benchmark.cpp" line="160"/>
+        <location filename="../../src/benchmark.cpp" line="174"/>
         <source>Sequential Write</source>
         <translation>Последовательная запись</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="178"/>
-        <location filename="../../src/benchmark.cpp" line="192"/>
+        <location filename="../../src/benchmark.cpp" line="181"/>
+        <location filename="../../src/benchmark.cpp" line="195"/>
         <source>Random Read</source>
         <translation>Случайное чтение</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="185"/>
-        <location filename="../../src/benchmark.cpp" line="199"/>
+        <location filename="../../src/benchmark.cpp" line="188"/>
+        <location filename="../../src/benchmark.cpp" line="202"/>
         <source>Random Write</source>
         <translation>Случайная запись</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="209"/>
+        <location filename="../../src/benchmark.cpp" line="212"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Пауза между тестами %1/%2 сек</translation>
     </message>

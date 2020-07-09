@@ -47,3 +47,45 @@ QString AppSettings::getBenchmarkFile()
         return m_dir + "/.kdiskmark.tmp";
     }
 }
+
+void AppSettings::resetDefaultBenchmarkParams()
+{
+    m_SEQ_1 = m_default_SEQ_1;
+    m_SEQ_2 = m_default_SEQ_2;
+    m_RND_1 = m_default_RND_1;
+    m_RND_2 = m_default_RND_2;
+}
+
+AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
+{
+    switch (test)
+    {
+    case SEQ_1:
+        return m_SEQ_1;
+    case SEQ_2:
+        return m_SEQ_2;
+    case RND_1:
+        return m_RND_1;
+    case RND_2:
+        return m_RND_2;
+    }
+}
+
+void AppSettings::setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads)
+{
+    switch (test)
+    {
+    case SEQ_1:
+        m_SEQ_1 = { blockSize, queues, threads };
+        break;
+    case SEQ_2:
+        m_SEQ_2 = { blockSize, queues, threads };
+        break;
+    case RND_1:
+        m_RND_1 = { blockSize, queues, threads };
+        break;
+    case RND_2:
+        m_RND_2 = { blockSize, queues, threads };
+        break;
+    }
+}

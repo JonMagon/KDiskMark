@@ -58,7 +58,7 @@ signals:
     void runningStateChanged(bool state);
 };
 
-Q_DECLARE_METATYPE(Benchmark::Type);
-Q_DECLARE_METATYPE(Benchmark::PerformanceResult);
+Q_DECLARE_METATYPE(Benchmark::Type)
+Q_DECLARE_METATYPE(Benchmark::PerformanceResult)
 
 #endif // BENCHMARK_H

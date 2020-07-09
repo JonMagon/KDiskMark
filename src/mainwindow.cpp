@@ -193,25 +193,25 @@ void MainWindow::updateBenchmarkButtonsContent()
 {
     AppSettings::BenchmarkParams params;
 
-    params = m_settings->SEQ_1;
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
     ui->pushButton_SEQ_1->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
                                   .arg(params.Queues).arg(params.Threads));
     ui->pushButton_SEQ_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
                                       .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
 
-    params = m_settings->SEQ_2;
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
     ui->pushButton_SEQ_2->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
                                   .arg(params.Queues).arg(params.Threads));
     ui->pushButton_SEQ_2->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
                                      .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
 
-    params = m_settings->RND_1;
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
     ui->pushButton_RND_1->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
                                   .arg(params.Queues).arg(params.Threads));
     ui->pushButton_RND_1->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
                                      .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
 
-    params = m_settings->RND_2;
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
     ui->pushButton_RND_2->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
                                   .arg(params.Queues).arg(params.Threads));
     ui->pushButton_RND_2->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
@@ -302,16 +302,24 @@ void MainWindow::copyBenchmarkResult()
     output += "* KB = 1000 bytes, KiB = 1024 bytes\n";
 
     output += "\n[Read]\n";
-    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_1, m_settings->SEQ_1);
-    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_2, m_settings->SEQ_2);
-    combineOutputTestResult(output, "Random", ui->readBar_RND_1, m_settings->RND_1);
-    combineOutputTestResult(output, "Random", ui->readBar_RND_2, m_settings->RND_2);
+    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_1,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
+    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_2,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
+    combineOutputTestResult(output, "Random", ui->readBar_RND_1,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
+    combineOutputTestResult(output, "Random", ui->readBar_RND_2,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
     output += "\n[Write]\n";
-    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_1, m_settings->SEQ_1);
-    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_2, m_settings->SEQ_2);
-    combineOutputTestResult(output, "Random", ui->writeBar_RND_1, m_settings->RND_1);
-    combineOutputTestResult(output, "Random", ui->writeBar_RND_2, m_settings->RND_2);
+    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_1,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
+    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_2,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
+    combineOutputTestResult(output, "Random", ui->writeBar_RND_1,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
+    combineOutputTestResult(output, "Random", ui->writeBar_RND_2,
+                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
     output += "\nProfile: Default\n"; // TODO: future
 

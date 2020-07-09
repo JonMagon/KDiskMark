@@ -5,6 +5,7 @@
 
 class AppSettings;
 class QAbstractButton;
+class QComboBox;
 
 namespace Ui {
 class Settings;
@@ -26,6 +27,7 @@ private slots:
 private:
     Ui::Settings *ui;
     void setActualValues();
+    void findDataAndSet(QComboBox* comboBox, int data);
 };
 
 #endif // SETTINGS_H

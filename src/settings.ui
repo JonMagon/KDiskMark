@@ -32,7 +32,7 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_BlockSize_SEQ_1">
+  <widget class="QComboBox" name="SEQ_1_BlockSize">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -42,7 +42,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Queues_SEQ_1">
+  <widget class="QComboBox" name="SEQ_1_Queues">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -52,7 +52,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Threads_SEQ_1">
+  <widget class="QComboBox" name="SEQ_1_Threads">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -62,7 +62,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_BlockSize_SEQ_2">
+  <widget class="QComboBox" name="SEQ_2_BlockSize">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -88,7 +88,7 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Threads_SEQ_2">
+  <widget class="QComboBox" name="SEQ_2_Threads">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -98,7 +98,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Queues_SEQ_2">
+  <widget class="QComboBox" name="SEQ_2_Queues">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -108,7 +108,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Threads_RND_1">
+  <widget class="QComboBox" name="RND_1_Threads">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -118,7 +118,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_BlockSize_RND_1">
+  <widget class="QComboBox" name="RND_1_BlockSize">
    <property name="geometry">
     <rect>
      <x>170</x>
@@ -128,7 +128,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Queues_RND_1">
+  <widget class="QComboBox" name="RND_1_Queues">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -170,7 +170,7 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Queues_RND_2">
+  <widget class="QComboBox" name="RND_2_Queues">
    <property name="geometry">
     <rect>
      <x>290</x>
@@ -180,7 +180,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_Threads_RND_2">
+  <widget class="QComboBox" name="RND_2_Threads">
    <property name="geometry">
     <rect>
      <x>410</x>
@@ -190,7 +190,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox_BlockSize_RND_2">
+  <widget class="QComboBox" name="RND_2_BlockSize">
    <property name="geometry">
     <rect>
      <x>170</x>

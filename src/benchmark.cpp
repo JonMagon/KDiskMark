@@ -6,6 +6,7 @@
 #include <QJsonArray>
 #include <QThread>
 #include <QFile>
+#include <QDebug>
 
 #include "appsettings.h"
 #include "global.h"
@@ -53,6 +54,7 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
                     );
     m_process->waitForFinished();
 
+    qInfo() << m_process->error();
     if (m_process->exitStatus() == QProcess::NormalExit) {
         return parseResult();
     }
@@ -69,7 +71,8 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
 
 Benchmark::PerformanceResult Benchmark::parseResult()
 {
-    QJsonDocument jsonResponse = QJsonDocument::fromJson(QString(m_process->readAllStandardOutput()).toUtf8());
+    QString output = QString(m_process->readAllStandardOutput());
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(output.toUtf8());
     QJsonObject jsonObject = jsonResponse.object();
     QJsonArray jobs = jsonObject["jobs"].toArray();
 
@@ -140,6 +143,8 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
 
     iter.toFront();
 
+    AppSettings::BenchmarkParams params;
+
     QPair<Benchmark::Type, QProgressBar*> item;
 
     while (iter.hasNext() && m_running) {
@@ -147,59 +152,67 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
         switch (item.first)
         {
         case SEQ_1_Read:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
             emit benchmarkStatusUpdate(tr("Sequential Read"));
-            emit resultReady(item.second, startFIO(m_settings->SEQ_1.BlockSize,
-                                                   m_settings->SEQ_1.Queues,
-                                                   m_settings->SEQ_1.Threads,
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
                                                    Global::getRWRead()));
             break;
         case SEQ_1_Write:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
             emit benchmarkStatusUpdate(tr("Sequential Write"));
-            emit resultReady(item.second, startFIO(m_settings->SEQ_1.BlockSize,
-                                                   m_settings->SEQ_1.Queues,
-                                                   m_settings->SEQ_1.Threads,
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
                                                    Global::getRWWrite()));
             break;
         case SEQ_2_Read:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
             emit benchmarkStatusUpdate(tr("Sequential Read"));
-            emit resultReady(item.second, startFIO(m_settings->SEQ_2.BlockSize,
-                                                    m_settings->SEQ_2.Queues,
-                                                    m_settings->SEQ_2.Threads,
-                                                    Global::getRWRead()));
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
+                                                   Global::getRWRead()));
             break;
         case SEQ_2_Write:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
             emit benchmarkStatusUpdate(tr("Sequential Write"));
-            emit resultReady(item.second, startFIO(m_settings->SEQ_2.BlockSize,
-                                                   m_settings->SEQ_2.Queues,
-                                                   m_settings->SEQ_2.Threads,
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
                                                    Global::getRWWrite()));
             break;
         case RND_1_Read:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
             emit benchmarkStatusUpdate(tr("Random Read"));
-            emit resultReady(item.second, startFIO(m_settings->RND_1.BlockSize,
-                                                   m_settings->RND_1.Queues,
-                                                   m_settings->RND_1.Threads,
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
                                                    Global::getRWRandomRead()));
             break;
         case RND_1_Write:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
             emit benchmarkStatusUpdate(tr("Random Write"));
-            emit resultReady(item.second, startFIO(m_settings->RND_1.BlockSize,
-                                                   m_settings->RND_1.Queues,
-                                                   m_settings->RND_1.Threads,
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
                                                    Global::getRWRandomWrite()));
             break;
         case RND_2_Read:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
             emit benchmarkStatusUpdate(tr("Random Read"));
-            emit resultReady(item.second, startFIO(m_settings->RND_2.BlockSize,
-                                                   m_settings->RND_2.Queues,
-                                                   m_settings->RND_2.Threads,
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
                                                    Global::getRWRandomRead()));
             break;
         case RND_2_Write:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
             emit benchmarkStatusUpdate(tr("Random Write"));
-            emit resultReady(item.second, startFIO(m_settings->RND_2.BlockSize,
-                                                   m_settings->RND_2.Queues,
-                                                   m_settings->RND_2.Threads,
+            emit resultReady(item.second, startFIO(params.BlockSize,
+                                                   params.Queues,
+                                                   params.Threads,
                                                    Global::getRWRandomWrite()));
             break;
         }

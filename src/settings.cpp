@@ -24,29 +24,29 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
         j_str = QString::number(j);
 
         if (j <= 8) {
-            ui->comboBox_BlockSize_SEQ_1->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("MiB")), j * 1024);
-            ui->comboBox_BlockSize_SEQ_2->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("MiB")), j * 1024);
+            ui->SEQ_1_BlockSize->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("MiB")), j * 1024);
+            ui->SEQ_2_BlockSize->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("MiB")), j * 1024);
         }
 
         if (j <= 16) {
-            ui->comboBox_Queues_SEQ_1->addItem(j_str, j);
-            ui->comboBox_Queues_SEQ_2->addItem(j_str, j);
+            ui->SEQ_1_Queues->addItem(j_str, j);
+            ui->SEQ_2_Queues->addItem(j_str, j);
         }
 
         if (j <= 512) {
-            ui->comboBox_Queues_RND_1->addItem(j_str, j);
-            ui->comboBox_Queues_RND_2->addItem(j_str, j);
+            ui->RND_1_Queues->addItem(j_str, j);
+            ui->RND_2_Queues->addItem(j_str, j);
 
             if (j >= 4) {
-                ui->comboBox_BlockSize_RND_1->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("KiB")), j);
-                ui->comboBox_BlockSize_RND_2->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("KiB")), j);
+                ui->RND_1_BlockSize->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("KiB")), j);
+                ui->RND_2_BlockSize->addItem(QStringLiteral("%1 %2").arg(j).arg(tr("KiB")), j);
             }
         }
 
-        ui->comboBox_Threads_SEQ_1->addItem(i_str, i);
-        ui->comboBox_Threads_SEQ_2->addItem(i_str, i);
-        ui->comboBox_Threads_RND_1->addItem(i_str, i);
-        ui->comboBox_Threads_RND_2->addItem(i_str, i);
+        ui->SEQ_1_Threads->addItem(i_str, i);
+        ui->SEQ_2_Threads->addItem(i_str, i);
+        ui->RND_1_Threads->addItem(i_str, i);
+        ui->RND_2_Threads->addItem(i_str, i);
     }
 
     setActualValues();
@@ -57,62 +57,63 @@ Settings::~Settings()
     delete ui;
 }
 
+void Settings::findDataAndSet(QComboBox *comboBox, int data)
+{
+    comboBox->setCurrentIndex(comboBox->findData(data));
+}
+
 void Settings::setActualValues()
 {
-    ui->comboBox_BlockSize_SEQ_1->
-            setCurrentIndex(ui->comboBox_BlockSize_SEQ_1->findData(m_settings->SEQ_1.BlockSize));
-    ui->comboBox_BlockSize_SEQ_2->
-            setCurrentIndex(ui->comboBox_BlockSize_SEQ_2->findData(m_settings->SEQ_2.BlockSize));
-    ui->comboBox_BlockSize_RND_1->
-            setCurrentIndex(ui->comboBox_BlockSize_RND_1->findData(m_settings->RND_1.BlockSize));
-    ui->comboBox_BlockSize_RND_2->
-            setCurrentIndex(ui->comboBox_BlockSize_RND_2->findData(m_settings->RND_2.BlockSize));
+    AppSettings::BenchmarkParams params;
 
-    ui->comboBox_Queues_SEQ_1->
-            setCurrentIndex(ui->comboBox_Queues_SEQ_1->findData(m_settings->SEQ_1.Queues));
-    ui->comboBox_Queues_SEQ_2->
-            setCurrentIndex(ui->comboBox_Queues_SEQ_2->findData(m_settings->SEQ_2.Queues));
-    ui->comboBox_Queues_RND_1->
-            setCurrentIndex(ui->comboBox_Queues_RND_1->findData(m_settings->RND_1.Queues));
-    ui->comboBox_Queues_RND_2->
-            setCurrentIndex(ui->comboBox_Queues_RND_2->findData(m_settings->RND_2.Queues));
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
+    findDataAndSet(ui->SEQ_1_BlockSize, params.BlockSize);
+    findDataAndSet(ui->SEQ_1_Queues, params.Queues);
+    findDataAndSet(ui->SEQ_1_Threads, params.Threads);
 
-    ui->comboBox_Threads_SEQ_1->
-            setCurrentIndex(ui->comboBox_Threads_SEQ_1->findData(m_settings->SEQ_1.Threads));
-    ui->comboBox_Threads_SEQ_2->
-            setCurrentIndex(ui->comboBox_Threads_SEQ_2->findData(m_settings->SEQ_2.Threads));
-    ui->comboBox_Threads_RND_1->
-            setCurrentIndex(ui->comboBox_Threads_RND_1->findData(m_settings->RND_1.Threads));
-    ui->comboBox_Threads_RND_2->
-            setCurrentIndex(ui->comboBox_Threads_RND_2->findData(m_settings->RND_2.Threads));
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
+    findDataAndSet(ui->SEQ_2_BlockSize, params.BlockSize);
+    findDataAndSet(ui->SEQ_2_Queues, params.Queues);
+    findDataAndSet(ui->SEQ_2_Threads, params.Threads);
+
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
+    findDataAndSet(ui->RND_1_BlockSize, params.BlockSize);
+    findDataAndSet(ui->RND_1_Queues, params.Queues);
+    findDataAndSet(ui->RND_1_Threads, params.Threads);
+
+    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
+    findDataAndSet(ui->RND_2_BlockSize, params.BlockSize);
+    findDataAndSet(ui->RND_2_Queues, params.Queues);
+    findDataAndSet(ui->RND_2_Threads, params.Threads);
 }
 
 void Settings::on_buttonBox_clicked(QAbstractButton *button)
 {
     if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
-        m_settings->SEQ_1.BlockSize = ui->comboBox_BlockSize_SEQ_1->currentData().toInt();
-        m_settings->SEQ_1.Queues = ui->comboBox_Queues_SEQ_1->currentData().toInt();
-        m_settings->SEQ_1.Threads = ui->comboBox_Threads_SEQ_1->currentData().toInt();
+        m_settings->setBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1,
+                                       ui->SEQ_1_BlockSize->currentData().toInt(),
+                                       ui->SEQ_1_Queues->currentData().toInt(),
+                                       ui->SEQ_1_Threads->currentData().toInt());
 
-        m_settings->SEQ_2.BlockSize = ui->comboBox_BlockSize_SEQ_2->currentData().toInt();
-        m_settings->SEQ_2.Queues = ui->comboBox_Queues_SEQ_2->currentData().toInt();
-        m_settings->SEQ_2.Threads = ui->comboBox_Threads_SEQ_2->currentData().toInt();
+        m_settings->setBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2,
+                                       ui->SEQ_2_BlockSize->currentData().toInt(),
+                                       ui->SEQ_2_Queues->currentData().toInt(),
+                                       ui->SEQ_2_Threads->currentData().toInt());
 
-        m_settings->RND_1.BlockSize = ui->comboBox_BlockSize_RND_1->currentData().toInt();
-        m_settings->RND_1.Queues = ui->comboBox_Queues_RND_1->currentData().toInt();
-        m_settings->RND_1.Threads = ui->comboBox_Threads_RND_1->currentData().toInt();
+        m_settings->setBenchmarkParams(AppSettings::BenchmarkTest::RND_1,
+                                       ui->RND_1_BlockSize->currentData().toInt(),
+                                       ui->RND_1_Queues->currentData().toInt(),
+                                       ui->RND_1_Threads->currentData().toInt());
 
-        m_settings->RND_2.BlockSize = ui->comboBox_BlockSize_RND_2->currentData().toInt();
-        m_settings->RND_2.Queues = ui->comboBox_Queues_RND_2->currentData().toInt();
-        m_settings->RND_2.Threads = ui->comboBox_Threads_RND_2->currentData().toInt();
+        m_settings->setBenchmarkParams(AppSettings::BenchmarkTest::RND_2,
+                                       ui->RND_2_BlockSize->currentData().toInt(),
+                                       ui->RND_2_Queues->currentData().toInt(),
+                                       ui->RND_2_Threads->currentData().toInt());
 
         close();
     }
     else if (ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
-        m_settings->SEQ_1 = m_settings->default_SEQ_1;
-        m_settings->SEQ_2 = m_settings->default_SEQ_2;
-        m_settings->RND_1 = m_settings->default_RND_1;
-        m_settings->RND_2 = m_settings->default_RND_2;
+        m_settings->resetDefaultBenchmarkParams();
 
         setActualValues();
     }
