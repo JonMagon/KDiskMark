@@ -43,14 +43,14 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
                     << "--output-format=json"
                     << "--ioengine=libaio"
                     << "--direct=1"
-                    << QString("--filename=%1").arg(m_settings->getBenchmarkFile())
-                    << QString("--name=%1").arg(rw)
-                    << QString("--loops=%1").arg(m_settings->getLoopsCount())
-                    << QString("--size=%1m").arg(m_settings->getFileSize())
-                    << QString("--bs=%1k").arg(block_size)
-                    << QString("--rw=%1").arg(rw)
-                    << QString("--iodepth=%1").arg(queue_depth)
-                    << QString("--numjobs=%1").arg(threads)
+                    << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
+                    << QStringLiteral("--name=%1").arg(rw)
+                    << QStringLiteral("--loops=%1").arg(m_settings->getLoopsCount())
+                    << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
+                    << QStringLiteral("--bs=%1k").arg(block_size)
+                    << QStringLiteral("--rw=%1").arg(rw)
+                    << QStringLiteral("--iodepth=%1").arg(queue_depth)
+                    << QStringLiteral("--numjobs=%1").arg(threads)
                     );
     m_process->waitForFinished();
 

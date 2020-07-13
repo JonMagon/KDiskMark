@@ -353,7 +353,7 @@ void MainWindow::saveBenchmarkResult()
 {
     QString fileName =
             QFileDialog::getSaveFileName(this, QString(),
-                                         QLatin1String("KDM_%1%2.txt").arg(QDate::currentDate().toString("yyyyMMdd"))
+                                         QStringLiteral("KDM_%1%2.txt").arg(QDate::currentDate().toString("yyyyMMdd"))
                                          .arg(QTime::currentTime().toString("hhmmss")));
     if (!fileName.isEmpty()) {
         QFile file(fileName);
