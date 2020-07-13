@@ -53,6 +53,8 @@ private slots:
 
     void copyBenchmarkResult();
 
+    void saveBenchmarkResult();
+
 public slots:
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
@@ -68,6 +70,7 @@ private:
     void runOrStopBenchmarkThread();
     void closeEvent(QCloseEvent *event);
     QString formatSize(quint64 available, quint64 total);
+    QString getTextBenchmarkResult();
     bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
     void updateProgressBar(QProgressBar *progressBar);

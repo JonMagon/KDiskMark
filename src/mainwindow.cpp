@@ -11,7 +11,8 @@
 #include <QMetaEnum>
 #include <QClipboard>
 #include <QDate>
-#include <QDebug>
+#include <QFileDialog>
+#include <QTextStream>
 
 #include "math.h"
 #include "about.h"
@@ -175,6 +176,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     connect(ui->actionQueues_Threads, &QAction::triggered, this, &MainWindow::showSettings);
 
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveBenchmarkResult);
 }
 
 MainWindow::~MainWindow()
@@ -291,7 +293,7 @@ void MainWindow::combineOutputTestResult(QString &output, const QString &name, c
             .rightJustified(Global::getOutputColumnsCount(), ' ');
 }
 
-void MainWindow::copyBenchmarkResult()
+QString MainWindow::getTextBenchmarkResult()
 {
     QString output;
 
@@ -338,8 +340,29 @@ void MainWindow::copyBenchmarkResult()
     output += QString("     OS: %1 %2 [%3 %4]\n").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
             .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
 
+    return output;
+}
+
+void MainWindow::copyBenchmarkResult()
+{
     QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setText(output);
+    clipboard->setText(getTextBenchmarkResult());
+}
+
+void MainWindow::saveBenchmarkResult()
+{
+    QString fileName =
+            QFileDialog::getSaveFileName(this, QString(),
+                                         QLatin1String("KDM_%1%2.txt").arg(QDate::currentDate().toString("yyyyMMdd"))
+                                         .arg(QTime::currentTime().toString("hhmmss")));
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            QTextStream out(&file);
+            out << getTextBenchmarkResult();
+            file.close();
+        }
+    }
 }
 
 void MainWindow::timeIntervalSelected(QAction* act)

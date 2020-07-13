@@ -46,7 +46,6 @@ private:
     PerformanceResult parseResult();
 
 public slots:
-    // TODO: pass all params except tests as one object
     void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);
     void setRunning(bool state);
 
