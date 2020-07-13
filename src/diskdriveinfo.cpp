@@ -1,21 +1,16 @@
 #include "diskdriveinfo.h"
 
 #include <QString>
-#include <QProcess>
 #include <QFile>
+#include <QFileInfo>
 
 QString DiskDriveInfo::getModelName(const QString &volume)
 {
-    QProcess *process = new QProcess();
-    process->start("lsblk", QStringList() << "-no" << "pkname" << volume);
-    process->waitForFinished();
+    QFileInfo sysClass(QFileInfo(QString("/sys/class/block/%1/..")
+                                 .arg(volume.mid(volume.lastIndexOf("/"))))
+                       .canonicalFilePath());
 
-    QString device = process->readAllStandardOutput().simplified();
-
-    process->close();
-    delete process;
-
-    QFile sysBlock(QString("/sys/block/%1/device/model").arg(device));
+    QFile sysBlock(QString("/sys/block/%1/device/model").arg(sysClass.baseName()));
 
     if (!sysBlock.open(QIODevice::ReadOnly | QIODevice::Text))
         return QString();
