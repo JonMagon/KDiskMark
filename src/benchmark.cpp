@@ -97,14 +97,14 @@ Benchmark::PerformanceResult Benchmark::parseResult()
             if (job["jobname"].toString().contains("read")) {
                 QJsonObject readResults = job["read"].toObject();
 
-                result.Bandwidth = readResults.value("bw").toInt() / 1024.0; // to kib
+                result.Bandwidth = readResults.value("bw").toInt() / 1000.0; // to kb
                 result.IOPS = readResults.value("iops").toDouble();
                 result.Latency = readResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0; // to usec
             }
             else if (job["jobname"].toString().contains("write")) {
                 QJsonObject writeResults = job["write"].toObject();
 
-                result.Bandwidth = writeResults.value("bw").toInt() / 1024.0; // to kib
+                result.Bandwidth = writeResults.value("bw").toInt() / 1000.0; // to kb
                 result.IOPS = writeResults.value("iops").toDouble();
                 result.Latency = writeResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0; // to usec
             }
