@@ -15,7 +15,7 @@ QString DiskDriveInfo::getModelName(const QString &volume)
     if (!sysBlock.open(QIODevice::ReadOnly | QIODevice::Text))
         return QString();
 
-    QString model = sysBlock.readAll();
+    QString model = sysBlock.readAll().simplified();
 
     sysBlock.close();
 
