@@ -40,18 +40,18 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
 {
     m_process = new QProcess();
     m_process->start("fio", QStringList()
-                    << "--output-format=json"
-                    << "--ioengine=libaio"
-                    << "--direct=1"
-                    << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
-                    << QStringLiteral("--name=%1").arg(rw)
-                    << QStringLiteral("--loops=%1").arg(m_settings->getLoopsCount())
-                    << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
-                    << QStringLiteral("--bs=%1k").arg(block_size)
-                    << QStringLiteral("--rw=%1").arg(rw)
-                    << QStringLiteral("--iodepth=%1").arg(queue_depth)
-                    << QStringLiteral("--numjobs=%1").arg(threads)
-                    );
+                     << "--output-format=json"
+                     << "--ioengine=libaio"
+                     << "--direct=1"
+                     << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
+                     << QStringLiteral("--name=%1").arg(rw)
+                     << QStringLiteral("--loops=%1").arg(m_settings->getLoopsCount())
+                     << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
+                     << QStringLiteral("--bs=%1k").arg(block_size)
+                     << QStringLiteral("--rw=%1").arg(rw)
+                     << QStringLiteral("--iodepth=%1").arg(queue_depth)
+                     << QStringLiteral("--numjobs=%1").arg(threads));
+
     m_process->waitForFinished(-1);
 
     if (m_process->exitStatus() == QProcess::NormalExit && m_running) {
@@ -129,10 +129,13 @@ void Benchmark::setRunning(bool state)
     if (!m_running && m_process->state() == QProcess::Running) {
         QProcess *kill_process = new QProcess;
         kill_process->start("kill", QStringList()
-                    << "-SIGINT"
-                    << QString::number(m_process->processId()));
+                            << "-SIGINT"
+                            << QString::number(m_process->processId()));
+
         kill_process->waitForFinished();
+
         kill_process->close();
+
         delete kill_process;
     }
 
