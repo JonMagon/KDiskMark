@@ -437,7 +437,7 @@ void MainWindow::showSettings()
     updateBenchmarkButtonsContent();
 }
 
-void MainWindow::runOrStopBenchmarkThread()
+void MainWindow::inverseBenchmarkThreadRunningState()
 {
     if (m_isBenchmarkThreadRunning) {
         m_benchmark->setRunning(false);
@@ -528,7 +528,7 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 
 void MainWindow::on_pushButton_SEQ_1_clicked()
 {
-    runOrStopBenchmarkThread();
+    inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
@@ -540,7 +540,7 @@ void MainWindow::on_pushButton_SEQ_1_clicked()
 
 void MainWindow::on_pushButton_SEQ_2_clicked()
 {
-    runOrStopBenchmarkThread();
+    inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
@@ -552,7 +552,7 @@ void MainWindow::on_pushButton_SEQ_2_clicked()
 
 void MainWindow::on_pushButton_RND_1_clicked()
 {
-    runOrStopBenchmarkThread();
+    inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
@@ -564,7 +564,7 @@ void MainWindow::on_pushButton_RND_1_clicked()
 
 void MainWindow::on_pushButton_RND_2_clicked()
 {
-    runOrStopBenchmarkThread();
+    inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
@@ -576,7 +576,7 @@ void MainWindow::on_pushButton_RND_2_clicked()
 
 void MainWindow::on_pushButton_All_clicked()
 {
-    runOrStopBenchmarkThread();
+    inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {

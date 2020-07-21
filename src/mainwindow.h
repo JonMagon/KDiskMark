@@ -67,7 +67,7 @@ signals:
 
 private:
     Ui::MainWindow *ui;
-    void runOrStopBenchmarkThread();
+    void inverseBenchmarkThreadRunningState();
     void closeEvent(QCloseEvent *event);
     QString formatSize(quint64 available, quint64 total);
     QString getTextBenchmarkResult();
