@@ -406,16 +406,13 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Dirs->setEnabled(true);
         ui->comboBox_ComparisonField->setEnabled(true);
-        ui->pushButton_All->setText(tr("All"));
-        ui->pushButton_SEQ_1->setText("SEQ1M\nQ8T1");
-        ui->pushButton_SEQ_2->setText("SEQ1M\nQ1T1");
-        ui->pushButton_RND_1->setText("RND4K\nQ32T16");
-        ui->pushButton_RND_2->setText("RND4K\nQ1T1");
         ui->pushButton_All->setEnabled(true);
         ui->pushButton_SEQ_1->setEnabled(true);
         ui->pushButton_SEQ_2->setEnabled(true);
         ui->pushButton_RND_1->setEnabled(true);
         ui->pushButton_RND_2->setEnabled(true);
+        ui->pushButton_All->setText(tr("All"));
+        updateBenchmarkButtonsContent();
     }
 
     m_isBenchmarkThreadRunning = state;
