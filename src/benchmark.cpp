@@ -127,11 +127,13 @@ void Benchmark::setRunning(bool state)
     m_running = state;
 
     if (!m_running && m_process->state() == QProcess::Running) {
-        QProcess *kill = new QProcess;
-        kill->start("kill", QStringList()
+        QProcess *kill_process = new QProcess;
+        kill_process->start("kill", QStringList()
                     << "-SIGINT"
                     << QString::number(m_process->processId()));
-        kill->waitForFinished();
+        kill_process->waitForFinished();
+        kill_process->close();
+        delete kill_process;
     }
 
     emit runningStateChanged(state);
