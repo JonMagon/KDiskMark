@@ -52,22 +52,19 @@ Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth
                     << QStringLiteral("--iodepth=%1").arg(queue_depth)
                     << QStringLiteral("--numjobs=%1").arg(threads)
                     );
-    m_process->waitForFinished();
+    m_process->waitForFinished(-1);
 
-    if (m_process->error() == QProcess::Timedout || m_process->exitStatus() != QProcess::NormalExit) {
+    if (m_process->exitStatus() == QProcess::NormalExit && m_running) {
+        return parseResult();
+    }
+    else {
         setRunning(false);
-
-        if (m_process->error() == QProcess::Timedout)
-            emit failed("Timed out waiting for benchmark process.");
 
         m_process->close();
 
         delete m_process;
 
         return PerformanceResult();
-    }
-    else {
-        return parseResult();
     }
 }
 
@@ -129,8 +126,13 @@ void Benchmark::setRunning(bool state)
 
     m_running = state;
 
-    if (!m_running)
-        m_process->kill();
+    if (!m_running && m_process->state() == QProcess::Running) {
+        QProcess *kill = new QProcess;
+        kill->start("kill", QStringList()
+                    << "-SIGINT"
+                    << QString::number(m_process->processId()));
+        kill->waitForFinished();
+    }
 
     emit runningStateChanged(state);
 }
