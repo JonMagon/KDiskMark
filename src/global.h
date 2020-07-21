@@ -7,8 +7,8 @@ namespace Global {
     int getOutputColumnsCount();
     QString getToolTipTemplate();
     QString getComparisonLabelTemplate();
-    QString getRWRead();
-    QString getRWWrite();
+    QString getRWSequentialRead();
+    QString getRWSequentialWrite();
     QString getRWRandomRead();
     QString getRWRandomWrite();
 }

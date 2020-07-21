@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="155"/>
-        <location filename="../../src/benchmark.cpp" line="171"/>
+        <location filename="../../src/benchmark.cpp" line="164"/>
+        <location filename="../../src/benchmark.cpp" line="180"/>
         <source>Sequential Read</source>
         <translation>Последовательное чтение</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="163"/>
-        <location filename="../../src/benchmark.cpp" line="179"/>
+        <location filename="../../src/benchmark.cpp" line="172"/>
+        <location filename="../../src/benchmark.cpp" line="188"/>
         <source>Sequential Write</source>
         <translation>Последовательная запись</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="187"/>
-        <location filename="../../src/benchmark.cpp" line="203"/>
+        <location filename="../../src/benchmark.cpp" line="196"/>
+        <location filename="../../src/benchmark.cpp" line="212"/>
         <source>Random Read</source>
         <translation>Случайное чтение</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="195"/>
-        <location filename="../../src/benchmark.cpp" line="211"/>
+        <location filename="../../src/benchmark.cpp" line="204"/>
+        <location filename="../../src/benchmark.cpp" line="220"/>
         <source>Random Write</source>
         <translation>Случайная запись</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="221"/>
+        <location filename="../../src/benchmark.cpp" line="230"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Пауза между тестами %1/%2 сек</translation>
     </message>
@@ -110,7 +110,7 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="409"/>
+        <location filename="../../src/mainwindow.cpp" line="414"/>
         <source>All</source>
         <translation>Все</translation>
     </message>
@@ -329,34 +329,34 @@
         <translation>Запись</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="444"/>
+        <location filename="../../src/mainwindow.cpp" line="441"/>
         <source>Stopping...</source>
         <translation>Остановка...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="448"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>Not available</source>
         <translation>Недоступно</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="448"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>Directory is not specified.</source>
         <translation>Директория не указана.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="451"/>
+        <location filename="../../src/mainwindow.cpp" line="448"/>
         <source>Confirmation</source>
         <translation>Подтверждение</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="452"/>
+        <location filename="../../src/mainwindow.cpp" line="449"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Данное действие уничтожит данные в %1
 Вы хотите продолжить?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="465"/>
+        <location filename="../../src/mainwindow.cpp" line="462"/>
         <source>Benchmark Failed</source>
         <translation>Тестирование провалено</translation>
     </message>

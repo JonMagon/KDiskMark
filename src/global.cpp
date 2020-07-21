@@ -18,12 +18,12 @@ QString Global::getComparisonLabelTemplate()
     return "<p align=\"center\">%1 [%2]</p>";
 }
 
-QString Global::getRWRead()
+QString Global::getRWSequentialRead()
 {
     return "read";
 }
 
-QString Global::getRWWrite()
+QString Global::getRWSequentialWrite()
 {
     return "write";
 }

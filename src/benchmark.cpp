@@ -6,7 +6,6 @@
 #include <QJsonArray>
 #include <QThread>
 #include <QFile>
-#include <QDebug>
 
 #include "appsettings.h"
 #include "global.h"
@@ -166,7 +165,7 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             emit resultReady(item.second, startFIO(params.BlockSize,
                                                    params.Queues,
                                                    params.Threads,
-                                                   Global::getRWRead()));
+                                                   Global::getRWSequentialRead()));
             break;
         case SEQ_1_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
@@ -174,7 +173,7 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             emit resultReady(item.second, startFIO(params.BlockSize,
                                                    params.Queues,
                                                    params.Threads,
-                                                   Global::getRWWrite()));
+                                                   Global::getRWSequentialWrite()));
             break;
         case SEQ_2_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
@@ -182,7 +181,7 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             emit resultReady(item.second, startFIO(params.BlockSize,
                                                    params.Queues,
                                                    params.Threads,
-                                                   Global::getRWRead()));
+                                                   Global::getRWSequentialRead()));
             break;
         case SEQ_2_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
@@ -190,7 +189,7 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             emit resultReady(item.second, startFIO(params.BlockSize,
                                                    params.Queues,
                                                    params.Threads,
-                                                   Global::getRWWrite()));
+                                                   Global::getRWSequentialWrite()));
             break;
         case RND_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
