@@ -269,78 +269,77 @@ void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
     }
 }
 
-void MainWindow::combineOutputTestResult(QString &output, const QString &name, const QProgressBar *progressBar,
+QString MainWindow::combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
                                          const AppSettings::BenchmarkParams &params)
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
-    output +=
-            QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>\n")
-            .arg(name)
-            .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
-            .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
-            .arg(QString::number(params.Queues).rightJustified(2, ' '))
-            .arg(QString::number(params.Threads).rightJustified(2, ' '))
-            .arg(QString::number(
-                     progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3)
-                 .rightJustified(9, ' '))
-            .arg(QString::number(
-                     progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 1)
-                 .rightJustified(8, ' '))
-            .arg(QString::number(
-                     progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 2)
-                 .rightJustified(8, ' '))
-            .rightJustified(Global::getOutputColumnsCount(), ' ');
+    return QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
+           .arg(name)
+           .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
+           .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
+           .arg(QString::number(params.Queues).rightJustified(2, ' '))
+           .arg(QString::number(params.Threads).rightJustified(2, ' '))
+           .arg(QString::number(
+                    progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3)
+                .rightJustified(9, ' '))
+           .arg(QString::number(
+                    progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 1)
+                .rightJustified(8, ' '))
+           .arg(QString::number(
+                    progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 2)
+                .rightJustified(8, ' '))
+           .rightJustified(Global::getOutputColumnsCount(), ' ');
 }
 
 QString MainWindow::getTextBenchmarkResult()
 {
-    QString output;
+    QStringList output;
 
-    output += QString("KDiskMark: https://github.com/JonMagon/KDiskMark\n")
-            .rightJustified(Global::getOutputColumnsCount(), ' ');
-    output += QString("-").repeated(Global::getOutputColumnsCount() - 1) + "\n";
-    output += "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]\n";
-    output += "* KB = 1000 bytes, KiB = 1024 bytes\n";
+    output << QString("KDiskMark: https://github.com/JonMagon/KDiskMark")
+              .rightJustified(Global::getOutputColumnsCount(), ' ')
+           << QString("-").repeated(Global::getOutputColumnsCount() - 1)
+           << "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]"
+           << "* KB = 1000 bytes, KiB = 1024 bytes";
 
-    output += "\n[Read]\n";
-    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_1,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
-    combineOutputTestResult(output, "Sequential", ui->readBar_SEQ_2,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
-    combineOutputTestResult(output, "Random", ui->readBar_RND_1,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
-    combineOutputTestResult(output, "Random", ui->readBar_RND_2,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
+    output << QString()
+           << "[Read]"
+           << combineOutputTestResult("Sequential", ui->readBar_SEQ_1,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1))
+           << combineOutputTestResult("Sequential", ui->readBar_SEQ_2,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2))
+           << combineOutputTestResult("Random", ui->readBar_RND_1,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1))
+           << combineOutputTestResult("Random", ui->readBar_RND_2,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
-    output += "\n[Write]\n";
-    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_1,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
-    combineOutputTestResult(output, "Sequential", ui->writeBar_SEQ_2,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
-    combineOutputTestResult(output, "Random", ui->writeBar_RND_1,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
-    combineOutputTestResult(output, "Random", ui->writeBar_RND_2,
-                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
+    output << QString()
+           << "[Write]"
+           << combineOutputTestResult("Sequential", ui->writeBar_SEQ_1,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1))
+           << combineOutputTestResult("Sequential", ui->writeBar_SEQ_2,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2))
+           << combineOutputTestResult("Random", ui->writeBar_RND_1,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1))
+           << combineOutputTestResult("Random", ui->writeBar_RND_2,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
-    output += "\nProfile: Default\n"; // TODO: future
+    output << QString()
+           << "Profile: Default"
+           << QString("   Test: %1")
+              .arg("%1 %2 (x%3) [Interval: %4 %5]")
+              .arg(m_settings->getFileSize() >= 1024 ? m_settings->getFileSize() / 1024 : m_settings->getFileSize())
+              .arg(m_settings->getFileSize() >= 1024 ? "GiB" : "MiB")
+              .arg(m_settings->getLoopsCount())
+              .arg(m_settings->getIntervalTime() >= 60 ? m_settings->getIntervalTime() / 60 : m_settings->getIntervalTime())
+              .arg(m_settings->getIntervalTime() >= 60 ? "min" : "sec")
+           << QString("   Date: %1 %2")
+              .arg(QDate::currentDate().toString("yyyy/MM/dd"))
+              .arg(QTime::currentTime().toString("hh:mm:ss"))
+           << QString("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
+              .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
 
-    output += QString("   Test: %1\n")
-            .arg("%1 %2 (x%3) [Interval: %4 %5]")
-            .arg(m_settings->getFileSize() >= 1024 ? m_settings->getFileSize() / 1024 : m_settings->getFileSize())
-            .arg(m_settings->getFileSize() >= 1024 ? "GiB" : "MiB")
-            .arg(m_settings->getLoopsCount())
-            .arg(m_settings->getIntervalTime() >= 60 ? m_settings->getIntervalTime() / 60 : m_settings->getIntervalTime())
-            .arg(m_settings->getIntervalTime() >= 60 ? "min" : "sec");
-
-    output += QString("   Date: %1 %2\n")
-            .arg(QDate::currentDate().toString("yyyy/MM/dd"))
-            .arg(QTime::currentTime().toString("hh:mm:ss"));
-
-    output += QString("     OS: %1 %2 [%3 %4]\n").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
-            .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
-
-    return output;
+    return output.join("\n");
 }
 
 void MainWindow::copyBenchmarkResult()

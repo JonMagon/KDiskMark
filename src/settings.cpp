@@ -113,7 +113,7 @@ void Settings::on_buttonBox_clicked(QAbstractButton *button)
         close();
     }
     else if (ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
-        m_settings->resetDefaultBenchmarkParams();
+        m_settings->restoreDefaultBenchmarkParams();
 
         setActualValues();
     }

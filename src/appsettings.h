@@ -34,7 +34,7 @@ public:
     AppSettings() {}
     BenchmarkParams getBenchmarkParams(BenchmarkTest test);
     void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
-    void resetDefaultBenchmarkParams();
+    void restoreDefaultBenchmarkParams();
     void setLoopsCount(int loops);
     int getLoopsCount();
     void setFileSize(int size);

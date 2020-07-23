@@ -74,7 +74,7 @@ private:
     bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
     void updateProgressBar(QProgressBar *progressBar);
-    void combineOutputTestResult(QString &output, const QString &name, const QProgressBar *progressBar,
-                                 const AppSettings::BenchmarkParams &params);
+    QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
+                                    const AppSettings::BenchmarkParams &params);
 };
 #endif // MAINWINDOW_H

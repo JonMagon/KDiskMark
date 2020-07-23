@@ -48,7 +48,7 @@ QString AppSettings::getBenchmarkFile()
     }
 }
 
-void AppSettings::resetDefaultBenchmarkParams()
+void AppSettings::restoreDefaultBenchmarkParams()
 {
     m_SEQ_1 = m_default_SEQ_1;
     m_SEQ_2 = m_default_SEQ_2;
