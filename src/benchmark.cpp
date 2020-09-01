@@ -78,36 +78,41 @@ Benchmark::PerformanceResult Benchmark::parseResult()
 
     QString errorOutput = m_process->readAllStandardError();
 
-    if (jobs.count() == 0 && !errorOutput.isEmpty()) {
+    int jobsCount = jobs.count();
+
+    if (jobsCount == 0 && !errorOutput.isEmpty()) {
         setRunning(false);
         emit failed(errorOutput);
     }
-    else if (jobs.count() == 0) {
+    else if (jobsCount == 0) {
         setRunning(false);
         emit failed("Bad FIO output.");
     }
     else {
-        QJsonObject job = jobs.takeAt(0).toObject();
 
-        if (job["error"].toInt() == 0) {
-            if (job["jobname"].toString().contains("read")) {
-                QJsonObject readResults = job["read"].toObject();
+        for (int i = 0; i < jobsCount; i++) {
+            QJsonObject job = jobs.takeAt(i).toObject();
 
-                result.Bandwidth = readResults.value("bw").toInt() / 1000.0; // to kb
-                result.IOPS = readResults.value("iops").toDouble();
-                result.Latency = readResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0; // to usec
+            if (job["error"].toInt() == 0) {
+                if (job["jobname"].toString().contains("read")) {
+                    QJsonObject readResults = job["read"].toObject();
+
+                    result.Bandwidth += readResults.value("bw").toInt() / 1000.0; // to mb
+                    result.IOPS += readResults.value("iops").toDouble();
+                    result.Latency += readResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
+                }
+                else if (job["jobname"].toString().contains("write")) {
+                    QJsonObject writeResults = job["write"].toObject();
+
+                    result.Bandwidth += writeResults.value("bw").toInt() / 1000.0; // to mb
+                    result.IOPS += writeResults.value("iops").toDouble();
+                    result.Latency += writeResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
+                }
             }
-            else if (job["jobname"].toString().contains("write")) {
-                QJsonObject writeResults = job["write"].toObject();
-
-                result.Bandwidth = writeResults.value("bw").toInt() / 1000.0; // to kb
-                result.IOPS = writeResults.value("iops").toDouble();
-                result.Latency = writeResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0; // to usec
+            else {
+                setRunning(false);
+                emit failed(errorOutput.mid(errorOutput.simplified().lastIndexOf("=") + 1));
             }
-        }
-        else {
-            setRunning(false);
-            emit failed(errorOutput.mid(errorOutput.simplified().lastIndexOf("=") + 1));
         }
     }
 
@@ -161,6 +166,7 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
         {
         case SEQ_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
+
             emit benchmarkStatusUpdate(tr("Sequential Read"));
             emit resultReady(item.second, startFIO(params.BlockSize,
                                                    params.Queues,
