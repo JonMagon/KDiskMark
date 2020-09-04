@@ -296,7 +296,11 @@ QString MainWindow::getTextBenchmarkResult()
 {
     QStringList output;
 
-    output << QString("KDiskMark: https://github.com/JonMagon/KDiskMark")
+    output << QString("KDiskMark (%1): https://github.com/JonMagon/KDiskMark")
+              .arg(qApp->applicationVersion())
+              .rightJustified(Global::getOutputColumnsCount(), ' ')
+           << QString("Flexible I/O Tester (%1): https://github.com/axboe/fio")
+              .arg(m_benchmark->getFIOVersion())
               .rightJustified(Global::getOutputColumnsCount(), ' ')
            << QString("-").repeated(Global::getOutputColumnsCount() - 1)
            << "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]"
