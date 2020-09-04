@@ -125,12 +125,12 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     // Add home dir
     if (!isSomeDeviceMountAsHome) {
-        QStorageInfo storage = QStorageInfo::root();
+        QString path = QDir::homePath();
+
+        QStorageInfo storage(path);
 
         quint64 total = storage.bytesTotal();
         quint64 available = storage.bytesAvailable();
-
-        QString path = QDir::homePath();
 
         QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
 
