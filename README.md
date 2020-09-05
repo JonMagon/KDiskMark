@@ -17,27 +17,28 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
 
 ## Report Example
 ```
-                             KDiskMark: https://github.com/JonMagon/KDiskMark
+                      KDiskMark (1.6.0): https://github.com/JonMagon/KDiskMark
+                  Flexible I/O Tester (fio-3.16): https://github.com/axboe/fio
 -----------------------------------------------------------------------------
 * MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]
 * KB = 1000 bytes, KiB = 1024 bytes
 
 [Read]
-Sequential 1 MiB (Q= 8, T= 1):   528.053 MB/s [    528.1 IOPS] < 14449.94 us>
-Sequential 1 MiB (Q= 1, T= 1):   453.257 MB/s [    453.3 IOPS] <  2193.73 us>
-    Random 4 KiB (Q=32, T=16):    25.059 MB/s [   6415.0 IOPS] <  4977.93 us>
-    Random 4 KiB (Q= 1, T= 1):    41.917 MB/s [  10730.9 IOPS] <    90.83 us>
+ Sequential 1 MiB (Q= 8, T= 1):   542.516 MB/s [    529.8 IOPS] < 14415.61 us>
+ Sequential 1 MiB (Q= 1, T= 1):   452.596 MB/s [    442.0 IOPS] <  2248.08 us>
+     Random 4 KiB (Q=32, T=16):   271.553 MB/s [  67889.0 IOPS] <  1955.57 us>
+     Random 4 KiB (Q= 1, T= 1):    43.252 MB/s [  10813.1 IOPS] <    90.34 us>
 
 [Write]
-Sequential 1 MiB (Q= 8, T= 1):   496.894 MB/s [    496.9 IOPS] < 15459.55 us>
-Sequential 1 MiB (Q= 1, T= 1):   424.402 MB/s [    424.4 IOPS] <  2337.63 us>
-    Random 4 KiB (Q=32, T=16):    20.581 MB/s [   5268.8 IOPS] <  6051.35 us>
-    Random 4 KiB (Q= 1, T= 1):   101.073 MB/s [  25874.9 IOPS] <    36.84 us>
+ Sequential 1 MiB (Q= 8, T= 1):   513.605 MB/s [    501.6 IOPS] < 15319.33 us>
+ Sequential 1 MiB (Q= 1, T= 1):   428.900 MB/s [    418.8 IOPS] <  2369.68 us>
+     Random 4 KiB (Q=32, T=16):   165.142 MB/s [  41286.6 IOPS] <  3091.38 us>
+     Random 4 KiB (Q= 1, T= 1):   103.696 MB/s [  25924.1 IOPS] <    36.71 us>
 
 Profile: Default
    Test: 32 MiB (x5) [Interval: 5 sec]
-   Date: 2020/07/05 13:58:27
-     OS: neon 18.04 [linux 5.3.0-62-generic]
+   Date: 2020/09/05 18:31:47
+     OS: neon 20.04 [linux 5.4.0-42-generic]
 ```
 
 ## Dependencies
