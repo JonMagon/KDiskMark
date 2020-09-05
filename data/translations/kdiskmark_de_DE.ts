@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="164"/>
-        <location filename="../../src/benchmark.cpp" line="180"/>
+        <location filename="../../src/benchmark.cpp" line="170"/>
+        <location filename="../../src/benchmark.cpp" line="186"/>
         <source>Sequential Read</source>
         <translation>Sequenzielles Lesen</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="172"/>
-        <location filename="../../src/benchmark.cpp" line="188"/>
+        <location filename="../../src/benchmark.cpp" line="178"/>
+        <location filename="../../src/benchmark.cpp" line="194"/>
         <source>Sequential Write</source>
         <translation>Sequenzielles Schreiben</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="196"/>
-        <location filename="../../src/benchmark.cpp" line="212"/>
+        <location filename="../../src/benchmark.cpp" line="202"/>
+        <location filename="../../src/benchmark.cpp" line="218"/>
         <source>Random Read</source>
         <translation>Zufälliges Lesen</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="204"/>
-        <location filename="../../src/benchmark.cpp" line="220"/>
+        <location filename="../../src/benchmark.cpp" line="210"/>
+        <location filename="../../src/benchmark.cpp" line="226"/>
         <source>Random Write</source>
         <translation>Zufälliges Schreiben</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="230"/>
+        <location filename="../../src/benchmark.cpp" line="236"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Pause zwischen Überprüfungen %1/%2 sec</translation>
     </message>
@@ -110,7 +110,7 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="414"/>
+        <location filename="../../src/mainwindow.cpp" line="417"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
@@ -329,43 +329,43 @@
         <translation>Schreiben</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="441"/>
+        <location filename="../../src/mainwindow.cpp" line="444"/>
         <source>Stopping...</source>
         <translation>Wird gestoppt...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="445"/>
+        <location filename="../../src/mainwindow.cpp" line="448"/>
         <source>Not available</source>
         <translation>Nicht verfügbar</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="445"/>
+        <location filename="../../src/mainwindow.cpp" line="448"/>
         <source>Directory is not specified.</source>
         <translation>Ein Verzeichnis ist nicht angegeben.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="448"/>
+        <location filename="../../src/mainwindow.cpp" line="451"/>
         <source>Confirmation</source>
         <translation>Bestätigung</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="449"/>
+        <location filename="../../src/mainwindow.cpp" line="452"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Diese Aktion wird alle Datei in%1 zerstören.
 Wollen Sie fortfahren?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="462"/>
+        <location filename="../../src/mainwindow.cpp" line="465"/>
         <source>Benchmark Failed</source>
         <translation>Aktion fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="396"/>
-        <location filename="../../src/mainwindow.cpp" line="397"/>
-        <location filename="../../src/mainwindow.cpp" line="398"/>
         <location filename="../../src/mainwindow.cpp" line="399"/>
         <location filename="../../src/mainwindow.cpp" line="400"/>
+        <location filename="../../src/mainwindow.cpp" line="401"/>
+        <location filename="../../src/mainwindow.cpp" line="402"/>
+        <location filename="../../src/mainwindow.cpp" line="403"/>
         <source>Stop</source>
         <translation></translation>
     </message>
