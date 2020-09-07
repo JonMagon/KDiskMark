@@ -17,23 +17,23 @@ KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user i
 
 ## Report Example
 ```
-                      KDiskMark (1.6.0): https://github.com/JonMagon/KDiskMark
-                  Flexible I/O Tester (fio-3.16): https://github.com/axboe/fio
+                     KDiskMark (1.6.0): https://github.com/JonMagon/KDiskMark
+                 Flexible I/O Tester (fio-3.16): https://github.com/axboe/fio
 -----------------------------------------------------------------------------
 * MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]
 * KB = 1000 bytes, KiB = 1024 bytes
 
 [Read]
- Sequential 1 MiB (Q= 8, T= 1):   542.516 MB/s [    529.8 IOPS] < 14415.61 us>
- Sequential 1 MiB (Q= 1, T= 1):   452.596 MB/s [    442.0 IOPS] <  2248.08 us>
-     Random 4 KiB (Q=32, T=16):   271.553 MB/s [  67889.0 IOPS] <  1955.57 us>
-     Random 4 KiB (Q= 1, T= 1):    43.252 MB/s [  10813.1 IOPS] <    90.34 us>
+Sequential 1 MiB (Q= 8, T= 1):   542.516 MB/s [    529.8 IOPS] < 14415.61 us>
+Sequential 1 MiB (Q= 1, T= 1):   452.596 MB/s [    442.0 IOPS] <  2248.08 us>
+    Random 4 KiB (Q=32, T=16):   271.553 MB/s [  67889.0 IOPS] <  1955.57 us>
+    Random 4 KiB (Q= 1, T= 1):    43.252 MB/s [  10813.1 IOPS] <    90.34 us>
 
 [Write]
- Sequential 1 MiB (Q= 8, T= 1):   513.605 MB/s [    501.6 IOPS] < 15319.33 us>
- Sequential 1 MiB (Q= 1, T= 1):   428.900 MB/s [    418.8 IOPS] <  2369.68 us>
-     Random 4 KiB (Q=32, T=16):   165.142 MB/s [  41286.6 IOPS] <  3091.38 us>
-     Random 4 KiB (Q= 1, T= 1):   103.696 MB/s [  25924.1 IOPS] <    36.71 us>
+Sequential 1 MiB (Q= 8, T= 1):   513.605 MB/s [    501.6 IOPS] < 15319.33 us>
+Sequential 1 MiB (Q= 1, T= 1):   428.900 MB/s [    418.8 IOPS] <  2369.68 us>
+    Random 4 KiB (Q=32, T=16):   165.142 MB/s [  41286.6 IOPS] <  3091.38 us>
+    Random 4 KiB (Q= 1, T= 1):   103.696 MB/s [  25924.1 IOPS] <    36.71 us>
 
 Profile: Default
    Test: 32 MiB (x5) [Interval: 5 sec]
