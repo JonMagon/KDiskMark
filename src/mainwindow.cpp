@@ -302,7 +302,7 @@ QString MainWindow::getTextBenchmarkResult()
            << QString("Flexible I/O Tester (%1): https://github.com/axboe/fio")
               .arg(m_benchmark->getFIOVersion())
               .rightJustified(Global::getOutputColumnsCount(), ' ')
-           << QString("-").repeated(Global::getOutputColumnsCount() - 1)
+           << QString("-").repeated(Global::getOutputColumnsCount())
            << "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]"
            << "* KB = 1000 bytes, KiB = 1024 bytes";
 

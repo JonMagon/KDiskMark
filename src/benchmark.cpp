@@ -166,7 +166,6 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
         {
         case SEQ_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-
             emit benchmarkStatusUpdate(tr("Sequential Read"));
             emit resultReady(item.second, startFIO(params.BlockSize,
                                                    params.Queues,

@@ -5,7 +5,7 @@
 
 int Global::getOutputColumnsCount()
 {
-    return 78;
+    return 77;
 }
 
 QString Global::getToolTipTemplate()
