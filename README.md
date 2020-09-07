@@ -51,7 +51,24 @@ Profile: Default
     * If you build FIO from source, install `libaio-dev` package.
 
 ## Installation
-Downloads are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
+Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
+
+### Ubuntu based distros
+```bash
+sudo add-apt-repository ppa:jonmagon/kdiskmark
+sudo apt update
+sudo apt install kdiskmark
+```
+
+## Building
+### Building executable
+You can build **KDiskMark** by using the following commands:
+
+```bash
+mkdir build && cd build
+cmake -D CMAKE_BUILD_TYPE=Release ..
+cmake --build . --config Release
+```
 
 ## Localization
 To help with localization you can use [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html). Add a new language file to the TS_FILES variable in CMakeLists.txt, translate it and create a pull request. 
