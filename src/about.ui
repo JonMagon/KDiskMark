@@ -137,7 +137,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Autor:</string>
+     <string>Author:</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_Autor">

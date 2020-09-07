@@ -35,8 +35,8 @@
     </message>
     <message>
         <location filename="../../src/about.ui" line="140"/>
-        <source>Autor:</source>
-        <translation></translation>
+        <source>Author:</source>
+        <translation>Autor:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="153"/>
@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="170"/>
-        <location filename="../../src/benchmark.cpp" line="186"/>
+        <location filename="../../src/benchmark.cpp" line="169"/>
+        <location filename="../../src/benchmark.cpp" line="185"/>
         <source>Sequential Read</source>
         <translation>Sequenzielles Lesen</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="178"/>
-        <location filename="../../src/benchmark.cpp" line="194"/>
+        <location filename="../../src/benchmark.cpp" line="177"/>
+        <location filename="../../src/benchmark.cpp" line="193"/>
         <source>Sequential Write</source>
         <translation>Sequenzielles Schreiben</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="202"/>
-        <location filename="../../src/benchmark.cpp" line="218"/>
+        <location filename="../../src/benchmark.cpp" line="201"/>
+        <location filename="../../src/benchmark.cpp" line="217"/>
         <source>Random Read</source>
         <translation>Zufälliges Lesen</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="210"/>
-        <location filename="../../src/benchmark.cpp" line="226"/>
+        <location filename="../../src/benchmark.cpp" line="209"/>
+        <location filename="../../src/benchmark.cpp" line="225"/>
         <source>Random Write</source>
         <translation>Zufälliges Schreiben</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="236"/>
+        <location filename="../../src/benchmark.cpp" line="235"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Pause zwischen Überprüfungen %1/%2 sec</translation>
     </message>
@@ -352,7 +352,7 @@
         <location filename="../../src/mainwindow.cpp" line="452"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
-        <translation>Diese Aktion wird alle Datei in%1 zerstören.
+        <translation>Diese Aktion wird alle Datei in %1 zerstören.
 Wollen Sie fortfahren?</translation>
     </message>
     <message>

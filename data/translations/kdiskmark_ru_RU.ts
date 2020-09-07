@@ -35,7 +35,7 @@
     </message>
     <message>
         <location filename="../../src/about.ui" line="140"/>
-        <source>Autor:</source>
+        <source>Author:</source>
         <translation>Автор:</translation>
     </message>
     <message>
@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="170"/>
-        <location filename="../../src/benchmark.cpp" line="186"/>
+        <location filename="../../src/benchmark.cpp" line="169"/>
+        <location filename="../../src/benchmark.cpp" line="185"/>
         <source>Sequential Read</source>
         <translation>Последовательное чтение</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="178"/>
-        <location filename="../../src/benchmark.cpp" line="194"/>
+        <location filename="../../src/benchmark.cpp" line="177"/>
+        <location filename="../../src/benchmark.cpp" line="193"/>
         <source>Sequential Write</source>
         <translation>Последовательная запись</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="202"/>
-        <location filename="../../src/benchmark.cpp" line="218"/>
+        <location filename="../../src/benchmark.cpp" line="201"/>
+        <location filename="../../src/benchmark.cpp" line="217"/>
         <source>Random Read</source>
         <translation>Случайное чтение</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="210"/>
-        <location filename="../../src/benchmark.cpp" line="226"/>
+        <location filename="../../src/benchmark.cpp" line="209"/>
+        <location filename="../../src/benchmark.cpp" line="225"/>
         <source>Random Write</source>
         <translation>Случайная запись</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="236"/>
+        <location filename="../../src/benchmark.cpp" line="235"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Пауза между тестами %1/%2 сек</translation>
     </message>
