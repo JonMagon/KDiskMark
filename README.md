@@ -67,7 +67,7 @@ You can build **KDiskMark** by using the following commands:
 ```bash
 mkdir build && cd build
 cmake -D CMAKE_BUILD_TYPE=Release ..
-cmake --build . --config Release
+cmake --build .
 ```
 
 ## Localization
