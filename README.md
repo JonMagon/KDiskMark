@@ -60,6 +60,13 @@ sudo apt update
 sudo apt install kdiskmark
 ```
 
+### Arch based distros
+```bash
+git clone https://aur.archlinux.org/kdiskmark.git
+cd kdiskmark
+makepkg -si
+```
+
 ## Building
 ### Building executable
 You can build **KDiskMark** by using the following commands:
