@@ -7,6 +7,8 @@
 #include <QThread>
 #include <QFile>
 
+#include <signal.h>
+
 #include "appsettings.h"
 #include "global.h"
 
@@ -35,35 +37,53 @@ bool Benchmark::isFIODetected()
     return m_FIOVersion.indexOf("fio-") == 0;
 }
 
-Benchmark::PerformanceResult Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString rw)
+void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage)
 {
-    m_process = new QProcess();
-    m_process->start("fio", QStringList()
-                     << "--output-format=json"
-                     << "--ioengine=libaio"
-                     << "--direct=1"
-                     << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
-                     << QStringLiteral("--name=%1").arg(rw)
-                     << QStringLiteral("--loops=%1").arg(m_settings->getLoopsCount())
-                     << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
-                     << QStringLiteral("--bs=%1k").arg(block_size)
-                     << QStringLiteral("--rw=%1").arg(rw)
-                     << QStringLiteral("--iodepth=%1").arg(queue_depth)
-                     << QStringLiteral("--numjobs=%1").arg(threads));
+    PerformanceResult total { 0, 0, 0 };
 
-    m_process->waitForFinished(-1);
+    for (int i = 0, loops_count = 0; i < m_settings->getLoopsCount() && m_running; i++) {
+        m_process = new QProcess();
+        m_process->start("fio", QStringList()
+                         << "--output-format=json"
+                         << "--ioengine=libaio"
+                         << "--direct=1"
+                         << "--randrepeat=0"
+                         << "--refill_buffers"
+                         << "--end_fsync=1"
+                         << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
+                         << QStringLiteral("--name=%1").arg(rw)
+                         << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
+                         << QStringLiteral("--bs=%1k").arg(block_size)
+                         << QStringLiteral("--rw=%1").arg(rw)
+                         << QStringLiteral("--iodepth=%1").arg(queue_depth)
+                         << QStringLiteral("--numjobs=%1").arg(threads));
 
-    if (m_process->exitStatus() == QProcess::NormalExit && m_running) {
-        return parseResult();
-    }
-    else {
-        setRunning(false);
+        emit benchmarkStatusUpdate(statusMessage.arg(i).arg(m_settings->getLoopsCount()));
 
-        m_process->close();
+        m_process->waitForFinished(-1);
 
-        delete m_process;
+        if (m_process->exitStatus() == QProcess::NormalExit && m_running) {
+            loops_count++;
 
-        return PerformanceResult();
+            PerformanceResult result = parseResult();
+            total.Bandwidth += result.Bandwidth;
+            total.IOPS += result.IOPS;
+            total.Latency += result.Latency;
+        }
+        else {
+            setRunning(false);
+
+            m_process->close();
+
+            delete m_process;
+        }
+
+        emit resultReady(m_progressBar, loops_count != 0
+                ? PerformanceResult {
+                  total.Bandwidth / loops_count,
+                  total.IOPS / loops_count,
+                  total.Latency / loops_count }
+                : total);
     }
 }
 
@@ -131,16 +151,7 @@ void Benchmark::setRunning(bool state)
     m_running = state;
 
     if (!m_running && m_process->state() == QProcess::Running) {
-        QProcess *kill_process = new QProcess;
-        kill_process->start("kill", QStringList()
-                            << "-SIGINT"
-                            << QString::number(m_process->processId()));
-
-        kill_process->waitForFinished();
-
-        kill_process->close();
-
-        delete kill_process;
+        kill(m_process->processId(), SIGINT);
     }
 
     emit runningStateChanged(state);
@@ -162,71 +173,50 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
 
     while (iter.hasNext() && m_running) {
         item = iter.next();
+
+        m_progressBar = item.second;
+
         switch (item.first)
         {
         case SEQ_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            emit benchmarkStatusUpdate(tr("Sequential Read"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWSequentialRead()));
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
             break;
         case SEQ_1_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            emit benchmarkStatusUpdate(tr("Sequential Write"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWSequentialWrite()));
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
             break;
         case SEQ_2_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            emit benchmarkStatusUpdate(tr("Sequential Read"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWSequentialRead()));
+            startFIO(params.BlockSize, params.Queues,params.Threads,
+                     Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
             break;
         case SEQ_2_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            emit benchmarkStatusUpdate(tr("Sequential Write"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWSequentialWrite()));
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
             break;
         case RND_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            emit benchmarkStatusUpdate(tr("Random Read"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWRandomRead()));
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWRandomRead(), tr("Random Read %1/%2"));
             break;
         case RND_1_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            emit benchmarkStatusUpdate(tr("Random Write"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWRandomWrite()));
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWRandomWrite(), tr("Random Write %1/%2"));
             break;
         case RND_2_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            emit benchmarkStatusUpdate(tr("Random Read"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWRandomRead()));
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWRandomRead(), tr("Random Read %1/%2"));
             break;
         case RND_2_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            emit benchmarkStatusUpdate(tr("Random Write"));
-            emit resultReady(item.second, startFIO(params.BlockSize,
-                                                   params.Queues,
-                                                   params.Threads,
-                                                   Global::getRWRandomWrite()));
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWRandomWrite(), tr("Random Write %1/%2"));
             break;
         }
 

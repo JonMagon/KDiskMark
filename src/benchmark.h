@@ -17,6 +17,7 @@ class Benchmark : public QObject
     QProcess *m_process;
     bool m_running;
     QString m_FIOVersion;
+    QProgressBar* m_progressBar;
 
 public:
     Benchmark(AppSettings *settings);
@@ -42,7 +43,7 @@ public:
     };
 
 private:
-    PerformanceResult startFIO(int block_size, int queue_depth, int threads, const QString rw);
+    void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
     PerformanceResult parseResult();
 
 public slots:
