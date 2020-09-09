@@ -14,7 +14,7 @@ class Benchmark : public QObject
     Q_OBJECT
 
     AppSettings *m_settings;
-    QProcess *m_process;
+    std::vector<QProcess*> m_processes;
     bool m_running;
     QString m_FIOVersion;
     QProgressBar* m_progressBar;
@@ -44,7 +44,7 @@ public:
 
 private:
     void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
-    PerformanceResult parseResult();
+    PerformanceResult parseResult(QProcess* process);
 
 public slots:
     void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);

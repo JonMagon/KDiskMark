@@ -16,15 +16,13 @@ Benchmark::Benchmark(AppSettings *settings)
 {
     m_settings = settings;
 
-    m_process = new QProcess();
-    m_process->start("fio", QStringList() << "--version");
-    m_process->waitForFinished();
+    QProcess process;
+    process.start("fio", QStringList() << "--version");
+    process.waitForFinished();
 
-    m_FIOVersion = m_process->readAllStandardOutput().simplified();
+    m_FIOVersion = process.readAllStandardOutput().simplified();
 
-    m_process->close();
-
-    delete m_process;
+    process.close();
 }
 
 QString Benchmark::getFIOVersion()
@@ -39,11 +37,9 @@ bool Benchmark::isFIODetected()
 
 void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage)
 {
-    PerformanceResult total { 0, 0, 0 };
-
-    for (int i = 0, loops_count = 0; i < m_settings->getLoopsCount() && m_running; i++) {
-        m_process = new QProcess();
-        m_process->start("fio", QStringList()
+    for (int i = 0; i < m_settings->getLoopsCount(); i++) {
+        QProcess *process = new QProcess();
+        process->start("fio", QStringList()
                          << "--output-format=json"
                          << "--ioengine=libaio"
                          << "--direct=1"
@@ -58,14 +54,28 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
                          << QStringLiteral("--iodepth=%1").arg(queue_depth)
                          << QStringLiteral("--numjobs=%1").arg(threads));
 
-        emit benchmarkStatusUpdate(statusMessage.arg(i).arg(m_settings->getLoopsCount()));
+        kill(process->processId(), SIGSTOP); // Suspend
 
-        m_process->waitForFinished(-1);
+        m_processes.push_back(process);
+    }
 
-        if (m_process->exitStatus() == QProcess::NormalExit && m_running) {
+    PerformanceResult total { 0, 0, 0 };
+
+    unsigned int loops_count = 0;
+
+    for (auto &process : m_processes) {
+        if (!m_running) break;
+
+        emit benchmarkStatusUpdate(statusMessage.arg(loops_count).arg(m_settings->getLoopsCount()));
+
+        kill(process->processId(), SIGCONT); // Resume
+
+        process->waitForFinished(-1);
+
+        if (process->exitStatus() == QProcess::NormalExit && m_running) {
             loops_count++;
 
-            PerformanceResult result = parseResult();
+            PerformanceResult result = parseResult(process);
             total.Bandwidth += result.Bandwidth;
             total.IOPS += result.IOPS;
             total.Latency += result.Latency;
@@ -73,9 +83,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         else {
             setRunning(false);
 
-            m_process->close();
-
-            delete m_process;
+            process->close();
         }
 
         emit resultReady(m_progressBar, loops_count != 0
@@ -85,18 +93,20 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
                   total.Latency / loops_count }
                 : total);
     }
+
+    m_processes.clear();
 }
 
-Benchmark::PerformanceResult Benchmark::parseResult()
+Benchmark::PerformanceResult Benchmark::parseResult(QProcess* process)
 {
-    QString output = QString(m_process->readAllStandardOutput());
+    QString output = QString(process->readAllStandardOutput());
     QJsonDocument jsonResponse = QJsonDocument::fromJson(output.toUtf8());
     QJsonObject jsonObject = jsonResponse.object();
     QJsonArray jobs = jsonObject["jobs"].toArray();
 
     PerformanceResult result = PerformanceResult();
 
-    QString errorOutput = m_process->readAllStandardError();
+    QString errorOutput = process->readAllStandardError();
 
     int jobsCount = jobs.count();
 
@@ -136,9 +146,7 @@ Benchmark::PerformanceResult Benchmark::parseResult()
         }
     }
 
-    m_process->close();
-
-    delete m_process;
+    process->close();
 
     return result;
 }
@@ -150,8 +158,12 @@ void Benchmark::setRunning(bool state)
 
     m_running = state;
 
-    if (!m_running && m_process->state() == QProcess::Running) {
-        kill(m_process->processId(), SIGINT);
+    if (!m_running) {
+        for (auto &process : m_processes) {
+            if (process->state() == QProcess::Running || process->state() == QProcess::Starting) {
+                kill(process->processId(), SIGINT);
+            }
+        }
     }
 
     emit runningStateChanged(state);
