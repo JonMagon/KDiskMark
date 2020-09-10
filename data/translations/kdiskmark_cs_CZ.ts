@@ -159,12 +159,12 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="326"/>
         <source>RND 1</source>
-        <translation>NHD 1</translation>
+        <translation>RND 1</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="363"/>
         <source>RND 2</source>
-        <translation>NHD 1</translation>
+        <translation>RND 2</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="420"/>
