@@ -38,7 +38,7 @@ bool Benchmark::isFIODetected()
 void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage)
 {
     for (int i = 0; i < m_settings->getLoopsCount(); i++) {
-        QProcess *process = new QProcess();
+        auto process = std::make_shared<QProcess>();
         process->start("fio", QStringList()
                          << "--output-format=json"
                          << "--ioengine=libaio"
@@ -97,7 +97,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
     m_processes.clear();
 }
 
-Benchmark::PerformanceResult Benchmark::parseResult(QProcess* process)
+Benchmark::PerformanceResult Benchmark::parseResult(const std::shared_ptr<QProcess> process)
 {
     QString output = QString(process->readAllStandardOutput());
     QJsonDocument jsonResponse = QJsonDocument::fromJson(output.toUtf8());
