@@ -78,12 +78,13 @@ cmake --build .
 ```
 
 ## Localization
-To help with localization you can use [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html). Add a new language file to the TS_FILES variable in CMakeLists.txt, translate it and create a pull request. 
+To help with localization you can use [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html). Add a new language file to the TS_FILES variable in CMakeLists.txt, translate it and create a pull request. It is also possible to add localized Comment and Keywords sections into kdiskmark.desktop.
 
 Languages currently available:
+* Czech
 * English (default)
-* Russian
 * German
+* Russian
 
 ## TODO
 * Windows compatibility
