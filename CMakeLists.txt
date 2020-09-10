@@ -46,8 +46,9 @@ include(GNUInstallDirs)
 include(ECMInstallIcons)
 
 set(TS_FILES
-    data/translations/${PROJECT_NAME}_ru_RU.ts
+    data/translations/${PROJECT_NAME}_cs_CZ.ts
     data/translations/${PROJECT_NAME}_de_DE.ts
+    data/translations/${PROJECT_NAME}_ru_RU.ts
 )
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
