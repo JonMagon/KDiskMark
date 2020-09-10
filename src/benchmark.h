@@ -7,6 +7,8 @@
 #include <QProgressBar>
 #include <QObject>
 
+#include <memory>
+
 class AppSettings;
 
 class Benchmark : public QObject
