@@ -72,7 +72,11 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
         process->waitForFinished(-1);
 
-        if (process->exitStatus() == QProcess::NormalExit && m_running) {
+        if (process->exitStatus() != QProcess::NormalExit) {
+            setRunning(false);
+        }
+
+        if (m_running) {
             loops_count++;
 
             PerformanceResult result = parseResult(process);
@@ -80,11 +84,8 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             total.IOPS += result.IOPS;
             total.Latency += result.Latency;
         }
-        else {
-            setRunning(false);
 
-            process->close();
-        }
+        process->close();
 
         emit resultReady(m_progressBar, loops_count != 0
                 ? PerformanceResult {
@@ -145,8 +146,6 @@ Benchmark::PerformanceResult Benchmark::parseResult(const std::shared_ptr<QProce
             }
         }
     }
-
-    process->close();
 
     return result;
 }
