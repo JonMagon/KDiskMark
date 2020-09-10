@@ -96,7 +96,8 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     // Add each device and its mount point if is writable
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
         if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
-            if (!(storage.device().indexOf("/dev/sd") == -1 && storage.device().indexOf("/dev/nvme") == -1)) {
+            if (!(storage.device().indexOf("/dev/sd") == -1 && storage.device().indexOf("/dev/nvme") == -1
+                  && storage.device().indexOf("/dev/mapper") == -1)) {
 
                 if (storage.rootPath() == QDir::homePath())
                     isSomeDeviceMountAsHome = true;
