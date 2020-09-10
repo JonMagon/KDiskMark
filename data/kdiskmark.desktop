@@ -2,6 +2,7 @@
 Name=KDiskMark
 GenericName=KDiskMark
 Comment=A disk drive benchmark tool
+Comment[cs]=Nástroj pro otestování výkonnosti datového úložiště
 Comment[ru]=Тестирование производительности диска
 Keywords=benchmark;disk;
 Keywords[ru]=производительность;диск;
