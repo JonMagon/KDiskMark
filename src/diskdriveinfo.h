@@ -18,7 +18,9 @@ public:
     return singleton;
   }
 
+  QString getDeviceByVolume(const QString &volume);
   QString getModelName(const QString &volume);
+  bool isEncrypted(const QString &volume);
 };
 
 #endif // DISKDRIVEINFO_H

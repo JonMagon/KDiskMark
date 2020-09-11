@@ -26,6 +26,10 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 {
     ui->setupUi(this);
 
+    ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
+    ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
+    ui->extraIcon->setVisible(false);
+
     statusBar()->setSizeGripEnabled(false);
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
@@ -96,6 +100,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     // Add each device and its mount point if is writable
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
         if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
+            // SCSI/USB/NVME/LUKS
             if (!(storage.device().indexOf("/dev/sd") == -1 && storage.device().indexOf("/dev/nvme") == -1
                   && storage.device().indexOf("/dev/mapper") == -1)) {
 
@@ -386,6 +391,7 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
         QStringList volumeInfo = variant.value<QStringList>();
         m_settings->setDir(volumeInfo[0]);
         ui->deviceModel->setText(volumeInfo[1]);
+        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
     }
 }
 
