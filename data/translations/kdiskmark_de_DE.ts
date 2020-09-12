@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="196"/>
-        <location filename="../../src/benchmark.cpp" line="206"/>
+        <location filename="../../src/benchmark.cpp" line="195"/>
+        <location filename="../../src/benchmark.cpp" line="205"/>
         <source>Sequential Read %1/%2</source>
         <translation>Sequenzielles Lesen %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="201"/>
-        <location filename="../../src/benchmark.cpp" line="211"/>
+        <location filename="../../src/benchmark.cpp" line="200"/>
+        <location filename="../../src/benchmark.cpp" line="210"/>
         <source>Sequential Write %1/%2</source>
         <translation>Sequenzielles Schreiben %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="216"/>
-        <location filename="../../src/benchmark.cpp" line="226"/>
+        <location filename="../../src/benchmark.cpp" line="215"/>
+        <location filename="../../src/benchmark.cpp" line="225"/>
         <source>Random Read %1/%2</source>
         <translation>Zufälliges Lesen %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="221"/>
-        <location filename="../../src/benchmark.cpp" line="231"/>
+        <location filename="../../src/benchmark.cpp" line="220"/>
+        <location filename="../../src/benchmark.cpp" line="230"/>
         <source>Random Write %1/%2</source>
         <translation>Zufälliges Schreiben %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="237"/>
+        <location filename="../../src/benchmark.cpp" line="236"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Pause zwischen Überprüfungen %1/%2 sec</translation>
     </message>

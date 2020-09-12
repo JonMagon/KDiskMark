@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="169"/>
-        <location filename="../../src/benchmark.cpp" line="185"/>
-        <source>Sequential Read</source>
-        <translation>Sekvenční čení</translation>
+        <location filename="../../src/benchmark.cpp" line="195"/>
+        <location filename="../../src/benchmark.cpp" line="205"/>
+        <source>Sequential Read %1/%2</source>
+        <translation>Sekvenční čení %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="177"/>
-        <location filename="../../src/benchmark.cpp" line="193"/>
-        <source>Sequential Write</source>
-        <translation>Sekvenční zápis</translation>
+        <location filename="../../src/benchmark.cpp" line="200"/>
+        <location filename="../../src/benchmark.cpp" line="210"/>
+        <source>Sequential Write %1/%2</source>
+        <translation>Sekvenční zápis %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="201"/>
-        <location filename="../../src/benchmark.cpp" line="217"/>
-        <source>Random Read</source>
-        <translation>Náhodné čtení</translation>
-    </message>
-    <message>
-        <location filename="../../src/benchmark.cpp" line="209"/>
+        <location filename="../../src/benchmark.cpp" line="215"/>
         <location filename="../../src/benchmark.cpp" line="225"/>
-        <source>Random Write</source>
-        <translation>Náhodný zápis</translation>
+        <source>Random Read %1/%2</source>
+        <translation>Náhodné čtení %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="235"/>
+        <location filename="../../src/benchmark.cpp" line="220"/>
+        <location filename="../../src/benchmark.cpp" line="230"/>
+        <source>Random Write %1/%2</source>
+        <translation>Náhodný zápis %1/%2</translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="236"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Prodleva mezi testy %1/%2 sek</translation>
     </message>
