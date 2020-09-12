@@ -7,6 +7,8 @@
 #include <QProgressBar>
 #include <QObject>
 
+#include <memory>
+
 class AppSettings;
 
 class Benchmark : public QObject
@@ -14,9 +16,10 @@ class Benchmark : public QObject
     Q_OBJECT
 
     AppSettings *m_settings;
-    QProcess *m_process;
+    std::vector<std::shared_ptr<QProcess>> m_processes;
     bool m_running;
     QString m_FIOVersion;
+    QProgressBar* m_progressBar;
 
 public:
     Benchmark(AppSettings *settings);
@@ -42,8 +45,8 @@ public:
     };
 
 private:
-    PerformanceResult startFIO(int block_size, int queue_depth, int threads, const QString rw);
-    PerformanceResult parseResult();
+    void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
+    PerformanceResult parseResult(const std::shared_ptr<QProcess> process);
 
 public slots:
     void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);

@@ -72,31 +72,31 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="169"/>
-        <location filename="../../src/benchmark.cpp" line="185"/>
-        <source>Sequential Read</source>
-        <translation>Sequenzielles Lesen</translation>
-    </message>
-    <message>
-        <location filename="../../src/benchmark.cpp" line="177"/>
-        <location filename="../../src/benchmark.cpp" line="193"/>
-        <source>Sequential Write</source>
-        <translation>Sequenzielles Schreiben</translation>
+        <location filename="../../src/benchmark.cpp" line="196"/>
+        <location filename="../../src/benchmark.cpp" line="206"/>
+        <source>Sequential Read %1/%2</source>
+        <translation>Sequenzielles Lesen %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="201"/>
-        <location filename="../../src/benchmark.cpp" line="217"/>
-        <source>Random Read</source>
-        <translation>Zufälliges Lesen</translation>
+        <location filename="../../src/benchmark.cpp" line="211"/>
+        <source>Sequential Write %1/%2</source>
+        <translation>Sequenzielles Schreiben %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="209"/>
-        <location filename="../../src/benchmark.cpp" line="225"/>
-        <source>Random Write</source>
-        <translation>Zufälliges Schreiben</translation>
+        <location filename="../../src/benchmark.cpp" line="216"/>
+        <location filename="../../src/benchmark.cpp" line="226"/>
+        <source>Random Read %1/%2</source>
+        <translation>Zufälliges Lesen %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="235"/>
+        <location filename="../../src/benchmark.cpp" line="221"/>
+        <location filename="../../src/benchmark.cpp" line="231"/>
+        <source>Random Write %1/%2</source>
+        <translation>Zufälliges Schreiben %1/%2</translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="237"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Pause zwischen Überprüfungen %1/%2 sec</translation>
     </message>
