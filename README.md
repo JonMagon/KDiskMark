@@ -87,7 +87,8 @@ Languages currently available:
 * Russian
 
 ## TODO
-* Windows compatibility
+- [ ] Windows compatibility
+- [ ] Profiles (mix etc.)
 
 ## Credits
 Application Icon  
