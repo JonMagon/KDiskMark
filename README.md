@@ -89,6 +89,7 @@ Languages currently available:
 ## TODO
 - [ ] Windows compatibility
 - [ ] Profiles (mix etc.)
+- [ ] MD raids
 
 ## Credits
 Application Icon  
