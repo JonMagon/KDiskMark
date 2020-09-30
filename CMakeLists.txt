@@ -48,6 +48,7 @@ include(ECMInstallIcons)
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
     data/translations/${PROJECT_NAME}_de_DE.ts
+    data/translations/${PROJECT_NAME}_fr_FR.ts
     data/translations/${PROJECT_NAME}_ru_RU.ts
 )
 
