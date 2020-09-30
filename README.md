@@ -85,6 +85,7 @@ To help with localization you can use [Qt Linguist](https://doc.qt.io/Qt-5/lingu
 Languages currently available:
 * Czech
 * English (default)
+* French
 * German
 * Russian
 
