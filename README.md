@@ -87,6 +87,7 @@ Languages currently available:
 * English (default)
 * French
 * German
+* Italian
 * Russian
 
 ## TODO
