@@ -196,8 +196,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="490"/>
         <source>Profile</source>
-        <translatorcomment>of &quot;Profilo&quot;. Based on what &quot;Profile&quot; means here.</translatorcomment>
-        <translation>Tema</translation>
+        <translation>Profilo</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="495"/>
@@ -282,7 +281,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="30"/>
         <source>The device is encrypted. Performance may drop.</source>
-        <translation>Il dispositivo è cifrato. Le performance potrebbero calare.</translation>
+        <translation>Il dispositivo è cifrato. Le prestazioni misurate potrebbero calare.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="71"/>
