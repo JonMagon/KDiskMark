@@ -94,6 +94,7 @@ Languages currently available:
 * French
 * German
 * Italian
+* Portuguese (Brazilian)
 * Russian
 
 ## TODO
