@@ -61,7 +61,7 @@
     <message>
         <location filename="../../src/about.ui" line="230"/>
         <source>Application Icon:</source>
-        <translation>Icône de l'application :</translation>
+        <translation>Icône de l&apos;application :</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="243"/>
@@ -115,154 +115,163 @@
         <translation>Tout</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="108"/>
-        <location filename="../../src/mainwindow.ui" line="158"/>
-        <location filename="../../src/mainwindow.ui" line="228"/>
-        <location filename="../../src/mainwindow.ui" line="252"/>
-        <location filename="../../src/mainwindow.ui" line="289"/>
-        <location filename="../../src/mainwindow.ui" line="313"/>
-        <location filename="../../src/mainwindow.ui" line="350"/>
-        <location filename="../../src/mainwindow.ui" line="387"/>
+        <location filename="../../src/mainwindow.ui" line="267"/>
+        <location filename="../../src/mainwindow.ui" line="298"/>
+        <location filename="../../src/mainwindow.ui" line="328"/>
+        <location filename="../../src/mainwindow.ui" line="365"/>
+        <location filename="../../src/mainwindow.ui" line="389"/>
+        <location filename="../../src/mainwindow.ui" line="413"/>
+        <location filename="../../src/mainwindow.ui" line="437"/>
+        <location filename="../../src/mainwindow.ui" line="461"/>
+        <location filename="../../src/mainwindow.ui" line="485"/>
+        <location filename="../../src/mainwindow.ui" line="509"/>
+        <location filename="../../src/mainwindow.ui" line="533"/>
+        <location filename="../../src/mainwindow.ui" line="557"/>
         <source>%v</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="188"/>
+        <location filename="../../src/mainwindow.ui" line="114"/>
         <source>MB/s</source>
         <translation>Mo/s</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="193"/>
+        <location filename="../../src/mainwindow.ui" line="119"/>
         <source>GB/s</source>
         <translation>Go/s</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="198"/>
+        <location filename="../../src/mainwindow.ui" line="124"/>
         <source>IOPS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="203"/>
+        <location filename="../../src/mainwindow.ui" line="129"/>
         <source>μs</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="134"/>
+        <location filename="../../src/mainwindow.ui" line="97"/>
         <source>SEQ 1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="265"/>
+        <location filename="../../src/mainwindow.ui" line="143"/>
         <source>SEQ 2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="326"/>
+        <location filename="../../src/mainwindow.ui" line="156"/>
         <source>RND 1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="363"/>
+        <location filename="../../src/mainwindow.ui" line="169"/>
         <source>RND 2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="460"/>
+        <location filename="../../src/mainwindow.ui" line="274"/>
+        <source>Mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="575"/>
         <source>File</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="468"/>
+        <location filename="../../src/mainwindow.ui" line="583"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="472"/>
+        <location filename="../../src/mainwindow.ui" line="587"/>
         <source>Interval Time</source>
-        <translation>Temps d'attente</translation>
+        <translation>Temps d&apos;attente</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="490"/>
+        <location filename="../../src/mainwindow.ui" line="605"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="495"/>
+        <location filename="../../src/mainwindow.ui" line="610"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="510"/>
+        <location filename="../../src/mainwindow.ui" line="625"/>
         <source>0 sec</source>
         <translation>0 sec</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="518"/>
+        <location filename="../../src/mainwindow.ui" line="633"/>
         <source>1 sec</source>
         <translation>1 sec</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="526"/>
+        <location filename="../../src/mainwindow.ui" line="641"/>
         <source>3 sec</source>
         <translation>3 sec</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="537"/>
+        <location filename="../../src/mainwindow.ui" line="652"/>
         <source>5 sec</source>
         <translation>5 sec</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="545"/>
+        <location filename="../../src/mainwindow.ui" line="660"/>
         <source>10 sec</source>
         <translation>10 sec</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="553"/>
+        <location filename="../../src/mainwindow.ui" line="668"/>
         <source>30 sec</source>
         <translation>30 sec</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="561"/>
+        <location filename="../../src/mainwindow.ui" line="676"/>
         <source>1 min</source>
         <translation>1 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="569"/>
+        <location filename="../../src/mainwindow.ui" line="684"/>
         <source>3 min</source>
         <translation>3 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="577"/>
+        <location filename="../../src/mainwindow.ui" line="692"/>
         <source>5 min</source>
         <translation>5 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="585"/>
+        <location filename="../../src/mainwindow.ui" line="700"/>
         <source>10 min</source>
         <translation>10 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="590"/>
+        <location filename="../../src/mainwindow.ui" line="705"/>
         <source>About KDiskMark</source>
         <translation>À propos de KDiskMark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="595"/>
+        <location filename="../../src/mainwindow.ui" line="710"/>
         <source>Queues &amp;&amp; Threads</source>
-        <translation>Files d'attente et flux</translation>
+        <translation>Files d&apos;attente et flux</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="600"/>
+        <location filename="../../src/mainwindow.ui" line="715"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="605"/>
+        <location filename="../../src/mainwindow.ui" line="720"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="610"/>
+        <location filename="../../src/mainwindow.ui" line="725"/>
         <source>Exit</source>
         <translation>Fermer</translation>
     </message>
@@ -282,13 +291,13 @@
         <location filename="../../src/mainwindow.cpp" line="205"/>
         <location filename="../../src/mainwindow.cpp" line="211"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Séquentiel %1 Mio&lt;br/&gt;Files d'attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
+        <translation>&lt;h2&gt;Séquentiel %1 Mio&lt;br/&gt;Files d&apos;attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="217"/>
         <location filename="../../src/mainwindow.cpp" line="223"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Aléatoire %1 Kio&lt;br/&gt;Files d'attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
+        <translation>&lt;h2&gt;Aléatoire %1 Kio&lt;br/&gt;Files d&apos;attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="248"/>
@@ -309,7 +318,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="30"/>
         <source>The device is encrypted. Performance may drop.</source>
-        <translation>L'appareil est crypté. Les performances peuvent diminuer.</translation>
+        <translation>L&apos;appareil est crypté. Les performances peuvent diminuer.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="248"/>
@@ -322,13 +331,13 @@
         <translation>Pio</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="121"/>
+        <location filename="../../src/mainwindow.ui" line="341"/>
         <location filename="../../src/mainwindow.cpp" line="266"/>
         <source>Read</source>
         <translation>Lecture</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="171"/>
+        <location filename="../../src/mainwindow.ui" line="243"/>
         <location filename="../../src/mainwindow.cpp" line="269"/>
         <source>Write</source>
         <translation>Ecriture</translation>
@@ -346,7 +355,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="453"/>
         <source>Directory is not specified.</source>
-        <translation>Le répertoire n'est pas précisé.</translation>
+        <translation>Le répertoire n&apos;est pas précisé.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="456"/>
@@ -363,7 +372,7 @@ Vous voulez continuer ?</translation>
     <message>
         <location filename="../../src/mainwindow.cpp" line="470"/>
         <source>Benchmark Failed</source>
-        <translation>Échec de l'évaluation comparative</translation>
+        <translation>Échec de l&apos;évaluation comparative</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="404"/>
@@ -380,7 +389,7 @@ Vous voulez continuer ?</translation>
     <message>
         <location filename="../../src/main.cpp" line="53"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation>Aucun FIO n'a été trouvé. Veuillez installer FIO avant d'utiliser KDiskMark.</translation>
+        <translation>Aucun FIO n&apos;a été trouvé. Veuillez installer FIO avant d&apos;utiliser KDiskMark.</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="13"/>
@@ -423,7 +432,7 @@ Vous voulez continuer ?</translation>
     <message>
         <location filename="../../src/settings.ui" line="229"/>
         <source>Queues</source>
-        <translation>Files d'attente</translation>
+        <translation>Files d&apos;attente</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="245"/>

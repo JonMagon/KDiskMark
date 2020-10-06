@@ -115,154 +115,163 @@
         <translation>Vše</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="108"/>
-        <location filename="../../src/mainwindow.ui" line="158"/>
-        <location filename="../../src/mainwindow.ui" line="228"/>
-        <location filename="../../src/mainwindow.ui" line="252"/>
-        <location filename="../../src/mainwindow.ui" line="289"/>
-        <location filename="../../src/mainwindow.ui" line="313"/>
-        <location filename="../../src/mainwindow.ui" line="350"/>
-        <location filename="../../src/mainwindow.ui" line="387"/>
+        <location filename="../../src/mainwindow.ui" line="267"/>
+        <location filename="../../src/mainwindow.ui" line="298"/>
+        <location filename="../../src/mainwindow.ui" line="328"/>
+        <location filename="../../src/mainwindow.ui" line="365"/>
+        <location filename="../../src/mainwindow.ui" line="389"/>
+        <location filename="../../src/mainwindow.ui" line="413"/>
+        <location filename="../../src/mainwindow.ui" line="437"/>
+        <location filename="../../src/mainwindow.ui" line="461"/>
+        <location filename="../../src/mainwindow.ui" line="485"/>
+        <location filename="../../src/mainwindow.ui" line="509"/>
+        <location filename="../../src/mainwindow.ui" line="533"/>
+        <location filename="../../src/mainwindow.ui" line="557"/>
         <source>%v</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="188"/>
+        <location filename="../../src/mainwindow.ui" line="114"/>
         <source>MB/s</source>
         <translation>MB/s</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="193"/>
+        <location filename="../../src/mainwindow.ui" line="119"/>
         <source>GB/s</source>
         <translation>GB/s</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="198"/>
+        <location filename="../../src/mainwindow.ui" line="124"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="203"/>
+        <location filename="../../src/mainwindow.ui" line="129"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="134"/>
+        <location filename="../../src/mainwindow.ui" line="97"/>
         <source>SEQ 1</source>
         <translation>SEQ 1</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="265"/>
+        <location filename="../../src/mainwindow.ui" line="143"/>
         <source>SEQ 2</source>
         <translation>SEQ 2</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="326"/>
+        <location filename="../../src/mainwindow.ui" line="156"/>
         <source>RND 1</source>
         <translation>RND 1</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="363"/>
+        <location filename="../../src/mainwindow.ui" line="169"/>
         <source>RND 2</source>
         <translation>RND 2</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="460"/>
+        <location filename="../../src/mainwindow.ui" line="274"/>
+        <source>Mix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="575"/>
         <source>File</source>
         <translation>Soubor</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="468"/>
+        <location filename="../../src/mainwindow.ui" line="583"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="472"/>
+        <location filename="../../src/mainwindow.ui" line="587"/>
         <source>Interval Time</source>
         <translation>Prodleva mezi testy</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="490"/>
+        <location filename="../../src/mainwindow.ui" line="605"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="495"/>
+        <location filename="../../src/mainwindow.ui" line="610"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="510"/>
+        <location filename="../../src/mainwindow.ui" line="625"/>
         <source>0 sec</source>
         <translation>0 sek</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="518"/>
+        <location filename="../../src/mainwindow.ui" line="633"/>
         <source>1 sec</source>
         <translation>1 sek</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="526"/>
+        <location filename="../../src/mainwindow.ui" line="641"/>
         <source>3 sec</source>
         <translation>3 sek</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="537"/>
+        <location filename="../../src/mainwindow.ui" line="652"/>
         <source>5 sec</source>
         <translation>5 sek</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="545"/>
+        <location filename="../../src/mainwindow.ui" line="660"/>
         <source>10 sec</source>
         <translation>10 sek</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="553"/>
+        <location filename="../../src/mainwindow.ui" line="668"/>
         <source>30 sec</source>
         <translation>30 sek</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="561"/>
+        <location filename="../../src/mainwindow.ui" line="676"/>
         <source>1 min</source>
         <translation>1 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="569"/>
+        <location filename="../../src/mainwindow.ui" line="684"/>
         <source>3 min</source>
         <translation>3 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="577"/>
+        <location filename="../../src/mainwindow.ui" line="692"/>
         <source>5 min</source>
         <translation>5 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="585"/>
+        <location filename="../../src/mainwindow.ui" line="700"/>
         <source>10 min</source>
         <translation>10 min</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="590"/>
+        <location filename="../../src/mainwindow.ui" line="705"/>
         <source>About KDiskMark</source>
         <translation>O KDiskMark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="595"/>
+        <location filename="../../src/mainwindow.ui" line="710"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>Fronty a vlákna</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="600"/>
+        <location filename="../../src/mainwindow.ui" line="715"/>
         <source>Copy</source>
         <translation>Kopírovat</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="605"/>
+        <location filename="../../src/mainwindow.ui" line="720"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="610"/>
+        <location filename="../../src/mainwindow.ui" line="725"/>
         <source>Exit</source>
         <translation>Konec</translation>
     </message>
@@ -322,13 +331,13 @@
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="121"/>
+        <location filename="../../src/mainwindow.ui" line="341"/>
         <location filename="../../src/mainwindow.cpp" line="266"/>
         <source>Read</source>
         <translation>Čtení</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="171"/>
+        <location filename="../../src/mainwindow.ui" line="243"/>
         <location filename="../../src/mainwindow.cpp" line="269"/>
         <source>Write</source>
         <translation>Zápis</translation>

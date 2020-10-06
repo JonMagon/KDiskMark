@@ -231,12 +231,24 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>40</y>
+      <y>50</y>
       <width>671</width>
-      <height>311</height>
+      <height>301</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout">
+    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0" columnstretch="0,0,0">
+     <property name="topMargin">
+      <number>2</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <property name="horizontalSpacing">
+      <number>5</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>9</number>
+     </property>
      <item row="0" column="1">
       <widget class="QLabel" name="label_Write">
        <property name="text">
@@ -334,7 +346,7 @@
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>30</height>
+         <height>20</height>
         </size>
        </property>
        <property name="text">
