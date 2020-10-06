@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>875</width>
-    <height>811</height>
+    <width>801</width>
+    <height>440</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -174,7 +174,7 @@
      <rect>
       <x>10</x>
       <y>360</y>
-      <width>551</width>
+      <width>781</width>
       <height>33</height>
      </rect>
     </property>
@@ -227,101 +227,55 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="gridLayoutWidget">
+   <widget class="QWidget" name="readWidget" native="true">
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>50</y>
-      <width>671</width>
-      <height>301</height>
+      <y>48</y>
+      <width>222</width>
+      <height>303</height>
      </rect>
     </property>
-    <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0" columnstretch="0,0,0">
+    <layout class="QVBoxLayout" name="readLayout">
+     <property name="spacing">
+      <number>9</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
      <property name="topMargin">
       <number>2</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
      </property>
      <property name="bottomMargin">
       <number>0</number>
      </property>
-     <property name="horizontalSpacing">
-      <number>5</number>
-     </property>
-     <property name="verticalSpacing">
-      <number>9</number>
-     </property>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_Write">
-       <property name="text">
-        <string>Write</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QProgressBar" name="writeBar_RND_1">
+     <item>
+      <widget class="QLabel" name="label_Read">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>61</height>
+         <height>20</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>28</pointsize>
-        </font>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>0</number>
-       </property>
-       <property name="format">
-        <string>%v</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_Mix">
        <property name="text">
-        <string>Mix</string>
+        <string>Read</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1">
-      <widget class="QProgressBar" name="writeBar_RND_2">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>61</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>28</pointsize>
-        </font>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>0</number>
-       </property>
-       <property name="format">
-        <string>%v</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
+     <item>
       <widget class="QProgressBar" name="readBar_SEQ_1">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>220</width>
          <height>61</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>220</width>
          <height>16777215</height>
         </size>
        </property>
@@ -341,49 +295,148 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_Read">
+     <item>
+      <widget class="QProgressBar" name="readBar_SEQ_2">
+       <property name="minimumSize">
+        <size>
+         <width>220</width>
+         <height>61</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
+         <width>220</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="format">
+        <string>%v</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="readBar_RND_1">
+       <property name="minimumSize">
+        <size>
+         <width>220</width>
+         <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="format">
+        <string>%v</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="readBar_RND_2">
+       <property name="minimumSize">
+        <size>
+         <width>220</width>
+         <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="format">
+        <string>%v</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="writeWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>48</y>
+      <width>222</width>
+      <height>303</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="writeLayout">
+     <property name="spacing">
+      <number>9</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>2</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_Write">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
          <height>20</height>
         </size>
        </property>
        <property name="text">
-        <string>Read</string>
+        <string>Write</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item>
       <widget class="QProgressBar" name="writeBar_SEQ_1">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>220</width>
          <height>61</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>28</pointsize>
-        </font>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>0</number>
-       </property>
-       <property name="format">
-        <string>%v</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QProgressBar" name="readBar_RND_1">
-       <property name="minimumSize">
+       <property name="maximumSize">
         <size>
-         <width>0</width>
-         <height>61</height>
+         <width>220</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="font">
@@ -402,60 +455,18 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QProgressBar" name="mixBar_SEQ_2">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>61</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>28</pointsize>
-        </font>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>0</number>
-       </property>
-       <property name="format">
-        <string>%v</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QProgressBar" name="readBar_SEQ_2">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>61</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>28</pointsize>
-        </font>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>0</number>
-       </property>
-       <property name="format">
-        <string>%v</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
+     <item>
       <widget class="QProgressBar" name="writeBar_SEQ_2">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>220</width>
          <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="font">
@@ -474,36 +485,118 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QProgressBar" name="readBar_RND_2">
+     <item>
+      <widget class="QProgressBar" name="writeBar_RND_1">
+       <property name="minimumSize">
+        <size>
+         <width>220</width>
+         <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="format">
+        <string>%v</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QProgressBar" name="writeBar_RND_2">
+       <property name="minimumSize">
+        <size>
+         <width>220</width>
+         <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="format">
+        <string>%v</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="mixWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>48</y>
+      <width>222</width>
+      <height>303</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="mixLayout">
+     <property name="spacing">
+      <number>9</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>2</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_Mix">
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>61</height>
+         <height>20</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <pointsize>28</pointsize>
-        </font>
-       </property>
-       <property name="maximum">
-        <number>100</number>
-       </property>
-       <property name="value">
-        <number>0</number>
-       </property>
-       <property name="format">
-        <string>%v</string>
+       <property name="text">
+        <string>Mix</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
+     <item>
       <widget class="QProgressBar" name="mixBar_SEQ_1">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>220</width>
          <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="font">
@@ -522,12 +615,48 @@
        </property>
       </widget>
      </item>
-     <item row="3" column="2">
+     <item>
+      <widget class="QProgressBar" name="mixBar_SEQ_2">
+       <property name="minimumSize">
+        <size>
+         <width>220</width>
+         <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>28</pointsize>
+        </font>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="format">
+        <string>%v</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QProgressBar" name="mixBar_RND_1">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>220</width>
          <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="font">
@@ -546,12 +675,18 @@
        </property>
       </widget>
      </item>
-     <item row="4" column="2">
+     <item>
       <widget class="QProgressBar" name="mixBar_RND_2">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>220</width>
          <height>61</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>220</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="font">
@@ -578,7 +713,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>875</width>
+     <width>801</width>
      <height>22</height>
     </rect>
    </property>

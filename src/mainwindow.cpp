@@ -26,6 +26,15 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 {
     ui->setupUi(this);
 
+    // temp
+    ui->mixWidget->setVisible(false);
+
+    ui->horizontalLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->horizontalLayoutWidget->geometry().left(),
+                                       ui->horizontalLayoutWidget->geometry().height());
+
+    setFixedWidth(ui->horizontalLayoutWidget->geometry().width() + 2 * ui->horizontalLayoutWidget->geometry().left());
+    // temp
+
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
     ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
     ui->extraIcon->setVisible(false);
@@ -78,8 +87,10 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     ui->comboBox_fileSize->
             setCurrentIndex(ui->comboBox_fileSize->findData(m_settings->getFileSize()));
 
-    m_progressBars << ui->readBar_SEQ_1 << ui->writeBar_SEQ_1 << ui->readBar_SEQ_2 << ui->writeBar_SEQ_2
-                   << ui->readBar_RND_1 << ui->writeBar_RND_1 << ui->readBar_RND_2 << ui->writeBar_RND_2;
+    m_progressBars << ui->readBar_SEQ_1 << ui->writeBar_SEQ_1 << ui->mixBar_SEQ_1
+                   << ui->readBar_SEQ_2 << ui->writeBar_SEQ_2 << ui->mixBar_SEQ_2
+                   << ui->readBar_RND_1 << ui->writeBar_RND_1 << ui->mixBar_RND_1
+                   << ui->readBar_RND_2 << ui->writeBar_RND_2 << ui->mixBar_RND_2;
 
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
@@ -267,6 +278,9 @@ void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
 
     ui->label_Write->setText(Global::getComparisonLabelTemplate()
                              .arg(tr("Write"), ui->comboBox_ComparisonField->currentText()));
+
+    ui->label_Mix->setText(Global::getComparisonLabelTemplate()
+                             .arg(tr("Mix"), ui->comboBox_ComparisonField->currentText()));
 
     for (auto const& progressBar: m_progressBars) {
         updateProgressBar(progressBar);
