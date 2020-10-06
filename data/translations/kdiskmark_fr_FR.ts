@@ -61,7 +61,7 @@
     <message>
         <location filename="../../src/about.ui" line="230"/>
         <source>Application Icon:</source>
-        <translation>Icône de l'application :</translation>
+        <translation>Icône de l&apos;application :</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="243"/>
@@ -179,7 +179,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="472"/>
         <source>Interval Time</source>
-        <translation>Temps d'attente</translation>
+        <translation>Temps d&apos;attente</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="490"/>
@@ -249,7 +249,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="595"/>
         <source>Queues &amp;&amp; Threads</source>
-        <translation>Files d'attente et flux</translation>
+        <translation>Files d&apos;attente et flux</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="600"/>
@@ -282,13 +282,13 @@
         <location filename="../../src/mainwindow.cpp" line="205"/>
         <location filename="../../src/mainwindow.cpp" line="211"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Séquentiel %1 Mio&lt;br/&gt;Files d'attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
+        <translation>&lt;h2&gt;Séquentiel %1 Mio&lt;br/&gt;Files d&apos;attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="217"/>
         <location filename="../../src/mainwindow.cpp" line="223"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Aléatoire %1 Kio&lt;br/&gt;Files d'attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
+        <translation>&lt;h2&gt;Aléatoire %1 Kio&lt;br/&gt;Files d&apos;attente=%2&lt;br/&gt;Flux=%3&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="248"/>
@@ -309,7 +309,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="30"/>
         <source>The device is encrypted. Performance may drop.</source>
-        <translation>L'appareil est crypté. Les performances peuvent diminuer.</translation>
+        <translation>L&apos;appareil est crypté. Les performances peuvent diminuer.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="248"/>
@@ -346,7 +346,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="453"/>
         <source>Directory is not specified.</source>
-        <translation>Le répertoire n'est pas précisé.</translation>
+        <translation>Le répertoire n&apos;est pas précisé.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="456"/>
@@ -363,7 +363,7 @@ Vous voulez continuer ?</translation>
     <message>
         <location filename="../../src/mainwindow.cpp" line="470"/>
         <source>Benchmark Failed</source>
-        <translation>Échec de l'évaluation comparative</translation>
+        <translation>Échec de l&apos;évaluation comparative</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="404"/>
@@ -380,7 +380,7 @@ Vous voulez continuer ?</translation>
     <message>
         <location filename="../../src/main.cpp" line="53"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation>Aucun FIO n'a été trouvé. Veuillez installer FIO avant d'utiliser KDiskMark.</translation>
+        <translation>Aucun FIO n&apos;a été trouvé. Veuillez installer FIO avant d&apos;utiliser KDiskMark.</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="13"/>
@@ -423,7 +423,7 @@ Vous voulez continuer ?</translation>
     <message>
         <location filename="../../src/settings.ui" line="229"/>
         <source>Queues</source>
-        <translation>Files d'attente</translation>
+        <translation>Files d&apos;attente</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="245"/>
