@@ -82,7 +82,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 
 set(APP_ICONS
     data/icons/16-apps-kdiskmark.png
-    data/icons/20-apps-kdiskmark.png
     data/icons/24-apps-kdiskmark.png
     data/icons/32-apps-kdiskmark.png
     data/icons/48-apps-kdiskmark.png
