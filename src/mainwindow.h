@@ -55,6 +55,8 @@ private slots:
 
     void saveBenchmarkResult();
 
+    void on_comboBox_MixRatio_currentIndexChanged(int index);
+
 public slots:
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);

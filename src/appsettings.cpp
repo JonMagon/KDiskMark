@@ -35,6 +35,16 @@ void AppSettings::setDir(QString dir)
     m_dir = dir;
 }
 
+void AppSettings::setRandomReadPercentage(float percentage)
+{
+    m_percentage = percentage;
+}
+
+float AppSettings::getRandomReadPercentage()
+{
+    return m_percentage;
+}
+
 QString AppSettings::getBenchmarkFile()
 {
     if (m_dir.isNull())

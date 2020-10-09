@@ -46,6 +46,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
                          << "--randrepeat=0"
                          << "--refill_buffers"
                          << "--end_fsync=1"
+                         << QStringLiteral("--rwmixread=%1").arg(m_settings->getRandomReadPercentage())
                          << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
                          << QStringLiteral("--name=%1").arg(rw)
                          << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
@@ -59,7 +60,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         m_processes.push_back(process);
     }
 
-    PerformanceResult total { 0, 0, 0 };
+    PerformanceResult totalRead { 0, 0, 0 }, totalWrite { 0, 0, 0 };
 
     unsigned int loops_count = 0;
 
@@ -76,36 +77,57 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             setRunning(false);
         }
 
+        PerformanceResult prepare { 0, 0, 0 };
+
         if (m_running) {
             loops_count++;
 
-            PerformanceResult result = parseResult(process);
-            total.Bandwidth += result.Bandwidth;
-            total.IOPS += result.IOPS;
-            total.Latency += result.Latency;
+            auto result = parseResult(process);
+
+            PerformanceResult resultRead = result[0];
+            totalRead.Bandwidth += resultRead.Bandwidth;
+            totalRead.IOPS += resultRead.IOPS;
+            totalRead.Latency += resultRead.Latency;
+
+            PerformanceResult resultWrite = result[1];
+            totalWrite.Bandwidth += resultWrite.Bandwidth;
+            totalWrite.IOPS += resultWrite.IOPS;
+            totalWrite.Latency += resultWrite.Latency;
+
+            if (rw.contains("read")) {
+                prepare = totalRead;
+            } else if (rw.contains("write")) {
+                prepare = totalWrite;
+            } else if (rw.contains("rw")) {
+                float p = m_settings->getRandomReadPercentage();
+                prepare = PerformanceResult {
+                        (totalRead.Bandwidth * p + totalWrite.Bandwidth * (100.f - p)) / 100.f,
+                        (totalRead.IOPS * p + totalWrite.IOPS * (100.f - p)) / 100.f,
+                        (totalRead.Latency * p + totalWrite.Latency * (100.f - p)) / 100.f };
+            }
         }
 
         process->close();
 
         emit resultReady(m_progressBar, loops_count != 0
                 ? PerformanceResult {
-                  total.Bandwidth / loops_count,
-                  total.IOPS / loops_count,
-                  total.Latency / loops_count }
-                : total);
+                  prepare.Bandwidth / loops_count,
+                  prepare.IOPS / loops_count,
+                  prepare.Latency / loops_count }
+                : prepare);
     }
 
     m_processes.clear();
 }
 
-Benchmark::PerformanceResult Benchmark::parseResult(const std::shared_ptr<QProcess> process)
+std::array<Benchmark::PerformanceResult, 2> Benchmark::parseResult(const std::shared_ptr<QProcess> process)
 {
     QString output = QString(process->readAllStandardOutput());
     QJsonDocument jsonResponse = QJsonDocument::fromJson(output.toUtf8());
     QJsonObject jsonObject = jsonResponse.object();
     QJsonArray jobs = jsonObject["jobs"].toArray();
 
-    PerformanceResult result = PerformanceResult();
+    PerformanceResult resultRead = PerformanceResult(), resultWrite = PerformanceResult();
 
     QString errorOutput = process->readAllStandardError();
 
@@ -125,20 +147,15 @@ Benchmark::PerformanceResult Benchmark::parseResult(const std::shared_ptr<QProce
             QJsonObject job = jobs.takeAt(i).toObject();
 
             if (job["error"].toInt() == 0) {
-                if (job["jobname"].toString().contains("read")) {
-                    QJsonObject readResults = job["read"].toObject();
+                QJsonObject jobRead = job["read"].toObject();
+                resultRead.Bandwidth += jobRead.value("bw").toInt() / 1000.0; // to mb
+                resultRead.IOPS += jobRead.value("iops").toDouble();
+                resultRead.Latency += jobRead["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
 
-                    result.Bandwidth += readResults.value("bw").toInt() / 1000.0; // to mb
-                    result.IOPS += readResults.value("iops").toDouble();
-                    result.Latency += readResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
-                }
-                else if (job["jobname"].toString().contains("write")) {
-                    QJsonObject writeResults = job["write"].toObject();
-
-                    result.Bandwidth += writeResults.value("bw").toInt() / 1000.0; // to mb
-                    result.IOPS += writeResults.value("iops").toDouble();
-                    result.Latency += writeResults["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
-                }
+                QJsonObject jobWrite = job["write"].toObject();
+                resultWrite.Bandwidth += jobWrite.value("bw").toInt() / 1000.0; // to mb
+                resultWrite.IOPS += jobWrite.value("iops").toDouble();
+                resultWrite.Latency += jobWrite["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
             }
             else {
                 setRunning(false);
@@ -147,7 +164,7 @@ Benchmark::PerformanceResult Benchmark::parseResult(const std::shared_ptr<QProce
         }
     }
 
-    return result;
+    return std::array<PerformanceResult, 2> { resultRead, resultWrite };
 }
 
 void Benchmark::setRunning(bool state)
@@ -199,6 +216,11 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             startFIO(params.BlockSize, params.Queues, params.Threads,
                      Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
             break;
+        case SEQ_1_Mix:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
+            break;
         case SEQ_2_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
             startFIO(params.BlockSize, params.Queues,params.Threads,
@@ -208,6 +230,11 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
             startFIO(params.BlockSize, params.Queues, params.Threads,
                      Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
+            break;
+        case SEQ_2_Mix:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
             break;
         case RND_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
@@ -219,6 +246,11 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             startFIO(params.BlockSize, params.Queues, params.Threads,
                      Global::getRWRandomWrite(), tr("Random Write %1/%2"));
             break;
+        case RND_1_Mix:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
+            break;
         case RND_2_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
             startFIO(params.BlockSize, params.Queues, params.Threads,
@@ -228,6 +260,11 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
             startFIO(params.BlockSize, params.Queues, params.Threads,
                      Global::getRWRandomWrite(), tr("Random Write %1/%2"));
+            break;
+        case RND_2_Mix:
+            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
+            startFIO(params.BlockSize, params.Queues, params.Threads,
+                     Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
             break;
         }
 

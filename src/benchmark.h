@@ -29,12 +29,16 @@ public:
     enum Type {
         SEQ_1_Read,
         SEQ_1_Write,
+        SEQ_1_Mix,
         SEQ_2_Read,
         SEQ_2_Write,
+        SEQ_2_Mix,
         RND_1_Read,
         RND_1_Write,
+        RND_1_Mix,
         RND_2_Read,
-        RND_2_Write
+        RND_2_Write,
+        RND_2_Mix
     };
 
     struct PerformanceResult
@@ -46,7 +50,7 @@ public:
 
 private:
     void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
-    PerformanceResult parseResult(const std::shared_ptr<QProcess> process);
+    std::array<Benchmark::PerformanceResult, 2> parseResult(const std::shared_ptr<QProcess> process);
 
 public slots:
     void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);

@@ -28,6 +28,11 @@ QString Global::getRWSequentialWrite()
     return "write";
 }
 
+QString Global::getRWSequentialMix()
+{
+    return "rw";
+}
+
 QString Global::getRWRandomRead()
 {
     return "randread";
@@ -36,4 +41,9 @@ QString Global::getRWRandomRead()
 QString Global::getRWRandomWrite()
 {
     return "randwrite";
+}
+
+QString Global::getRWRandomMix()
+{
+    return "randrw";
 }

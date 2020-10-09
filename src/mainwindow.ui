@@ -738,6 +738,16 @@
        </item>
       </widget>
      </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_MixRatio">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>31</height>
+        </size>
+       </property>
+      </widget>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -784,6 +794,12 @@
     <property name="title">
      <string>Profile</string>
     </property>
+    <addaction name="actionDefault"/>
+    <addaction name="actionPeak_Performance"/>
+    <addaction name="actionReal_World_Performance"/>
+    <addaction name="actionDefault_Mix"/>
+    <addaction name="actionPeak_Performance_2"/>
+    <addaction name="actionReal_World_Performance_Mix"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -903,6 +919,42 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionDefault">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Default</string>
+   </property>
+  </action>
+  <action name="actionPeak_Performance">
+   <property name="text">
+    <string>Peak Performance</string>
+   </property>
+  </action>
+  <action name="actionReal_World_Performance">
+   <property name="text">
+    <string>Real World Performance</string>
+   </property>
+  </action>
+  <action name="actionDefault_Mix">
+   <property name="text">
+    <string>Default [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionPeak_Performance_2">
+   <property name="text">
+    <string>Peak Performance [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionReal_World_Performance_Mix">
+   <property name="text">
+    <string>Real World Performance [+Mix]</string>
    </property>
   </action>
  </widget>

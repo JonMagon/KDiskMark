@@ -9,8 +9,10 @@ namespace Global {
     QString getComparisonLabelTemplate();
     QString getRWSequentialRead();
     QString getRWSequentialWrite();
+    QString getRWSequentialMix();
     QString getRWRandomRead();
     QString getRWRandomWrite();
+    QString getRWRandomMix();
 }
 
 #endif // GLOBAL_H

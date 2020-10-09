@@ -27,14 +27,16 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     ui->setupUi(this);
 
     // temp
-    ui->mixWidget->setVisible(false);
+    /*ui->mixWidget->setVisible(false);
+
+    ui->comboBox_MixRatio->setVisible(false);
 
     ui->targetLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->targetLayoutWidget->geometry().left(),
                                    ui->targetLayoutWidget->geometry().height());
     ui->commentLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->commentLayoutWidget->geometry().left(),
                                     ui->commentLayoutWidget->geometry().height());
 
-    setFixedWidth(ui->commentLayoutWidget->geometry().width() + 2 * ui->commentLayoutWidget->geometry().left());
+    setFixedWidth(ui->commentLayoutWidget->geometry().width() + 2 * ui->commentLayoutWidget->geometry().left());*/
     // temp
 
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
@@ -88,6 +90,12 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     ui->comboBox_fileSize->
             setCurrentIndex(ui->comboBox_fileSize->findData(m_settings->getFileSize()));
+
+    for (int i = 1; i <= 9; i++) {
+        ui->comboBox_MixRatio->addItem(QStringLiteral("R%1%/W%2%").arg(i * 10).arg((10 - i) * 10));
+    }
+
+    ui->comboBox_MixRatio->setCurrentIndex(6); // TODO
 
     m_progressBars << ui->readBar_SEQ_1 << ui->writeBar_SEQ_1 << ui->mixBar_SEQ_1
                    << ui->readBar_SEQ_2 << ui->writeBar_SEQ_2 << ui->mixBar_SEQ_2
@@ -349,7 +357,7 @@ QString MainWindow::getTextBenchmarkResult()
                                       m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
     output << QString()
-           << "Profile: Default"
+           << "Profile: Default" // TODO: add mix
            << QString("   Test: %1")
               .arg("%1 %2 (x%3) [Interval: %4 %5]")
               .arg(m_settings->getFileSize() >= 1024 ? m_settings->getFileSize() / 1024 : m_settings->getFileSize())
@@ -398,6 +406,11 @@ void MainWindow::on_loopsCount_valueChanged(int arg1)
     m_settings->setLoopsCount(arg1);
 }
 
+void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
+{
+    m_settings->setRandomReadPercentage((index + 1) * 10.f);
+}
+
 void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 {
     QVariant variant = ui->comboBox_Dirs->itemData(index);
@@ -417,6 +430,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Dirs->setEnabled(false);
         ui->comboBox_ComparisonField->setEnabled(false);
+        ui->comboBox_MixRatio->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
         ui->pushButton_SEQ_1->setText(tr("Stop"));
         ui->pushButton_SEQ_2->setText(tr("Stop"));
@@ -430,6 +444,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Dirs->setEnabled(true);
         ui->comboBox_ComparisonField->setEnabled(true);
+        ui->comboBox_MixRatio->setEnabled(true);
         ui->pushButton_All->setEnabled(true);
         ui->pushButton_SEQ_1->setEnabled(true);
         ui->pushButton_SEQ_2->setEnabled(true);
@@ -554,7 +569,8 @@ void MainWindow::on_pushButton_SEQ_1_clicked()
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::SEQ_1_Read,  ui->readBar_SEQ_1  },
-                         { Benchmark::SEQ_1_Write, ui->writeBar_SEQ_1 }
+                         { Benchmark::SEQ_1_Write, ui->writeBar_SEQ_1 },
+                         { Benchmark::SEQ_1_Mix,   ui->mixBar_SEQ_1   }
                      });
     }
 }
@@ -566,7 +582,8 @@ void MainWindow::on_pushButton_SEQ_2_clicked()
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::SEQ_2_Read,  ui->readBar_SEQ_2  },
-                         { Benchmark::SEQ_2_Write, ui->writeBar_SEQ_2 }
+                         { Benchmark::SEQ_2_Write, ui->writeBar_SEQ_2 },
+                         { Benchmark::SEQ_2_Mix,   ui->mixBar_SEQ_2   }
                      });
     }
 }
@@ -578,7 +595,8 @@ void MainWindow::on_pushButton_RND_1_clicked()
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::RND_1_Read,  ui->readBar_RND_1  },
-                         { Benchmark::RND_1_Write, ui->writeBar_RND_1 }
+                         { Benchmark::RND_1_Write, ui->writeBar_RND_1 },
+                         { Benchmark::RND_1_Mix,   ui->mixBar_RND_1   }
                      });
     }
 }
@@ -590,7 +608,8 @@ void MainWindow::on_pushButton_RND_2_clicked()
     if (m_isBenchmarkThreadRunning) {
         runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> {
                          { Benchmark::RND_2_Read,  ui->readBar_RND_2  },
-                         { Benchmark::RND_2_Write, ui->writeBar_RND_2 }
+                         { Benchmark::RND_2_Write, ui->writeBar_RND_2 },
+                         { Benchmark::RND_2_Mix,   ui->mixBar_RND_2   }
                      });
     }
 }
@@ -608,7 +627,11 @@ void MainWindow::on_pushButton_All_clicked()
                          { Benchmark::SEQ_1_Write, ui->writeBar_SEQ_1 },
                          { Benchmark::SEQ_2_Write, ui->writeBar_SEQ_2 },
                          { Benchmark::RND_1_Write, ui->writeBar_RND_1 },
-                         { Benchmark::RND_2_Write, ui->writeBar_RND_2 }
+                         { Benchmark::RND_2_Write, ui->writeBar_RND_2 },
+                         { Benchmark::SEQ_1_Mix,   ui->mixBar_SEQ_1  },
+                         { Benchmark::SEQ_2_Mix,   ui->mixBar_SEQ_2  },
+                         { Benchmark::RND_1_Mix,   ui->mixBar_RND_1  },
+                         { Benchmark::RND_2_Mix,   ui->mixBar_RND_2  },
                      });
     }
 }

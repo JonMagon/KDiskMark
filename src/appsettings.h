@@ -42,12 +42,15 @@ public:
     void setIntervalTime(int intervalTime);
     int getIntervalTime();
     void setDir(QString dir);
+    void setRandomReadPercentage(float percentage);
+    float getRandomReadPercentage();
     QString getBenchmarkFile();
 
 private:
     int m_loopsCount = 5;
     int m_fileSize = 1024;
     int m_intervalTime = 5;
+    float m_percentage;
     QString m_dir;
 
     const BenchmarkParams m_default_SEQ_1 { 1024,  8,  1 };
