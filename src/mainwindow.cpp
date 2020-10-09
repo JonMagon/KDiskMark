@@ -29,10 +29,12 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     // temp
     ui->mixWidget->setVisible(false);
 
-    ui->horizontalLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->horizontalLayoutWidget->geometry().left(),
-                                       ui->horizontalLayoutWidget->geometry().height());
+    ui->targetLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->targetLayoutWidget->geometry().left(),
+                                   ui->targetLayoutWidget->geometry().height());
+    ui->commentLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->commentLayoutWidget->geometry().left(),
+                                    ui->commentLayoutWidget->geometry().height());
 
-    setFixedWidth(ui->horizontalLayoutWidget->geometry().width() + 2 * ui->horizontalLayoutWidget->geometry().left());
+    setFixedWidth(ui->commentLayoutWidget->geometry().width() + 2 * ui->commentLayoutWidget->geometry().left());
     // temp
 
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));

@@ -30,60 +30,6 @@
      <string>All</string>
     </property>
    </widget>
-   <widget class="QSpinBox" name="loopsCount">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>10</y>
-      <width>41</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>false</bool>
-    </property>
-    <property name="accelerated">
-     <bool>false</bool>
-    </property>
-    <property name="minimum">
-     <number>1</number>
-    </property>
-    <property name="maximum">
-     <number>9</number>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_fileSize">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>10</y>
-      <width>81</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_Dirs">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>10</y>
-      <width>231</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="editable">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_SEQ_1">
     <property name="geometry">
      <rect>
@@ -96,39 +42,6 @@
     <property name="text">
      <string>SEQ 1</string>
     </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_ComparisonField">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>490</x>
-      <y>10</y>
-      <width>71</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <item>
-     <property name="text">
-      <string>MB/s</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>GB/s</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>IOPS</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>μs</string>
-     </property>
-    </item>
    </widget>
    <widget class="QPushButton" name="pushButton_SEQ_2">
     <property name="geometry">
@@ -169,7 +82,7 @@
      <string>RND 2</string>
     </property>
    </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget">
+   <widget class="QWidget" name="commentLayoutWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -178,7 +91,7 @@
       <height>33</height>
      </rect>
     </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="commentLayout">
      <item>
       <widget class="QLabel" name="extraIcon">
        <property name="sizePolicy">
@@ -703,6 +616,126 @@
        <property name="format">
         <string>%v</string>
        </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="targetLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>10</y>
+      <width>681</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="targetLayout">
+     <property name="spacing">
+      <number>9</number>
+     </property>
+     <item>
+      <widget class="QSpinBox" name="loopsCount">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>41</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
+       <property name="accelerated">
+        <bool>false</bool>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>9</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_fileSize">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>81</width>
+         <height>16777215</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_Dirs">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="editable">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="comboBox_ComparisonField">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>31</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>71</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <item>
+        <property name="text">
+         <string>MB/s</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>GB/s</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>IOPS</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>μs</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>
