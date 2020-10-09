@@ -26,19 +26,6 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 {
     ui->setupUi(this);
 
-    // temp
-    /*ui->mixWidget->setVisible(false);
-
-    ui->comboBox_MixRatio->setVisible(false);
-
-    ui->targetLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->targetLayoutWidget->geometry().left(),
-                                   ui->targetLayoutWidget->geometry().height());
-    ui->commentLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->commentLayoutWidget->geometry().left(),
-                                    ui->commentLayoutWidget->geometry().height());
-
-    setFixedWidth(ui->commentLayoutWidget->geometry().width() + 2 * ui->commentLayoutWidget->geometry().left());*/
-    // temp
-
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
     ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
     ui->extraIcon->setVisible(false);
@@ -79,6 +66,25 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     ui->action10_min->setActionGroup(timeIntervalGroup);
 
     connect(timeIntervalGroup, SIGNAL(triggered(QAction*)), this, SLOT(timeIntervalSelected(QAction*)));
+
+    ui->actionDefault->setProperty("profile", PerformanceProfile::Default);
+    ui->actionPeak_Performance->setProperty("profile", PerformanceProfile::Peak);
+    ui->actionReal_World_Performance->setProperty("profile", PerformanceProfile::RealWorld);
+    ui->actionDefault_Mix->setProperty("profile", PerformanceProfile::Default_Mix);
+    ui->actionPeak_Performance_Mix->setProperty("profile", PerformanceProfile::Peak_Mix);
+    ui->actionReal_World_Performance_Mix->setProperty("profile", PerformanceProfile::RealWorld_Mix);
+
+    QActionGroup *profilesGroup = new QActionGroup(this);
+    ui->actionDefault->setActionGroup(profilesGroup);
+    ui->actionPeak_Performance->setActionGroup(profilesGroup);
+    ui->actionReal_World_Performance->setActionGroup(profilesGroup);
+    ui->actionDefault_Mix->setActionGroup(profilesGroup);
+    ui->actionPeak_Performance_Mix->setActionGroup(profilesGroup);
+    ui->actionReal_World_Performance_Mix->setActionGroup(profilesGroup);
+
+    connect(profilesGroup, SIGNAL(triggered(QAction*)), this, SLOT(profileSelected(QAction*)));
+
+    profileSelected(ui->actionDefault);
 
     for (int i = 16; i <= 512; i *= 2) {
         ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("MiB")), i);
@@ -420,6 +426,36 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
         ui->deviceModel->setText(volumeInfo[1]);
         ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
     }
+}
+
+void MainWindow::profileSelected(QAction* act)
+{
+    switch (act->property("profile").toInt())
+    {
+    case PerformanceProfile::Default:
+        ui->mixWidget->setVisible(false);
+        ui->comboBox_MixRatio->setVisible(false);
+        break;
+    case PerformanceProfile::Default_Mix:
+        ui->mixWidget->setVisible(true);
+        ui->comboBox_MixRatio->setVisible(true);
+        break;
+    }
+
+    if (ui->mixWidget->isVisible()) {
+        ui->targetLayoutWidget->resize(ui->mixWidget->geometry().right() - ui->targetLayoutWidget->geometry().left(),
+                                       ui->targetLayoutWidget->geometry().height());
+        ui->commentLayoutWidget->resize(ui->mixWidget->geometry().right() - ui->commentLayoutWidget->geometry().left(),
+                                        ui->commentLayoutWidget->geometry().height());
+    }
+    else {
+        ui->targetLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->targetLayoutWidget->geometry().left(),
+                                       ui->targetLayoutWidget->geometry().height());
+        ui->commentLayoutWidget->resize(ui->writeWidget->geometry().right() - ui->commentLayoutWidget->geometry().left(),
+                                        ui->commentLayoutWidget->geometry().height());
+    }
+
+    setFixedWidth(ui->commentLayoutWidget->geometry().width() + 2 * ui->commentLayoutWidget->geometry().left());
 }
 
 void MainWindow::benchmarkStateChanged(bool state)

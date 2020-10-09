@@ -798,7 +798,7 @@
     <addaction name="actionPeak_Performance"/>
     <addaction name="actionReal_World_Performance"/>
     <addaction name="actionDefault_Mix"/>
-    <addaction name="actionPeak_Performance_2"/>
+    <addaction name="actionPeak_Performance_Mix"/>
     <addaction name="actionReal_World_Performance_Mix"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
@@ -923,36 +923,51 @@
   </action>
   <action name="actionDefault">
    <property name="checkable">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Default</string>
    </property>
   </action>
   <action name="actionPeak_Performance">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Peak Performance</string>
    </property>
   </action>
   <action name="actionReal_World_Performance">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Real World Performance</string>
    </property>
   </action>
   <action name="actionDefault_Mix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Default [+Mix]</string>
    </property>
   </action>
-  <action name="actionPeak_Performance_2">
+  <action name="actionPeak_Performance_Mix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Peak Performance [+Mix]</string>
    </property>
   </action>
   <action name="actionReal_World_Performance_Mix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Real World Performance [+Mix]</string>
    </property>

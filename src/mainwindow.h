@@ -26,6 +26,15 @@ private:
     bool m_isBenchmarkThreadRunning = false;
     QVector<QProgressBar*> m_progressBars;
 
+    enum PerformanceProfile {
+        Default,
+        Peak,
+        RealWorld,
+        Default_Mix,
+        Peak_Mix,
+        RealWorld_Mix
+    };
+
 public:
     MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent = nullptr);
     ~MainWindow();
@@ -62,6 +71,7 @@ public slots:
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void timeIntervalSelected(QAction* act);
+    void profileSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 
 signals:
