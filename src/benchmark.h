@@ -46,11 +46,41 @@ public:
         float Bandwidth;
         float IOPS;
         float Latency;
+
+        PerformanceResult operator+ (const PerformanceResult& rhs)
+        {
+            return *this += rhs;
+        }
+
+        PerformanceResult operator+= (const PerformanceResult& rhs)
+        {
+            Bandwidth += rhs.Bandwidth;
+            IOPS += rhs.IOPS;
+            Latency += rhs.Latency;
+            return *this;
+        }
+
+        PerformanceResult operator/ (const unsigned int rhs) const
+        {
+            if (rhs == 0) return *this;
+
+            return PerformanceResult { Bandwidth / rhs, IOPS / rhs, Latency / rhs };
+        }
+
+        PerformanceResult operator* (const unsigned int rhs) const
+        {
+            return PerformanceResult { Bandwidth * rhs, IOPS * rhs, Latency * rhs };
+        }
+
+        bool operator< (const PerformanceResult& rhs) {
+            return Bandwidth < rhs.Bandwidth;
+        }
     };
 
 private:
     void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
     std::array<Benchmark::PerformanceResult, 2> parseResult(const std::shared_ptr<QProcess> process);
+    void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
 public slots:
     void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);

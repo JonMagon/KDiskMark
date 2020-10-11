@@ -62,12 +62,12 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
     PerformanceResult totalRead { 0, 0, 0 }, totalWrite { 0, 0, 0 };
 
-    unsigned int loops_count = 0;
+    unsigned int index = 0;
 
     for (auto &process : m_processes) {
         if (!m_running) break;
 
-        emit benchmarkStatusUpdate(statusMessage.arg(loops_count).arg(m_settings->getLoopsCount()));
+        emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
         kill(process->processId(), SIGCONT); // Resume
 
@@ -78,46 +78,57 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         }
 
         if (m_running) {
-            loops_count++;
+            index++;
 
             auto result = parseResult(process);
 
-            PerformanceResult resultRead = result[0];
-            totalRead.Bandwidth += resultRead.Bandwidth;
-            totalRead.IOPS += resultRead.IOPS;
-            totalRead.Latency += resultRead.Latency;
+            switch (m_settings->performanceProfile)
+            {
+                case AppSettings::PerformanceProfile::Default:
+                case AppSettings::PerformanceProfile::Default_Mix:
+                    totalRead += result[0];
+                    totalWrite += result[1];
+                break;
+                case AppSettings::PerformanceProfile::Peak:
+                case AppSettings::PerformanceProfile::Peak_Mix:
+                    if (totalRead < result[0]) {
+                        totalRead = result[0];
+                    }
 
-            PerformanceResult resultWrite = result[1];
-            totalWrite.Bandwidth += resultWrite.Bandwidth;
-            totalWrite.IOPS += resultWrite.IOPS;
-            totalWrite.Latency += resultWrite.Latency;
-        }
-
-        PerformanceResult prepare { 0, 0, 0 };
-
-        if (rw.contains("read")) {
-            prepare = totalRead;
-        } else if (rw.contains("write")) {
-            prepare = totalWrite;
-        } else if (rw.contains("rw")) {
-            float p = m_settings->getRandomReadPercentage();
-            prepare = PerformanceResult {
-                    (totalRead.Bandwidth * p + totalWrite.Bandwidth * (100.f - p)) / 100.f,
-                    (totalRead.IOPS * p + totalWrite.IOPS * (100.f - p)) / 100.f,
-                    (totalRead.Latency * p + totalWrite.Latency * (100.f - p)) / 100.f };
+                    if (totalWrite < result[1]) {
+                        totalWrite = result[1];
+                    }
+                break;
+            }
         }
 
         process->close();
 
-        emit resultReady(m_progressBar, loops_count != 0
-                ? PerformanceResult {
-                  prepare.Bandwidth / loops_count,
-                  prepare.IOPS / loops_count,
-                  prepare.Latency / loops_count }
-                : prepare);
+        if (rw.contains("read")) {
+            sendResult(totalRead, index);
+        }
+        else if (rw.contains("write")) {
+            sendResult(totalWrite, index);
+        }
+        else if (rw.contains("rw")) {
+            float p = m_settings->getRandomReadPercentage();
+            sendResult((totalRead * p + totalWrite * (100.f - p)) / 100.f, index);
+        }
     }
 
     m_processes.clear();
+}
+
+void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int index)
+{
+    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default
+            || m_settings->performanceProfile == AppSettings::PerformanceProfile::Default_Mix) {
+        result / 2;
+        emit resultReady(m_progressBar, result / index);
+    }
+    else {
+        emit resultReady(m_progressBar, result);
+    }
 }
 
 std::array<Benchmark::PerformanceResult, 2> Benchmark::parseResult(const std::shared_ptr<QProcess> process)
