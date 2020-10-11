@@ -123,7 +123,6 @@ void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int
 {
     if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default
             || m_settings->performanceProfile == AppSettings::PerformanceProfile::Default_Mix) {
-        result / 2;
         emit resultReady(m_progressBar, result / index);
     }
     else {
