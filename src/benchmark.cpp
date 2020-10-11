@@ -77,8 +77,6 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             setRunning(false);
         }
 
-        PerformanceResult prepare { 0, 0, 0 };
-
         if (m_running) {
             loops_count++;
 
@@ -93,18 +91,20 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             totalWrite.Bandwidth += resultWrite.Bandwidth;
             totalWrite.IOPS += resultWrite.IOPS;
             totalWrite.Latency += resultWrite.Latency;
+        }
 
-            if (rw.contains("read")) {
-                prepare = totalRead;
-            } else if (rw.contains("write")) {
-                prepare = totalWrite;
-            } else if (rw.contains("rw")) {
-                float p = m_settings->getRandomReadPercentage();
-                prepare = PerformanceResult {
-                        (totalRead.Bandwidth * p + totalWrite.Bandwidth * (100.f - p)) / 100.f,
-                        (totalRead.IOPS * p + totalWrite.IOPS * (100.f - p)) / 100.f,
-                        (totalRead.Latency * p + totalWrite.Latency * (100.f - p)) / 100.f };
-            }
+        PerformanceResult prepare { 0, 0, 0 };
+
+        if (rw.contains("read")) {
+            prepare = totalRead;
+        } else if (rw.contains("write")) {
+            prepare = totalWrite;
+        } else if (rw.contains("rw")) {
+            float p = m_settings->getRandomReadPercentage();
+            prepare = PerformanceResult {
+                    (totalRead.Bandwidth * p + totalWrite.Bandwidth * (100.f - p)) / 100.f,
+                    (totalRead.IOPS * p + totalWrite.IOPS * (100.f - p)) / 100.f,
+                    (totalRead.Latency * p + totalWrite.Latency * (100.f - p)) / 100.f };
         }
 
         process->close();
