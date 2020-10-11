@@ -30,7 +30,7 @@
      <string>All</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_SEQ_1">
+   <widget class="QPushButton" name="pushButton_Test_1">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -40,10 +40,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>SEQ 1</string>
+     <string>Test 1</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_SEQ_2">
+   <widget class="QPushButton" name="pushButton_Test_2">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -53,10 +53,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>SEQ 2</string>
+     <string>Test 2</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_RND_1">
+   <widget class="QPushButton" name="pushButton_Test_3">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -66,10 +66,10 @@
      </rect>
     </property>
     <property name="text">
-     <string>RND 1</string>
+     <string>Test 3</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_RND_2">
+   <widget class="QPushButton" name="pushButton_Test_4">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -79,7 +79,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>RND 2</string>
+     <string>Test 4</string>
     </property>
    </widget>
    <widget class="QWidget" name="commentLayoutWidget">
@@ -179,7 +179,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="readBar_SEQ_1">
+      <widget class="QProgressBar" name="readBar_1">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -209,7 +209,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="readBar_SEQ_2">
+      <widget class="QProgressBar" name="readBar_2">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -239,7 +239,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="readBar_RND_1">
+      <widget class="QProgressBar" name="readBar_3">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -269,7 +269,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="readBar_RND_2">
+      <widget class="QProgressBar" name="readBar_4">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -339,7 +339,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="writeBar_SEQ_1">
+      <widget class="QProgressBar" name="writeBar_1">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -369,7 +369,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="writeBar_SEQ_2">
+      <widget class="QProgressBar" name="writeBar_2">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -399,7 +399,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="writeBar_RND_1">
+      <widget class="QProgressBar" name="writeBar_3">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -429,7 +429,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="writeBar_RND_2">
+      <widget class="QProgressBar" name="writeBar_4">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -499,7 +499,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="mixBar_SEQ_1">
+      <widget class="QProgressBar" name="mixBar_1">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -529,7 +529,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="mixBar_SEQ_2">
+      <widget class="QProgressBar" name="mixBar_2">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -559,7 +559,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="mixBar_RND_1">
+      <widget class="QProgressBar" name="mixBar_3">
        <property name="minimumSize">
         <size>
          <width>220</width>
@@ -589,7 +589,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="mixBar_RND_2">
+      <widget class="QProgressBar" name="mixBar_4">
        <property name="minimumSize">
         <size>
          <width>220</width>

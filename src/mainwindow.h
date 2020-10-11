@@ -32,13 +32,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_SEQ_1_clicked();
+    void on_pushButton_Test_1_clicked();
 
-    void on_pushButton_SEQ_2_clicked();
+    void on_pushButton_Test_2_clicked();
 
-    void on_pushButton_RND_1_clicked();
+    void on_pushButton_Test_3_clicked();
 
-    void on_pushButton_RND_2_clicked();
+    void on_pushButton_Test_4_clicked();
 
     void on_pushButton_All_clicked();
 

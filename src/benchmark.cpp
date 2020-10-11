@@ -86,7 +86,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             {
                 case AppSettings::PerformanceProfile::Default:
                 case AppSettings::PerformanceProfile::Default_Mix:
-                    totalRead += result[0];
+                    totalRead  += result[0];
                     totalWrite += result[1];
                 break;
                 case AppSettings::PerformanceProfile::Peak:
