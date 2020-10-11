@@ -31,6 +31,15 @@ public:
 
     Q_ENUM(ComparisonField)
 
+    enum PerformanceProfile {
+        Default,
+        Peak,
+        RealWorld,
+        Default_Mix,
+        Peak_Mix,
+        RealWorld_Mix
+    } performanceProfile = Default;
+
     AppSettings() {}
     BenchmarkParams getBenchmarkParams(BenchmarkTest test);
     void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
@@ -62,7 +71,6 @@ private:
     BenchmarkParams m_SEQ_2 = m_default_SEQ_2;
     BenchmarkParams m_RND_1 = m_default_RND_1;
     BenchmarkParams m_RND_2 = m_default_RND_2;
-
 };
 
 #endif // APPSETTINGS_H

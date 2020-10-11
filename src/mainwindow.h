@@ -25,15 +25,7 @@ private:
     QThread m_benchmarkThread;
     bool m_isBenchmarkThreadRunning = false;
     QVector<QProgressBar*> m_progressBars;
-
-    enum PerformanceProfile {
-        Default,
-        Peak,
-        RealWorld,
-        Default_Mix,
-        Peak_Mix,
-        RealWorld_Mix
-    };
+    bool m_shouldRunMixTest = false;
 
 public:
     MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent = nullptr);
@@ -85,6 +77,7 @@ private:
     QString getTextBenchmarkResult();
     bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
+    void refreshProgressBars();
     void updateProgressBar(QProgressBar *progressBar);
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
                                     const AppSettings::BenchmarkParams &params);
