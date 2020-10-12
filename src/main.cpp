@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
     qRegisterMetaType<Benchmark::Type>("Benchmark::Type");
     qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
-    qRegisterMetaType<QList<QPair<Benchmark::Type,QProgressBar*>>>("QList<QPair<Benchmark::Type,QProgressBar*>>");
+    qRegisterMetaType<QList<QPair<Benchmark::Type,QProgressBar*>>>("QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>");
 
     QTranslator translator;
     if (translator.load(QLocale(), qAppName(), QLatin1String("_"),

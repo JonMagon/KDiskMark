@@ -19,7 +19,7 @@ class Benchmark : public QObject
     std::vector<std::shared_ptr<QProcess>> m_processes;
     bool m_running;
     QString m_FIOVersion;
-    QProgressBar* m_progressBar;
+    QVector<QProgressBar*> m_progressBars;
 
 public:
     Benchmark(AppSettings *settings);
@@ -83,7 +83,7 @@ private:
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
 public slots:
-    void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);
+    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests);
     void setRunning(bool state);
 
 signals:

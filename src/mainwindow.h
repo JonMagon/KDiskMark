@@ -67,7 +67,7 @@ public slots:
     void benchmarkStateChanged(bool state);
 
 signals:
-    void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>>);
+    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>>);
 
 private:
     Ui::MainWindow *ui;

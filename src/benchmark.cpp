@@ -123,10 +123,14 @@ void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int
 {
     if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default
             || m_settings->performanceProfile == AppSettings::PerformanceProfile::Default_Mix) {
-        emit resultReady(m_progressBar, result / index);
+        for (auto progressBar : m_progressBars) {
+            emit resultReady(progressBar, result / index);
+        }
     }
     else {
-        emit resultReady(m_progressBar, result);
+        for (auto progressBar : m_progressBars) {
+            emit resultReady(progressBar, result);
+        }
     }
 }
 
@@ -195,24 +199,27 @@ void Benchmark::setRunning(bool state)
     emit runningStateChanged(state);
 }
 
-void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests)
+void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests)
 {
-    QListIterator<QPair<Benchmark::Type, QProgressBar*>> iter(tests);
+    QListIterator<QPair<Benchmark::Type, QVector<QProgressBar*>>> iter(tests);
     // Set to 0 all the progressbars for current tests
     while (iter.hasNext()) {
-        emit resultReady(iter.next().second, PerformanceResult());
+        auto progressBars = iter.next().second;
+        for (auto obj : progressBars) {
+            emit resultReady(obj, PerformanceResult());
+        }
     }
 
     iter.toFront();
 
     AppSettings::BenchmarkParams params;
 
-    QPair<Benchmark::Type, QProgressBar*> item;
+    QPair<Benchmark::Type, QVector<QProgressBar*>> item;
 
     while (iter.hasNext() && m_running) {
         item = iter.next();
 
-        m_progressBar = item.second;
+        m_progressBars = item.second;
 
         switch (item.first)
         {
