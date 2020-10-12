@@ -77,9 +77,14 @@ public:
         }
     };
 
+    struct ParsedJob
+    {
+        PerformanceResult read, write;
+    };
+
 private:
     void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
-    std::array<Benchmark::PerformanceResult, 2> parseResult(const std::shared_ptr<QProcess> process);
+    Benchmark::ParsedJob parseResult(const std::shared_ptr<QProcess> process);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
 public slots:

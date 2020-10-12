@@ -86,17 +86,17 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             {
                 case AppSettings::PerformanceProfile::Default:
                 case AppSettings::PerformanceProfile::Default_Mix:
-                    totalRead  += result[0];
-                    totalWrite += result[1];
+                    totalRead  += result.read;
+                    totalWrite += result.write;
                 break;
                 case AppSettings::PerformanceProfile::Peak:
                 case AppSettings::PerformanceProfile::Peak_Mix:
-                    if (totalRead < result[0]) {
-                        totalRead = result[0];
+                    if (totalRead < result.read) {
+                        totalRead = result.read;
                     }
 
-                    if (totalWrite < result[1]) {
-                        totalWrite = result[1];
+                    if (totalWrite < result.write) {
+                        totalWrite = result.write;
                     }
                 break;
             }
@@ -134,7 +134,7 @@ void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int
     }
 }
 
-std::array<Benchmark::PerformanceResult, 2> Benchmark::parseResult(const std::shared_ptr<QProcess> process)
+Benchmark::ParsedJob Benchmark::parseResult(const std::shared_ptr<QProcess> process)
 {
     QString output = QString(process->readAllStandardOutput());
     QJsonDocument jsonResponse = QJsonDocument::fromJson(output.toUtf8());
@@ -178,7 +178,7 @@ std::array<Benchmark::PerformanceResult, 2> Benchmark::parseResult(const std::sh
         }
     }
 
-    return std::array<PerformanceResult, 2> { resultRead, resultWrite };
+    return ParsedJob { resultRead, resultWrite };
 }
 
 void Benchmark::setRunning(bool state)
