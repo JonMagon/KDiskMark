@@ -99,7 +99,7 @@ Languages currently available:
 
 ## TODO
 - [ ] Windows compatibility
-- [ ] Profiles (mix etc.)
+- [ ] Performance profiles (mix, peak, real-world)
 
 ## Credits
 Application Icon  
