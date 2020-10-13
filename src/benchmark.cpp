@@ -91,13 +91,8 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
                 break;
                 case AppSettings::PerformanceProfile::Peak:
                 case AppSettings::PerformanceProfile::Peak_Mix:
-                    if (totalRead < result.read) {
-                        totalRead = result.read;
-                    }
-
-                    if (totalWrite < result.write) {
-                        totalWrite = result.write;
-                    }
+                    totalRead.updateWithBetterValues(result.read);
+                    totalWrite.updateWithBetterValues(result.write);
                 break;
             }
         }

@@ -72,8 +72,11 @@ public:
             return PerformanceResult { Bandwidth * rhs, IOPS * rhs, Latency * rhs };
         }
 
-        bool operator< (const PerformanceResult& rhs) {
-            return Bandwidth < rhs.Bandwidth;
+        void updateWithBetterValues(const PerformanceResult& result) {
+            Bandwidth = Bandwidth < result.Bandwidth ? result.Bandwidth : Bandwidth;
+            IOPS = IOPS < result.IOPS ? result.IOPS : IOPS;
+            if (Latency == 0) Latency = result.Latency;
+            Latency = Latency > result.Latency ? result.Latency : Latency;
         }
     };
 

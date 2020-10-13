@@ -620,7 +620,7 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 
     switch (m_settings->performanceProfile) {
     case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::Peak_Mix: {
+    case AppSettings::PerformanceProfile::Peak_Mix:
         if (progressBar == ui->readBar_3 || progressBar == ui->writeBar_3 || progressBar == ui->mixBar_3) {
             comparisonField = AppSettings::IOPS;
         }
@@ -628,7 +628,6 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
             comparisonField = AppSettings::Latency;
         }
         break;
-    }
     default:
         comparisonField = m_settings->comprasionField;
         break;
