@@ -40,7 +40,7 @@ void AppSettings::setRandomReadPercentage(float percentage)
     m_percentage = percentage;
 }
 
-float AppSettings::getRandomReadPercentage()
+int AppSettings::getRandomReadPercentage()
 {
     return m_percentage;
 }

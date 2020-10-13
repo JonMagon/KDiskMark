@@ -97,11 +97,13 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     ui->comboBox_fileSize->
             setCurrentIndex(ui->comboBox_fileSize->findData(m_settings->getFileSize()));
 
+    int indexMixRatio = m_settings->getRandomReadPercentage() / 10 - 1;
+
     for (int i = 1; i <= 9; i++) {
         ui->comboBox_MixRatio->addItem(QStringLiteral("R%1%/W%2%").arg(i * 10).arg((10 - i) * 10));
     }
 
-    ui->comboBox_MixRatio->setCurrentIndex(6); // TODO
+    ui->comboBox_MixRatio->setCurrentIndex(indexMixRatio);
 
     m_progressBars << ui->readBar_1 << ui->writeBar_1 << ui->mixBar_1
                    << ui->readBar_2 << ui->writeBar_2 << ui->mixBar_2
