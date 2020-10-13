@@ -136,7 +136,7 @@ Benchmark::ParsedJob Benchmark::parseResult(const std::shared_ptr<QProcess> proc
     QJsonObject jsonObject = jsonResponse.object();
     QJsonArray jobs = jsonObject["jobs"].toArray();
 
-    PerformanceResult resultRead = PerformanceResult(), resultWrite = PerformanceResult();
+    ParsedJob parsedJob { 0, 0, 0, 0, 0, 0 };
 
     QString errorOutput = process->readAllStandardError();
 
@@ -151,20 +151,19 @@ Benchmark::ParsedJob Benchmark::parseResult(const std::shared_ptr<QProcess> proc
         emit failed("Bad FIO output.");
     }
     else {
-
         for (int i = 0; i < jobsCount; i++) {
             QJsonObject job = jobs.takeAt(i).toObject();
 
             if (job["error"].toInt() == 0) {
                 QJsonObject jobRead = job["read"].toObject();
-                resultRead.Bandwidth += jobRead.value("bw").toInt() / 1000.0; // to mb
-                resultRead.IOPS += jobRead.value("iops").toDouble();
-                resultRead.Latency += jobRead["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
+                parsedJob.read.Bandwidth += jobRead.value("bw").toInt() / 1000.0; // to mb
+                parsedJob.read.IOPS += jobRead.value("iops").toDouble();
+                parsedJob.read.Latency += jobRead["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
 
                 QJsonObject jobWrite = job["write"].toObject();
-                resultWrite.Bandwidth += jobWrite.value("bw").toInt() / 1000.0; // to mb
-                resultWrite.IOPS += jobWrite.value("iops").toDouble();
-                resultWrite.Latency += jobWrite["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
+                parsedJob.write.Bandwidth += jobWrite.value("bw").toInt() / 1000.0; // to mb
+                parsedJob.write.IOPS += jobWrite.value("iops").toDouble();
+                parsedJob.write.Latency += jobWrite["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
             }
             else {
                 setRunning(false);
@@ -173,7 +172,7 @@ Benchmark::ParsedJob Benchmark::parseResult(const std::shared_ptr<QProcess> proc
         }
     }
 
-    return ParsedJob { resultRead, resultWrite };
+    return parsedJob;
 }
 
 void Benchmark::setRunning(bool state)
