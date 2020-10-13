@@ -616,7 +616,25 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 
     float value;
 
-    switch (m_settings->comprasionField) {
+    AppSettings::ComparisonField comparisonField = AppSettings::MBPerSec;
+
+    switch (m_settings->performanceProfile) {
+    case AppSettings::PerformanceProfile::Peak:
+    case AppSettings::PerformanceProfile::Peak_Mix: {
+        if (progressBar == ui->readBar_3 || progressBar == ui->writeBar_3 || progressBar == ui->mixBar_3) {
+            comparisonField = AppSettings::IOPS;
+        }
+        else if (progressBar == ui->readBar_4 || progressBar == ui->writeBar_4 || progressBar == ui->mixBar_4) {
+            comparisonField = AppSettings::Latency;
+        }
+        break;
+    }
+    default:
+        comparisonField = m_settings->comprasionField;
+        break;
+    }
+
+    switch (comparisonField) {
     case AppSettings::MBPerSec:
         progressBar->setFormat(score >= 1000000.0 ? QString::number((int)score) : QString::number(score, 'f', 2));
         break;
@@ -634,7 +652,7 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
         break;
     }
 
-    if (m_settings->comprasionField == AppSettings::Latency) {
+    if (comparisonField == AppSettings::Latency) {
         progressBar->setValue(value <= 0.0000000001 ? 0 : 100 - 16.666666666666 * log10(value));
     }
     else {
@@ -667,8 +685,7 @@ void MainWindow::on_pushButton_Test_2_clicked()
 
     if (m_isBenchmarkThreadRunning) {
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set;
-        switch (m_settings->performanceProfile)
-        {
+        switch (m_settings->performanceProfile) {
         case AppSettings::PerformanceProfile::Default:
         case AppSettings::PerformanceProfile::Default_Mix:
             set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
@@ -684,13 +701,13 @@ void MainWindow::on_pushButton_Test_2_clicked()
         case AppSettings::PerformanceProfile::Peak:
         case AppSettings::PerformanceProfile::Peak_Mix:
             set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-                { Benchmark::RND_1_Read,  { ui->readBar_2  } },
-                { Benchmark::RND_1_Write, { ui->writeBar_2 } }
+                { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
+                { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
             };
 
             if (m_shouldRunMixTest) {
                 set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-                { Benchmark::RND_1_Mix,  {  ui->mixBar_2   } };
+                { Benchmark::RND_1_Mix,  {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4   } };
             }
         }
 
