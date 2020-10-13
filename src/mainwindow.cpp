@@ -249,6 +249,8 @@ void MainWindow::updateBenchmarkButtonsContent()
         break;
     case AppSettings::PerformanceProfile::Peak:
     case AppSettings::PerformanceProfile::Peak_Mix:
+    case AppSettings::PerformanceProfile::RealWorld:
+    case AppSettings::PerformanceProfile::RealWorld_Mix:
         params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
         ui->pushButton_Test_2->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
                                       .arg(params.Queues).arg(params.Threads));
@@ -482,6 +484,8 @@ void MainWindow::profileSelected(QAction* act)
     {
     case AppSettings::PerformanceProfile::Peak:
     case AppSettings::PerformanceProfile::Peak_Mix:
+    case AppSettings::PerformanceProfile::RealWorld:
+    case AppSettings::PerformanceProfile::RealWorld_Mix:
         ui->comboBox_ComparisonField->setVisible(false);
         break;
     default:
@@ -623,6 +627,8 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
     switch (m_settings->performanceProfile) {
     case AppSettings::PerformanceProfile::Peak:
     case AppSettings::PerformanceProfile::Peak_Mix:
+    case AppSettings::PerformanceProfile::RealWorld:
+    case AppSettings::PerformanceProfile::RealWorld_Mix:
         if (progressBar == ui->readBar_3 || progressBar == ui->writeBar_3 || progressBar == ui->mixBar_3) {
             comparisonField = AppSettings::IOPS;
         }
@@ -701,6 +707,8 @@ void MainWindow::on_pushButton_Test_2_clicked()
             break;
         case AppSettings::PerformanceProfile::Peak:
         case AppSettings::PerformanceProfile::Peak_Mix:
+        case AppSettings::PerformanceProfile::RealWorld:
+        case AppSettings::PerformanceProfile::RealWorld_Mix:
             set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
                 { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
                 { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }

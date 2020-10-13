@@ -71,11 +71,13 @@ AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
     switch (test)
     {
     case SEQ_1:
-        return m_SEQ_1;
+        return performanceProfile != PerformanceProfile::RealWorld && performanceProfile != PerformanceProfile::RealWorld_Mix
+                ? m_SEQ_1 : m_RealWorld_SEQ;
     case SEQ_2:
         return m_SEQ_2;
     case RND_1:
-        return m_RND_1;
+        return performanceProfile != PerformanceProfile::RealWorld && performanceProfile != PerformanceProfile::RealWorld_Mix
+                ? m_RND_1 : m_RealWorld_RND;
     case RND_2:
         return m_RND_2;
     }
