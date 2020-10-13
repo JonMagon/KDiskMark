@@ -50,6 +50,27 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
     }
 
     setActualValues();
+
+    switch (m_settings->performanceProfile) {
+    case AppSettings::PerformanceProfile::RealWorld:
+    case AppSettings::PerformanceProfile::RealWorld_Mix:
+        ui->SEQ_1_BlockSize->setEnabled(false);
+        ui->SEQ_1_Queues->setEnabled(false);
+        ui->SEQ_1_Threads->setEnabled(false);
+        ui->RND_1_BlockSize->setEnabled(false);
+        ui->RND_1_Queues->setEnabled(false);
+        ui->RND_1_Threads->setEnabled(false);
+        [[fallthrough]];
+    case AppSettings::PerformanceProfile::Peak:
+    case AppSettings::PerformanceProfile::Peak_Mix:
+        ui->SEQ_2_BlockSize->setEnabled(false);
+        ui->SEQ_2_Queues->setEnabled(false);
+        ui->SEQ_2_Threads->setEnabled(false);
+        ui->RND_2_BlockSize->setEnabled(false);
+        ui->RND_2_Queues->setEnabled(false);
+        ui->RND_2_Threads->setEnabled(false);
+        break;
+    }
 }
 
 Settings::~Settings()
