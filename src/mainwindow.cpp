@@ -397,8 +397,10 @@ QString MainWindow::getTextBenchmarkResult()
            << combineOutputTestResult("Random", ui->writeBar_4,
                                       m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
+    QString profiles[] = { "Default", "Peak Performance", "Real World Performance" };
+
     output << QString()
-           << "Profile: Default" // TODO: add mix
+           << "Profile: " + profiles[(int)m_settings->performanceProfile] + (m_settings->isMixed() ? " [+Mix]" : QString())
            << QString("   Test: %1")
               .arg("%1 %2 (x%3) [Interval: %4 %5]")
               .arg(m_settings->getFileSize() >= 1024 ? m_settings->getFileSize() / 1024 : m_settings->getFileSize())
