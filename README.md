@@ -69,6 +69,12 @@ cd kdiskmark
 makepkg -si
 ```
 
+### Fedora
+```bash
+sudo dnf copr enable atim/kdiskmark -y
+sudo dnf install kdiskmark
+```
+
 ## Building
 ### Building executable
 You can build **KDiskMark** by using the following commands:
@@ -88,11 +94,12 @@ Languages currently available:
 * French
 * German
 * Italian
+* Portuguese (Brazilian)
 * Russian
 
 ## TODO
 - [ ] Windows compatibility
-- [ ] Profiles (mix etc.)
+- [ ] Performance profiles (mix, peak, real-world)
 
 ## Credits
 Application Icon  
