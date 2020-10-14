@@ -87,7 +87,7 @@
         <location filename="../../src/benchmark.cpp" line="231"/>
         <location filename="../../src/benchmark.cpp" line="246"/>
         <source>Sequential Mix %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Sekvenční mix %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="251"/>
@@ -105,7 +105,7 @@
         <location filename="../../src/benchmark.cpp" line="261"/>
         <location filename="../../src/benchmark.cpp" line="276"/>
         <source>Random Mix %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhodný mix %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="282"/>
@@ -129,22 +129,22 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="43"/>
         <source>Test 1</source>
-        <translation></translation>
+        <translation>Test 1</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="56"/>
         <source>Test 2</source>
-        <translation></translation>
+        <translation>Test 2</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="69"/>
         <source>Test 3</source>
-        <translation></translation>
+        <translation>Test 3</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="82"/>
         <source>Test 4</source>
-        <translation></translation>
+        <translation>Test 4</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="207"/>
@@ -160,7 +160,7 @@
         <location filename="../../src/mainwindow.ui" line="587"/>
         <location filename="../../src/mainwindow.ui" line="617"/>
         <source>%v</source>
-        <translation></translation>
+        <translation>%v</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="721"/>
@@ -186,7 +186,7 @@
         <location filename="../../src/mainwindow.ui" line="497"/>
         <location filename="../../src/mainwindow.cpp" line="334"/>
         <source>Mix</source>
-        <translation type="unfinished"></translation>
+        <translation>Mix</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="765"/>
@@ -291,32 +291,32 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="932"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="940"/>
         <source>Peak Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Výkon ve špičce</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="948"/>
         <source>Real World Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Skutečný běžný výkon</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="956"/>
         <source>Default [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="964"/>
         <source>Peak Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Výkon ve špičce [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="972"/>
         <source>Real World Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Skutečný běžný výkon [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="96"/>
@@ -364,7 +364,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="30"/>
         <source>The device is encrypted. Performance may drop.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zařízení je šifrované. Výkon může poklesnout.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="310"/>
