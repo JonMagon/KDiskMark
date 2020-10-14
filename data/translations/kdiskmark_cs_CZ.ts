@@ -129,22 +129,22 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="43"/>
         <source>Test 1</source>
-        <translation></translation>
+        <translation>Test 1</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="56"/>
         <source>Test 2</source>
-        <translation></translation>
+        <translation>Test 2</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="69"/>
         <source>Test 3</source>
-        <translation></translation>
+        <translation>Test 3</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="82"/>
         <source>Test 4</source>
-        <translation></translation>
+        <translation>Test 4</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="207"/>
@@ -160,7 +160,7 @@
         <location filename="../../src/mainwindow.ui" line="587"/>
         <location filename="../../src/mainwindow.ui" line="617"/>
         <source>%v</source>
-        <translation></translation>
+        <translation>%v</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="721"/>
