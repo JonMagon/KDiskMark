@@ -34,10 +34,7 @@ public:
     enum PerformanceProfile {
         Default,
         Peak,
-        RealWorld,
-        Default_Mix,
-        Peak_Mix,
-        RealWorld_Mix
+        RealWorld
     } performanceProfile = Default;
 
     AppSettings() {}
@@ -54,6 +51,8 @@ public:
     void setRandomReadPercentage(float percentage);
     int getRandomReadPercentage();
     QString getBenchmarkFile();
+    void setMixed(bool state);
+    bool isMixed();
 
 private:
     int m_loopsCount = 5;
@@ -61,6 +60,7 @@ private:
     int m_intervalTime = 5;
     int m_percentage = 70;
     QString m_dir;
+    bool m_mixedState = false;
 
     const BenchmarkParams m_default_SEQ_1 { 1024,  8,  1 };
     const BenchmarkParams m_default_SEQ_2 { 1024,  1,  1 };

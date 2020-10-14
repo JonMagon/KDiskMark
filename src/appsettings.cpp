@@ -58,6 +58,16 @@ QString AppSettings::getBenchmarkFile()
     }
 }
 
+bool AppSettings::isMixed()
+{
+    return m_mixedState;
+}
+
+void AppSettings::setMixed(bool state)
+{
+    m_mixedState = state;
+}
+
 void AppSettings::restoreDefaultBenchmarkParams()
 {
     m_SEQ_1 = m_default_SEQ_1;
@@ -71,13 +81,11 @@ AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
     switch (test)
     {
     case SEQ_1:
-        return performanceProfile != PerformanceProfile::RealWorld && performanceProfile != PerformanceProfile::RealWorld_Mix
-                ? m_SEQ_1 : m_RealWorld_SEQ;
+        return performanceProfile != PerformanceProfile::RealWorld ? m_SEQ_1 : m_RealWorld_SEQ;
     case SEQ_2:
         return m_SEQ_2;
     case RND_1:
-        return performanceProfile != PerformanceProfile::RealWorld && performanceProfile != PerformanceProfile::RealWorld_Mix
-                ? m_RND_1 : m_RealWorld_RND;
+        return performanceProfile != PerformanceProfile::RealWorld ? m_RND_1 : m_RealWorld_RND;
     case RND_2:
         return m_RND_2;
     }

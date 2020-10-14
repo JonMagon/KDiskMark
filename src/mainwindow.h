@@ -25,7 +25,6 @@ private:
     QThread m_benchmarkThread;
     bool m_isBenchmarkThreadRunning = false;
     QVector<QProgressBar*> m_progressBars;
-    bool m_shouldRunMixTest = false;
 
 public:
     MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent = nullptr);

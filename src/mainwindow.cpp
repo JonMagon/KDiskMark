@@ -68,11 +68,17 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     connect(timeIntervalGroup, SIGNAL(triggered(QAction*)), this, SLOT(timeIntervalSelected(QAction*)));
 
     ui->actionDefault->setProperty("profile", AppSettings::PerformanceProfile::Default);
+    ui->actionDefault->setProperty("mixed", false);
     ui->actionPeak_Performance->setProperty("profile", AppSettings::PerformanceProfile::Peak);
+    ui->actionPeak_Performance->setProperty("mixed", false);
     ui->actionReal_World_Performance->setProperty("profile", AppSettings::PerformanceProfile::RealWorld);
-    ui->actionDefault_Mix->setProperty("profile", AppSettings::PerformanceProfile::Default_Mix);
-    ui->actionPeak_Performance_Mix->setProperty("profile", AppSettings::PerformanceProfile::Peak_Mix);
-    ui->actionReal_World_Performance_Mix->setProperty("profile", AppSettings::PerformanceProfile::RealWorld_Mix);
+    ui->actionReal_World_Performance->setProperty("mixed", false);
+    ui->actionDefault_Mix->setProperty("profile", AppSettings::PerformanceProfile::Default);
+    ui->actionDefault_Mix->setProperty("mixed", true);
+    ui->actionPeak_Performance_Mix->setProperty("profile", AppSettings::PerformanceProfile::Peak);
+    ui->actionPeak_Performance_Mix->setProperty("mixed", true);
+    ui->actionReal_World_Performance_Mix->setProperty("profile", AppSettings::PerformanceProfile::RealWorld);
+    ui->actionReal_World_Performance_Mix->setProperty("mixed", true);
 
     QActionGroup *profilesGroup = new QActionGroup(this);
     ui->actionDefault->setActionGroup(profilesGroup);
@@ -228,7 +234,6 @@ void MainWindow::updateBenchmarkButtonsContent()
     switch (m_settings->performanceProfile)
     {
     case AppSettings::PerformanceProfile::Default:
-    case AppSettings::PerformanceProfile::Default_Mix:
         params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
         ui->pushButton_Test_2->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
                                       .arg(params.Queues).arg(params.Threads));
@@ -248,9 +253,7 @@ void MainWindow::updateBenchmarkButtonsContent()
                                          .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
         break;
     case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::Peak_Mix:
     case AppSettings::PerformanceProfile::RealWorld:
-    case AppSettings::PerformanceProfile::RealWorld_Mix:
         params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
         ui->pushButton_Test_2->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
                                       .arg(params.Queues).arg(params.Threads));
@@ -462,30 +465,17 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 
 void MainWindow::profileSelected(QAction* act)
 {
-    switch (act->property("profile").toInt())
-    {
-    case AppSettings::PerformanceProfile::Default:
-    case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::RealWorld:
-        m_shouldRunMixTest = false;
-        ui->mixWidget->setVisible(false);
-        ui->comboBox_MixRatio->setVisible(false);
-        break;
-    case AppSettings::PerformanceProfile::Default_Mix:
-    case AppSettings::PerformanceProfile::Peak_Mix:
-    case AppSettings::PerformanceProfile::RealWorld_Mix:
-        m_shouldRunMixTest = true;
-        ui->mixWidget->setVisible(true);
-        ui->comboBox_MixRatio->setVisible(true);
-        break;
-    }
+    bool isMixed = act->property("mixed").toBool();
+
+    m_settings->setMixed(isMixed);
+
+    ui->mixWidget->setVisible(isMixed);
+    ui->comboBox_MixRatio->setVisible(isMixed);
 
     switch (act->property("profile").toInt())
     {
     case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::Peak_Mix:
     case AppSettings::PerformanceProfile::RealWorld:
-    case AppSettings::PerformanceProfile::RealWorld_Mix:
         ui->comboBox_ComparisonField->setVisible(false);
         break;
     default:
@@ -495,7 +485,7 @@ void MainWindow::profileSelected(QAction* act)
 
     m_settings->performanceProfile = (AppSettings::PerformanceProfile)act->property("profile").toInt();
 
-    int right = ui->mixWidget->isVisible() ? ui->mixWidget->geometry().right() : ui->writeWidget->geometry().right();
+    int right = isMixed ? ui->mixWidget->geometry().right() : ui->writeWidget->geometry().right();
 
     ui->targetLayoutWidget->resize(right - ui->targetLayoutWidget->geometry().left(),
                                    ui->targetLayoutWidget->geometry().height());
@@ -626,9 +616,7 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 
     switch (m_settings->performanceProfile) {
     case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::Peak_Mix:
     case AppSettings::PerformanceProfile::RealWorld:
-    case AppSettings::PerformanceProfile::RealWorld_Mix:
         if (progressBar == ui->readBar_3 || progressBar == ui->writeBar_3 || progressBar == ui->mixBar_3) {
             comparisonField = AppSettings::IOPS;
         }
@@ -677,7 +665,7 @@ void MainWindow::on_pushButton_Test_1_clicked()
             { Benchmark::SEQ_1_Write, { ui->writeBar_1 } }
         };
 
-        if (m_shouldRunMixTest) {
+        if (m_settings->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } };
         }
@@ -694,27 +682,24 @@ void MainWindow::on_pushButton_Test_2_clicked()
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set;
         switch (m_settings->performanceProfile) {
         case AppSettings::PerformanceProfile::Default:
-        case AppSettings::PerformanceProfile::Default_Mix:
             set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
                 { Benchmark::SEQ_2_Read,  { ui->readBar_2  } },
                 { Benchmark::SEQ_2_Write, { ui->writeBar_2 } }
             };
 
-            if (m_shouldRunMixTest) {
+            if (m_settings->isMixed()) {
                 set << QPair<Benchmark::Type, QVector<QProgressBar*>>
                 { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } };
             }
             break;
         case AppSettings::PerformanceProfile::Peak:
-        case AppSettings::PerformanceProfile::Peak_Mix:
         case AppSettings::PerformanceProfile::RealWorld:
-        case AppSettings::PerformanceProfile::RealWorld_Mix:
             set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
                 { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
                 { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
             };
 
-            if (m_shouldRunMixTest) {
+            if (m_settings->isMixed()) {
                 set << QPair<Benchmark::Type, QVector<QProgressBar*>>
                 { Benchmark::RND_1_Mix,  {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4   } };
             }
@@ -734,7 +719,7 @@ void MainWindow::on_pushButton_Test_3_clicked()
             { Benchmark::RND_1_Write, { ui->writeBar_3 } }
         };
 
-        if (m_shouldRunMixTest) {
+        if (m_settings->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::RND_1_Mix,   { ui->mixBar_3   } };
         }
@@ -753,7 +738,7 @@ void MainWindow::on_pushButton_Test_4_clicked()
             { Benchmark::RND_2_Write, { ui->writeBar_4 } }
         };
 
-        if (m_shouldRunMixTest) {
+        if (m_settings->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::RND_2_Mix,   { ui->mixBar_4   } };
         }
@@ -778,7 +763,7 @@ void MainWindow::on_pushButton_All_clicked()
             { Benchmark::RND_2_Write, { ui->writeBar_4 } }
         };
 
-        if (m_shouldRunMixTest) {
+        if (m_settings->isMixed()) {
             set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
             { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
             { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } },

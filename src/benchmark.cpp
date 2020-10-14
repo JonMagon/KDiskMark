@@ -85,14 +85,11 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             switch (m_settings->performanceProfile)
             {
                 case AppSettings::PerformanceProfile::Default:
-                case AppSettings::PerformanceProfile::Default_Mix:
                     totalRead  += result.read;
                     totalWrite += result.write;
                 break;
                 case AppSettings::PerformanceProfile::Peak:
-                case AppSettings::PerformanceProfile::Peak_Mix:
                 case AppSettings::PerformanceProfile::RealWorld:
-                case AppSettings::PerformanceProfile::RealWorld_Mix:
                     totalRead.updateWithBetterValues(result.read);
                     totalWrite.updateWithBetterValues(result.write);
                 break;
@@ -118,8 +115,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
 void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int index)
 {
-    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default
-            || m_settings->performanceProfile == AppSettings::PerformanceProfile::Default_Mix) {
+    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default) {
         for (auto progressBar : m_progressBars) {
             emit resultReady(progressBar, result / index);
         }
