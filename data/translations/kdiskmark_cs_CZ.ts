@@ -306,17 +306,17 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="956"/>
         <source>Default [+Mix]</source>
-        <translation>Výkon [+Mix]</translation>
+        <translation>Výchozí [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="964"/>
         <source>Peak Performance [+Mix]</source>
-        <translation>Výkon ve špičce</translation>
+        <translation>Výkon ve špičce [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="972"/>
         <source>Real World Performance [+Mix]</source>
-        <translation>Skutečný běžný výkon</translation>
+        <translation>Skutečný běžný výkon [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="96"/>
