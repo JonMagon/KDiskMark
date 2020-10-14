@@ -87,7 +87,7 @@
         <location filename="../../src/benchmark.cpp" line="231"/>
         <location filename="../../src/benchmark.cpp" line="246"/>
         <source>Sequential Mix %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Mix séquentiel %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="251"/>
@@ -105,7 +105,7 @@
         <location filename="../../src/benchmark.cpp" line="261"/>
         <location filename="../../src/benchmark.cpp" line="276"/>
         <source>Random Mix %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Mix aléatoire %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="282"/>
@@ -186,7 +186,7 @@
         <location filename="../../src/mainwindow.ui" line="497"/>
         <location filename="../../src/mainwindow.cpp" line="334"/>
         <source>Mix</source>
-        <translation type="unfinished"></translation>
+        <translation>Mix</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="765"/>
@@ -291,32 +291,32 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="932"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Par défaut</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="940"/>
         <source>Peak Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Performance de pointe</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="948"/>
         <source>Real World Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Performance réelle</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="956"/>
         <source>Default [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Par défaut [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="964"/>
         <source>Peak Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Performance de pointe [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="972"/>
         <source>Real World Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Performance réelle [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="96"/>
