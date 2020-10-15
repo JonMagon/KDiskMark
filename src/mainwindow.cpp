@@ -378,24 +378,45 @@ QString MainWindow::getTextBenchmarkResult()
     output << QString()
            << "[Read]"
            << combineOutputTestResult("Sequential", ui->readBar_1,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1))
-           << combineOutputTestResult("Sequential", ui->readBar_2,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2))
-           << combineOutputTestResult("Random", ui->readBar_3,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1))
-           << combineOutputTestResult("Random", ui->readBar_4,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
+    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
+    output << combineOutputTestResult("Sequential", ui->readBar_2,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
+    output << combineOutputTestResult("Random", ui->readBar_3,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
+    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
+    output << combineOutputTestResult("Random", ui->readBar_4,
                                       m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
     output << QString()
            << "[Write]"
            << combineOutputTestResult("Sequential", ui->writeBar_1,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1))
-           << combineOutputTestResult("Sequential", ui->writeBar_2,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2))
-           << combineOutputTestResult("Random", ui->writeBar_3,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1))
-           << combineOutputTestResult("Random", ui->writeBar_4,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
+    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
+    output << combineOutputTestResult("Sequential", ui->writeBar_2,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
+    output << combineOutputTestResult("Random", ui->writeBar_3,
+                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
+    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
+    output << combineOutputTestResult("Random", ui->writeBar_4,
                                       m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
+
+    if (m_settings->isMixed()) {
+         output << QString()
+                << QString("[Mix] Read %1%/Write %2%")
+                   .arg(m_settings->getRandomReadPercentage())
+                   .arg(100 - m_settings->getRandomReadPercentage())
+                << combineOutputTestResult("Sequential", ui->mixBar_1,
+                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
+         if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
+         output << combineOutputTestResult("Sequential", ui->mixBar_2,
+                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
+         output << combineOutputTestResult("Random", ui->mixBar_3,
+                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
+         if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
+         output << combineOutputTestResult("Random", ui->mixBar_4,
+                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
+    }
 
     QString profiles[] = { "Default", "Peak Performance", "Real World Performance" };
 
