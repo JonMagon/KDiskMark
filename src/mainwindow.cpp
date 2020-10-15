@@ -658,6 +658,27 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
     }
 }
 
+bool MainWindow::runCombinedRandomTest()
+{
+    if (m_settings->performanceProfile != AppSettings::PerformanceProfile::Default) {
+        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
+            { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
+            { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
+        };
+
+        if (m_settings->isMixed()) {
+            set << QPair<Benchmark::Type, QVector<QProgressBar*>>
+            { Benchmark::RND_1_Mix,   {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4  } };
+        }
+
+        runBenchmark(set);
+
+        return true;
+    }
+
+    return false;
+}
+
 void MainWindow::on_pushButton_Test_1_clicked()
 {
     inverseBenchmarkThreadRunningState();
@@ -682,30 +703,16 @@ void MainWindow::on_pushButton_Test_2_clicked()
     inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set;
-        switch (m_settings->performanceProfile) {
-        case AppSettings::PerformanceProfile::Default:
-            set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-                { Benchmark::SEQ_2_Read,  { ui->readBar_2  } },
-                { Benchmark::SEQ_2_Write, { ui->writeBar_2 } }
-            };
+        if (runCombinedRandomTest()) return;
 
-            if (m_settings->isMixed()) {
-                set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-                { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } };
-            }
-            break;
-        case AppSettings::PerformanceProfile::Peak:
-        case AppSettings::PerformanceProfile::RealWorld:
-            set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-                { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
-                { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
-            };
+        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
+            { Benchmark::SEQ_2_Read,  { ui->readBar_2  } },
+            { Benchmark::SEQ_2_Write, { ui->writeBar_2 } }
+        };
 
-            if (m_settings->isMixed()) {
-                set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-                { Benchmark::RND_1_Mix,  {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4   } };
-            }
+        if (m_settings->isMixed()) {
+            set << QPair<Benchmark::Type, QVector<QProgressBar*>>
+            { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } };
         }
 
         runBenchmark(set);
@@ -717,6 +724,8 @@ void MainWindow::on_pushButton_Test_3_clicked()
     inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
+        if (runCombinedRandomTest()) return;
+
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
             { Benchmark::RND_1_Read,  { ui->readBar_3  } },
             { Benchmark::RND_1_Write, { ui->writeBar_3 } }
@@ -736,6 +745,8 @@ void MainWindow::on_pushButton_Test_4_clicked()
     inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
+        if (runCombinedRandomTest()) return;
+
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
             { Benchmark::RND_2_Read,  { ui->readBar_4  } },
             { Benchmark::RND_2_Write, { ui->writeBar_4 } }
@@ -755,24 +766,43 @@ void MainWindow::on_pushButton_All_clicked()
     inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
-            { Benchmark::SEQ_1_Read,  { ui->readBar_1  } },
-            { Benchmark::SEQ_2_Read,  { ui->readBar_2  } },
-            { Benchmark::RND_1_Read,  { ui->readBar_3  } },
-            { Benchmark::RND_2_Read,  { ui->readBar_4  } },
-            { Benchmark::SEQ_1_Write, { ui->writeBar_1 } },
-            { Benchmark::SEQ_2_Write, { ui->writeBar_2 } },
-            { Benchmark::RND_1_Write, { ui->writeBar_3 } },
-            { Benchmark::RND_2_Write, { ui->writeBar_4 } }
-        };
+        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set;
 
-        if (m_settings->isMixed()) {
+        if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default) {
             set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-            { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
-            { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } },
-            { Benchmark::RND_1_Mix,   { ui->mixBar_3   } },
-            { Benchmark::RND_2_Mix,   { ui->mixBar_4   } }
-        };
+                { Benchmark::SEQ_1_Read,  { ui->readBar_1  } },
+                { Benchmark::SEQ_2_Read,  { ui->readBar_2  } },
+                { Benchmark::RND_1_Read,  { ui->readBar_3  } },
+                { Benchmark::RND_2_Read,  { ui->readBar_4  } },
+                { Benchmark::SEQ_1_Write, { ui->writeBar_1 } },
+                { Benchmark::SEQ_2_Write, { ui->writeBar_2 } },
+                { Benchmark::RND_1_Write, { ui->writeBar_3 } },
+                { Benchmark::RND_2_Write, { ui->writeBar_4 } }
+            };
+
+            if (m_settings->isMixed()) {
+                set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
+                { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
+                { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } },
+                { Benchmark::RND_1_Mix,   { ui->mixBar_3   } },
+                { Benchmark::RND_2_Mix,   { ui->mixBar_4   } }
+            };
+            }
+        }
+        else {
+            set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
+                { Benchmark::SEQ_1_Read,  { ui->readBar_1  } },
+                { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
+                { Benchmark::SEQ_1_Write, { ui->writeBar_1 } },
+                { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
+            };
+
+            if (m_settings->isMixed()) {
+                set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
+                { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
+                { Benchmark::RND_1_Mix,   {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4  } }
+            };
+            }
         }
 
         runBenchmark(set);

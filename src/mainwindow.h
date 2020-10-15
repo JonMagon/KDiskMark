@@ -78,6 +78,7 @@ private:
     void updateBenchmarkButtonsContent();
     void refreshProgressBars();
     void updateProgressBar(QProgressBar *progressBar);
+    bool runCombinedRandomTest();
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
                                     const AppSettings::BenchmarkParams &params);
 };
