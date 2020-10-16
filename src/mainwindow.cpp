@@ -498,14 +498,21 @@ void MainWindow::profileSelected(QAction* act)
 
     switch (act->property("profile").toInt())
     {
-    case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::RealWorld:
-        ui->comboBox_ComparisonField->setVisible(false);
-        break;
-    default:
+    case AppSettings::PerformanceProfile::Default:
+        m_windowTitle = "KDiskMark";
         ui->comboBox_ComparisonField->setVisible(true);
         break;
+    case AppSettings::PerformanceProfile::Peak:
+        m_windowTitle = "KDiskMark <PEAK>";
+        ui->comboBox_ComparisonField->setVisible(false);
+        break;
+    case AppSettings::PerformanceProfile::RealWorld:
+        m_windowTitle = "KDiskMark <REAL>";
+        ui->comboBox_ComparisonField->setVisible(false);
+        break;
     }
+
+    setWindowTitle(m_windowTitle);
 
     m_settings->performanceProfile = (AppSettings::PerformanceProfile)act->property("profile").toInt();
 
@@ -538,7 +545,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->pushButton_Test_4->setText(tr("Stop"));
     }
     else {
-        setWindowTitle("KDiskMark");
+        setWindowTitle(m_windowTitle);
         ui->menubar->setEnabled(true);
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
@@ -604,7 +611,7 @@ void MainWindow::benchmarkFailed(const QString &error)
 void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
     if (m_isBenchmarkThreadRunning)
-        setWindowTitle(QString("KDiskMark - %1").arg(name));
+        setWindowTitle(QString("%1 - %2").arg(m_windowTitle, name));
 }
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
