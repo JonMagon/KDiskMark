@@ -228,12 +228,13 @@ void MainWindow::updateBenchmarkButtonsContent()
     params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
     ui->pushButton_Test_1->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
                                   .arg(params.Queues).arg(params.Threads));
-    ui->pushButton_Test_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
-                                      .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
 
     switch (m_settings->performanceProfile)
     {
     case AppSettings::PerformanceProfile::Default:
+        ui->pushButton_Test_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
+                                          .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
+
         params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
         ui->pushButton_Test_2->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
                                       .arg(params.Queues).arg(params.Threads));
@@ -254,18 +255,21 @@ void MainWindow::updateBenchmarkButtonsContent()
         break;
     case AppSettings::PerformanceProfile::Peak:
     case AppSettings::PerformanceProfile::RealWorld:
+        ui->pushButton_Test_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3<br/>(%4)</h2>")
+                                          .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads).arg(tr("MB/s")));
+
         params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
         ui->pushButton_Test_2->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
                                       .arg(params.Queues).arg(params.Threads));
-        ui->pushButton_Test_2->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
-                                         .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
+        ui->pushButton_Test_2->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3<br/>(%4)</h2>")
+                                         .arg(params.BlockSize).arg(params.Queues).arg(params.Threads).arg(tr("MB/s")));
 
         ui->pushButton_Test_3->setText(QStringLiteral("RND%1K\n(IOPS)").arg(params.BlockSize));
-        ui->pushButton_Test_3->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
+        ui->pushButton_Test_3->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3<br/>(IOPS)</h2>")
                                          .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
 
         ui->pushButton_Test_4->setText(QStringLiteral("RND%1K\n(μs)").arg(params.BlockSize));
-        ui->pushButton_Test_4->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
+        ui->pushButton_Test_4->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3<br/>(μs)</h2>")
                                          .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
         break;
     }
