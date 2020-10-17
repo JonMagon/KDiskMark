@@ -13,6 +13,7 @@
 #include <QDate>
 #include <QFileDialog>
 #include <QTextStream>
+#include <QInputDialog>
 
 #include "math.h"
 #include "about.h"
@@ -164,7 +165,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
         QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
 
-        ui->comboBox_Dirs->insertItem(0,
+        ui->comboBox_Dirs->insertItem(1,
                     tr("%1 %2% (%3)").arg(path)
                     .arg(storage.bytesAvailable() * 100 / total)
                     .arg(formatSize(available, total)),
@@ -178,7 +179,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     }
 
     if (isThereAWritableDir) {
-        ui->comboBox_Dirs->setCurrentIndex(0);
+        ui->comboBox_Dirs->setCurrentIndex(1);
     }
     else {
         ui->comboBox_Dirs->setCurrentIndex(-1);
@@ -482,6 +483,43 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 
 void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 {
+    if (index == 0) {
+        while (true) {
+            bool ok;
+            QString path = QInputDialog::getText(this, tr("Add directory"), tr("Directory:"), QLineEdit::Normal,
+                                                 QDir::homePath(), &ok);
+            if (!ok) {
+                ui->comboBox_Dirs->setCurrentIndex(1);
+                return;
+            }
+
+            if (QFileInfo(path).isWritable()) {
+                QStorageInfo storage(path);
+
+                quint64 total = storage.bytesTotal();
+                quint64 available = storage.bytesAvailable();
+
+                QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
+
+                ui->comboBox_Dirs->insertItem(ui->comboBox_Dirs->count(),
+                            tr("%1 %2% (%3)").arg(path)
+                            .arg(storage.bytesAvailable() * 100 / total)
+                            .arg(formatSize(available, total)),
+                            QVariant::fromValue(volumeInfo)
+                            );
+
+                ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
+
+                return;
+            }
+            else {
+                QMessageBox::critical(this, tr("Bad Directory"), tr("The directory is not writable."));
+            }
+        }
+
+        return;
+    }
+
     QVariant variant = ui->comboBox_Dirs->itemData(index);
     if (variant.canConvert<QStringList>()) {
         QStringList volumeInfo = variant.value<QStringList>();

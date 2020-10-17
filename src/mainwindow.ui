@@ -697,6 +697,11 @@
        <property name="editable">
         <bool>false</bool>
        </property>
+       <item>
+        <property name="text">
+         <string>Add directory</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
