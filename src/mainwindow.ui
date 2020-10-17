@@ -699,7 +699,7 @@
        </property>
        <item>
         <property name="text">
-         <string>Add directory</string>
+         <string>Add a directory</string>
         </property>
        </item>
       </widget>

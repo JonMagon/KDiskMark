@@ -491,7 +491,7 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
     if (index == 0) {
         while (true) {
             bool ok;
-            QString path = QInputDialog::getText(this, tr("Add directory"), tr("Directory:"), QLineEdit::Normal,
+            QString path = QInputDialog::getText(this, tr("Add a directory"), tr("Directory:"), QLineEdit::Normal,
                                                  QDir::homePath(), &ok);
             if (!ok) {
                 ui->comboBox_Dirs->setCurrentIndex(1);
