@@ -166,7 +166,7 @@
         <location filename="../../src/mainwindow.ui" line="702"/>
         <location filename="../../src/mainwindow.cpp" line="494"/>
         <source>Add a directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un répertoire</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="726"/>
@@ -383,17 +383,17 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="494"/>
         <source>Directory:</source>
-        <translation type="unfinished"></translation>
+        <translation>Répertoire :</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>Bad Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Répertoire incorrect</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>The directory is not writable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le répertoire n&apos;est pas inscriptible.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="101"/>
