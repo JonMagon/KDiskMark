@@ -132,19 +132,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                 if (storage.rootPath() == QDir::homePath())
                     isSomeDeviceMountAsHome = true;
 
-                quint64 total = storage.bytesTotal();
-                quint64 available = storage.bytesAvailable();
-
-                QString path = storage.rootPath();
-
-                QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
-
-                ui->comboBox_Dirs->addItem(
-                            tr("%1 %2% (%3)").arg(path)
-                            .arg(available * 100 / total)
-                            .arg(formatSize(available, total)),
-                            QVariant::fromValue(volumeInfo)
-                            );
+                addDirectory(storage.rootPath());
 
                 if (!disableDirItemIfIsNotWritable(ui->comboBox_Dirs->count() - 1)
                         && isThereAWritableDir == false) {
@@ -220,6 +208,23 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent *)
 {
     m_benchmark->setRunning(false);
+}
+
+void MainWindow::addDirectory(const QString &path)
+{
+    QStorageInfo storage(path);
+
+    quint64 total = storage.bytesTotal();
+    quint64 available = storage.bytesAvailable();
+
+    QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
+
+    ui->comboBox_Dirs->addItem(
+                tr("%1 %2% (%3)").arg(path)
+                .arg(available * 100 / total)
+                .arg(formatSize(available, total)),
+                QVariant::fromValue(volumeInfo)
+                );
 }
 
 void MainWindow::updateBenchmarkButtonsContent()
@@ -494,20 +499,7 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
             }
 
             if (QFileInfo(path).isWritable()) {
-                QStorageInfo storage(path);
-
-                quint64 total = storage.bytesTotal();
-                quint64 available = storage.bytesAvailable();
-
-                QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
-
-                ui->comboBox_Dirs->insertItem(ui->comboBox_Dirs->count(),
-                            tr("%1 %2% (%3)").arg(path)
-                            .arg(storage.bytesAvailable() * 100 / total)
-                            .arg(formatSize(available, total)),
-                            QVariant::fromValue(volumeInfo)
-                            );
-
+                addDirectory(path);
                 ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
 
                 return;
