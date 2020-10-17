@@ -19,7 +19,7 @@ class Benchmark : public QObject
     std::vector<std::shared_ptr<QProcess>> m_processes;
     bool m_running;
     QString m_FIOVersion;
-    QProgressBar* m_progressBar;
+    QVector<QProgressBar*> m_progressBars;
 
 public:
     Benchmark(AppSettings *settings);
@@ -29,12 +29,16 @@ public:
     enum Type {
         SEQ_1_Read,
         SEQ_1_Write,
+        SEQ_1_Mix,
         SEQ_2_Read,
         SEQ_2_Write,
+        SEQ_2_Mix,
         RND_1_Read,
         RND_1_Write,
+        RND_1_Mix,
         RND_2_Read,
-        RND_2_Write
+        RND_2_Write,
+        RND_2_Mix
     };
 
     struct PerformanceResult
@@ -42,14 +46,52 @@ public:
         float Bandwidth;
         float IOPS;
         float Latency;
+
+        PerformanceResult operator+ (const PerformanceResult& rhs)
+        {
+            return *this += rhs;
+        }
+
+        PerformanceResult operator+= (const PerformanceResult& rhs)
+        {
+            Bandwidth += rhs.Bandwidth;
+            IOPS += rhs.IOPS;
+            Latency += rhs.Latency;
+            return *this;
+        }
+
+        PerformanceResult operator/ (const unsigned int rhs) const
+        {
+            if (rhs == 0) return *this;
+
+            return PerformanceResult { Bandwidth / rhs, IOPS / rhs, Latency / rhs };
+        }
+
+        PerformanceResult operator* (const unsigned int rhs) const
+        {
+            return PerformanceResult { Bandwidth * rhs, IOPS * rhs, Latency * rhs };
+        }
+
+        void updateWithBetterValues(const PerformanceResult& result) {
+            Bandwidth = Bandwidth < result.Bandwidth ? result.Bandwidth : Bandwidth;
+            IOPS = IOPS < result.IOPS ? result.IOPS : IOPS;
+            if (Latency == 0) Latency = result.Latency;
+            Latency = Latency > result.Latency ? result.Latency : Latency;
+        }
+    };
+
+    struct ParsedJob
+    {
+        PerformanceResult read, write;
     };
 
 private:
     void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
-    PerformanceResult parseResult(const std::shared_ptr<QProcess> process);
+    Benchmark::ParsedJob parseResult(const std::shared_ptr<QProcess> process);
+    void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
 public slots:
-    void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>> tests);
+    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests);
     void setRunning(bool state);
 
 signals:

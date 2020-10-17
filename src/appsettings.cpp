@@ -35,6 +35,16 @@ void AppSettings::setDir(QString dir)
     m_dir = dir;
 }
 
+void AppSettings::setRandomReadPercentage(float percentage)
+{
+    m_percentage = percentage;
+}
+
+int AppSettings::getRandomReadPercentage()
+{
+    return m_percentage;
+}
+
 QString AppSettings::getBenchmarkFile()
 {
     if (m_dir.isNull())
@@ -46,6 +56,16 @@ QString AppSettings::getBenchmarkFile()
     else {
         return m_dir + "/.kdiskmark.tmp";
     }
+}
+
+bool AppSettings::isMixed()
+{
+    return m_mixedState;
+}
+
+void AppSettings::setMixed(bool state)
+{
+    m_mixedState = state;
 }
 
 void AppSettings::restoreDefaultBenchmarkParams()
@@ -61,11 +81,11 @@ AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
     switch (test)
     {
     case SEQ_1:
-        return m_SEQ_1;
+        return performanceProfile != PerformanceProfile::RealWorld ? m_SEQ_1 : m_RealWorld_SEQ;
     case SEQ_2:
         return m_SEQ_2;
     case RND_1:
-        return m_RND_1;
+        return performanceProfile != PerformanceProfile::RealWorld ? m_RND_1 : m_RealWorld_RND;
     case RND_2:
         return m_RND_2;
     }

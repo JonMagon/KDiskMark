@@ -45,7 +45,7 @@ Profile: Default
 
 ## Dependencies
 ### Required
-* GCC/Clang C++11 (or later)
+* GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
 * Qt with Widgets >= 5.9

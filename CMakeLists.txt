@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(kdiskmark VERSION 1.6.2 LANGUAGES CXX)
+project(kdiskmark VERSION 2.0.0 LANGUAGES CXX)
 
 set(CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/JonMagon/KDiskMark")
 set(CMAKE_PROJECT_DESCRIPTION "A simple open source disk benchmark tool for Linux distros")
@@ -17,7 +17,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CPACK_PACKAGE_VENDOR ${APPLICATION_NAME})

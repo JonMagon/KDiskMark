@@ -25,19 +25,20 @@ private:
     QThread m_benchmarkThread;
     bool m_isBenchmarkThreadRunning = false;
     QVector<QProgressBar*> m_progressBars;
+    QString m_windowTitle;
 
 public:
     MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
-    void on_pushButton_SEQ_1_clicked();
+    void on_pushButton_Test_1_clicked();
 
-    void on_pushButton_SEQ_2_clicked();
+    void on_pushButton_Test_2_clicked();
 
-    void on_pushButton_RND_1_clicked();
+    void on_pushButton_Test_3_clicked();
 
-    void on_pushButton_RND_2_clicked();
+    void on_pushButton_Test_4_clicked();
 
     void on_pushButton_All_clicked();
 
@@ -55,15 +56,18 @@ private slots:
 
     void saveBenchmarkResult();
 
+    void on_comboBox_MixRatio_currentIndexChanged(int index);
+
 public slots:
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void timeIntervalSelected(QAction* act);
+    void profileSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 
 signals:
-    void runBenchmark(QList<QPair<Benchmark::Type, QProgressBar*>>);
+    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>>);
 
 private:
     Ui::MainWindow *ui;
@@ -73,7 +77,9 @@ private:
     QString getTextBenchmarkResult();
     bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
+    void refreshProgressBars();
     void updateProgressBar(QProgressBar *progressBar);
+    bool runCombinedRandomTest();
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
                                     const AppSettings::BenchmarkParams &params);
 };

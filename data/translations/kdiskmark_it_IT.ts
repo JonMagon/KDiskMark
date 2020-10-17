@@ -72,31 +72,43 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="195"/>
-        <location filename="../../src/benchmark.cpp" line="205"/>
+        <location filename="../../src/benchmark.cpp" line="221"/>
+        <location filename="../../src/benchmark.cpp" line="236"/>
         <source>Sequential Read %1/%2</source>
         <translation>Lettura Sequenziale %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="200"/>
-        <location filename="../../src/benchmark.cpp" line="210"/>
+        <location filename="../../src/benchmark.cpp" line="226"/>
+        <location filename="../../src/benchmark.cpp" line="241"/>
         <source>Sequential Write %1/%2</source>
         <translation>Scrittura Sequenziale %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="215"/>
-        <location filename="../../src/benchmark.cpp" line="225"/>
+        <location filename="../../src/benchmark.cpp" line="231"/>
+        <location filename="../../src/benchmark.cpp" line="246"/>
+        <source>Sequential Mix %1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="251"/>
+        <location filename="../../src/benchmark.cpp" line="266"/>
         <source>Random Read %1/%2</source>
         <translation>Lettura Casuale %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="220"/>
-        <location filename="../../src/benchmark.cpp" line="230"/>
+        <location filename="../../src/benchmark.cpp" line="256"/>
+        <location filename="../../src/benchmark.cpp" line="271"/>
         <source>Random Write %1/%2</source>
         <translation>Scrittura Casuale %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="236"/>
+        <location filename="../../src/benchmark.cpp" line="261"/>
+        <location filename="../../src/benchmark.cpp" line="276"/>
+        <source>Random Mix %1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Pausa %1/%2 sec</translation>
     </message>
@@ -110,173 +122,215 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="422"/>
+        <location filename="../../src/mainwindow.cpp" line="564"/>
         <source>All</source>
         <translation>Tutto</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="108"/>
-        <location filename="../../src/mainwindow.ui" line="158"/>
-        <location filename="../../src/mainwindow.ui" line="228"/>
-        <location filename="../../src/mainwindow.ui" line="252"/>
-        <location filename="../../src/mainwindow.ui" line="289"/>
-        <location filename="../../src/mainwindow.ui" line="313"/>
-        <location filename="../../src/mainwindow.ui" line="350"/>
-        <location filename="../../src/mainwindow.ui" line="387"/>
+        <location filename="../../src/mainwindow.ui" line="43"/>
+        <source>Test 1</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="56"/>
+        <source>Test 2</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="69"/>
+        <source>Test 3</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="82"/>
+        <source>Test 4</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="207"/>
+        <location filename="../../src/mainwindow.ui" line="237"/>
+        <location filename="../../src/mainwindow.ui" line="267"/>
+        <location filename="../../src/mainwindow.ui" line="297"/>
+        <location filename="../../src/mainwindow.ui" line="367"/>
+        <location filename="../../src/mainwindow.ui" line="397"/>
+        <location filename="../../src/mainwindow.ui" line="427"/>
+        <location filename="../../src/mainwindow.ui" line="457"/>
+        <location filename="../../src/mainwindow.ui" line="527"/>
+        <location filename="../../src/mainwindow.ui" line="557"/>
+        <location filename="../../src/mainwindow.ui" line="587"/>
+        <location filename="../../src/mainwindow.ui" line="617"/>
         <source>%v</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="121"/>
-        <location filename="../../src/mainwindow.cpp" line="266"/>
+        <location filename="../../src/mainwindow.ui" line="177"/>
+        <location filename="../../src/mainwindow.cpp" line="332"/>
         <source>Read</source>
         <translation>Lettura</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="134"/>
-        <source>SEQ 1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="171"/>
-        <location filename="../../src/mainwindow.cpp" line="269"/>
+        <location filename="../../src/mainwindow.ui" line="337"/>
+        <location filename="../../src/mainwindow.cpp" line="335"/>
         <source>Write</source>
         <translation>Scrittura</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="188"/>
+        <location filename="../../src/mainwindow.ui" line="721"/>
+        <location filename="../../src/mainwindow.cpp" line="259"/>
+        <location filename="../../src/mainwindow.cpp" line="265"/>
         <source>MB/s</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="193"/>
+        <location filename="../../src/mainwindow.ui" line="726"/>
         <source>GB/s</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="198"/>
+        <location filename="../../src/mainwindow.ui" line="731"/>
         <source>IOPS</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="203"/>
+        <location filename="../../src/mainwindow.ui" line="736"/>
         <source>μs</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="265"/>
-        <source>SEQ 2</source>
-        <translation></translation>
+        <location filename="../../src/mainwindow.ui" line="497"/>
+        <location filename="../../src/mainwindow.cpp" line="338"/>
+        <source>Mix</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="326"/>
-        <source>RND 1</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="363"/>
-        <source>RND 2</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="460"/>
+        <location filename="../../src/mainwindow.ui" line="765"/>
         <source>File</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="468"/>
+        <location filename="../../src/mainwindow.ui" line="773"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="472"/>
+        <location filename="../../src/mainwindow.ui" line="777"/>
         <source>Interval Time</source>
         <translation>Durata della pausa</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="490"/>
+        <location filename="../../src/mainwindow.ui" line="795"/>
         <source>Profile</source>
         <translation>Profilo</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="495"/>
+        <location filename="../../src/mainwindow.ui" line="806"/>
         <source>Help</source>
         <translation>Aiuto</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="510"/>
+        <location filename="../../src/mainwindow.ui" line="821"/>
         <source>0 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="518"/>
+        <location filename="../../src/mainwindow.ui" line="829"/>
         <source>1 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="526"/>
+        <location filename="../../src/mainwindow.ui" line="837"/>
         <source>3 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="537"/>
+        <location filename="../../src/mainwindow.ui" line="848"/>
         <source>5 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="545"/>
+        <location filename="../../src/mainwindow.ui" line="856"/>
         <source>10 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="553"/>
+        <location filename="../../src/mainwindow.ui" line="864"/>
         <source>30 sec</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="561"/>
+        <location filename="../../src/mainwindow.ui" line="872"/>
         <source>1 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="569"/>
+        <location filename="../../src/mainwindow.ui" line="880"/>
         <source>3 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="577"/>
+        <location filename="../../src/mainwindow.ui" line="888"/>
         <source>5 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="585"/>
+        <location filename="../../src/mainwindow.ui" line="896"/>
         <source>10 min</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="590"/>
+        <location filename="../../src/mainwindow.ui" line="901"/>
         <source>About KDiskMark</source>
         <translation>Info su KDiskMark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="595"/>
+        <location filename="../../src/mainwindow.ui" line="906"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>Code &amp;&amp; Threads</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="600"/>
+        <location filename="../../src/mainwindow.ui" line="911"/>
         <source>Copy</source>
         <translation>Copia</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="605"/>
+        <location filename="../../src/mainwindow.ui" line="916"/>
         <source>Save</source>
         <translation>Salva</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="610"/>
+        <location filename="../../src/mainwindow.ui" line="921"/>
         <source>Exit</source>
         <translation>Chiudi</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="932"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="940"/>
+        <source>Peak Performance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="948"/>
+        <source>Real World Performance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="956"/>
+        <source>Default [+Mix]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="964"/>
+        <source>Peak Performance [+Mix]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="972"/>
+        <source>Real World Performance [+Mix]</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="30"/>
@@ -284,93 +338,113 @@
         <translation>Il dispositivo è cifrato. Le prestazioni misurate potrebbero calare.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="71"/>
-        <location filename="../../src/mainwindow.cpp" line="248"/>
+        <location filename="../../src/mainwindow.cpp" line="96"/>
+        <location filename="../../src/mainwindow.cpp" line="314"/>
         <source>MiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="75"/>
-        <location filename="../../src/mainwindow.cpp" line="248"/>
+        <location filename="../../src/mainwindow.cpp" line="100"/>
+        <location filename="../../src/mainwindow.cpp" line="314"/>
         <source>GiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="116"/>
         <location filename="../../src/mainwindow.cpp" line="142"/>
+        <location filename="../../src/mainwindow.cpp" line="168"/>
         <source>%1 %2% (%3)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="205"/>
-        <location filename="../../src/mainwindow.cpp" line="211"/>
+        <location filename="../../src/mainwindow.cpp" line="235"/>
+        <location filename="../../src/mainwindow.cpp" line="241"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Sequenziale %1 MiB&lt;br/&gt;Code=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="217"/>
-        <location filename="../../src/mainwindow.cpp" line="223"/>
+        <location filename="../../src/mainwindow.cpp" line="247"/>
+        <location filename="../../src/mainwindow.cpp" line="253"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Casuale %1 KiB&lt;br/&gt;Code=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="248"/>
+        <location filename="../../src/mainwindow.cpp" line="258"/>
+        <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Sequenziale %1 MiB&lt;br/&gt;Code=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="264"/>
+        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Casuale %1 KiB&lt;br/&gt;Code=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="268"/>
+        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(IOPS)&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Casuale %1 KiB&lt;br/&gt;Code=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(IOPS)&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="272"/>
+        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(μs)&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;Casuale %1 KiB&lt;br/&gt;Code=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(μs)&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="314"/>
         <source>Bytes</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="248"/>
+        <location filename="../../src/mainwindow.cpp" line="314"/>
         <source>KiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="248"/>
+        <location filename="../../src/mainwindow.cpp" line="314"/>
         <source>TiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="248"/>
+        <location filename="../../src/mainwindow.cpp" line="314"/>
         <source>PiB</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="404"/>
-        <location filename="../../src/mainwindow.cpp" line="405"/>
-        <location filename="../../src/mainwindow.cpp" line="406"/>
-        <location filename="../../src/mainwindow.cpp" line="407"/>
-        <location filename="../../src/mainwindow.cpp" line="408"/>
+        <location filename="../../src/mainwindow.cpp" line="545"/>
+        <location filename="../../src/mainwindow.cpp" line="546"/>
+        <location filename="../../src/mainwindow.cpp" line="547"/>
+        <location filename="../../src/mainwindow.cpp" line="548"/>
+        <location filename="../../src/mainwindow.cpp" line="549"/>
         <source>Stop</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="449"/>
+        <location filename="../../src/mainwindow.cpp" line="591"/>
         <source>Stopping...</source>
         <translation>Arresto in corso...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="453"/>
+        <location filename="../../src/mainwindow.cpp" line="595"/>
         <source>Not available</source>
         <translation>Non disponibile</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="453"/>
+        <location filename="../../src/mainwindow.cpp" line="595"/>
         <source>Directory is not specified.</source>
         <translation>Cartella non specificata.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="456"/>
+        <location filename="../../src/mainwindow.cpp" line="598"/>
         <source>Confirmation</source>
         <translation>Conferma</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="457"/>
+        <location filename="../../src/mainwindow.cpp" line="599"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Quest&apos;azione cancellerà i dati in %1
 Vuoi continuare?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="470"/>
+        <location filename="../../src/mainwindow.cpp" line="612"/>
         <source>Benchmark Failed</source>
         <translation>Benchmark non riuscito</translation>
     </message>
