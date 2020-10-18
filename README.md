@@ -55,7 +55,7 @@ Profile: Default
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
 
-### Ubuntu based distros
+### Ubuntu 20.04 focal based distros
 ```bash
 sudo add-apt-repository ppa:jonmagon/kdiskmark
 sudo apt update
