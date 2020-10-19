@@ -489,24 +489,19 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 {
     if (index == 0) {
-        while (true) {
-            bool ok;
-            QString path = QInputDialog::getText(this, tr("Add a directory"), tr("Directory:"), QLineEdit::Normal,
-                                                 QDir::homePath(), &ok);
-            if (!ok) {
-                ui->comboBox_Dirs->setCurrentIndex(1);
-                return;
-            }
+        QFileDialog dialog;
+        dialog.setOption(QFileDialog::ShowDirsOnly, true);
 
-            if (QFileInfo(path).isWritable()) {
-                addDirectory(path);
-                ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
-
-                return;
-            }
-            else {
-                QMessageBox::critical(this, tr("Bad Directory"), tr("The directory is not writable."));
-            }
+        if (!dialog.exec()) {
+            ui->comboBox_Dirs->setCurrentIndex(1);
+        }
+        else if (QFileInfo(dialog.directory().path()).isWritable()) {
+            addDirectory(dialog.directory().path());
+            ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
+        }
+        else {
+            QMessageBox::critical(this, tr("Bad Directory"), tr("The directory is not writable."));
+            ui->comboBox_Dirs->setCurrentIndex(1);
         }
 
         return;
