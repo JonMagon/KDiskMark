@@ -492,27 +492,37 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
         QFileDialog dialog;
         dialog.setOption(QFileDialog::ShowDirsOnly, true);
 
-        if (!dialog.exec()) {
-            ui->comboBox_Dirs->setCurrentIndex(1);
-        }
-        else if (QFileInfo(dialog.directory().path()).isWritable()) {
-            addDirectory(dialog.directory().path());
-            ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
-        }
-        else {
-            QMessageBox::critical(this, tr("Bad Directory"), tr("The directory is not writable."));
-            ui->comboBox_Dirs->setCurrentIndex(1);
+        if (dialog.exec()) {
+            QString path = dialog.directory().path();
+
+            if (QFileInfo(path).isWritable()) {
+                int index = ui->comboBox_Dirs->findText(path, Qt::MatchContains);
+
+                if (index == -1) {
+                    addDirectory(path);
+                    ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
+                }
+                else {
+                    ui->comboBox_Dirs->setCurrentIndex(index);
+                }
+
+                return;
+            }
+            else {
+                QMessageBox::critical(this, tr("Bad Directory"), tr("The directory is not writable."));
+            }
         }
 
-        return;
+        ui->comboBox_Dirs->setCurrentIndex(1);
     }
-
-    QVariant variant = ui->comboBox_Dirs->itemData(index);
-    if (variant.canConvert<QStringList>()) {
-        QStringList volumeInfo = variant.value<QStringList>();
-        m_settings->setDir(volumeInfo[0]);
-        ui->deviceModel->setText(volumeInfo[1]);
-        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
+    else {
+        QVariant variant = ui->comboBox_Dirs->itemData(index);
+        if (variant.canConvert<QStringList>()) {
+            QStringList volumeInfo = variant.value<QStringList>();
+            m_settings->setDir(volumeInfo[0]);
+            ui->deviceModel->setText(volumeInfo[1]);
+            ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
+        }
     }
 }
 
