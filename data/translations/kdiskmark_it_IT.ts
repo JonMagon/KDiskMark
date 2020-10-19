@@ -122,7 +122,7 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="594"/>
+        <location filename="../../src/mainwindow.cpp" line="589"/>
         <source>All</source>
         <translation>Tutto</translation>
     </message>
@@ -176,7 +176,6 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="702"/>
-        <location filename="../../src/mainwindow.cpp" line="494"/>
         <source>Add a directory</source>
         <translation type="unfinished"></translation>
     </message>
@@ -414,58 +413,53 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="494"/>
-        <source>Directory:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="503"/>
         <source>Bad Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="503"/>
         <source>The directory is not writable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="575"/>
-        <location filename="../../src/mainwindow.cpp" line="576"/>
-        <location filename="../../src/mainwindow.cpp" line="577"/>
-        <location filename="../../src/mainwindow.cpp" line="578"/>
-        <location filename="../../src/mainwindow.cpp" line="579"/>
+        <location filename="../../src/mainwindow.cpp" line="570"/>
+        <location filename="../../src/mainwindow.cpp" line="571"/>
+        <location filename="../../src/mainwindow.cpp" line="572"/>
+        <location filename="../../src/mainwindow.cpp" line="573"/>
+        <location filename="../../src/mainwindow.cpp" line="574"/>
         <source>Stop</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="621"/>
+        <location filename="../../src/mainwindow.cpp" line="616"/>
         <source>Stopping...</source>
         <translation>Arresto in corso...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="625"/>
+        <location filename="../../src/mainwindow.cpp" line="620"/>
         <source>Not available</source>
         <translation>Non disponibile</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="625"/>
+        <location filename="../../src/mainwindow.cpp" line="620"/>
         <source>Directory is not specified.</source>
         <translation>Cartella non specificata.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="628"/>
+        <location filename="../../src/mainwindow.cpp" line="623"/>
         <source>Confirmation</source>
         <translation>Conferma</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="629"/>
+        <location filename="../../src/mainwindow.cpp" line="624"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Quest&apos;azione cancellerà i dati in %1
 Vuoi continuare?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="642"/>
+        <location filename="../../src/mainwindow.cpp" line="637"/>
         <source>Benchmark Failed</source>
         <translation>Benchmark non riuscito</translation>
     </message>
