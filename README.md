@@ -63,9 +63,16 @@ sudo apt install kdiskmark
 ```
 
 ### Arch based distros
+
+KDiskMark is included in the official [community](https://www.archlinux.org/packages/community/x86_64/kdiskmark/) repo. You can install it like any other package:
 ```bash
-git clone https://aur.archlinux.org/kdiskmark.git
-cd kdiskmark
+sudo pacman -Syu kdiskmark
+```
+
+Development version can be installed from AUR `kdiskmark-git` package.
+```bash
+git clone https://aur.archlinux.org/kdiskmark-git.git
+cd kdiskmark-git
 makepkg -si
 ```
 
