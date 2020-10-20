@@ -21,7 +21,7 @@
     <message>
       <location filename="../../src/about.ui" line="101"/>
       <source>GPL v3</source>
-      <translation type="unfinished"/>
+      <translation>GPL v3</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="114"/>
@@ -41,17 +41,17 @@
     <message>
       <location filename="../../src/about.ui" line="153"/>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="172"/>
       <source>E-mail:</source>
-      <translation type="unfinished"/>
+      <translation>E-mail:</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="185"/>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="204"/>
@@ -66,7 +66,7 @@
     <message>
       <location filename="../../src/about.ui" line="243"/>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
   </context>
   <context>
@@ -118,7 +118,7 @@
     <message>
       <location filename="../../src/mainwindow.ui" line="14"/>
       <source>KDiskMark</source>
-      <translation type="unfinished"/>
+      <translation>KDiskMark</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="30"/>
@@ -129,22 +129,22 @@
     <message>
       <location filename="../../src/mainwindow.ui" line="43"/>
       <source>Test 1</source>
-      <translation type="unfinished"/>
+      <translation>Test 1</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="56"/>
       <source>Test 2</source>
-      <translation type="unfinished"/>
+      <translation>Test 2</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="69"/>
       <source>Test 3</source>
-      <translation type="unfinished"/>
+      <translation>Test 3</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="82"/>
       <source>Test 4</source>
-      <translation type="unfinished"/>
+      <translation>Test 4</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="177"/>
@@ -166,7 +166,7 @@
       <location filename="../../src/mainwindow.ui" line="587"/>
       <location filename="../../src/mainwindow.ui" line="617"/>
       <source>%v</source>
-      <translation type="unfinished"/>
+      <translation>%v</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="337"/>
@@ -178,7 +178,7 @@
       <location filename="../../src/mainwindow.ui" line="497"/>
       <location filename="../../src/mainwindow.cpp" line="344"/>
       <source>Mix</source>
-      <translation type="unfinished"/>
+      <translation>混合</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="702"/>
@@ -190,22 +190,22 @@
       <location filename="../../src/mainwindow.cpp" line="265"/>
       <location filename="../../src/mainwindow.cpp" line="271"/>
       <source>MB/s</source>
-      <translation type="unfinished"/>
+      <translation>MB/s</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="731"/>
       <source>GB/s</source>
-      <translation type="unfinished"/>
+      <translation>GB/s</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="736"/>
       <source>IOPS</source>
-      <translation type="unfinished"/>
+      <translation>IOPS</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="741"/>
       <source>μs</source>
-      <translation type="unfinished"/>
+      <translation>μs</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="770"/>
@@ -346,19 +346,19 @@
       <location filename="../../src/mainwindow.cpp" line="97"/>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>MiB</source>
-      <translation type="unfinished"/>
+      <translation>MiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="101"/>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>GiB</source>
-      <translation type="unfinished"/>
+      <translation>GiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="157"/>
       <location filename="../../src/mainwindow.cpp" line="223"/>
       <source>%1 %2% (%3)</source>
-      <translation type="unfinished"/>
+      <translation>%1 %2% (%3)</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="241"/>
@@ -395,22 +395,22 @@
     <message>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>Bytes</source>
-      <translation type="unfinished"/>
+      <translation>Bytes</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>KiB</source>
-      <translation type="unfinished"/>
+      <translation>KiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>TiB</source>
-      <translation type="unfinished"/>
+      <translation>TiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>PiB</source>
-      <translation type="unfinished"/>
+      <translation>PiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="512"/>
@@ -469,7 +469,7 @@ Do you want to continue?</source>
     <message>
       <location filename="../../src/global.cpp" line="13"/>
       <source>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
       <location filename="../../src/main.cpp" line="53"/>
@@ -523,13 +523,13 @@ Do you want to continue?</source>
       <location filename="../../src/settings.cpp" line="27"/>
       <location filename="../../src/settings.cpp" line="28"/>
       <source>MiB</source>
-      <translation type="unfinished"/>
+      <translation>MiB</translation>
     </message>
     <message>
       <location filename="../../src/settings.cpp" line="41"/>
       <location filename="../../src/settings.cpp" line="42"/>
       <source>KiB</source>
-      <translation type="unfinished"/>
+      <translation>KiB</translation>
     </message>
   </context>
 </TS>
