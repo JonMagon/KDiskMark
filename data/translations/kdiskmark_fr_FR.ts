@@ -21,7 +21,7 @@
     <message>
       <location filename="../../src/about.ui" line="101"/>
       <source>GPL v3</source>
-      <translation type="unfinished"/>
+      <translation>GPL v3</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="114"/>
@@ -41,7 +41,7 @@
     <message>
       <location filename="../../src/about.ui" line="153"/>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="172"/>
@@ -51,12 +51,12 @@
     <message>
       <location filename="../../src/about.ui" line="185"/>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="204"/>
       <source>Flexible I/O Tester:</source>
-      <translation type="unfinished"/>
+      <translation>Flexible I/O Tester:</translation>
     </message>
     <message>
       <location filename="../../src/about.ui" line="230"/>
@@ -66,7 +66,7 @@
     <message>
       <location filename="../../src/about.ui" line="243"/>
       <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
   </context>
   <context>
@@ -118,7 +118,7 @@
     <message>
       <location filename="../../src/mainwindow.ui" line="14"/>
       <source>KDiskMark</source>
-      <translation type="unfinished"/>
+      <translation>KDiskMark</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="30"/>
@@ -129,22 +129,22 @@
     <message>
       <location filename="../../src/mainwindow.ui" line="43"/>
       <source>Test 1</source>
-      <translation type="unfinished"/>
+      <translation>Test 1</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="56"/>
       <source>Test 2</source>
-      <translation type="unfinished"/>
+      <translation>Test 2</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="69"/>
       <source>Test 3</source>
-      <translation type="unfinished"/>
+      <translation>Test 3</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="82"/>
       <source>Test 4</source>
-      <translation type="unfinished"/>
+      <translation>Test 4</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="177"/>
@@ -166,7 +166,7 @@
       <location filename="../../src/mainwindow.ui" line="587"/>
       <location filename="../../src/mainwindow.ui" line="617"/>
       <source>%v</source>
-      <translation type="unfinished"/>
+      <translation>%v</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="337"/>
@@ -178,7 +178,7 @@
       <location filename="../../src/mainwindow.ui" line="497"/>
       <location filename="../../src/mainwindow.cpp" line="344"/>
       <source>Mix</source>
-      <translation type="unfinished"/>
+      <translation>Mix</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="702"/>
@@ -200,17 +200,17 @@
     <message>
       <location filename="../../src/mainwindow.ui" line="736"/>
       <source>IOPS</source>
-      <translation type="unfinished"/>
+      <translation>IOPS</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="741"/>
       <source>μs</source>
-      <translation type="unfinished"/>
+      <translation>μs</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="770"/>
       <source>File</source>
-      <translation type="unfinished"/>
+      <translation>File</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="778"/>
@@ -235,52 +235,52 @@
     <message>
       <location filename="../../src/mainwindow.ui" line="826"/>
       <source>0 sec</source>
-      <translation type="unfinished"/>
+      <translation>0 sec</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="834"/>
       <source>1 sec</source>
-      <translation type="unfinished"/>
+      <translation>1 sec</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="842"/>
       <source>3 sec</source>
-      <translation type="unfinished"/>
+      <translation>3 sec</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="853"/>
       <source>5 sec</source>
-      <translation type="unfinished"/>
+      <translation>5 sec</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="861"/>
       <source>10 sec</source>
-      <translation type="unfinished"/>
+      <translation>10 sec</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="869"/>
       <source>30 sec</source>
-      <translation type="unfinished"/>
+      <translation>30 sec</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="877"/>
       <source>1 min</source>
-      <translation type="unfinished"/>
+      <translation>1 min</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="885"/>
       <source>3 min</source>
-      <translation type="unfinished"/>
+      <translation>3 min</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="893"/>
       <source>5 min</source>
-      <translation type="unfinished"/>
+      <translation>5 min</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="901"/>
       <source>10 min</source>
-      <translation type="unfinished"/>
+      <translation>10 min</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="906"/>
@@ -358,7 +358,7 @@
       <location filename="../../src/mainwindow.cpp" line="157"/>
       <location filename="../../src/mainwindow.cpp" line="223"/>
       <source>%1 %2% (%3)</source>
-      <translation type="unfinished"/>
+      <translation>%1 %2% (%3)</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="241"/>
@@ -449,7 +449,7 @@
     <message>
       <location filename="../../src/mainwindow.cpp" line="633"/>
       <source>Confirmation</source>
-      <translation type="unfinished"/>
+      <translation>Confirmation</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="634"/>
