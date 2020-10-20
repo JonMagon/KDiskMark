@@ -52,6 +52,7 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_it_IT.ts
     data/translations/${PROJECT_NAME}_pt_BR.ts
     data/translations/${PROJECT_NAME}_ru_RU.ts
+    data/translations/${PROJECT_NAME}_zh_CN.ts
 )
 
 qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})

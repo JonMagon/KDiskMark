@@ -96,6 +96,7 @@ Languages currently available:
 * Italian
 * Portuguese (Brazilian)
 * Russian
+* Chinese (Simplified)
 
 ## TODO
 - [ ] Windows compatibility
