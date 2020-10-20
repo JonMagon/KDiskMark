@@ -178,12 +178,12 @@
       <location filename="../../src/mainwindow.ui" line="497"/>
       <location filename="../../src/mainwindow.cpp" line="344"/>
       <source>Mix</source>
-      <translation>Mix</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="702"/>
       <source>Add a directory</source>
-      <translation>Add a directory</translation>
+      <translation type="unfinished"/>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="726"/>
@@ -400,17 +400,17 @@
     <message>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>KiB</source>
-      <translation type="unfinished"/>
+      <translation>KiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>TiB</source>
-      <translation type="unfinished"/>
+      <translation>TiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="320"/>
       <source>PiB</source>
-      <translation type="unfinished"/>
+      <translation>PiB</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="512"/>
@@ -469,7 +469,7 @@ Você deseja continuar?</translation>
     <message>
       <location filename="../../src/global.cpp" line="13"/>
       <source>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
-      <translation type="unfinished"/>
+      <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
       <location filename="../../src/main.cpp" line="53"/>
@@ -523,13 +523,13 @@ Você deseja continuar?</translation>
       <location filename="../../src/settings.cpp" line="27"/>
       <location filename="../../src/settings.cpp" line="28"/>
       <source>MiB</source>
-      <translation type="unfinished"/>
+      <translation>MiB</translation>
     </message>
     <message>
       <location filename="../../src/settings.cpp" line="41"/>
       <location filename="../../src/settings.cpp" line="42"/>
       <source>KiB</source>
-      <translation type="unfinished"/>
+      <translation>KiB</translation>
     </message>
   </context>
 </TS>
