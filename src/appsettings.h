@@ -47,7 +47,7 @@ public:
     int getFileSize();
     void setIntervalTime(int intervalTime);
     int getIntervalTime();
-    void setDir(QString dir);
+    void setDir(const QString &dir);
     void setRandomReadPercentage(float percentage);
     int getRandomReadPercentage();
     QString getBenchmarkFile();

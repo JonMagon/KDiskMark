@@ -30,7 +30,7 @@ int AppSettings::getIntervalTime()
     return m_intervalTime;
 }
 
-void AppSettings::setDir(QString dir)
+void AppSettings::setDir(const QString &dir)
 {
     m_dir = dir;
 }

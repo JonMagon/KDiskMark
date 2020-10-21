@@ -496,14 +496,14 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
             QString path = dialog.directory().path();
 
             if (QFileInfo(path).isWritable()) {
-                int index = ui->comboBox_Dirs->findText(path, Qt::MatchContains);
+                int foundIndex = ui->comboBox_Dirs->findText(path, Qt::MatchContains);
 
-                if (index == -1) {
+                if (foundIndex == -1) {
                     addDirectory(path);
                     ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
                 }
                 else {
-                    ui->comboBox_Dirs->setCurrentIndex(index);
+                    ui->comboBox_Dirs->setCurrentIndex(foundIndex);
                 }
 
                 return;
