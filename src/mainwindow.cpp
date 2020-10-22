@@ -160,7 +160,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                     QVariant::fromValue(volumeInfo)
                     );
 
-        if (!disableDirItemIfIsNotWritable(0)
+        if (!disableDirItemIfIsNotWritable(1)
                 && isThereAWritableDir == false) {
             isThereAWritableDir = true;
         }
