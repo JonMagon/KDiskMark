@@ -21,7 +21,7 @@
     <message>
         <location filename="../../src/about.ui" line="101"/>
         <source>GPL v3</source>
-        <translation>GPL v3</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="114"/>
@@ -41,7 +41,7 @@
     <message>
         <location filename="../../src/about.ui" line="153"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="172"/>
@@ -51,12 +51,12 @@
     <message>
         <location filename="../../src/about.ui" line="185"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Flexible I/O Tester:</source>
-        <translation>Flexible I/O Tester:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="230"/>
@@ -66,7 +66,7 @@
     <message>
         <location filename="../../src/about.ui" line="243"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -118,7 +118,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="14"/>
         <source>KDiskMark</source>
-        <translation>KDiskMark</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
@@ -129,22 +129,22 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="43"/>
         <source>Test 1</source>
-        <translation>Test 1</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="56"/>
         <source>Test 2</source>
-        <translation>Test 2</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="69"/>
         <source>Test 3</source>
-        <translation>Test 3</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="82"/>
         <source>Test 4</source>
-        <translation>Test 4</translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="177"/>
@@ -166,7 +166,7 @@
         <location filename="../../src/mainwindow.ui" line="587"/>
         <location filename="../../src/mainwindow.ui" line="617"/>
         <source>%v</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="337"/>
@@ -358,7 +358,7 @@
         <location filename="../../src/mainwindow.cpp" line="157"/>
         <location filename="../../src/mainwindow.cpp" line="223"/>
         <source>%1 %2% (%3)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="241"/>
