@@ -87,7 +87,7 @@
       <location filename="../../src/benchmark.cpp" line="231"/>
       <location filename="../../src/benchmark.cpp" line="246"/>
       <source>Sequential Mix %1/%2</source>
-      <translation type="unfinished"/>
+      <translation>Mix Sequenziale %1/%2</translation>
     </message>
     <message>
       <location filename="../../src/benchmark.cpp" line="251"/>
@@ -105,7 +105,7 @@
       <location filename="../../src/benchmark.cpp" line="261"/>
       <location filename="../../src/benchmark.cpp" line="276"/>
       <source>Random Mix %1/%2</source>
-      <translation type="unfinished"/>
+      <translation>Mix Casuale %1/%2</translation>
     </message>
     <message>
       <location filename="../../src/benchmark.cpp" line="282"/>
@@ -178,12 +178,12 @@
       <location filename="../../src/mainwindow.ui" line="497"/>
       <location filename="../../src/mainwindow.cpp" line="344"/>
       <source>Mix</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="702"/>
       <source>Add a directory</source>
-      <translation type="unfinished"/>
+      <translation>Aggiungi una cartella</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="726"/>
@@ -310,32 +310,32 @@
     <message>
       <location filename="../../src/mainwindow.ui" line="937"/>
       <source>Default</source>
-      <translation type="unfinished"/>
+      <translation>Predefinito</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="945"/>
       <source>Peak Performance</source>
-      <translation type="unfinished"/>
+      <translation>Prestazioni di picco</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="953"/>
       <source>Real World Performance</source>
-      <translation type="unfinished"/>
+      <translation>Prestazioni in condizioni reali</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="961"/>
       <source>Default [+Mix]</source>
-      <translation type="unfinished"/>
+      <translation>Predefinito [+Mix]</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="969"/>
       <source>Peak Performance [+Mix]</source>
-      <translation type="unfinished"/>
+      <translation>Prestazioni di picco [+Mix]</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.ui" line="977"/>
       <source>Real World Performance [+Mix]</source>
-      <translation type="unfinished"/>
+      <translation>Prestazioni in condizioni reali [+Mix]</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="31"/>
@@ -415,12 +415,12 @@
     <message>
       <location filename="../../src/mainwindow.cpp" line="512"/>
       <source>Bad Directory</source>
-      <translation type="unfinished"/>
+      <translation>Brutta cartella</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="512"/>
       <source>The directory is not writable.</source>
-      <translation type="unfinished"/>
+      <translation>Non è possibile scrivere nella cartella.</translation>
     </message>
     <message>
       <location filename="../../src/mainwindow.cpp" line="580"/>
@@ -517,19 +517,19 @@ Vuoi continuare?</translation>
     <message>
       <location filename="../../src/settings.ui" line="245"/>
       <source>Threads</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <location filename="../../src/settings.cpp" line="27"/>
       <location filename="../../src/settings.cpp" line="28"/>
       <source>MiB</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
     <message>
       <location filename="../../src/settings.cpp" line="41"/>
       <location filename="../../src/settings.cpp" line="42"/>
       <source>KiB</source>
-      <translation type="unfinished"/>
+      <translation></translation>
     </message>
   </context>
 </TS>
