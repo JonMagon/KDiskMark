@@ -199,11 +199,13 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="736"/>
+        <location filename="../../src/mainwindow.cpp" line="275"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="741"/>
+        <location filename="../../src/mainwindow.cpp" line="279"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
@@ -379,18 +381,10 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="270"/>
+        <location filename="../../src/mainwindow.cpp" line="274"/>
+        <location filename="../../src/mainwindow.cpp" line="278"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Náhodné %1 KiB&lt;br/&gt;Front=%2&lt;br/&gt;Vláken=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="274"/>
-        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(IOPS)&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Náhodné %1 KiB&lt;br/&gt;Front=%2&lt;br/&gt;Vláken=%3&lt;br/&gt;(IOPS)&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="278"/>
-        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(μs)&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;Náhodné %1 KiB&lt;br/&gt;Front=%2&lt;br/&gt;Vláken=%3&lt;br/&gt;(μs)&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="320"/>
