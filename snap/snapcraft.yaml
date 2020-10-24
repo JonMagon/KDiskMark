@@ -8,6 +8,7 @@ description: |
   store.
 license: GPL-3.0
 base: core18
+adopt-info: kdiskmark
 
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
@@ -18,19 +19,23 @@ parts:
     configflags:
       - -DCMAKE_BUILD_TYPE=Release
       - -DCMAKE_INSTALL_PREFIX=/usr
+    build-snaps:
+      - cmake
+      - kde-frameworks-5-core18
+      - kde-frameworks-5-core18-sdk
     build-packages:
-      - g++
-      - build-essential
-      - dpkg-dev
-      - qtbase5-dev
       - qttools5-dev
       - qttools5-dev-tools # Qt5LinguistTools
       - extra-cmake-modules
     stage-packages:
-      - libqt5gui5
-      - libqt5widgets5
-      - libqt5core5a
       - fio
     organize:
       usr/share/qt5/translations/*.qm: usr/share/kdiskmark/translations/
-    source: https://github.com/JonMagon/KDiskMark/archive/2.0.0.tar.gz
+    source: https://github.com/JonMagon/KDiskMark.git
+    source-tag: 2.0.0
+
+apps:
+  kdiskmark:
+    adapter: none
+    command: usr/bin/kdiskmark
+
