@@ -7,24 +7,25 @@ description: |
   we live in tweetspace and your description wants to look good in the snap
   store.
 license: GPL-3.0
+base: core18
 
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
 parts:
   kdiskmark:
-  plugin: cmake
-  build-packages:
-    - g++
-    - build-essential
-    - dpkg-dev
-    - qtbase5-dev
-    - qttools5-dev
-    - qttools5-dev-tools # Qt5LinguistTools
-    - extra-cmake-modules
-  stage-packages:
-    - libqt5gui5
-    - libqt5widgets5
-    - libqt5core5a
-    - fio
-  source: https://github.com/JonMagon/KDiskMark/archive/2.0.0.tar.gz
+    plugin: cmake
+    build-packages:
+      - g++
+      - build-essential
+      - dpkg-dev
+      - qtbase5-dev
+      - qttools5-dev
+      - qttools5-dev-tools # Qt5LinguistTools
+      - extra-cmake-modules
+    stage-packages:
+      - libqt5gui5
+      - libqt5widgets5
+      - libqt5core5a
+      - fio
+    source: https://github.com/JonMagon/KDiskMark/archive/2.0.0.tar.gz
