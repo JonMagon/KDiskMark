@@ -15,6 +15,9 @@ confinement: devmode # use 'strict' once you have the right plugs and slots
 parts:
   kdiskmark:
     plugin: cmake
+    configflags:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DCMAKE_INSTALL_PREFIX=/usr
     build-packages:
       - g++
       - build-essential
@@ -28,4 +31,6 @@ parts:
       - libqt5widgets5
       - libqt5core5a
       - fio
+    organize:
+      usr/share/qt5/translations/*.qm: usr/share/kdiskmark/translations/
     source: https://github.com/JonMagon/KDiskMark/archive/2.0.0.tar.gz
