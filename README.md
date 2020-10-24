@@ -77,8 +77,9 @@ makepkg -si
 ```
 
 ### Fedora
+
+KDiskMark is included in the official [Fedora](https://src.fedoraproject.org/rpms/kdiskmark/) repo. You can install it like any other package:
 ```bash
-sudo dnf copr enable atim/kdiskmark -y
 sudo dnf install kdiskmark
 ```
 
