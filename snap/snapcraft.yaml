@@ -8,7 +8,6 @@ description: |
   store.
 license: GPL-3.0
 base: core18
-adopt-info: kdiskmark
 
 grade: devel # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
@@ -29,6 +28,22 @@ parts:
       - extra-cmake-modules
     stage-packages:
       - fio
+      - libdouble-conversion1
+      - libfreetype6
+      - libgl1
+      - libglvnd0
+      - libglx0
+      - libgraphite2-3
+      - libharfbuzz0b
+      - libicu60
+      - libpng16-16
+      - libqt5core5a
+      - libqt5gui5
+      - libqt5widgets5
+      - libx11-6
+      - libxau6
+      - libxcb1
+      - libxdmcp6
     organize:
       usr/share/qt5/translations/*.qm: usr/share/kdiskmark/translations/
     source: https://github.com/JonMagon/KDiskMark.git
