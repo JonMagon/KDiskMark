@@ -212,6 +212,9 @@ void MainWindow::closeEvent(QCloseEvent *)
 
 void MainWindow::addDirectory(const QString &path)
 {
+    if (ui->comboBox_Dirs->findText(path, Qt::MatchContains) != -1)
+        return;
+
     QStorageInfo storage(path);
 
     quint64 total = storage.bytesTotal();
