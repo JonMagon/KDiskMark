@@ -55,6 +55,14 @@ Profile: Default
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
 
+### Snap Store
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/kdiskmark)
+```bash
+sudo snap install kdiskmark
+sudo snap connect kdiskmark:mount-observe
+sudo snap connect kdiskmark:hardware-observe
+````
+
 ### Ubuntu based distros
 ```bash
 sudo add-apt-repository ppa:jonmagon/kdiskmark
