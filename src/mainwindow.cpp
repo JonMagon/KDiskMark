@@ -31,7 +31,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
     ui->extraIcon->setVisible(false);
 
-    statusBar()->setSizeGripEnabled(false);
+    statusBar()->hide();
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
 
