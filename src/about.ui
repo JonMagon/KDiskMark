@@ -72,7 +72,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -98,7 +98,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>GPL v3</string>
+     <string notr="true">GPL v3</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -150,7 +150,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;JonMagon&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -182,7 +182,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
      <enum>Qt::AutoText</enum>
@@ -214,7 +214,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QLabel" name="label_10">
@@ -240,7 +240,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://www.iconfinder.com/baitisstudio&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Baiti Studio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="openExternalLinks">
      <bool>true</bool>

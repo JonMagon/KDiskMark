@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>KDiskMark</string>
+   <string notr="true">KDiskMark</string>
   </property>
   <property name="locale">
    <locale language="English" country="UnitedStates"/>
@@ -40,7 +40,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Test 1</string>
+     <string notr="true">Test 1</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_Test_2">
@@ -53,7 +53,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Test 2</string>
+     <string notr="true">Test 2</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_Test_3">
@@ -66,7 +66,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Test 3</string>
+     <string notr="true">Test 3</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_Test_4">
@@ -79,7 +79,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Test 4</string>
+     <string notr="true">Test 4</string>
     </property>
    </widget>
    <widget class="QWidget" name="commentLayoutWidget">
@@ -204,7 +204,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -234,7 +234,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -264,7 +264,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -294,7 +294,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -364,7 +364,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -394,7 +394,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -424,7 +424,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -454,7 +454,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -524,7 +524,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -554,7 +554,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -584,7 +584,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>
@@ -614,7 +614,7 @@
         <number>0</number>
        </property>
        <property name="format">
-        <string>%v</string>
+        <string notr="true">%v</string>
        </property>
       </widget>
      </item>

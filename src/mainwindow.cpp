@@ -154,7 +154,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
         QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
 
         ui->comboBox_Dirs->insertItem(1,
-                    tr("%1 %2% (%3)").arg(path)
+                    QStringLiteral("%1 %2% (%3)").arg(path)
                     .arg(storage.bytesAvailable() * 100 / total)
                     .arg(formatSize(available, total)),
                     QVariant::fromValue(volumeInfo)
@@ -223,7 +223,7 @@ void MainWindow::addDirectory(const QString &path)
     QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
 
     ui->comboBox_Dirs->addItem(
-                tr("%1 %2% (%3)").arg(path)
+                QStringLiteral("%1 %2% (%3)").arg(path)
                 .arg(available * 100 / total)
                 .arg(formatSize(available, total)),
                 QVariant::fromValue(volumeInfo)
