@@ -371,7 +371,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="633"/>
         <source>Directory is not specified.</source>
-        <translation>Directorio no especificado</translation>
+        <translation>Directorio no especificado.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="636"/>
