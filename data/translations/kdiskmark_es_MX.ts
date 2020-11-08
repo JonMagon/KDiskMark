@@ -41,7 +41,7 @@
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Flexible I/O Tester:</source>
-        <translation>Probador de E/S Flexible</translation>
+        <translation>Flexible I/O Tester:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="230"/>
