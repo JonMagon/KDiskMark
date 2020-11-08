@@ -113,6 +113,7 @@ Languages currently available:
 * Italian
 * Portuguese (Brazilian)
 * Russian
+* Spanish (Mexico)
 
 ## TODO
 - [ ] Windows compatibility
