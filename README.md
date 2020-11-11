@@ -4,7 +4,6 @@
 [![Build Status](https://travis-ci.com/JonMagon/KDiskMark.svg?branch=master)](https://travis-ci.com/JonMagon/KDiskMark)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4457b2f0d2947be95414218e37ce19f)](https://app.codacy.com/manual/JonMagon/KDiskMark?utm_source=github.com&utm_medium=referral&utm_content=JonMagon/KDiskMark&utm_campaign=Badge_Grade_Dashboard)
 ![GitHub All Releases](https://img.shields.io/github/downloads/JonMagon/KDiskMark/total?color=blue)
-![PPA installations](https://ppa-downloads-badge.herokuapp.com/?ppa=jonmagon/kdiskmark)
 
 KDiskMark is an HDD and SSD benchmark tool with a very friendly graphical user interface. KDiskMark with its presets and powerful GUI calls [Flexible I/O Tester](https://github.com/axboe/fio) and handles the output to provide an easy to view and interpret comprehensive benchmark result.
 
@@ -55,7 +54,7 @@ Profile: Default
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
 
-### Install from the Snap Store
+### Install from the Snap Store [![kdiskmark](https://snapcraft.io/kdiskmark/badge.svg)](https://snapcraft.io/kdiskmark)
 [![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/kdiskmark)
 ```bash
 sudo snap install kdiskmark
@@ -63,7 +62,7 @@ sudo snap connect kdiskmark:mount-observe
 sudo snap connect kdiskmark:hardware-observe
 ````
 
-### Ubuntu based distros
+### Ubuntu based distros ![PPA installations](https://ppa-downloads-badge.herokuapp.com/?ppa=jonmagon/kdiskmark)
 ```bash
 sudo add-apt-repository ppa:jonmagon/kdiskmark
 sudo apt update
