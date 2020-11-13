@@ -44,10 +44,12 @@ Profile: Default
 ```
 
 ## Dependencies
-### Required
+### Build
 * GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
+* Qt with Widgets >= 5.9
+### Runtime
 * Qt with Widgets >= 5.9
 * [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
     * If you build FIO from source, install `libaio-dev` package.
