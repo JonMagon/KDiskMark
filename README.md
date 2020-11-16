@@ -113,6 +113,7 @@ Languages currently available:
 * Italian
 * Portuguese (Brazilian)
 * Russian
+* Slovak
 * Spanish (Mexico)
 
 ## TODO
