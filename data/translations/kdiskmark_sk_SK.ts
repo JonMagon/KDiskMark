@@ -97,7 +97,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="602"/>
+        <location filename="../../src/mainwindow.cpp" line="603"/>
         <source>All</source>
         <translation>Všetci</translation>
     </message>
@@ -340,53 +340,53 @@
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="516"/>
         <source>Bad Directory</source>
         <translation>Zlý adresár</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="516"/>
         <source>The directory is not writable.</source>
         <translation>Do adresára sa nedá zapisovať.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
         <location filename="../../src/mainwindow.cpp" line="584"/>
         <location filename="../../src/mainwindow.cpp" line="585"/>
         <location filename="../../src/mainwindow.cpp" line="586"/>
         <location filename="../../src/mainwindow.cpp" line="587"/>
+        <location filename="../../src/mainwindow.cpp" line="588"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="629"/>
+        <location filename="../../src/mainwindow.cpp" line="630"/>
         <source>Stopping...</source>
         <translation>Zastavovanie...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="633"/>
+        <location filename="../../src/mainwindow.cpp" line="634"/>
         <source>Not available</source>
         <translation>Nie je k dispozícii</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="633"/>
+        <location filename="../../src/mainwindow.cpp" line="634"/>
         <source>Directory is not specified.</source>
         <translation>Nie je zadaná zložka.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="636"/>
+        <location filename="../../src/mainwindow.cpp" line="637"/>
         <source>Confirmation</source>
         <translation>Potvrdenie</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="637"/>
+        <location filename="../../src/mainwindow.cpp" line="638"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Touto akciu budú prepísané údaje v %1
 Chcete pokračovať?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="650"/>
+        <location filename="../../src/mainwindow.cpp" line="651"/>
         <source>Benchmark Failed</source>
         <translation>Test sa nepodaril</translation>
     </message>

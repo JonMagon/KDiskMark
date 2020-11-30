@@ -97,7 +97,7 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="602"/>
+        <location filename="../../src/mainwindow.cpp" line="603"/>
         <source>All</source>
         <translation>Tout</translation>
     </message>
@@ -340,53 +340,53 @@
         <translation>Pio</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="516"/>
         <source>Bad Directory</source>
         <translation>Répertoire incorrect</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="516"/>
         <source>The directory is not writable.</source>
         <translation>Le répertoire n&apos;est pas inscriptible.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
         <location filename="../../src/mainwindow.cpp" line="584"/>
         <location filename="../../src/mainwindow.cpp" line="585"/>
         <location filename="../../src/mainwindow.cpp" line="586"/>
         <location filename="../../src/mainwindow.cpp" line="587"/>
+        <location filename="../../src/mainwindow.cpp" line="588"/>
         <source>Stop</source>
         <translation>Arrêt</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="629"/>
+        <location filename="../../src/mainwindow.cpp" line="630"/>
         <source>Stopping...</source>
         <translation>Arrêt est en cours ...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="633"/>
+        <location filename="../../src/mainwindow.cpp" line="634"/>
         <source>Not available</source>
         <translation>Indisponible</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="633"/>
+        <location filename="../../src/mainwindow.cpp" line="634"/>
         <source>Directory is not specified.</source>
         <translation>Le répertoire n&apos;est pas précisé.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="636"/>
+        <location filename="../../src/mainwindow.cpp" line="637"/>
         <source>Confirmation</source>
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="637"/>
+        <location filename="../../src/mainwindow.cpp" line="638"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Cette action détruit les données en %1
 Vous voulez continuer ?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="650"/>
+        <location filename="../../src/mainwindow.cpp" line="651"/>
         <source>Benchmark Failed</source>
         <translation>Échec de l&apos;évaluation comparative</translation>
     </message>
