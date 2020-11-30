@@ -51,6 +51,7 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_es_MX.ts
     data/translations/${PROJECT_NAME}_fr_FR.ts
     data/translations/${PROJECT_NAME}_it_IT.ts
+    data/translations/${PROJECT_NAME}_pl_PL.ts
     data/translations/${PROJECT_NAME}_pt_BR.ts
     data/translations/${PROJECT_NAME}_ru_RU.ts
     data/translations/${PROJECT_NAME}_sk_SK.ts

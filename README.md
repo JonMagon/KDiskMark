@@ -111,6 +111,7 @@ Languages currently available:
 * French
 * German
 * Italian
+* Polish
 * Portuguese (Brazilian)
 * Russian
 * Slovak
