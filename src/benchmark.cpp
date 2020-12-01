@@ -14,6 +14,7 @@
 
 Benchmark::Benchmark(AppSettings *settings)
 {
+    m_running = false;
     m_settings = settings;
 
     QProcess process;
