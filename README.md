@@ -116,6 +116,7 @@ Languages currently available:
 * Russian
 * Slovak
 * Spanish (Mexico)
+* Ukrainian
 
 ## TODO
 - [ ] Windows compatibility
