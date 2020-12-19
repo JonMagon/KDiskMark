@@ -63,6 +63,7 @@ public slots:
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void timeIntervalSelected(QAction* act);
+    void localeSelected(QAction* act);
     void profileSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 

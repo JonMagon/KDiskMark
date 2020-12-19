@@ -27,6 +27,29 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 {
     ui->setupUi(this);
 
+    QActionGroup *localesGroup = new QActionGroup(this);
+
+    QVector<QLocale> locales = { QLocale::Czech, QLocale::German, QLocale::English,
+                                 QLocale(QLocale::Spanish, QLocale::Mexico),
+                                 QLocale::French, QLocale::Italian, QLocale::Polish,
+                                 QLocale(QLocale::Portuguese, QLocale::Brazil),
+                                 QLocale::Slovak, QLocale::Russian, QLocale::Ukrainian,
+                                 QLocale::Chinese};
+
+    for (const QLocale &locale : locales) {
+        QString langName = locale.nativeLanguageName();
+        QAction *lang = new QAction(QString("%1%2").arg(langName[0].toUpper(), langName.mid(1)), this);
+        lang->setIcon(QIcon(QStringLiteral(":/icons/flags/%1.svg").arg(locale.name().mid(3))));
+        lang->setCheckable(true);
+        lang->setData(locale);
+        lang->setActionGroup(localesGroup);
+        ui->menuLanguage->addAction(lang);
+
+        if (QLocale().name() == locale.name()) lang->setChecked(true);
+    }
+
+    connect(localesGroup, SIGNAL(triggered(QAction*)), this, SLOT(localeSelected(QAction*)));
+
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
     ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
     ui->extraIcon->setVisible(false);
@@ -528,6 +551,13 @@ void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
             ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
         }
     }
+}
+
+void MainWindow::localeSelected(QAction* act)
+{
+    if (!act->data().canConvert<QLocale>()) return;
+
+    // act->data().toLocale()
 }
 
 void MainWindow::profileSelected(QAction* act)

@@ -762,7 +762,7 @@
      <x>0</x>
      <y>0</y>
      <width>801</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -810,7 +810,13 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <widget class="QMenu" name="menuLanguage">
+     <property name="title">
+      <string>Language</string>
+     </property>
+    </widget>
     <addaction name="actionAbout"/>
+    <addaction name="menuLanguage"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSettings"/>
@@ -977,8 +983,124 @@
     <string>Real World Performance [+Mix]</string>
    </property>
   </action>
+  <action name="actionPortuguese_Brazil">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/BR.svg</normaloff>:/icons/flags/BR.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Português brasileiro</string>
+   </property>
+  </action>
+  <action name="actionCzech">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/CZ.svg</normaloff>:/icons/flags/CZ.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Čeština</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/US.svg</normaloff>:/icons/flags/US.svg</iconset>
+   </property>
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionUkrainian">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/UA.svg</normaloff>:/icons/flags/UA.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Українська</string>
+   </property>
+  </action>
+  <action name="actionRussian">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/RU.svg</normaloff>:/icons/flags/RU.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Русский</string>
+   </property>
+  </action>
+  <action name="actionFrench">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/FR.svg</normaloff>:/icons/flags/FR.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Français</string>
+   </property>
+  </action>
+  <action name="actionPolish">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/PL.svg</normaloff>:/icons/flags/PL.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Polski</string>
+   </property>
+  </action>
+  <action name="actionSlovak">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/SK.svg</normaloff>:/icons/flags/SK.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Slovenčina</string>
+   </property>
+  </action>
+  <action name="actionItalian">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/IT.svg</normaloff>:/icons/flags/IT.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Italiano</string>
+   </property>
+  </action>
+  <action name="actionChinese_Simplified">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/CN.svg</normaloff>:/icons/flags/CN.svg</iconset>
+   </property>
+   <property name="text">
+    <string>汉语</string>
+   </property>
+  </action>
+  <action name="actionSpanish_Mexico">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/MX.svg</normaloff>:/icons/flags/MX.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Español mexicano</string>
+   </property>
+  </action>
+  <action name="actionGerman">
+   <property name="icon">
+    <iconset resource="../data/icons/flags/flags.qrc">
+     <normaloff>:/icons/flags/DE.svg</normaloff>:/icons/flags/DE.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Deutsch</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="../data/icons/flags/flags.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionExit</sender>
