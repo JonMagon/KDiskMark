@@ -2,7 +2,10 @@
 #define APPSETTINGS_H
 
 #include <QObject>
+#include <QLocale>
 #include <QString>
+
+class QTranslator;
 
 class AppSettings : public QObject
 {
@@ -38,6 +41,12 @@ public:
     } performanceProfile = Default;
 
     AppSettings() {}
+
+    void setupLocalization();
+    QLocale getLocale();
+    void setLocale(const QLocale locale);
+    static QLocale defaultLocale();
+
     BenchmarkParams getBenchmarkParams(BenchmarkTest test);
     void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
     void restoreDefaultBenchmarkParams();
@@ -74,6 +83,9 @@ private:
     BenchmarkParams m_SEQ_2 = m_default_SEQ_2;
     BenchmarkParams m_RND_1 = m_default_RND_1;
     BenchmarkParams m_RND_2 = m_default_RND_2;
+
+    static QTranslator s_appTranslator;
+    static QTranslator s_qtTranslator;
 };
 
 #endif // APPSETTINGS_H

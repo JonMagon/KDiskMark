@@ -72,6 +72,7 @@ signals:
 
 private:
     Ui::MainWindow *ui;
+    void updateFileSizeList();
     void inverseBenchmarkThreadRunningState();
     void closeEvent(QCloseEvent *event);
     QString formatSize(quint64 available, quint64 total);
@@ -84,5 +85,8 @@ private:
     void addDirectory(const QString &storage);
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
                                     const AppSettings::BenchmarkParams &params);
+
+protected slots:
+    virtual void changeEvent(QEvent * event);
 };
 #endif // MAINWINDOW_H

@@ -1,5 +1,43 @@
 #include "appsettings.h"
 
+#include "cmake.h"
+
+#include <QApplication>
+#include <QCoreApplication>
+#include <QTranslator>
+#include <QStandardPaths>
+#include <QLibraryInfo>
+
+QTranslator AppSettings::s_appTranslator;
+QTranslator AppSettings::s_qtTranslator;
+
+void AppSettings::setupLocalization()
+{
+    setLocale(QLocale());
+    QCoreApplication::installTranslator(&s_appTranslator);
+    QCoreApplication::installTranslator(&s_qtTranslator);
+}
+
+void AppSettings::setLocale(const QLocale locale)
+{
+    if (locale == QLocale::AnyLanguage)
+        QLocale::setDefault(QLocale::system());
+    else
+        QLocale::setDefault(QLocale(locale));
+
+    s_appTranslator.load(QLocale(), qAppName(), QStringLiteral("_"),
+                         QStandardPaths::locate(QStandardPaths::AppDataLocation,
+                                                QStringLiteral("translations"),
+                                                QStandardPaths::LocateDirectory));
+    s_qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"),
+                        QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+}
+
+QLocale AppSettings::defaultLocale()
+{
+    return QLocale::AnyLanguage;
+}
+
 void AppSettings::setLoopsCount(int loops)
 {
     m_loopsCount = loops;

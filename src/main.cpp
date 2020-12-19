@@ -23,23 +23,8 @@ int main(int argc, char *argv[])
     qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
     qRegisterMetaType<QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>>("QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>");
 
-    QTranslator translator;
-    if (translator.load(QLocale(), qAppName(), QLatin1String("_"),
-                        QStandardPaths::locate(QStandardPaths::AppDataLocation,
-                                               QStringLiteral("translations"),
-                                               QStandardPaths::LocateDirectory)
-                        )) {
-        a.installTranslator(&translator);
-    }
-
-    QTranslator qtBaseTranslator;
-    if (qtBaseTranslator.load("qtbase_" + QLocale::system().name(),
-                              QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
-    {
-        a.installTranslator(&qtBaseTranslator);
-    }
-
     AppSettings settings;
+    settings.setupLocalization();
     Benchmark benchmark(&settings);
 
     if (benchmark.isFIODetected()) {

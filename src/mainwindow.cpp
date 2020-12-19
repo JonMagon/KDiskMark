@@ -116,16 +116,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     profileSelected(ui->actionDefault);
 
-    for (int i = 16; i <= 512; i *= 2) {
-        ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("MiB")), i);
-    }
-
-    for (int i = 1; i <= 64; i *= 2) {
-        ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("GiB")), i * 1024);
-    }
-
-    ui->comboBox_fileSize->
-            setCurrentIndex(ui->comboBox_fileSize->findData(m_settings->getFileSize()));
+    updateFileSizeList();
 
     int indexMixRatio = m_settings->getRandomReadPercentage() / 10 - 1;
 
@@ -231,6 +222,59 @@ MainWindow::~MainWindow()
 void MainWindow::closeEvent(QCloseEvent *)
 {
     m_benchmark->setRunning(false);
+}
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::LocaleChange: {
+        if (QLocale() == QLocale::AnyLanguage)
+            m_settings->setLocale(QLocale::AnyLanguage);
+        break;
+    }
+    case QEvent::LanguageChange: {
+        ui->retranslateUi(this);
+        updateFileSizeList();
+        updateBenchmarkButtonsContent();
+
+        QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+
+        for (auto const& progressBar: m_progressBars) {
+            progressBar->setToolTip(
+                Global::getToolTipTemplate().arg(
+                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3),
+                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::GBPerSec)).toFloat(), 'f', 3),
+                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 3),
+                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 3)));
+        }
+
+        break;
+    }
+    default:
+        QMainWindow::changeEvent(event);
+    }
+}
+
+void MainWindow::updateFileSizeList()
+{
+    int index = ui->comboBox_fileSize->currentIndex();
+
+    if (index == -1) {
+        index = ui->comboBox_fileSize->findData(m_settings->getFileSize());
+    }
+
+    ui->comboBox_fileSize->clear();
+
+    for (int i = 16; i <= 512; i *= 2) {
+        ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("MiB")), i);
+    }
+
+    for (int i = 1; i <= 64; i *= 2) {
+        ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("GiB")), i * 1024);
+    }
+
+    ui->comboBox_fileSize->setCurrentIndex(index);
+
 }
 
 void MainWindow::addDirectory(const QString &path)
@@ -557,7 +601,7 @@ void MainWindow::localeSelected(QAction* act)
 {
     if (!act->data().canConvert<QLocale>()) return;
 
-    // act->data().toLocale()
+    m_settings->setLocale(act->data().toLocale());
 }
 
 void MainWindow::profileSelected(QAction* act)

@@ -134,7 +134,7 @@
         </font>
        </property>
        <property name="text">
-        <string/>
+        <string notr="true"/>
        </property>
       </widget>
      </item>
@@ -175,6 +175,9 @@
        </property>
        <property name="text">
         <string>Read</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -336,6 +339,9 @@
        <property name="text">
         <string>Write</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
      </item>
      <item>
@@ -495,6 +501,9 @@
        </property>
        <property name="text">
         <string>Mix</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
