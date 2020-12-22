@@ -72,6 +72,7 @@ signals:
 
 private:
     Ui::MainWindow *ui;
+    void updateIntervalMenuItems();
     void updateFileSizeList();
     void inverseBenchmarkThreadRunningState();
     void closeEvent(QCloseEvent *event);
