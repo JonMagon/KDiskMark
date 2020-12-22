@@ -790,16 +790,6 @@
      <property name="title">
       <string>Interval Time</string>
      </property>
-     <addaction name="action0_sec"/>
-     <addaction name="action1_sec"/>
-     <addaction name="action3_sec"/>
-     <addaction name="action5_sec"/>
-     <addaction name="action10_sec"/>
-     <addaction name="action30_sec"/>
-     <addaction name="action1_min"/>
-     <addaction name="action3_min"/>
-     <addaction name="action5_min"/>
-     <addaction name="action10_min"/>
     </widget>
     <addaction name="menuInterval_Time"/>
     <addaction name="actionQueues_Threads"/>

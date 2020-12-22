@@ -29,12 +29,12 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     QActionGroup *localesGroup = new QActionGroup(this);
 
-    QVector<QLocale> locales = { QLocale::Czech, QLocale::German, QLocale::English,
+    QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
                                  QLocale::French, QLocale::Italian, QLocale::Polish,
                                  QLocale(QLocale::Portuguese, QLocale::Brazil),
                                  QLocale::Slovak, QLocale::Russian, QLocale::Ukrainian,
-                                 QLocale::Chinese};
+                                 QLocale::Chinese };
 
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
@@ -67,27 +67,18 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     QActionGroup *timeIntervalGroup = new QActionGroup(this);
 
-    ui->action0_sec->setProperty("interval", 0);
-    ui->action1_sec->setProperty("interval", 1);
-    ui->action3_sec->setProperty("interval", 3);
-    ui->action5_sec->setProperty("interval", 5);
-    ui->action10_sec->setProperty("interval", 10);
-    ui->action30_sec->setProperty("interval", 30);
-    ui->action1_min->setProperty("interval", 60);
-    ui->action3_min->setProperty("interval", 180);
-    ui->action5_min->setProperty("interval", 300);
-    ui->action10_min->setProperty("interval", 600);
+    for (int val : { 0, 1, 3, 5, 10, 30, 60, 180, 300, 600 }) {
+        QAction *timeAction =
+                new QAction(val < 60 ? QString("%1 %2").arg(val).arg(tr("sec"))
+                                     : QString("%1 %2").arg(val / 60).arg(tr("min")));
 
-    ui->action0_sec->setActionGroup(timeIntervalGroup);
-    ui->action1_sec->setActionGroup(timeIntervalGroup);
-    ui->action3_sec->setActionGroup(timeIntervalGroup);
-    ui->action5_sec->setActionGroup(timeIntervalGroup);
-    ui->action10_sec->setActionGroup(timeIntervalGroup);
-    ui->action30_sec->setActionGroup(timeIntervalGroup);
-    ui->action1_min->setActionGroup(timeIntervalGroup);
-    ui->action3_min->setActionGroup(timeIntervalGroup);
-    ui->action5_min->setActionGroup(timeIntervalGroup);
-    ui->action10_min->setActionGroup(timeIntervalGroup);
+        timeAction->setProperty("interval", val);
+        timeAction->setCheckable(true);
+        timeAction->setActionGroup(timeIntervalGroup);
+        ui->menuInterval_Time->addAction(timeAction);
+
+        if (val == m_settings->getIntervalTime()) timeAction->setChecked(true);
+    }
 
     connect(timeIntervalGroup, SIGNAL(triggered(QAction*)), this, SLOT(timeIntervalSelected(QAction*)));
 
