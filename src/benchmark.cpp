@@ -18,7 +18,7 @@ Benchmark::Benchmark(AppSettings *settings)
     m_settings = settings;
 
     QProcess process;
-    process.start("fio", QStringList() << "--version");
+    process.start("fio", {"--version"});
     process.waitForFinished();
 
     m_FIOVersion = process.readAllStandardOutput().simplified();
