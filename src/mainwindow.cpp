@@ -811,7 +811,7 @@ bool MainWindow::runCombinedRandomTest()
 
         if (m_settings->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-            { Benchmark::RND_1_Mix,   {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4  } };
+            { Benchmark::RND_1_Mix,   {  ui->mixBar_2,  ui->mixBar_3,   ui->mixBar_4   } };
         }
 
         runBenchmark(set);
