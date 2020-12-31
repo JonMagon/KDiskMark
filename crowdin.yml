@@ -1,3 +1,0 @@
-files:
-  - source: /data/translations/kdiskmark.ts
-    translation: /data/translations/kdiskmark_%locale_with_underscore%.ts
