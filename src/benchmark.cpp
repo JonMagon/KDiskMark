@@ -135,7 +135,7 @@ Benchmark::ParsedJob Benchmark::parseResult(const std::shared_ptr<QProcess> proc
     QJsonObject jsonObject = jsonResponse.object();
     QJsonArray jobs = jsonObject["jobs"].toArray();
 
-    ParsedJob parsedJob { 0, 0, 0, 0, 0, 0 };
+    ParsedJob parsedJob {{0, 0, 0}, {0, 0, 0}};
 
     QString errorOutput = process->readAllStandardError();
 
