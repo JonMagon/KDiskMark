@@ -127,6 +127,7 @@ AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
     case RND_2:
         return m_RND_2;
     }
+    Q_UNREACHABLE();
 }
 
 void AppSettings::setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads)
