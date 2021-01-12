@@ -91,6 +91,12 @@ KDiskMark is included in the official [Fedora](https://src.fedoraproject.org/rpm
 sudo dnf install kdiskmark
 ```
 
+### openSUSE Tumbleweed
+
+```bash
+sudo zypper install kdiskmark
+```
+
 ## Building
 ### Building executable
 You can build **KDiskMark** by using the following commands:
