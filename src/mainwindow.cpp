@@ -557,18 +557,16 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
 {
     if (index == 0) {
-        QFileDialog dialog;
-        dialog.setFileMode(QFileDialog::Directory);
-        dialog.setOption(QFileDialog::ShowDirsOnly, true);
-
-        if (dialog.exec()) {
-            QString path = dialog.directory().path();
-
-            if (QFileInfo(path).isWritable()) {
-                int foundIndex = ui->comboBox_Dirs->findText(path, Qt::MatchContains);
+        QString dir = QFileDialog::getExistingDirectory(this, QString(), QDir::homePath(),
+                                                        QFileDialog::ShowDirsOnly
+                                                        | QFileDialog::DontResolveSymlinks
+                                                        | QFileDialog::DontUseNativeDialog);
+        if (!dir.isNull()) {
+            if (QFileInfo(dir).isWritable()) {
+                int foundIndex = ui->comboBox_Dirs->findText(dir, Qt::MatchContains);
 
                 if (foundIndex == -1) {
-                    addDirectory(path);
+                    addDirectory(dir);
                     ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
                 }
                 else {
