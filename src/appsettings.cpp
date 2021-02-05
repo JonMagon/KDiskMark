@@ -8,8 +8,15 @@
 #include <QStandardPaths>
 #include <QLibraryInfo>
 
+#include <unistd.h>
+
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
+
+AppSettings::AppSettings()
+{
+    m_runningAsRoot = getuid() == 0;
+}
 
 void AppSettings::setupLocalization()
 {
@@ -36,6 +43,11 @@ void AppSettings::setLocale(const QLocale locale)
 QLocale AppSettings::defaultLocale()
 {
     return QLocale::AnyLanguage;
+}
+
+bool AppSettings::isRunningAsRoot()
+{
+    return m_runningAsRoot;
 }
 
 void AppSettings::setLoopsCount(int loops)
