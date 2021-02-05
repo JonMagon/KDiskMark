@@ -38,6 +38,15 @@ bool Benchmark::isFIODetected()
 
 void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage)
 {
+    auto prepareProcess = std::make_shared<QProcess>();
+    prepareProcess->start("fio", QStringList()
+                          << "--create_only=1"
+                          << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
+                          << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
+                          << QStringLiteral("--name=%1").arg(rw));
+
+    prepareProcess->waitForFinished(-1);
+
     for (int i = 0; i < m_settings->getLoopsCount(); i++) {
         auto process = std::make_shared<QProcess>();
         process->start("fio", QStringList()
@@ -69,6 +78,16 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         if (!m_running) break;
 
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
+
+        QFile dropCaches("/proc/sys/vm/drop_caches");
+
+        if (!dropCaches.open(QIODevice::WriteOnly | QIODevice::Text))
+            qDebug() << "No access";
+
+
+        dropCaches.write("3\n");
+
+        dropCaches.close();
 
         kill(process->processId(), SIGCONT); // Resume
 
