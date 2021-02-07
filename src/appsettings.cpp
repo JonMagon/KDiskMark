@@ -118,6 +118,16 @@ void AppSettings::setMixed(bool state)
     m_mixedState = state;
 }
 
+void AppSettings::setFlushingCacheState(bool state)
+{
+    m_shouldFlushCache = state;
+}
+
+bool AppSettings::shouldFlushCache()
+{
+    return m_shouldFlushCache;
+}
+
 void AppSettings::restoreDefaultBenchmarkParams()
 {
     m_SEQ_1 = m_default_SEQ_1;

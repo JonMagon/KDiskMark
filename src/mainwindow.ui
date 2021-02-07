@@ -793,6 +793,7 @@
     </widget>
     <addaction name="menuInterval_Time"/>
     <addaction name="actionQueues_Threads"/>
+    <addaction name="actionFlush_I_O_Disk_Cache"/>
    </widget>
    <widget class="QMenu" name="menuProfile">
     <property name="title">
@@ -897,6 +898,14 @@
    </property>
    <property name="text">
     <string>Real World Performance [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionFlush_I_O_Disk_Cache">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Flush I/O Disk Cache</string>
    </property>
   </action>
  </widget>

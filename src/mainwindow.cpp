@@ -60,6 +60,11 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     m_settings = settings;
 
+    ui->actionFlush_I_O_Disk_Cache->setChecked(m_settings->isRunningAsRoot());
+    if (!m_settings->isRunningAsRoot()) {
+        ui->actionFlush_I_O_Disk_Cache->setEnabled(false);
+    }
+
     // Default values
     ui->loopsCount->setValue(m_settings->getLoopsCount());
 
@@ -710,6 +715,7 @@ void MainWindow::inverseBenchmarkThreadRunningState()
                                           .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
             m_settings->setFileSize(ui->comboBox_fileSize->currentData().toInt());
+            m_settings->setFlushingCacheState(ui->actionFlush_I_O_Disk_Cache->isChecked());
             m_benchmark->setRunning(true);
             m_benchmarkThread.start();
         }
