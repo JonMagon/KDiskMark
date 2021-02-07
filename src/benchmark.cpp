@@ -85,7 +85,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         if (m_settings->shouldFlushCache() && (rw.contains("read") || rw.contains("rw"))) {
             QFile dropCaches("/proc/sys/vm/drop_caches");
 
-            if (dropCaches.open(QIODevice::WriteOnly | QIODevice::Text)){
+            if (dropCaches.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 dropCaches.write("1");
             }
 
