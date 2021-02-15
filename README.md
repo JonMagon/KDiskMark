@@ -46,6 +46,7 @@ Profile: Default
 * GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
+* [KAuth](https://github.com/KDE/kauth)
 * Qt with Widgets >= 5.9
 ### Runtime
 * Qt with Widgets >= 5.9

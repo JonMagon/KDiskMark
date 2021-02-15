@@ -9,6 +9,9 @@
 
 #include <signal.h>
 
+#include <KAuth>
+#include <KAuthAction>
+
 #include "appsettings.h"
 #include "global.h"
 
@@ -39,6 +42,10 @@ bool Benchmark::isFIODetected()
 void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage)
 {
     emit benchmarkStatusUpdate(tr("Preparing..."));
+
+    KAuth::Action dropCacheAction("org.jonmagon.kdiskmark.dropcache");
+    dropCacheAction.setHelperId("org.jonmagon.kdiskmark");
+    KAuth::ExecuteJob* dropCacheJob = dropCacheAction.execute();
 
     auto prepareProcess = std::make_shared<QProcess>();
     prepareProcess->start("fio", QStringList()
@@ -82,14 +89,8 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
-        if (m_settings->shouldFlushCache() && (rw.contains("read") || rw.contains("rw"))) {
-            QFile dropCaches("/proc/sys/vm/drop_caches");
-
-            if (dropCaches.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                dropCaches.write("1");
-            }
-
-            dropCaches.close();
+        if (m_settings->shouldFlushCache()) {
+            qDebug() << dropCacheJob->exec();
         }
 
         kill(process->processId(), SIGCONT); // Resume

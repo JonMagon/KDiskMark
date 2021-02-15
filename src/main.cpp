@@ -32,12 +32,6 @@ int main(int argc, char *argv[])
         w.setFixedSize(w.size());
         w.show();
 
-        if (!settings.isRunningAsRoot()) {
-            QMessageBox::information(0, "KDiskMark",
-                                     QObject::tr("KDiskMark is not running as root.\nClearing the I/O cache will not be performed.\n" \
-                                                 "It may cause incorrect performance measurement while reading."));
-        }
-
         return a.exec();
     }
     else {

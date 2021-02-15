@@ -44,6 +44,9 @@ list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 include(CPack)
 include(GNUInstallDirs)
 include(ECMInstallIcons)
+include(KDEInstallDirs)
+
+find_package(KF5Auth REQUIRED NO_MODULE)
 
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
@@ -84,7 +87,7 @@ add_executable(${PROJECT_NAME}
     src/diskdriveinfo.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets KF5::Auth)
 
 set(APP_ICONS
     data/icons/16-apps-kdiskmark.png
@@ -102,3 +105,16 @@ install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAM
 install(FILES data/${DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 
 ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)
+
+# Helper
+
+add_executable(${PROJECT_NAME}_helper
+    src/helper.cpp
+    src/helper.h
+)
+
+target_link_libraries(${PROJECT_NAME}_helper KF5::Auth)
+
+install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
+kauth_install_helper_files(${PROJECT_NAME}_helper org.jonmagon.kdiskmark root)
+kauth_install_actions(org.jonmagon.kdiskmark data/kdiskmark.actions)

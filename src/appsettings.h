@@ -40,13 +40,12 @@ public:
         RealWorld
     } performanceProfile = Default;
 
-    AppSettings();
+    AppSettings() {};
 
     void setupLocalization();
     QLocale getLocale();
     void setLocale(const QLocale locale);
     static QLocale defaultLocale();
-    bool isRunningAsRoot();
 
     BenchmarkParams getBenchmarkParams(BenchmarkTest test);
     void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
@@ -90,8 +89,6 @@ private:
 
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;
-
-    bool m_runningAsRoot;
 };
 
 #endif // APPSETTINGS_H

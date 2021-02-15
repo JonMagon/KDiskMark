@@ -13,11 +13,6 @@
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
-AppSettings::AppSettings()
-{
-    m_runningAsRoot = getuid() == 0;
-}
-
 void AppSettings::setupLocalization()
 {
     setLocale(QLocale());
@@ -43,11 +38,6 @@ void AppSettings::setLocale(const QLocale locale)
 QLocale AppSettings::defaultLocale()
 {
     return QLocale::AnyLanguage;
-}
-
-bool AppSettings::isRunningAsRoot()
-{
-    return m_runningAsRoot;
 }
 
 void AppSettings::setLoopsCount(int loops)

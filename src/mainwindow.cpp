@@ -60,11 +60,6 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     m_settings = settings;
 
-    ui->actionFlush_I_O_Disk_Cache->setChecked(m_settings->isRunningAsRoot());
-    if (!m_settings->isRunningAsRoot()) {
-        ui->actionFlush_I_O_Disk_Cache->setEnabled(false);
-    }
-
     // Default values
     ui->loopsCount->setValue(m_settings->getLoopsCount());
 
