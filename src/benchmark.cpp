@@ -48,11 +48,13 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
     QVariantMap args; args["check"] = true; dropCacheAction.setArguments(args);
     KAuth::ExecuteJob* dropCacheJob = dropCacheAction.execute();
 
-    dropCacheJob->exec();
+    if (m_settings->shouldFlushCache()) {
+        dropCacheJob->exec();
 
-    if (dropCacheAction.status() != KAuth::Action::AuthorizedStatus) {
-        setRunning(false);
-        return;
+        if (dropCacheAction.status() != KAuth::Action::AuthorizedStatus) {
+            setRunning(false);
+            return;
+        }
     }
 
     args["check"] = false; dropCacheAction.setArguments(args);
