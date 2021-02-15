@@ -40,7 +40,7 @@ public:
         RealWorld
     } performanceProfile = Default;
 
-    AppSettings() {}
+    AppSettings() {};
 
     void setupLocalization();
     QLocale getLocale();
@@ -62,6 +62,8 @@ public:
     QString getBenchmarkFile();
     void setMixed(bool state);
     bool isMixed();
+    void setFlushingCacheState(bool state);
+    bool shouldFlushCache();
 
 private:
     int m_loopsCount = 5;
@@ -70,6 +72,7 @@ private:
     int m_percentage = 70;
     QString m_dir;
     bool m_mixedState = false;
+    bool m_shouldFlushCache = false;
 
     const BenchmarkParams m_default_SEQ_1 { 1024,  8,  1 };
     const BenchmarkParams m_default_SEQ_2 { 1024,  1,  1 };

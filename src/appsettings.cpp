@@ -8,6 +8,8 @@
 #include <QStandardPaths>
 #include <QLibraryInfo>
 
+#include <unistd.h>
+
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
@@ -104,6 +106,16 @@ bool AppSettings::isMixed()
 void AppSettings::setMixed(bool state)
 {
     m_mixedState = state;
+}
+
+void AppSettings::setFlushingCacheState(bool state)
+{
+    m_shouldFlushCache = state;
+}
+
+bool AppSettings::shouldFlushCache()
+{
+    return m_shouldFlushCache;
 }
 
 void AppSettings::restoreDefaultBenchmarkParams()

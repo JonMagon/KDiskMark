@@ -793,6 +793,7 @@
     </widget>
     <addaction name="menuInterval_Time"/>
     <addaction name="actionQueues_Threads"/>
+    <addaction name="actionFlush_Pagecache"/>
    </widget>
    <widget class="QMenu" name="menuProfile">
     <property name="title">
@@ -897,6 +898,17 @@
    </property>
    <property name="text">
     <string>Real World Performance [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionFlush_Pagecache">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Flush Pagecache</string>
    </property>
   </action>
  </widget>

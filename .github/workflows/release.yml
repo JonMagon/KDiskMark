@@ -20,7 +20,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install extra-cmake-modules qttools5-dev rpm
+        sudo apt-get install extra-cmake-modules qttools5-dev libkf5auth-dev rpm
 
     - name: Build
       run: |

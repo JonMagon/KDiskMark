@@ -710,6 +710,7 @@ void MainWindow::inverseBenchmarkThreadRunningState()
                                           .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
             m_settings->setFileSize(ui->comboBox_fileSize->currentData().toInt());
+            m_settings->setFlushingCacheState(ui->actionFlush_Pagecache->isChecked());
             m_benchmark->setRunning(true);
             m_benchmarkThread.start();
         }

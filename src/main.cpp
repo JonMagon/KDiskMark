@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
         MainWindow w(&settings, &benchmark);
         w.setFixedSize(w.size());
         w.show();
+
         return a.exec();
     }
     else {

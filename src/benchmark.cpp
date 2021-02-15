@@ -9,6 +9,9 @@
 
 #include <signal.h>
 
+#include <KAuth>
+#include <KAuthAction>
+
 #include "appsettings.h"
 #include "global.h"
 
@@ -38,6 +41,37 @@ bool Benchmark::isFIODetected()
 
 void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage)
 {
+    emit benchmarkStatusUpdate(tr("Preparing..."));
+
+    KAuth::Action dropCacheAction("org.jonmagon.kdiskmark.dropcache");
+    dropCacheAction.setHelperId("org.jonmagon.kdiskmark");
+    QVariantMap args; args["check"] = true; dropCacheAction.setArguments(args);
+    KAuth::ExecuteJob* dropCacheJob = dropCacheAction.execute();
+
+    if (m_settings->shouldFlushCache()) {
+        dropCacheJob->exec();
+
+        if (dropCacheAction.status() != KAuth::Action::AuthorizedStatus) {
+            setRunning(false);
+            return;
+        }
+    }
+    else {
+        dropCacheJob->~ExecuteJob();
+    }
+
+    args["check"] = false; dropCacheAction.setArguments(args);
+
+    auto prepareProcess = std::make_shared<QProcess>();
+    prepareProcess->start("fio", QStringList()
+                          << "--create_only=1"
+                          << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
+                          << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
+                          << QStringLiteral("--name=%1").arg(rw));
+
+    prepareProcess->waitForFinished(-1);
+    prepareProcess->close();
+
     for (int i = 0; i < m_settings->getLoopsCount(); i++) {
         auto process = std::make_shared<QProcess>();
         process->start("fio", QStringList()
@@ -69,6 +103,11 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         if (!m_running) break;
 
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
+
+        if (m_settings->shouldFlushCache()) {
+            dropCacheJob = dropCacheAction.execute();
+            dropCacheJob->exec();
+        }
 
         kill(process->processId(), SIGCONT); // Resume
 
