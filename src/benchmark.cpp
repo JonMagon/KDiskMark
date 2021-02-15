@@ -56,6 +56,9 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
             return;
         }
     }
+    else {
+        dropCacheJob->~ExecuteJob();
+    }
 
     args["check"] = false; dropCacheAction.setArguments(args);
 
@@ -102,6 +105,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
         if (m_settings->shouldFlushCache()) {
+            dropCacheJob = dropCacheAction.execute();
             dropCacheJob->exec();
         }
 
