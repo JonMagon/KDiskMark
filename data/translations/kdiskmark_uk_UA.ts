@@ -54,7 +54,7 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="44"/>
         <source>Preparing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Підготовка...</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="261"/>
@@ -241,7 +241,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="911"/>
         <source>Flush Pagecache</source>
-        <translation type="unfinished"></translation>
+        <translation>Очищати сторінковий кеш</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="54"/>
@@ -376,7 +376,7 @@ Do you want to continue?</source>
     <message>
         <location filename="../../src/main.cpp" line="39"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation>FIO не найден. Пожалуйста, установите FIO, прежде чем использовать KDiskMark.</translation>
+        <translation>FIO не найден. Будь ласка, встановіть FIO, перш ніж використовувати KDiskMark.</translation>
     </message>
 </context>
 <context>
