@@ -7,5 +7,6 @@ URL=https://github.com/JonMagon/KDiskMark
 Name=Drop Cache
 Description=Authentication is required to free pagecache
 Description[ru]=Требуется авторизация для очистки страничного кэша
+Description[de]=Legitimation ist zum Leeren des Pagecache erforderlich
 Policy=auth_admin
 Persistence=session

@@ -52,48 +52,48 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="41"/>
+        <location filename="../../src/benchmark.cpp" line="44"/>
         <source>Preparing...</source>
         <translation>Подготовка...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="244"/>
-        <location filename="../../src/benchmark.cpp" line="259"/>
+        <location filename="../../src/benchmark.cpp" line="261"/>
+        <location filename="../../src/benchmark.cpp" line="276"/>
         <source>Sequential Read %1/%2</source>
         <translation>Последовательное чтение %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="249"/>
-        <location filename="../../src/benchmark.cpp" line="264"/>
+        <location filename="../../src/benchmark.cpp" line="266"/>
+        <location filename="../../src/benchmark.cpp" line="281"/>
         <source>Sequential Write %1/%2</source>
         <translation>Последовательная запись %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="254"/>
-        <location filename="../../src/benchmark.cpp" line="269"/>
+        <location filename="../../src/benchmark.cpp" line="271"/>
+        <location filename="../../src/benchmark.cpp" line="286"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Последовательный микс %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="274"/>
-        <location filename="../../src/benchmark.cpp" line="289"/>
+        <location filename="../../src/benchmark.cpp" line="291"/>
+        <location filename="../../src/benchmark.cpp" line="306"/>
         <source>Random Read %1/%2</source>
         <translation>Случайное чтение %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="279"/>
-        <location filename="../../src/benchmark.cpp" line="294"/>
+        <location filename="../../src/benchmark.cpp" line="296"/>
+        <location filename="../../src/benchmark.cpp" line="311"/>
         <source>Random Write %1/%2</source>
         <translation>Случайная запись %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="284"/>
-        <location filename="../../src/benchmark.cpp" line="299"/>
+        <location filename="../../src/benchmark.cpp" line="301"/>
+        <location filename="../../src/benchmark.cpp" line="316"/>
         <source>Random Mix %1/%2</source>
         <translation>Случайный микс %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="305"/>
+        <location filename="../../src/benchmark.cpp" line="322"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Пауза между тестами %1/%2 сек</translation>
     </message>
@@ -102,25 +102,25 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="678"/>
+        <location filename="../../src/mainwindow.cpp" line="673"/>
         <source>All</source>
         <translation>Все</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="177"/>
-        <location filename="../../src/mainwindow.cpp" line="411"/>
+        <location filename="../../src/mainwindow.cpp" line="406"/>
         <source>Read</source>
         <translation>Чтение</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="340"/>
-        <location filename="../../src/mainwindow.cpp" line="414"/>
+        <location filename="../../src/mainwindow.cpp" line="409"/>
         <source>Write</source>
         <translation>Запись</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="503"/>
-        <location filename="../../src/mainwindow.cpp" line="417"/>
+        <location filename="../../src/mainwindow.cpp" line="412"/>
         <source>Mix</source>
         <translation>Микс</translation>
     </message>
@@ -131,8 +131,8 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="735"/>
-        <location filename="../../src/mainwindow.cpp" line="338"/>
-        <location filename="../../src/mainwindow.cpp" line="344"/>
+        <location filename="../../src/mainwindow.cpp" line="333"/>
+        <location filename="../../src/mainwindow.cpp" line="339"/>
         <source>MB/s</source>
         <translation>МБ/с</translation>
     </message>
@@ -143,13 +143,13 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="745"/>
-        <location filename="../../src/mainwindow.cpp" line="348"/>
+        <location filename="../../src/mainwindow.cpp" line="343"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="750"/>
-        <location filename="../../src/mainwindow.cpp" line="352"/>
+        <location filename="../../src/mainwindow.cpp" line="347"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
@@ -239,9 +239,9 @@
         <translation>Реальная производительность [+Микс]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="908"/>
-        <source>Flush I/O Disk Cache</source>
-        <translation>Очищать дисковый кэш</translation>
+        <location filename="../../src/mainwindow.ui" line="911"/>
+        <source>Flush Pagecache</source>
+        <translation>Очищать страничный кэш</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="54"/>
@@ -249,119 +249,119 @@
         <translation>Устройство зашифровано. Производительность может упасть.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="247"/>
+        <location filename="../../src/mainwindow.cpp" line="242"/>
         <source>sec</source>
         <translation>сек</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="248"/>
+        <location filename="../../src/mainwindow.cpp" line="243"/>
         <source>min</source>
         <translation>мин</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="272"/>
-        <location filename="../../src/mainwindow.cpp" line="393"/>
+        <location filename="../../src/mainwindow.cpp" line="267"/>
+        <location filename="../../src/mainwindow.cpp" line="388"/>
         <source>MiB</source>
         <translation>МиБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="276"/>
-        <location filename="../../src/mainwindow.cpp" line="393"/>
+        <location filename="../../src/mainwindow.cpp" line="271"/>
+        <location filename="../../src/mainwindow.cpp" line="388"/>
         <source>GiB</source>
         <translation>ГиБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="314"/>
-        <location filename="../../src/mainwindow.cpp" line="320"/>
+        <location filename="../../src/mainwindow.cpp" line="309"/>
+        <location filename="../../src/mainwindow.cpp" line="315"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Последовательно %1 МиБ&lt;br/&gt;Очереди=%2&lt;br/&gt;Потоки=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="326"/>
-        <location filename="../../src/mainwindow.cpp" line="332"/>
+        <location filename="../../src/mainwindow.cpp" line="321"/>
+        <location filename="../../src/mainwindow.cpp" line="327"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Случайно %1 КиБ&lt;br/&gt;Очереди=%2&lt;br/&gt;Потоки=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="337"/>
+        <location filename="../../src/mainwindow.cpp" line="332"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Последовательно %1 МиБ&lt;br/&gt;Очереди=%2&lt;br/&gt;Потоки=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="343"/>
-        <location filename="../../src/mainwindow.cpp" line="347"/>
-        <location filename="../../src/mainwindow.cpp" line="351"/>
+        <location filename="../../src/mainwindow.cpp" line="338"/>
+        <location filename="../../src/mainwindow.cpp" line="342"/>
+        <location filename="../../src/mainwindow.cpp" line="346"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;Случайно %1 КиБ&lt;br/&gt;Очереди=%2&lt;br/&gt;Потоки=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="393"/>
+        <location filename="../../src/mainwindow.cpp" line="388"/>
         <source>Bytes</source>
         <translation>Байты</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="393"/>
+        <location filename="../../src/mainwindow.cpp" line="388"/>
         <source>KiB</source>
         <translation>КиБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="393"/>
+        <location filename="../../src/mainwindow.cpp" line="388"/>
         <source>TiB</source>
         <translation>ТиБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="393"/>
+        <location filename="../../src/mainwindow.cpp" line="388"/>
         <source>PiB</source>
         <translation>ПиБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="584"/>
+        <location filename="../../src/mainwindow.cpp" line="579"/>
         <source>Bad Directory</source>
         <translation>Неверный каталог</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="584"/>
+        <location filename="../../src/mainwindow.cpp" line="579"/>
         <source>The directory is not writable.</source>
         <translation>Каталог недоступен для записи.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="659"/>
-        <location filename="../../src/mainwindow.cpp" line="660"/>
-        <location filename="../../src/mainwindow.cpp" line="661"/>
-        <location filename="../../src/mainwindow.cpp" line="662"/>
-        <location filename="../../src/mainwindow.cpp" line="663"/>
+        <location filename="../../src/mainwindow.cpp" line="654"/>
+        <location filename="../../src/mainwindow.cpp" line="655"/>
+        <location filename="../../src/mainwindow.cpp" line="656"/>
+        <location filename="../../src/mainwindow.cpp" line="657"/>
+        <location filename="../../src/mainwindow.cpp" line="658"/>
         <source>Stop</source>
         <translation>Стоп</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="705"/>
+        <location filename="../../src/mainwindow.cpp" line="700"/>
         <source>Stopping...</source>
         <translation>Остановка...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="709"/>
+        <location filename="../../src/mainwindow.cpp" line="704"/>
         <source>Not available</source>
         <translation>Недоступно</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="709"/>
+        <location filename="../../src/mainwindow.cpp" line="704"/>
         <source>Directory is not specified.</source>
         <translation>Директория не указана.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="712"/>
+        <location filename="../../src/mainwindow.cpp" line="707"/>
         <source>Confirmation</source>
         <translation>Подтверждение</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="713"/>
+        <location filename="../../src/mainwindow.cpp" line="708"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Данное действие уничтожит данные в %1
 Вы хотите продолжить?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="727"/>
+        <location filename="../../src/mainwindow.cpp" line="722"/>
         <source>Benchmark Failed</source>
         <translation>Тестирование провалено</translation>
     </message>
@@ -374,16 +374,7 @@ Do you want to continue?</source>
         <translation>&lt;h1&gt;%1 МБ/с&lt;br/&gt;%2 ГБ/с&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/main.cpp" line="37"/>
-        <source>KDiskMark is not running as root.
-Clearing the I/O cache will not be performed.
-It may cause incorrect performance measurement while reading.</source>
-        <translation>KDiskMark запущен от лица обычного пользователя.
-Очистка дискового кэша выполняться не будет.
-Это может вызвать неправильное измерение скорости чтения.</translation>
-    </message>
-    <message>
-        <location filename="../../src/main.cpp" line="45"/>
+        <location filename="../../src/main.cpp" line="39"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>FIO не найден. Пожалуйста, установите FIO, прежде чем использовать KDiskMark.</translation>
     </message>
