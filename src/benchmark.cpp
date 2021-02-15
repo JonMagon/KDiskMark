@@ -45,7 +45,17 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
     KAuth::Action dropCacheAction("org.jonmagon.kdiskmark.dropcache");
     dropCacheAction.setHelperId("org.jonmagon.kdiskmark");
+    QVariantMap args; args["actuallyDo"] = false; dropCacheAction.setArguments(args);
     KAuth::ExecuteJob* dropCacheJob = dropCacheAction.execute();
+
+    dropCacheJob->exec();
+
+    if (dropCacheAction.status() != KAuth::Action::AuthorizedStatus) {
+        setRunning(false);
+        return;
+    }
+
+    args["actuallyDo"] = true; dropCacheAction.setArguments(args);
 
     auto prepareProcess = std::make_shared<QProcess>();
     prepareProcess->start("fio", QStringList()
@@ -90,7 +100,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
         if (m_settings->shouldFlushCache()) {
-            qDebug() << dropCacheJob->exec();
+            dropCacheJob->exec();
         }
 
         kill(process->processId(), SIGCONT); // Resume
