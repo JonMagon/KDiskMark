@@ -8,5 +8,6 @@ Name=Drop Cache
 Description=Authentication is required to free pagecache
 Description[ru]=Требуется авторизация для очистки страничного кэша
 Description[de]=Legitimation ist zum Leeren des Pagecache erforderlich
+Description[fr]=Autorisation est requise pour vider le cache des pages
 Policy=auth_admin
 Persistence=session
