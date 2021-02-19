@@ -99,13 +99,13 @@ sudo zypper install kdiskmark
 ```
 
 ## Building
-### Building executable
+### Building a package using CPack
 You can build **KDiskMark** by using the following commands:
 
 ```bash
 mkdir build && cd build
 cmake -D CMAKE_BUILD_TYPE=Release ..
-cmake --build .
+cpack -G DEB # Or RPM, ZIP etc.
 ```
 
 ## Localization [![Crowdin](https://badges.crowdin.net/kdiskmark/localized.svg)](https://crowdin.com/project/kdiskmark)
