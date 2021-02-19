@@ -52,6 +52,7 @@ Profile: Default
 * Qt with Widgets >= 5.9
 * [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
     * If you build FIO from source, install `libaio-dev` package.
+* KAuth Library
 
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
