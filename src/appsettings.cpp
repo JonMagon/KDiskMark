@@ -8,8 +8,6 @@
 #include <QStandardPaths>
 #include <QLibraryInfo>
 
-#include <unistd.h>
-
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
