@@ -127,6 +127,7 @@ Languages currently available:
 * Ukrainian
 
 ## TODO
+- [ ] CLI
 - [ ] Windows compatibility
 - [x] Performance profiles (mix, peak, real-world)
 
