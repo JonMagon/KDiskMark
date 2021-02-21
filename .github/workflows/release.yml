@@ -27,6 +27,7 @@ jobs:
         mkdir build
         cd build
         cmake ${{ matrix.cmake-defines }} ..
+        sed -i 's|etc/dbus-1|share/dbus-1|g' cmake_install.cmake
         cmake --build . --target package --parallel 2 --config Release
 
     - name: Upload
