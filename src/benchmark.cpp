@@ -52,6 +52,9 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
         dropCacheJob->exec();
 
         if (dropCacheAction.status() != KAuth::Action::AuthorizedStatus) {
+            if (dropCacheJob->error() && !dropCacheJob->errorText().isEmpty()) {
+                emit failed(dropCacheJob->errorText());
+            }
             setRunning(false);
             return;
         }
