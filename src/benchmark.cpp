@@ -109,7 +109,13 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
         if (m_settings->shouldFlushCache()) {
             dropCacheJob = dropCacheAction.execute();
-            dropCacheJob->exec();
+            if (!dropCacheJob->exec()) {
+                if (dropCacheJob->error() && !dropCacheJob->errorText().isEmpty()) {
+                    emit failed(dropCacheJob->errorText());
+                }
+                setRunning(false);
+                return;
+            }
         }
 
         kill(process->processId(), SIGCONT); // Resume
