@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-- Linux-distro: 
+- Linux-distro (kernel version): 
 - Desktop Environment (KDE/GNOME etc.): 
 - Qt Version: 
 - KDiskMark Version: #.#.#
