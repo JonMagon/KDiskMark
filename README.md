@@ -131,6 +131,11 @@ Languages currently available:
 - [ ] Windows compatibility
 - [x] Performance profiles (mix, peak, real-world)
 
+## Special Thanks
+* Artem Grinev (<agrinev@manjaro.org>) for his help with assembling the AppImage package.
+
+Thanks to the package maintainers, translators, and all users for supporting the project.
+
 ## Credits
 Application Icon  
 Copyright (c) https://www.iconfinder.com/baitisstudio
