@@ -57,43 +57,43 @@
         <translation>Préparation...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="261"/>
-        <location filename="../../src/benchmark.cpp" line="276"/>
+        <location filename="../../src/benchmark.cpp" line="270"/>
+        <location filename="../../src/benchmark.cpp" line="285"/>
         <source>Sequential Read %1/%2</source>
         <translation>Lecture séquentielle %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="266"/>
-        <location filename="../../src/benchmark.cpp" line="281"/>
+        <location filename="../../src/benchmark.cpp" line="275"/>
+        <location filename="../../src/benchmark.cpp" line="290"/>
         <source>Sequential Write %1/%2</source>
         <translation>Ecriture séquentielle %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="271"/>
-        <location filename="../../src/benchmark.cpp" line="286"/>
+        <location filename="../../src/benchmark.cpp" line="280"/>
+        <location filename="../../src/benchmark.cpp" line="295"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Mix séquentiel %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="291"/>
-        <location filename="../../src/benchmark.cpp" line="306"/>
+        <location filename="../../src/benchmark.cpp" line="300"/>
+        <location filename="../../src/benchmark.cpp" line="315"/>
         <source>Random Read %1/%2</source>
         <translation>Lecture aléatoire %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="296"/>
-        <location filename="../../src/benchmark.cpp" line="311"/>
+        <location filename="../../src/benchmark.cpp" line="305"/>
+        <location filename="../../src/benchmark.cpp" line="320"/>
         <source>Random Write %1/%2</source>
         <translation>Ecriture aléatoire %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="301"/>
-        <location filename="../../src/benchmark.cpp" line="316"/>
+        <location filename="../../src/benchmark.cpp" line="310"/>
+        <location filename="../../src/benchmark.cpp" line="325"/>
         <source>Random Mix %1/%2</source>
         <translation>Mix aléatoire %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="322"/>
+        <location filename="../../src/benchmark.cpp" line="331"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Pause entre les testes %1/%2 sec</translation>
     </message>
