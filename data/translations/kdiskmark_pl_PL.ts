@@ -54,7 +54,7 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="44"/>
         <source>Preparing...</source>
-        <translation type="unfinished"></translation>
+        <translation>Przygotowywanie...</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="270"/>
@@ -241,7 +241,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="911"/>
         <source>Flush Pagecache</source>
-        <translation type="unfinished"></translation>
+        <translation>Oczyść cache dysku</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="54"/>
