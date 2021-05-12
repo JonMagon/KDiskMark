@@ -9,8 +9,10 @@
 
 #include <signal.h>
 
+#ifdef PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH
 #include <KAuth>
 #include <KAuthAction>
+#endif
 
 #include "appsettings.h"
 #include "global.h"
@@ -43,6 +45,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 {
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
+#ifdef PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH
     KAuth::Action dropCacheAction("org.jonmagon.kdiskmark.dropcache");
     dropCacheAction.setHelperId("org.jonmagon.kdiskmark");
     QVariantMap args; args["check"] = true; dropCacheAction.setArguments(args);
@@ -64,6 +67,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
     }
 
     args["check"] = false; dropCacheAction.setArguments(args);
+#endif
 
     auto prepareProcess = std::make_shared<QProcess>();
     prepareProcess->start("fio", QStringList()
@@ -107,7 +111,9 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
+#ifdef BUILD_WITH_PAGECACHE_CLEARING_SUPPORT
         if (m_settings->shouldFlushCache()) {
+#ifdef PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH
             dropCacheJob = dropCacheAction.execute();
             if (!dropCacheJob->exec()) {
                 if (dropCacheJob->error() && !dropCacheJob->errorText().isEmpty()) {
@@ -116,7 +122,17 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
                 setRunning(false);
                 return;
             }
+#else
+            QFile dropCaches("/proc/sys/vm/drop_caches");
+
+            if (dropCaches.open(QIODevice::WriteOnly | QIODevice::Text)){
+                dropCaches.write("3");
+            }
+
+            dropCaches.close();
+#endif
         }
+#endif
 
         kill(process->processId(), SIGCONT); // Resume
 

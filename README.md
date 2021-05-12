@@ -109,6 +109,13 @@ cmake -D CMAKE_BUILD_TYPE=Release ..
 cpack -G DEB # Or RPM, ZIP etc.
 ```
 
+### Build parameters
+* `BUILD_WITH_PAGECACHE_CLEARING_SUPPORT` enables pagecache clearing functionality (default is ON). If disabled, the application will not be able to clear the pagecache in any way.
+* `PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH` determines whether a helper will be built (default is ON). If the KF5Auth helper is not built, the application will be able to clear the pagecache if it is run as root.
+
+Build parameters are passed at configuration stage:  
+`cmake -D PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH=OFF ..`
+
 ## Localization [![Crowdin](https://badges.crowdin.net/kdiskmark/localized.svg)](https://crowdin.com/project/kdiskmark)
 To help with localization you can use [Crowdin](https://crowdin.com/project/kdiskmark) or translate files in `data/translations` with [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html) directly. To add a new language, copy `data/translations/kdiskmark.ts` to `data/translations/kdiskmark_<ISO 639-1 language code>_<ISO 3166-1 alpha-2 language code>.ts`, translate it, then add the file to the TS_FILES variable in CMakeLists.txt, and create a pull request. It is also possible to add localized Comment and Keywords sections into `data/kdiskmark.desktop`.
 

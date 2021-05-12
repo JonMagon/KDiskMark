@@ -36,6 +36,9 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
+option(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT "Cache clearing functionality" ON)
+option(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH "Determines whether a helper will be built" ON)
+
 find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
@@ -45,8 +48,6 @@ include(CPack)
 include(GNUInstallDirs)
 include(ECMInstallIcons)
 include(KDEInstallDirs)
-
-find_package(KF5Auth REQUIRED NO_MODULE)
 
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
@@ -87,7 +88,16 @@ add_executable(${PROJECT_NAME}
     src/diskdriveinfo.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets KF5::Auth)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
+
+if(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE BUILD_WITH_PAGECACHE_CLEARING_SUPPORT)
+    if(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+        target_compile_definitions(${PROJECT_NAME} PRIVATE PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+        find_package(KF5Auth REQUIRED NO_MODULE)
+        target_link_libraries(${PROJECT_NAME} PRIVATE KF5::Auth)
+    endif()
+endif()
 
 set(APP_ICONS
     data/icons/16-apps-kdiskmark.png
@@ -108,13 +118,15 @@ ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/ic
 
 # Helper
 
-add_executable(${PROJECT_NAME}_helper
-    src/helper.cpp
-    src/helper.h
-)
+if(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT AND PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+    add_executable(${PROJECT_NAME}_helper
+        src/helper.cpp
+        src/helper.h
+    )
 
-target_link_libraries(${PROJECT_NAME}_helper KF5::Auth)
+    target_link_libraries(${PROJECT_NAME}_helper KF5::Auth)
 
-install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-kauth_install_helper_files(${PROJECT_NAME}_helper org.jonmagon.kdiskmark root)
-kauth_install_actions(org.jonmagon.kdiskmark data/kdiskmark.actions)
+    install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
+    kauth_install_helper_files(${PROJECT_NAME}_helper org.jonmagon.kdiskmark root)
+    kauth_install_actions(org.jonmagon.kdiskmark data/kdiskmark.actions)
+endif()
