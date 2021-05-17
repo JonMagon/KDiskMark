@@ -6,6 +6,7 @@
 #ifdef __FreeBSD__
 #include <sys/disk.h>
 #include <sys/fcntl.h>
+#include <unistd.h>
 #endif
 
 QString DiskDriveInfo::getDeviceByVolume(const QString &volume)
