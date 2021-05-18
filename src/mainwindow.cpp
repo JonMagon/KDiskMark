@@ -518,7 +518,7 @@ QString MainWindow::getTextBenchmarkResult()
               .arg(m_settings->getIntervalTime() >= 60 ? m_settings->getIntervalTime() / 60 : m_settings->getIntervalTime())
               .arg(m_settings->getIntervalTime() >= 60 ? "min" : "sec")
            << QString("   Date: %1 %2")
-              .arg(QDate::currentDate().toString("yyyy/MM/dd"))
+              .arg(QDate::currentDate().toString("yyyy-MM-dd"))
               .arg(QTime::currentTime().toString("hh:mm:ss"))
            << QString("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
               .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
