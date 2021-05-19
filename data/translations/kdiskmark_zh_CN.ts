@@ -41,7 +41,7 @@
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Flexible I/O Tester:</source>
-        <translation>灵活的 I/O 测试仪：</translation>
+        <translation>Flexible I/O Tester：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="230"/>
