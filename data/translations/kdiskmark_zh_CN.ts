@@ -41,12 +41,12 @@
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Flexible I/O Tester:</source>
-        <translation>Flexible I/O 后端：</translation>
+        <translation>灵活的 I/O 测试仪：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="230"/>
         <source>Application Icon:</source>
-        <translation>程序图标：</translation>
+        <translation>应用图标：</translation>
     </message>
 </context>
 <context>
@@ -54,7 +54,7 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="44"/>
         <source>Preparing...</source>
-        <translation type="unfinished"></translation>
+        <translation>准备中...</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="270"/>
@@ -181,7 +181,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="815"/>
         <source>Language</source>
-        <translation>语文</translation>
+        <translation>语言</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="829"/>
@@ -221,7 +221,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="876"/>
         <source>Real World Performance</source>
-        <translation>现实性能</translation>
+        <translation>实际性能</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="884"/>
@@ -236,12 +236,12 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="900"/>
         <source>Real World Performance [+Mix]</source>
-        <translation>现实性能 [+混合]</translation>
+        <translation>实际性能 [+混合]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="911"/>
         <source>Flush Pagecache</source>
-        <translation type="unfinished"></translation>
+        <translation>刷新页缓存</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="54"/>
