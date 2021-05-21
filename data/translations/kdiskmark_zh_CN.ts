@@ -241,7 +241,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="911"/>
         <source>Flush Pagecache</source>
-        <translation>刷新页缓存</translation>
+        <translation>清除页缓存</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="54"/>
