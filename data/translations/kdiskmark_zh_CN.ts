@@ -52,48 +52,48 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="44"/>
+        <location filename="../../src/benchmark.cpp" line="46"/>
         <source>Preparing...</source>
         <translation>准备中...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="270"/>
-        <location filename="../../src/benchmark.cpp" line="285"/>
+        <location filename="../../src/benchmark.cpp" line="286"/>
+        <location filename="../../src/benchmark.cpp" line="301"/>
         <source>Sequential Read %1/%2</source>
         <translation>顺序读取 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="275"/>
-        <location filename="../../src/benchmark.cpp" line="290"/>
+        <location filename="../../src/benchmark.cpp" line="291"/>
+        <location filename="../../src/benchmark.cpp" line="306"/>
         <source>Sequential Write %1/%2</source>
         <translation>顺序写入 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="280"/>
-        <location filename="../../src/benchmark.cpp" line="295"/>
+        <location filename="../../src/benchmark.cpp" line="296"/>
+        <location filename="../../src/benchmark.cpp" line="311"/>
         <source>Sequential Mix %1/%2</source>
         <translation>顺序混合 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="300"/>
-        <location filename="../../src/benchmark.cpp" line="315"/>
+        <location filename="../../src/benchmark.cpp" line="316"/>
+        <location filename="../../src/benchmark.cpp" line="331"/>
         <source>Random Read %1/%2</source>
         <translation>随机读取 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="305"/>
-        <location filename="../../src/benchmark.cpp" line="320"/>
+        <location filename="../../src/benchmark.cpp" line="321"/>
+        <location filename="../../src/benchmark.cpp" line="336"/>
         <source>Random Write %1/%2</source>
         <translation>随机写入 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="310"/>
-        <location filename="../../src/benchmark.cpp" line="325"/>
+        <location filename="../../src/benchmark.cpp" line="326"/>
+        <location filename="../../src/benchmark.cpp" line="341"/>
         <source>Random Mix %1/%2</source>
         <translation>随机混合 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="331"/>
+        <location filename="../../src/benchmark.cpp" line="347"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>间隔时间 %1/%2 秒</translation>
     </message>
@@ -102,25 +102,25 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="673"/>
+        <location filename="../../src/mainwindow.cpp" line="682"/>
         <source>All</source>
         <translation>全部</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="177"/>
-        <location filename="../../src/mainwindow.cpp" line="406"/>
+        <location filename="../../src/mainwindow.cpp" line="415"/>
         <source>Read</source>
         <translation>读取</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="340"/>
-        <location filename="../../src/mainwindow.cpp" line="409"/>
+        <location filename="../../src/mainwindow.cpp" line="418"/>
         <source>Write</source>
         <translation>写入</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="503"/>
-        <location filename="../../src/mainwindow.cpp" line="412"/>
+        <location filename="../../src/mainwindow.cpp" line="421"/>
         <source>Mix</source>
         <translation>混合</translation>
     </message>
@@ -131,8 +131,8 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="735"/>
-        <location filename="../../src/mainwindow.cpp" line="333"/>
-        <location filename="../../src/mainwindow.cpp" line="339"/>
+        <location filename="../../src/mainwindow.cpp" line="342"/>
+        <location filename="../../src/mainwindow.cpp" line="348"/>
         <source>MB/s</source>
         <translation>MB/s</translation>
     </message>
@@ -143,13 +143,13 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="745"/>
-        <location filename="../../src/mainwindow.cpp" line="343"/>
+        <location filename="../../src/mainwindow.cpp" line="352"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="750"/>
-        <location filename="../../src/mainwindow.cpp" line="347"/>
+        <location filename="../../src/mainwindow.cpp" line="356"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
@@ -249,119 +249,119 @@
         <translation>设备是经过加密的。这可能降低性能。</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="242"/>
+        <location filename="../../src/mainwindow.cpp" line="251"/>
         <source>sec</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="243"/>
+        <location filename="../../src/mainwindow.cpp" line="252"/>
         <source>min</source>
         <translation>分钟</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="267"/>
-        <location filename="../../src/mainwindow.cpp" line="388"/>
+        <location filename="../../src/mainwindow.cpp" line="276"/>
+        <location filename="../../src/mainwindow.cpp" line="397"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="271"/>
-        <location filename="../../src/mainwindow.cpp" line="388"/>
+        <location filename="../../src/mainwindow.cpp" line="280"/>
+        <location filename="../../src/mainwindow.cpp" line="397"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="309"/>
-        <location filename="../../src/mainwindow.cpp" line="315"/>
+        <location filename="../../src/mainwindow.cpp" line="318"/>
+        <location filename="../../src/mainwindow.cpp" line="324"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;顺序 %1 MiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="321"/>
-        <location filename="../../src/mainwindow.cpp" line="327"/>
+        <location filename="../../src/mainwindow.cpp" line="330"/>
+        <location filename="../../src/mainwindow.cpp" line="336"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;随机 %1 KiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="332"/>
+        <location filename="../../src/mainwindow.cpp" line="341"/>
         <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;顺序 %1 MiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="338"/>
-        <location filename="../../src/mainwindow.cpp" line="342"/>
-        <location filename="../../src/mainwindow.cpp" line="346"/>
+        <location filename="../../src/mainwindow.cpp" line="347"/>
+        <location filename="../../src/mainwindow.cpp" line="351"/>
+        <location filename="../../src/mainwindow.cpp" line="355"/>
         <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;随机 %1 KiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="388"/>
+        <location filename="../../src/mainwindow.cpp" line="397"/>
         <source>Bytes</source>
         <translation>Bytes</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="388"/>
+        <location filename="../../src/mainwindow.cpp" line="397"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="388"/>
+        <location filename="../../src/mainwindow.cpp" line="397"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="388"/>
+        <location filename="../../src/mainwindow.cpp" line="397"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="579"/>
+        <location filename="../../src/mainwindow.cpp" line="588"/>
         <source>Bad Directory</source>
         <translation>错误的文件夹</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="579"/>
+        <location filename="../../src/mainwindow.cpp" line="588"/>
         <source>The directory is not writable.</source>
         <translation>文件夹不可写入。</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="654"/>
-        <location filename="../../src/mainwindow.cpp" line="655"/>
-        <location filename="../../src/mainwindow.cpp" line="656"/>
-        <location filename="../../src/mainwindow.cpp" line="657"/>
-        <location filename="../../src/mainwindow.cpp" line="658"/>
+        <location filename="../../src/mainwindow.cpp" line="663"/>
+        <location filename="../../src/mainwindow.cpp" line="664"/>
+        <location filename="../../src/mainwindow.cpp" line="665"/>
+        <location filename="../../src/mainwindow.cpp" line="666"/>
+        <location filename="../../src/mainwindow.cpp" line="667"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="700"/>
+        <location filename="../../src/mainwindow.cpp" line="709"/>
         <source>Stopping...</source>
         <translation>停止...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="704"/>
+        <location filename="../../src/mainwindow.cpp" line="713"/>
         <source>Not available</source>
         <translation>不可获取</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="704"/>
+        <location filename="../../src/mainwindow.cpp" line="713"/>
         <source>Directory is not specified.</source>
         <translation>未指定文件夹。</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="707"/>
+        <location filename="../../src/mainwindow.cpp" line="716"/>
         <source>Confirmation</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="708"/>
+        <location filename="../../src/mainwindow.cpp" line="717"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>这个动作将会摧毁 %1 中的数据
 是否确认继续？</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="722"/>
+        <location filename="../../src/mainwindow.cpp" line="731"/>
         <source>Benchmark Failed</source>
         <translation>基准测试失败</translation>
     </message>
@@ -374,7 +374,15 @@ Do you want to continue?</source>
         <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/main.cpp" line="39"/>
+        <location filename="../../src/main.cpp" line="34"/>
+        <source>KDiskMark is not running as root.
+Clearing the I/O cache will not be performed.
+Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.
+This is especially important if you are going to benchmark external devices.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/main.cpp" line="48"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>未找到 FIO 可执行程序。请在使用 KDiskMark 前确认已安装 FIO 。</translation>
     </message>
