@@ -125,6 +125,7 @@ Languages currently available:
 * English (default)
 * French
 * German
+* Hindi
 * Italian
 * Polish
 * Portuguese (Brazilian)

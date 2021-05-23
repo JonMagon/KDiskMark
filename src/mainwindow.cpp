@@ -34,7 +34,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                                  QLocale::French, QLocale::Italian, QLocale::Polish,
                                  QLocale(QLocale::Portuguese, QLocale::Brazil),
                                  QLocale::Slovak, QLocale::Russian, QLocale::Ukrainian,
-                                 QLocale::Chinese };
+                                 QLocale::Chinese, QLocale::Hindi };
 
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
