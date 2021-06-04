@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
     QCoreApplication::setApplicationVersion(QStringLiteral("%1.%2.%3").arg(PROJECT_VERSION_MAJOR)
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
-
+    
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
     a.setStyle(QStyleFactory::create("Fusion"));
