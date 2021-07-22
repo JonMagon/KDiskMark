@@ -374,7 +374,7 @@ Do you want to continue?</source>
         <translation>&lt;h1&gt;%1 एमबी/सेकंड&lt;br/&gt;%2 जीबी/सेकंड&lt;br/&gt;%3 इनपुट-आउटपुट/सेकंड&lt;br/&gt;%4 माइक्रो-सेकंड&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/main.cpp" line="34"/>
+        <location filename="../../src/main.cpp" line="35"/>
         <source>KDiskMark is not running as root.
 Clearing the I/O cache will not be performed.
 Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.
@@ -382,7 +382,7 @@ This is especially important if you are going to benchmark external devices.</so
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/main.cpp" line="48"/>
+        <location filename="../../src/main.cpp" line="49"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>FIO प्राप्ति विफल। कृपया KDiskMark उपयोग करने से पहले FIO इंस्टॉल करें।</translation>
     </message>
