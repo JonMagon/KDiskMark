@@ -82,6 +82,7 @@ private:
     void updateBenchmarkButtonsContent();
     void refreshProgressBars();
     void updateProgressBar(QProgressBar *progressBar);
+    void updateLabels();
     bool runCombinedRandomTest();
     void addDirectory(const QString &storage);
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,

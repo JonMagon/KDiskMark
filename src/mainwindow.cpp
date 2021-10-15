@@ -221,6 +221,7 @@ void MainWindow::changeEvent(QEvent *event)
         updateIntervalMenuItems();
         updateFileSizeList();
         updateBenchmarkButtonsContent();
+        updateLabels();
 
         QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
@@ -410,7 +411,15 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
 void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
 {
     m_settings->comprasionField = AppSettings::ComparisonField(index);
+    updateLabels();
 
+    for (auto const& progressBar: m_progressBars) {
+        updateProgressBar(progressBar);
+    }
+}
+
+void MainWindow::updateLabels()
+{
     ui->label_Read->setText(Global::getComparisonLabelTemplate()
                             .arg(tr("Read"), ui->comboBox_ComparisonField->currentText()));
 
@@ -419,10 +428,6 @@ void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
 
     ui->label_Mix->setText(Global::getComparisonLabelTemplate()
                              .arg(tr("Mix"), ui->comboBox_ComparisonField->currentText()));
-
-    for (auto const& progressBar: m_progressBars) {
-        updateProgressBar(progressBar);
-    }
 }
 
 QString MainWindow::combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
