@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>536</width>
-    <height>215</height>
+    <height>315</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -252,7 +252,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
+     <y>270</y>
      <width>511</width>
      <height>31</height>
     </rect>
@@ -266,6 +266,32 @@
      </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>170</y>
+     <width>151</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Measuring time</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="Measuring_Time">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>170</y>
+     <width>111</width>
+     <height>26</height>
+    </rect>
+   </property>
   </widget>
  </widget>
  <resources/>

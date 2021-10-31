@@ -99,7 +99,6 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     profileSelected(ui->actionDefault);
 
-    updateIntervalMenuItems();
     updateFileSizeList();
 
     int indexMixRatio = m_settings->getRandomReadPercentage() / 10 - 1;
@@ -218,7 +217,6 @@ void MainWindow::changeEvent(QEvent *event)
     }
     case QEvent::LanguageChange: {
         ui->retranslateUi(this);
-        updateIntervalMenuItems();
         updateFileSizeList();
         updateBenchmarkButtonsContent();
         updateLabels();
@@ -239,28 +237,6 @@ void MainWindow::changeEvent(QEvent *event)
     default:
         QMainWindow::changeEvent(event);
     }
-}
-
-void MainWindow::updateIntervalMenuItems()
-{
-    ui->menuInterval_Time->clear();
-
-    QActionGroup *timeIntervalGroup = new QActionGroup(this);
-
-    for (int val : { 0, 1, 3, 5, 10, 30, 60, 180, 300, 600 }) {
-        QAction *timeAction =
-                new QAction(val < 60 ? QString("%1 %2").arg(val).arg(tr("sec"))
-                                     : QString("%1 %2").arg(val / 60).arg(tr("min")));
-
-        timeAction->setProperty("interval", val);
-        timeAction->setCheckable(true);
-        timeAction->setActionGroup(timeIntervalGroup);
-        ui->menuInterval_Time->addAction(timeAction);
-
-        if (val == m_settings->getIntervalTime()) timeAction->setChecked(true);
-    }
-
-    connect(timeIntervalGroup, SIGNAL(triggered(QAction*)), this, SLOT(timeIntervalSelected(QAction*)));
 }
 
 void MainWindow::updateFileSizeList()
@@ -551,11 +527,6 @@ void MainWindow::saveBenchmarkResult()
             file.close();
         }
     }
-}
-
-void MainWindow::timeIntervalSelected(QAction* act)
-{
-    m_settings->setIntervalTime(act->property("interval").toInt());
 }
 
 void MainWindow::on_loopsCount_valueChanged(int arg1)

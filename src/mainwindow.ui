@@ -786,12 +786,6 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <widget class="QMenu" name="menuInterval_Time">
-     <property name="title">
-      <string>Interval Time</string>
-     </property>
-    </widget>
-    <addaction name="menuInterval_Time"/>
     <addaction name="actionQueues_Threads"/>
     <addaction name="actionFlush_Pagecache"/>
    </widget>

@@ -62,7 +62,6 @@ public slots:
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
-    void timeIntervalSelected(QAction* act);
     void localeSelected(QAction* act);
     void profileSelected(QAction* act);
     void benchmarkStateChanged(bool state);
@@ -72,7 +71,6 @@ signals:
 
 private:
     Ui::MainWindow *ui;
-    void updateIntervalMenuItems();
     void updateFileSizeList();
     void inverseBenchmarkThreadRunningState();
     void closeEvent(QCloseEvent *event);

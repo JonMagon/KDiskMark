@@ -139,6 +139,7 @@ void AppSettings::restoreDefaultBenchmarkParams()
     m_SEQ_2 = m_default_SEQ_2;
     m_RND_1 = m_default_RND_1;
     m_RND_2 = m_default_RND_2;
+    m_intervalTime = m_default_intervalTime;
 }
 
 AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)

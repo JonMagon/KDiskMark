@@ -75,7 +75,6 @@ public:
 private:
     int m_loopsCount = 5;
     int m_fileSize = 1024;
-    int m_intervalTime = 5;
     int m_percentage = 70;
     QString m_dir;
     bool m_mixedState = false;
@@ -93,6 +92,9 @@ private:
     BenchmarkParams m_SEQ_2 = m_default_SEQ_2;
     BenchmarkParams m_RND_1 = m_default_RND_1;
     BenchmarkParams m_RND_2 = m_default_RND_2;
+
+    const int m_default_intervalTime = 5;
+    int m_intervalTime = m_default_intervalTime;
 
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;
