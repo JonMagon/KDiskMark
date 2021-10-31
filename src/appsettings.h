@@ -84,7 +84,7 @@ private:
 
     const BenchmarkParams m_default_SEQ_1 { 1024,  8,  1 };
     const BenchmarkParams m_default_SEQ_2 { 1024,  1,  1 };
-    const BenchmarkParams m_default_RND_1 {    4, 32, 16 };
+    const BenchmarkParams m_default_RND_1 {    4, 32,  1 };
     const BenchmarkParams m_default_RND_2 {    4,  1,  1 };
 
     const BenchmarkParams m_RealWorld_SEQ { 1024,  1,  1 };
