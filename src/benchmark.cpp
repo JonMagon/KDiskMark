@@ -93,6 +93,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
                          << QStringLiteral("--name=%1").arg(rw)
                          << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
                          << QStringLiteral("--bs=%1k").arg(block_size)
+                         << QStringLiteral("--runtime=%1").arg(m_settings->getMeasuringTime())
                          << QStringLiteral("--rw=%1").arg(rw)
                          << QStringLiteral("--iodepth=%1").arg(queue_depth)
                          << QStringLiteral("--numjobs=%1").arg(threads));

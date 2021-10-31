@@ -61,6 +61,8 @@ public:
     int getLoopsCount();
     void setFileSize(int size);
     int getFileSize();
+    void setMeasuringTime(int measuringTime);
+    int getMeasuringTime();
     void setIntervalTime(int intervalTime);
     int getIntervalTime();
     void setDir(const QString &dir);
@@ -95,6 +97,9 @@ private:
 
     const int m_default_intervalTime = 5;
     int m_intervalTime = m_default_intervalTime;
+
+    const int m_default_measuringTime = 5;
+    int m_measuringTime = m_default_measuringTime;
 
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;

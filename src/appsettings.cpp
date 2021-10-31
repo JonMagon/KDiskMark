@@ -75,6 +75,16 @@ int AppSettings::getFileSize()
     return m_fileSize;
 }
 
+void AppSettings::setMeasuringTime(int measuringTime)
+{
+    m_measuringTime = measuringTime;
+}
+
+int AppSettings::getMeasuringTime()
+{
+    return m_measuringTime;
+}
+
 void AppSettings::setIntervalTime(int intervalTime)
 {
     m_intervalTime = intervalTime;

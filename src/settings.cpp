@@ -22,6 +22,11 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
                                             : QString("%1 %2").arg(val / 60).arg(tr("min")), val);
     }
 
+    for (int val : { 5, 10, 20, 30, 60 }) {
+        ui->MeasuringTime->addItem(val < 60 ? QString("%1 %2").arg(val).arg(tr("sec"))
+                                            : QString("%1 %2").arg(val / 60).arg(tr("min")), val);
+    }
+
     QString i_str, j_str;
 
     for (int i = 1, j = 1; i <= 64; i++, (j <= 512 ? j *= 2 : j)) {
@@ -110,6 +115,7 @@ void Settings::setActualValues()
     findDataAndSet(ui->RND_2_Queues, params.Queues);
     findDataAndSet(ui->RND_2_Threads, params.Threads);
 
+    findDataAndSet(ui->MeasuringTime, m_settings->getMeasuringTime());
     findDataAndSet(ui->IntervalTime, m_settings->getIntervalTime());
 }
 
@@ -136,6 +142,7 @@ void Settings::on_buttonBox_clicked(QAbstractButton *button)
                                        ui->RND_2_Queues->currentData().toInt(),
                                        ui->RND_2_Threads->currentData().toInt());
 
+        m_settings->setMeasuringTime(ui->MeasuringTime->currentData().toInt());
         m_settings->setIntervalTime(ui->IntervalTime->currentData().toInt());
 
         close();
