@@ -17,28 +17,28 @@
 
 ## Report Example
 ```
-                     KDiskMark (1.6.0): https://github.com/JonMagon/KDiskMark
-                 Flexible I/O Tester (fio-3.16): https://github.com/axboe/fio
+                     KDiskMark (2.3.0): https://github.com/JonMagon/KDiskMark
+                 Flexible I/O Tester (fio-3.28): https://github.com/axboe/fio
 -----------------------------------------------------------------------------
 * MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]
 * KB = 1000 bytes, KiB = 1024 bytes
 
 [Read]
-Sequential 1 MiB (Q= 8, T= 1):   542.516 MB/s [    529.8 IOPS] < 14415.61 us>
-Sequential 1 MiB (Q= 1, T= 1):   452.596 MB/s [    442.0 IOPS] <  2248.08 us>
-    Random 4 KiB (Q=32, T=16):   271.553 MB/s [  67889.0 IOPS] <  1955.57 us>
-    Random 4 KiB (Q= 1, T= 1):    43.252 MB/s [  10813.1 IOPS] <    90.34 us>
+Sequential 1 MiB (Q= 8, T= 1):   550.145 MB/s [    537.3 IOPS] < 14840.12 us>
+Sequential 1 MiB (Q= 1, T= 1):   456.261 MB/s [    445.6 IOPS] <  2233.53 us>
+    Random 4 KiB (Q=32, T= 1):   339.953 MB/s [  84988.3 IOPS] <   377.48 us>
+    Random 4 KiB (Q= 1, T= 1):    43.042 MB/s [  10760.6 IOPS] <    90.69 us>
 
 [Write]
-Sequential 1 MiB (Q= 8, T= 1):   513.605 MB/s [    501.6 IOPS] < 15319.33 us>
-Sequential 1 MiB (Q= 1, T= 1):   428.900 MB/s [    418.8 IOPS] <  2369.68 us>
-    Random 4 KiB (Q=32, T=16):   165.142 MB/s [  41286.6 IOPS] <  3091.38 us>
-    Random 4 KiB (Q= 1, T= 1):   103.696 MB/s [  25924.1 IOPS] <    36.71 us>
+Sequential 1 MiB (Q= 8, T= 1):   522.410 MB/s [    510.2 IOPS] < 15210.65 us>
+Sequential 1 MiB (Q= 1, T= 1):   371.278 MB/s [    362.6 IOPS] <  2248.00 us>
+    Random 4 KiB (Q=32, T= 1):   330.205 MB/s [  82551.5 IOPS] <   387.88 us>
+    Random 4 KiB (Q= 1, T= 1):   100.602 MB/s [  25150.7 IOPS] <    36.40 us>
 
 Profile: Default
-   Test: 32 MiB (x5) [Interval: 5 sec]
-   Date: 2020/09/05 18:31:47
-     OS: neon 20.04 [linux 5.4.0-42-generic]
+   Test: 1 GiB (x5) [Interval: 5 sec]
+   Date: 2021-11-02 13:17:41
+     OS: opensuse-tumbleweed 20211031 [linux 5.14.14-1-default]
 ```
 
 ## Dependencies
