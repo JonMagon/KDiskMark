@@ -130,6 +130,7 @@ Languages currently available:
 * Russian
 * Slovak
 * Spanish (Mexico)
+* Turkish
 * Ukrainian
 
 ## TODO

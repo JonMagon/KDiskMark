@@ -10,6 +10,7 @@ Description[ru]=Требуется авторизация для очистки 
 Description[de]=Legitimation ist zum Leeren des Pagecache erforderlich
 Description[fr]=Autorisation est requise pour vider le cache des pages
 Description[hu]=Hitelesítés szükséges a lemez gyorsítótárának törléséhez
+Description[tr]=Disk önbelliğini temizlemek için kimlik doğrulama gereklidir
 Description[uk]=Слід пройти розпізнавання, щоб очищати сторінковий кеш
 Policy=auth_admin
 Persistence=session
