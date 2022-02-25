@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>484</width>
-    <height>244</height>
+    <height>227</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
      <x>140</x>
      <y>20</y>
      <width>331</width>
-     <height>161</height>
+     <height>141</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -101,37 +101,11 @@
      <string notr="true">GPL v3</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>141</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Country:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>70</y>
-      <width>161</width>
-      <height>18</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Russia</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
+      <y>70</y>
       <width>141</width>
       <height>18</height>
      </rect>
@@ -144,7 +118,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>90</y>
+      <y>70</y>
       <width>161</width>
       <height>18</height>
      </rect>
@@ -163,7 +137,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>90</y>
       <width>141</width>
       <height>18</height>
      </rect>
@@ -176,7 +150,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>110</y>
+      <y>90</y>
       <width>161</width>
       <height>18</height>
      </rect>
@@ -221,7 +195,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>130</y>
+      <y>110</y>
       <width>141</width>
       <height>18</height>
      </rect>
@@ -234,7 +208,7 @@
     <property name="geometry">
      <rect>
       <x>160</x>
-      <y>130</y>
+      <y>110</y>
       <width>161</width>
       <height>18</height>
      </rect>
@@ -267,7 +241,7 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>190</y>
+     <y>170</y>
      <width>471</width>
      <height>41</height>
     </rect>

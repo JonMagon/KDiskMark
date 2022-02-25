@@ -19,16 +19,6 @@
         <translation>Ліцензія:</translation>
     </message>
     <message>
-        <location filename="../../src/about.ui" line="114"/>
-        <source>Country:</source>
-        <translation>Країна:</translation>
-    </message>
-    <message>
-        <location filename="../../src/about.ui" line="127"/>
-        <source>Russia</source>
-        <translation>Росія</translation>
-    </message>
-    <message>
         <location filename="../../src/about.ui" line="140"/>
         <source>Author:</source>
         <translation>Автор:</translation>

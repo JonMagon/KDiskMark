@@ -19,16 +19,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/about.ui" line="114"/>
-        <source>Country:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/about.ui" line="127"/>
-        <source>Russia</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../src/about.ui" line="140"/>
         <source>Author:</source>
         <translation type="unfinished"></translation>

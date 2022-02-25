@@ -19,16 +19,6 @@
         <translation>लाइसेंस :</translation>
     </message>
     <message>
-        <location filename="../../src/about.ui" line="114"/>
-        <source>Country:</source>
-        <translation>राष्ट्र :</translation>
-    </message>
-    <message>
-        <location filename="../../src/about.ui" line="127"/>
-        <source>Russia</source>
-        <translation>रूस</translation>
-    </message>
-    <message>
         <location filename="../../src/about.ui" line="140"/>
         <source>Author:</source>
         <translation>निर्माता :</translation>
