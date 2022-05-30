@@ -354,7 +354,10 @@ Do you want to continue?</source>
 Clearing the I/O cache will not be performed.
 Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.
 This is especially important if you are going to benchmark external devices.</source>
-        <translation type="unfinished"></translation>
+        <translation>KDiskMark रूट के रूप में कार्यरत नहीं है।
+इनपुट/आउटपुट कैश रिक्त नहीं की जाएगी।
+कैश रिक्त न होने पर कार्य-क्षमता मापन में त्रुटि संभव है जैसे रीड करते समय डिस्क की अवास्तविक गति।
+बाह्य उपकरण हेतु मानदंड करते समय इस पर विशेष ध्यान दें।</translation>
     </message>
     <message>
         <location filename="../../src/main.cpp" line="49"/>
@@ -407,7 +410,7 @@ This is especially important if you are going to benchmark external devices.</so
     <message>
         <location filename="../../src/settings.ui" line="280"/>
         <source>Measuring time</source>
-        <translation type="unfinished"></translation>
+        <translation>समय मापन</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="306"/>

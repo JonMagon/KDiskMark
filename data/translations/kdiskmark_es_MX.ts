@@ -354,7 +354,10 @@ Do you want to continue?</source>
 Clearing the I/O cache will not be performed.
 Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.
 This is especially important if you are going to benchmark external devices.</source>
-        <translation type="unfinished"></translation>
+        <translation>KDiskMark no se está ejecutando como root.
+No se realizará la limpieza de la caché de E/S.
+No limpiar la caché puede causar una medición incorrecta de rendimiento, es decir, una velocidad irreal alta durante la lectura.
+Esto es especialmente importante si va a evaluar dispositivos externos.</translation>
     </message>
     <message>
         <location filename="../../src/main.cpp" line="49"/>
@@ -407,7 +410,7 @@ This is especially important if you are going to benchmark external devices.</so
     <message>
         <location filename="../../src/settings.ui" line="280"/>
         <source>Measuring time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiempo de medición</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="306"/>

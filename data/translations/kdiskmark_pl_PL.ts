@@ -354,7 +354,10 @@ Czy chcesz kontynuować?</translation>
 Clearing the I/O cache will not be performed.
 Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.
 This is especially important if you are going to benchmark external devices.</source>
-        <translation type="unfinished"></translation>
+        <translation>KDiskMark nie jest uruchomiony jako root.
+Czyszczenie pamięci podręcznej I/O nie będzie wykonywane.
+Nieczyszczenie pamięci podręcznej może spowodować niepoprawne pomiary wydajności, a mianowicie nierealną dużą prędkość, podczas odczytu.
+Jest to szczególnie ważne, jeśli zamierzasz nawiązać do zewnętrznych urządzeń porównawczych.</translation>
     </message>
     <message>
         <location filename="../../src/main.cpp" line="49"/>
