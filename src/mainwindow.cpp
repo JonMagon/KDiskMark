@@ -602,10 +602,12 @@ void MainWindow::profileSelected(QAction* act)
         break;
     case AppSettings::PerformanceProfile::Peak:
         m_windowTitle = "KDiskMark <PEAK>";
+        ui->comboBox_ComparisonField->setCurrentIndex(0);
         ui->comboBox_ComparisonField->setVisible(false);
         break;
     case AppSettings::PerformanceProfile::RealWorld:
         m_windowTitle = "KDiskMark <REAL>";
+        ui->comboBox_ComparisonField->setCurrentIndex(0);
         ui->comboBox_ComparisonField->setVisible(false);
         break;
     }
