@@ -223,13 +223,16 @@ void MainWindow::changeEvent(QEvent *event)
 
         QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
+        QLocale locale = QLocale();
+
         for (auto const& progressBar: m_progressBars) {
             progressBar->setToolTip(
                 Global::getToolTipTemplate().arg(
-                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3),
-                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::GBPerSec)).toFloat(), 'f', 3),
-                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 3),
-                    QString::number(progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 3)));
+                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3),
+                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::GBPerSec)).toFloat(), 'f', 3),
+                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 3),
+                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 3)));
+            updateProgressBar(progressBar);
         }
 
         break;
@@ -339,14 +342,16 @@ void MainWindow::refreshProgressBars()
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 
+    QLocale locale = QLocale();
+
     for (auto const& progressBar: m_progressBars) {
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::MBPerSec), 0);
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::GBPerSec), 0);
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), 0);
         progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), 0);
         progressBar->setValue(0);
-        progressBar->setFormat("0.00");
-        progressBar->setToolTip(Global::getToolTipTemplate().arg("0.000", "0.000", "0.000", "0.000"));
+        progressBar->setFormat(locale.toString(0., 'f', 2));
+        progressBar->setToolTip(Global::getToolTipTemplate().arg(locale.toString(0., 'f', 3), locale.toString(0., 'f', 3), locale.toString(0., 'f', 3), locale.toString(0., 'f', 3)));
     }
 }
 
@@ -724,12 +729,14 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), result.IOPS);
     progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), result.Latency);
 
+    QLocale locale = QLocale();
+
     progressBar->setToolTip(
                 Global::getToolTipTemplate().arg(
-                    QString::number(result.Bandwidth, 'f', 3),
-                    QString::number(result.Bandwidth / 1000, 'f', 3),
-                    QString::number(result.IOPS, 'f', 3),
-                    QString::number(result.Latency, 'f', 3)
+                    locale.toString(result.Bandwidth, 'f', 3),
+                    locale.toString(result.Bandwidth / 1000, 'f', 3),
+                    locale.toString(result.IOPS, 'f', 3),
+                    locale.toString(result.Latency, 'f', 3)
                     )
                 );
 
@@ -761,21 +768,23 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
         break;
     }
 
+    QLocale locale = QLocale();
+
     switch (comparisonField) {
     case AppSettings::MBPerSec:
-        progressBar->setFormat(score >= 1000000.0 ? QString::number((int)score) : QString::number(score, 'f', 2));
+        progressBar->setFormat(score >= 1000000.0 ? locale.toString((int)score) : locale.toString(score, 'f', 2));
         break;
     case AppSettings::GBPerSec:
         value = progressBar->property(metaEnum.valueToKey(AppSettings::GBPerSec)).toFloat();
-        progressBar->setFormat(QString::number(value, 'f', 3));
+        progressBar->setFormat(locale.toString(value, 'f', 3));
         break;
     case AppSettings::IOPS:
         value = progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat();
-        progressBar->setFormat(value >= 1000000.0 ? QString::number((int)value) : QString::number(value, 'f', 2));
+        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', 2));
         break;
     case AppSettings::Latency:
         value = progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat();
-        progressBar->setFormat(value >= 1000000.0 ? QString::number((int)value) : QString::number(value, 'f', 2));
+        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', 2));
         break;
     }
 
