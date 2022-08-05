@@ -60,9 +60,9 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     m_settings = settings;
 
-#ifndef BUILD_WITH_PAGECACHE_CLEARING_SUPPORT
+#ifndef PAGECACHE_FLUSH
     ui->actionFlush_Pagecache->setVisible(false);
-#elif !defined(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+#elif !defined(KF5AUTH_USING)
     ui->actionFlush_Pagecache->setChecked(m_settings->isRunningAsRoot());
         if (!m_settings->isRunningAsRoot()) {
             ui->actionFlush_Pagecache->setEnabled(false);

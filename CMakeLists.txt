@@ -36,8 +36,8 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
-option(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT "Cache clearing functionality" ON)
-option(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH "Determines whether a helper will be built" ON)
+option(PAGECACHE_FLUSH "Cache clearing functionality" ON)
+option(KF5AUTH_USING "Determines whether a helper will be built" ON)
 
 find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
 
@@ -92,10 +92,10 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 
-if(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE BUILD_WITH_PAGECACHE_CLEARING_SUPPORT)
-    if(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
-        target_compile_definitions(${PROJECT_NAME} PRIVATE PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+if(PAGECACHE_FLUSH)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE PAGECACHE_FLUSH)
+    if(KF5AUTH_USING)
+        target_compile_definitions(${PROJECT_NAME} PRIVATE KF5AUTH_USING)
         find_package(KF5Auth REQUIRED NO_MODULE)
         target_link_libraries(${PROJECT_NAME} PRIVATE KF5::Auth)
     endif()
@@ -120,7 +120,7 @@ ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/ic
 
 # Helper
 
-if(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT AND PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+if(PAGECACHE_FLUSH AND KF5AUTH_USING)
     add_executable(${PROJECT_NAME}_helper
         src/helper.cpp
         src/helper.h

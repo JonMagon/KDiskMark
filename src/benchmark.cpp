@@ -9,7 +9,7 @@
 
 #include <signal.h>
 
-#ifdef PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH
+#ifdef KF5AUTH_USING
 #include <KAuth>
 #include <KAuthAction>
 #endif
@@ -45,7 +45,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 {
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
-#ifdef PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH
+#ifdef KF5AUTH_USING
     KAuth::Action dropCacheAction("org.jonmagon.kdiskmark.dropcache");
     dropCacheAction.setHelperId("org.jonmagon.kdiskmark");
     QVariantMap args; args["check"] = true; dropCacheAction.setArguments(args);
@@ -112,9 +112,9 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
-#ifdef BUILD_WITH_PAGECACHE_CLEARING_SUPPORT
+#ifdef PAGECACHE_FLUSH
         if (m_settings->shouldFlushCache()) {
-#ifdef PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH
+#ifdef KF5AUTH_USING
             dropCacheJob = dropCacheAction.execute();
             if (!dropCacheJob->exec()) {
                 if (dropCacheJob->error() && !dropCacheJob->errorText().isEmpty()) {

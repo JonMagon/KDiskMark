@@ -5,7 +5,7 @@
 #include <QLocale>
 #include <QString>
 
-#if defined(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT) && !defined(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
 #include <unistd.h>
 #endif
 
@@ -50,7 +50,7 @@ public:
     QLocale getLocale();
     void setLocale(const QLocale locale);
     static QLocale defaultLocale();
-#if defined(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT) && !defined(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
     bool isRunningAsRoot();
 #endif
 
@@ -104,7 +104,7 @@ private:
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;
 
-#if defined(BUILD_WITH_PAGECACHE_CLEARING_SUPPORT) && !defined(PERFORM_PAGECACHE_CLEARING_USING_KF5AUTH)
+#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
     bool m_runningAsRoot;
 #endif
 };
