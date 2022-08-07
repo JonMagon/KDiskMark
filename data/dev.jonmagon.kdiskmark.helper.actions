@@ -3,7 +3,13 @@ Name=kdiskmark
 Icon=kdiskmark
 URL=https://github.com/JonMagon/KDiskMark
 
-[org.jonmagon.kdiskmark.dropcache]
+[dev.jonmagon.kdiskmark.helper.init]
+Name=Init Name
+Description=Init Description
+Policy=auth_admin
+Persistence=session
+
+[dev.jonmagon.kdiskmark.helper.dropcache]
 Name=Drop Cache
 Description=Authentication is required to free pagecache
 Description[ru]=Требуется авторизация для очистки страничного кэша

@@ -60,15 +60,6 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     m_settings = settings;
 
-#ifndef PAGECACHE_FLUSH
-    ui->actionFlush_Pagecache->setVisible(false);
-#elif !defined(KF5AUTH_USING)
-    ui->actionFlush_Pagecache->setChecked(m_settings->isRunningAsRoot());
-        if (!m_settings->isRunningAsRoot()) {
-            ui->actionFlush_Pagecache->setEnabled(false);
-        }
-#endif
-
     // Default values
     ui->loopsCount->setValue(m_settings->getLoopsCount());
 
@@ -204,6 +195,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
+    m_benchmark->stopHelper(); // TEST !
+
     m_benchmark->setRunning(false);
 }
 
@@ -901,6 +894,18 @@ void MainWindow::on_pushButton_Test_4_clicked()
 
 void MainWindow::on_pushButton_All_clicked()
 {
+    if (m_benchmark->startHelper())
+        QMessageBox::information(this, "TEST", "ON");
+    else
+        QMessageBox::warning(this, "TEST", "FAIL startHelper");
+
+    //m_benchmark->stopHelper();
+    //QMessageBox::information(this, "TEST", "OFF");
+
+    return;
+
+    // TEST !
+
     inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {

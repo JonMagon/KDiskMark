@@ -9,6 +9,9 @@
 
 #include "cmake.h"
 
+#include <KAuth>
+#include <QDebug>
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
@@ -29,15 +32,6 @@ int main(int argc, char *argv[])
     Benchmark benchmark(&settings);
 
     if (benchmark.isFIODetected()) {
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-        if (!settings.isRunningAsRoot()) {
-            QMessageBox::information(0, "KDiskMark",
-                                     QObject::tr("KDiskMark is not running as root.\nClearing the I/O cache will not be performed.\n" \
-                                                 "Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.\n" \
-                                                 "This is especially important if you are going to benchmark external devices."));
-        }
-#endif
-
         MainWindow w(&settings, &benchmark);
         w.setFixedSize(w.size());
         w.show();

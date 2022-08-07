@@ -11,29 +11,12 @@
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
-AppSettings::AppSettings()
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-{
-    m_runningAsRoot = getuid() == 0;
-}
-#else
-{
-}
-#endif
-
 void AppSettings::setupLocalization()
 {
     setLocale(QLocale());
     QCoreApplication::installTranslator(&s_appTranslator);
     QCoreApplication::installTranslator(&s_qtTranslator);
 }
-
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-bool AppSettings::isRunningAsRoot()
-{
-    return m_runningAsRoot;
-}
-#endif
 
 void AppSettings::setLocale(const QLocale locale)
 {

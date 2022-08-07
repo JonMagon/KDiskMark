@@ -5,10 +5,6 @@
 #include <QLocale>
 #include <QString>
 
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-#include <unistd.h>
-#endif
-
 class QTranslator;
 
 class AppSettings : public QObject
@@ -44,15 +40,12 @@ public:
         RealWorld
     } performanceProfile = Default;
 
-    AppSettings();
+    AppSettings() {}
 
     void setupLocalization();
     QLocale getLocale();
     void setLocale(const QLocale locale);
     static QLocale defaultLocale();
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-    bool isRunningAsRoot();
-#endif
 
     BenchmarkParams getBenchmarkParams(BenchmarkTest test);
     void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
@@ -103,10 +96,6 @@ private:
 
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;
-
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-    bool m_runningAsRoot;
-#endif
 };
 
 #endif // APPSETTINGS_H

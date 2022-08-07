@@ -6,25 +6,53 @@
 #include <QString>
 #include <QProgressBar>
 #include <QObject>
+#include <QThread>
+
+#include <KAuth>
 
 #include <memory>
 
 class AppSettings;
 
+struct HelperPrivate;
+
+class DBusThread : public QThread
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "dev.jonmagon.kdiskmark.applicationinterface")
+
+    void run() override;
+};
+
 class Benchmark : public QObject
 {
     Q_OBJECT
 
+public:
+    ~Benchmark();
+
+private:
     AppSettings *m_settings;
     std::vector<std::shared_ptr<QProcess>> m_processes;
     bool m_running;
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
 
+private:
+    std::unique_ptr<HelperPrivate> d;
+
+    // KAuth
+    KAuth::ExecuteJob *m_job;
+    bool m_helperStarted = false;
+
 public:
     Benchmark(AppSettings *settings);
     QString getFIOVersion();
     bool isFIODetected();
+
+    // KAuth
+    bool startHelper();
+    void stopHelper();
 
     enum Type {
         SEQ_1_Read,

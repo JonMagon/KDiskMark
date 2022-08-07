@@ -6,18 +6,22 @@
 #include <QJsonArray>
 #include <QThread>
 #include <QFile>
+#include <QEventLoop>
 
 #include <signal.h>
-
-#ifdef KF5AUTH_USING
-#include <KAuth>
-#include <KAuthAction>
-#endif
 
 #include "appsettings.h"
 #include "global.h"
 
-Benchmark::Benchmark(AppSettings *settings)
+#include "helper_interface.h"
+
+
+struct HelperPrivate
+{
+    DBusThread *m_thread;
+};
+
+Benchmark::Benchmark(AppSettings *settings) : d(std::make_unique<HelperPrivate>()) // TEST !
 {
     m_running = false;
     m_settings = settings;
@@ -30,6 +34,8 @@ Benchmark::Benchmark(AppSettings *settings)
 
     process.close();
 }
+
+Benchmark::~Benchmark() {}
 
 QString Benchmark::getFIOVersion()
 {
@@ -45,9 +51,8 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 {
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
-#ifdef KF5AUTH_USING
-    KAuth::Action dropCacheAction("org.jonmagon.kdiskmark.dropcache");
-    dropCacheAction.setHelperId("org.jonmagon.kdiskmark");
+    KAuth::Action dropCacheAction("dev.jonmagon.kdiskmark.helper.dropcache");
+    dropCacheAction.setHelperId("dev.jonmagon.kdiskmark.helper");
     QVariantMap args; args["check"] = true; dropCacheAction.setArguments(args);
     KAuth::ExecuteJob* dropCacheJob = dropCacheAction.execute();
 
@@ -67,7 +72,6 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
     }
 
     args["check"] = false; dropCacheAction.setArguments(args);
-#endif
 
     auto prepareProcess = std::make_shared<QProcess>();
     prepareProcess->start("fio", QStringList()
@@ -112,9 +116,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
 
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
-#ifdef PAGECACHE_FLUSH
         if (m_settings->shouldFlushCache()) {
-#ifdef KF5AUTH_USING
             dropCacheJob = dropCacheAction.execute();
             if (!dropCacheJob->exec()) {
                 if (dropCacheJob->error() && !dropCacheJob->errorText().isEmpty()) {
@@ -123,17 +125,7 @@ void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QSt
                 setRunning(false);
                 return;
             }
-#else
-            QFile dropCaches("/proc/sys/vm/drop_caches");
-
-            if (dropCaches.open(QIODevice::WriteOnly | QIODevice::Text)){
-                dropCaches.write("1");
-            }
-
-            dropCaches.close();
-#endif
         }
-#endif
 
         kill(process->processId(), SIGCONT); // Resume
 
@@ -355,4 +347,53 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
 
     setRunning(false);
     emit finished();
+}
+
+bool Benchmark::startHelper()
+{
+    if (!QDBusConnection::systemBus().isConnected()) {
+        qWarning() << QDBusConnection::systemBus().lastError().message();
+        return false;
+    }
+
+    d->m_thread = new DBusThread;
+    d->m_thread->start();
+
+    KAuth::Action action = KAuth::Action(QStringLiteral("dev.jonmagon.kdiskmark.helper.init"));
+    action.setHelperId(QStringLiteral("dev.jonmagon.kdiskmark.helper"));
+    action.setTimeout(10 * 24 * 3600 * 1000); // 10 days
+
+    QVariantMap arguments;
+    action.setArguments(arguments);
+    m_job = action.execute();
+    m_job->start();
+
+    QEventLoop loop;
+    auto exitLoop = [&] () { qInfo() << 1; loop.exit(); };
+    auto conn = QObject::connect(m_job, &KAuth::ExecuteJob::newData, exitLoop);
+    QObject::connect(m_job, &KJob::finished, [=] () { if (m_job->error()) exitLoop(); } );
+    loop.exec();
+    QObject::disconnect(conn);
+
+    m_helperStarted = true;
+    return true;
+}
+
+void Benchmark::stopHelper()
+{
+    auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helper"),
+                                                           QStringLiteral("/Helper"), QDBusConnection::systemBus());
+    interface->exit();
+}
+
+void DBusThread::run()
+{
+    if (!QDBusConnection::systemBus().registerService(QStringLiteral("dev.jonmagon.kdiskmark.applicationinterface")) ||
+        !QDBusConnection::systemBus().registerObject(QStringLiteral("/Application"), this, QDBusConnection::ExportAllSlots)) {
+        qWarning() << QDBusConnection::systemBus().lastError().message();
+        return;
+    }
+
+    QEventLoop loop;
+    loop.exec();
 }
