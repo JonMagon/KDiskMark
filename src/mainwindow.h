@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow
 private:
     Benchmark *m_benchmark;
     AppSettings *m_settings;
-    QThread m_benchmarkThread;
     bool m_isBenchmarkThreadRunning = false;
     QVector<QProgressBar*> m_progressBars;
     QString m_windowTitle;
@@ -46,7 +45,7 @@ private slots:
 
     void showSettings();
 
-    void on_comboBox_Dirs_currentIndexChanged(int index);
+    void on_comboBox_Storages_currentIndexChanged(int index);
 
     void on_loopsCount_valueChanged(int arg1);
 
@@ -57,6 +56,8 @@ private slots:
     void saveBenchmarkResult();
 
     void on_comboBox_MixRatio_currentIndexChanged(int index);
+
+    void on_refreshStoragesButton_clicked();
 
 public slots:
     void benchmarkStatusUpdate(const QString &name);
@@ -76,13 +77,11 @@ private:
     void closeEvent(QCloseEvent *event);
     QString formatSize(quint64 available, quint64 total);
     QString getTextBenchmarkResult();
-    bool disableDirItemIfIsNotWritable(int index);
     void updateBenchmarkButtonsContent();
     void refreshProgressBars();
     void updateProgressBar(QProgressBar *progressBar);
     void updateLabels();
     bool runCombinedRandomTest();
-    void addDirectory(const QString &storage);
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
                                     const AppSettings::BenchmarkParams &params);
 

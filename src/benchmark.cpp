@@ -15,13 +15,7 @@
 
 #include "helper_interface.h"
 
-
-struct HelperPrivate
-{
-    DBusThread *m_thread;
-};
-
-Benchmark::Benchmark(AppSettings *settings) : d(std::make_unique<HelperPrivate>()) // TEST !
+Benchmark::Benchmark(AppSettings *settings)
 {
     m_running = false;
     m_settings = settings;
@@ -349,6 +343,19 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
     emit finished();
 }
 
+DevJonmagonKdiskmarkHelperInterface* Benchmark::helperInterface()
+{
+    if (!QDBusConnection::systemBus().isConnected()) {
+        qWarning() << QDBusConnection::systemBus().lastError().message();
+        return nullptr;
+    }
+
+    auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helper"),
+                QStringLiteral("/Helper"), QDBusConnection::systemBus(), this);
+    interface->setTimeout(10 * 24 * 3600 * 1000); // 10 days
+    return interface;
+}
+
 bool Benchmark::startHelper()
 {
     if (!QDBusConnection::systemBus().isConnected()) {
@@ -356,8 +363,14 @@ bool Benchmark::startHelper()
         return false;
     }
 
-    d->m_thread = new DBusThread;
-    d->m_thread->start();
+    QDBusInterface interface(QStringLiteral("dev.jonmagon.kdiskmark.helperinterface"), QStringLiteral("/Helper"), QStringLiteral("dev.jonmagon.kdiskmark.helper"), QDBusConnection::systemBus());
+    if (interface.isValid()) {
+        qWarning() << "Dbus interface is already in use.";
+        return false;
+    }
+
+    m_thread = new DBusThread;
+    m_thread->start();
 
     KAuth::Action action = KAuth::Action(QStringLiteral("dev.jonmagon.kdiskmark.helper.init"));
     action.setHelperId(QStringLiteral("dev.jonmagon.kdiskmark.helper"));
@@ -369,13 +382,57 @@ bool Benchmark::startHelper()
     m_job->start();
 
     QEventLoop loop;
-    auto exitLoop = [&] () { qInfo() << 1; loop.exit(); };
+    auto exitLoop = [&] () { loop.exit(); };
     auto conn = QObject::connect(m_job, &KAuth::ExecuteJob::newData, exitLoop);
     QObject::connect(m_job, &KJob::finished, [=] () { if (m_job->error()) exitLoop(); } );
     loop.exec();
     QObject::disconnect(conn);
 
     m_helperStarted = true;
+    return true;
+}
+
+bool Benchmark::listStorages()
+{
+    if (!m_helperStarted)
+        if (!startHelper()) {
+            qWarning("Could not obtain administrator privileges.");
+            return false;
+        }
+
+    auto interface = helperInterface();
+    if (!interface)
+        return false;
+
+    QDBusPendingCall pcall = interface->listStorages();
+
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
+    QEventLoop loop;
+
+    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
+        loop.exit();
+
+        if (watcher->isError())
+            qWarning() << watcher->error();
+        else {
+            QDBusPendingReply<QVariantMap> reply = *watcher;
+
+            QVariantMap replyContent = reply.value();
+
+            storages.clear();
+
+            for (auto pathStorage : replyContent.keys()) {
+                QDBusVariant dbusVariant = qvariant_cast<QDBusVariant>(replyContent.value(pathStorage));
+                QVector<qlonglong> storageStats;
+                dbusVariant.variant().value<QDBusArgument>() >> storageStats;
+                storages.append({ pathStorage, storageStats[0], storageStats[0] - storageStats[1] });
+            }
+        }
+    };
+
+    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
+    loop.exec();
+
     return true;
 }
 

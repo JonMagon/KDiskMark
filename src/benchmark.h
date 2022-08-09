@@ -10,9 +10,8 @@
 
 #include <KAuth>
 
-#include <memory>
-
 class AppSettings;
+class DevJonmagonKdiskmarkHelperInterface;
 
 struct HelperPrivate;
 
@@ -31,6 +30,8 @@ class Benchmark : public QObject
 public:
     ~Benchmark();
 
+    bool listStorages(); // TEST !
+
 private:
     AppSettings *m_settings;
     std::vector<std::shared_ptr<QProcess>> m_processes;
@@ -38,8 +39,10 @@ private:
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
 
+    DevJonmagonKdiskmarkHelperInterface* helperInterface();
+
 private:
-    std::unique_ptr<HelperPrivate> d;
+    DBusThread *m_thread;
 
     // KAuth
     KAuth::ExecuteJob *m_job;
@@ -112,6 +115,15 @@ public:
     {
         PerformanceResult read, write;
     };
+
+    struct Storage
+    {
+        QString path;
+        qlonglong bytesTotal;
+        qlonglong bytesOccupied;
+    };
+
+    QVector<Storage> storages;
 
 private:
     void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);

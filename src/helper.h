@@ -16,6 +16,7 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     ActionReply init(const QVariantMap& args);
+    Q_SCRIPTABLE QVariantMap listStorages();
     Q_SCRIPTABLE void exit();
 
     ActionReply dropcache(const QVariantMap& args);

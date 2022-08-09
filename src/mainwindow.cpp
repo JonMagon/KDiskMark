@@ -109,72 +109,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     updateBenchmarkButtonsContent();
 
-    bool isSomeDeviceMountAsHome = false;
-    bool isThereAWritableDir = false;
-
-    // Add each device and its mount point if is writable
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-        if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
-            if (storage.device().indexOf("/dev") != -1) {
-
-                if (storage.rootPath() == QDir::homePath())
-                    isSomeDeviceMountAsHome = true;
-
-                addDirectory(storage.rootPath());
-
-                if (!disableDirItemIfIsNotWritable(ui->comboBox_Dirs->count() - 1)
-                        && isThereAWritableDir == false) {
-                    isThereAWritableDir = true;
-                }
-            }
-        }
-    }
-
-    // Add home dir
-    if (!isSomeDeviceMountAsHome) {
-        QString path = QDir::homePath();
-
-        QStorageInfo storage(path);
-
-        quint64 total = storage.bytesTotal();
-        quint64 available = storage.bytesAvailable();
-
-        QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
-
-        ui->comboBox_Dirs->insertItem(1,
-                    QStringLiteral("%1 %2% (%3)").arg(path)
-                    .arg(storage.bytesAvailable() * 100 / total)
-                    .arg(formatSize(available, total)),
-                    QVariant::fromValue(volumeInfo)
-                    );
-
-        if (!disableDirItemIfIsNotWritable(1)
-                && isThereAWritableDir == false) {
-            isThereAWritableDir = true;
-        }
-    }
-
-    if (isThereAWritableDir) {
-        ui->comboBox_Dirs->setCurrentIndex(1);
-    }
-    else {
-        ui->comboBox_Dirs->setCurrentIndex(-1);
-        ui->pushButton_All->setEnabled(false);
-        ui->pushButton_Test_1->setEnabled(false);
-        ui->pushButton_Test_2->setEnabled(false);
-        ui->pushButton_Test_3->setEnabled(false);
-        ui->pushButton_Test_4->setEnabled(false);
-    }
-
-    // Move Benchmark to another thread and set callbacks
     m_benchmark = benchmark;
-    benchmark->moveToThread(&m_benchmarkThread);
-    connect(this, &MainWindow::runBenchmark, m_benchmark, &Benchmark::runBenchmark);
-    connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
-    connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
-    connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
-    connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
-    connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::quit);
 
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
@@ -188,8 +123,6 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
 MainWindow::~MainWindow()
 {
-    m_benchmarkThread.quit();
-    m_benchmarkThread.wait();
     delete ui;
 }
 
@@ -235,6 +168,48 @@ void MainWindow::changeEvent(QEvent *event)
     }
 }
 
+void MainWindow::on_refreshStoragesButton_clicked()
+{
+    if (!m_benchmark->listStorages()) {
+        QMessageBox::critical(this, tr("Access Denied"), tr("Failed to retrieve storage list."));
+        return;
+    }
+
+    QString temp;
+
+    QVariant variant = ui->comboBox_Storages->currentData();
+    if (variant.canConvert<QStringList>())
+        temp = variant.value<QStringList>()[0];
+
+    ui->comboBox_Storages->clear();
+
+    for (Benchmark::Storage storage : m_benchmark->storages) {
+        QStringList volumeInfo = { storage.path, DiskDriveInfo::Instance().getModelName(QStorageInfo(storage.path).device()) };
+
+        ui->comboBox_Storages->addItem(
+                    QStringLiteral("%1 %2% (%3)").arg(storage.path)
+                    .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
+                    .arg(formatSize(storage.bytesOccupied, storage.bytesTotal)),
+                    QVariant::fromValue(volumeInfo)
+                    );
+    }
+
+    if (!temp.isEmpty()) {
+        int foundIndex = ui->comboBox_Storages->findText(temp, Qt::MatchContains);
+        if (foundIndex != -1) ui->comboBox_Storages->setCurrentIndex(foundIndex);
+    }
+
+
+    // TEST
+    if (ui->comboBox_Storages->count() == 0) {
+        ui->pushButton_All->setEnabled(false);
+        ui->pushButton_Test_1->setEnabled(false);
+        ui->pushButton_Test_2->setEnabled(false);
+        ui->pushButton_Test_3->setEnabled(false);
+        ui->pushButton_Test_4->setEnabled(false);
+    }
+}
+
 void MainWindow::updateFileSizeList()
 {
     int index = ui->comboBox_fileSize->currentIndex();
@@ -255,26 +230,6 @@ void MainWindow::updateFileSizeList()
 
     ui->comboBox_fileSize->setCurrentIndex(index);
 
-}
-
-void MainWindow::addDirectory(const QString &path)
-{
-    if (ui->comboBox_Dirs->findText(path, Qt::MatchContains) != -1)
-        return;
-
-    QStorageInfo storage(path);
-
-    quint64 total = storage.bytesTotal();
-    quint64 available = storage.bytesAvailable();
-
-    QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
-
-    ui->comboBox_Dirs->addItem(
-                QStringLiteral("%1 %2% (%3)").arg(path)
-                .arg(available * 100 / total)
-                .arg(formatSize(available, total)),
-                QVariant::fromValue(volumeInfo)
-                );
 }
 
 void MainWindow::updateBenchmarkButtonsContent()
@@ -346,25 +301,6 @@ void MainWindow::refreshProgressBars()
         progressBar->setFormat(locale.toString(0., 'f', 2));
         progressBar->setToolTip(Global::getToolTipTemplate().arg(locale.toString(0., 'f', 3), locale.toString(0., 'f', 3), locale.toString(0., 'f', 3), locale.toString(0., 'f', 3)));
     }
-}
-
-bool MainWindow::disableDirItemIfIsNotWritable(int index)
-{
-    QVariant variant = ui->comboBox_Dirs->itemData(index);
-    if (variant.canConvert<QStringList>()) {
-        QStringList volumeInfo = variant.value<QStringList>();
-
-        if (!QFileInfo(volumeInfo[0]).isWritable()) {
-            const QStandardItemModel* model =
-                    dynamic_cast<QStandardItemModel*>(ui->comboBox_Dirs->model());
-            QStandardItem* item = model->item(index);
-            item->setEnabled(false);
-
-            return true;
-        }
-        else return false;
-    }
-    else return false;
 }
 
 QString MainWindow::formatSize(quint64 available, quint64 total)
@@ -537,42 +473,14 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
     m_settings->setRandomReadPercentage((index + 1) * 10.f);
 }
 
-void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
+void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
 {
-    if (index == 0) {
-        QString dir = QFileDialog::getExistingDirectory(this, QString(), QDir::homePath(),
-                                                        QFileDialog::ShowDirsOnly
-                                                        | QFileDialog::DontResolveSymlinks
-                                                        | QFileDialog::DontUseNativeDialog);
-        if (!dir.isNull()) {
-            if (QFileInfo(dir).isWritable()) {
-                int foundIndex = ui->comboBox_Dirs->findText(dir, Qt::MatchContains);
-
-                if (foundIndex == -1) {
-                    addDirectory(dir);
-                    ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
-                }
-                else {
-                    ui->comboBox_Dirs->setCurrentIndex(foundIndex);
-                }
-
-                return;
-            }
-            else {
-                QMessageBox::critical(this, tr("Bad Directory"), tr("The directory is not writable."));
-            }
-        }
-
-        ui->comboBox_Dirs->setCurrentIndex(1);
-    }
-    else {
-        QVariant variant = ui->comboBox_Dirs->itemData(index);
-        if (variant.canConvert<QStringList>()) {
-            QStringList volumeInfo = variant.value<QStringList>();
-            m_settings->setDir(volumeInfo[0]);
-            ui->deviceModel->setText(volumeInfo[1]);
-            ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
-        }
+    QVariant variant = ui->comboBox_Storages->itemData(index);
+    if (variant.canConvert<QStringList>()) {
+        QStringList volumeInfo = variant.value<QStringList>();
+        m_settings->setDir(volumeInfo[0]);
+        ui->deviceModel->setText(volumeInfo[1]);
+        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
     }
 }
 
@@ -633,7 +541,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->menubar->setEnabled(false);
         ui->loopsCount->setEnabled(false);
         ui->comboBox_fileSize->setEnabled(false);
-        ui->comboBox_Dirs->setEnabled(false);
+        ui->comboBox_Storages->setEnabled(false);
         ui->comboBox_ComparisonField->setEnabled(false);
         ui->comboBox_MixRatio->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
@@ -647,7 +555,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->menubar->setEnabled(true);
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
-        ui->comboBox_Dirs->setEnabled(true);
+        ui->comboBox_Storages->setEnabled(true);
         ui->comboBox_ComparisonField->setEnabled(true);
         ui->comboBox_MixRatio->setEnabled(true);
         ui->pushButton_All->setEnabled(true);
@@ -680,6 +588,7 @@ void MainWindow::showSettings()
 
 void MainWindow::inverseBenchmarkThreadRunningState()
 {
+    /*
     if (m_isBenchmarkThreadRunning) {
         m_benchmark->setRunning(false);
         benchmarkStatusUpdate(tr("Stopping..."));
@@ -700,6 +609,7 @@ void MainWindow::inverseBenchmarkThreadRunningState()
             m_benchmarkThread.start();
         }
     }
+    */
 }
 
 void MainWindow::benchmarkFailed(const QString &error)
@@ -894,18 +804,6 @@ void MainWindow::on_pushButton_Test_4_clicked()
 
 void MainWindow::on_pushButton_All_clicked()
 {
-    if (m_benchmark->startHelper())
-        QMessageBox::information(this, "TEST", "ON");
-    else
-        QMessageBox::warning(this, "TEST", "FAIL startHelper");
-
-    //m_benchmark->stopHelper();
-    //QMessageBox::information(this, "TEST", "OFF");
-
-    return;
-
-    // TEST !
-
     inverseBenchmarkThreadRunningState();
 
     if (m_isBenchmarkThreadRunning) {
@@ -951,3 +849,4 @@ void MainWindow::on_pushButton_All_clicked()
         runBenchmark(set);
     }
 }
+

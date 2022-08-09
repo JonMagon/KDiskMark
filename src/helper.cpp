@@ -41,6 +41,20 @@ ActionReply Helper::init(const QVariantMap& args)
     return reply;
 }
 
+QVariantMap Helper::listStorages()
+{
+    QVariantMap reply;
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+        if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
+            if (storage.device().indexOf("/dev") != -1) {
+                reply[storage.rootPath()] = QVariant::fromValue(QDBusVariant(QVariant::fromValue(QVector<qlonglong> { storage.bytesTotal(), storage.bytesAvailable() })));
+            }
+        }
+    }
+
+    return reply;
+}
+
 
 void Helper::exit()
 {
