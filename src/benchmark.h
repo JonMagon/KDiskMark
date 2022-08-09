@@ -10,6 +10,8 @@
 
 #include <KAuth>
 
+#include <memory>
+
 class AppSettings;
 class DevJonmagonKdiskmarkHelperInterface;
 
