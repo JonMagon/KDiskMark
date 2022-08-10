@@ -8,8 +8,6 @@
 #include <QFile>
 #include <QEventLoop>
 
-#include <signal.h>
-
 #include "appsettings.h"
 #include "global.h"
 
@@ -41,128 +39,98 @@ bool Benchmark::isFIODetected()
     return m_FIOVersion.indexOf("fio-") == 0;
 }
 
-void Benchmark::startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage)
+void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage)
 {
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
-    KAuth::Action dropCacheAction("dev.jonmagon.kdiskmark.helper.dropcache");
-    dropCacheAction.setHelperId("dev.jonmagon.kdiskmark.helper");
-    QVariantMap args; args["check"] = true; dropCacheAction.setArguments(args);
-    KAuth::ExecuteJob* dropCacheJob = dropCacheAction.execute();
-
-    if (m_settings->shouldFlushCache()) {
-        dropCacheJob->exec();
-
-        if (dropCacheAction.status() != KAuth::Action::AuthorizedStatus) {
-            if (dropCacheJob->error() && !dropCacheJob->errorText().isEmpty()) {
-                emit failed(dropCacheJob->errorText());
-            }
-            setRunning(false);
-            return;
-        }
-    }
-    else {
-        dropCacheJob->~ExecuteJob();
-    }
-
-    args["check"] = false; dropCacheAction.setArguments(args);
-
-    auto prepareProcess = std::make_shared<QProcess>();
-    prepareProcess->start("fio", QStringList()
-                          << "--create_only=1"
-                          << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
-                          << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
-                          << QStringLiteral("--name=%1").arg(rw));
-
-    prepareProcess->waitForFinished(-1);
-    prepareProcess->close();
-
-    for (int i = 0; i < m_settings->getLoopsCount(); i++) {
-        auto process = std::make_shared<QProcess>();
-        process->start("fio", QStringList()
-                         << "--output-format=json"
-                         << "--ioengine=libaio"
-                         << "--direct=1"
-                         << "--randrepeat=0"
-                         << "--refill_buffers"
-                         << "--end_fsync=1"
-                         << QStringLiteral("--rwmixread=%1").arg(m_settings->getRandomReadPercentage())
-                         << QStringLiteral("--filename=%1").arg(m_settings->getBenchmarkFile())
-                         << QStringLiteral("--name=%1").arg(rw)
-                         << QStringLiteral("--size=%1m").arg(m_settings->getFileSize())
-                         << QStringLiteral("--bs=%1k").arg(block_size)
-                         << QStringLiteral("--runtime=%1").arg(m_settings->getMeasuringTime())
-                         << QStringLiteral("--rw=%1").arg(rw)
-                         << QStringLiteral("--iodepth=%1").arg(queue_depth)
-                         << QStringLiteral("--numjobs=%1").arg(threads));
-
-        kill(process->processId(), SIGSTOP); // Suspend
-
-        m_processes.push_back(process);
+    if (!prepareFile(m_settings->getBenchmarkFile(), m_settings->getFileSize(), rw)) {
+        setRunning(false);
+        return;
     }
 
     PerformanceResult totalRead { 0, 0, 0 }, totalWrite { 0, 0, 0 };
 
     unsigned int index = 0;
 
-    for (auto &process : m_processes) {
+    for (int i = 0; i < m_settings->getLoopsCount(); i++) {
         if (!m_running) break;
 
         emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
 
-        if (m_settings->shouldFlushCache()) {
-            dropCacheJob = dropCacheAction.execute();
-            if (!dropCacheJob->exec()) {
-                if (dropCacheJob->error() && !dropCacheJob->errorText().isEmpty()) {
-                    emit failed(dropCacheJob->errorText());
-                }
-                setRunning(false);
-                return;
-            }
-        }
-
-        kill(process->processId(), SIGCONT); // Resume
-
-        process->waitForFinished(-1);
-
-        if (process->exitStatus() != QProcess::NormalExit) {
+        if (m_settings->shouldFlushCache() && !flushPageCache()) {
             setRunning(false);
+            return;
         }
 
-        if (m_running) {
-            index++;
 
-            auto result = parseResult(process);
-
-            switch (m_settings->performanceProfile)
-            {
-                case AppSettings::PerformanceProfile::Default:
-                    totalRead  += result.read;
-                    totalWrite += result.write;
-                break;
-                case AppSettings::PerformanceProfile::Peak:
-                case AppSettings::PerformanceProfile::RealWorld:
-                    totalRead.updateWithBetterValues(result.read);
-                    totalWrite.updateWithBetterValues(result.write);
-                break;
-            }
-        }
-
-        process->close();
-
-        if (rw.contains("read")) {
-            sendResult(totalRead, index);
-        }
-        else if (rw.contains("write")) {
-            sendResult(totalWrite, index);
-        }
-        else if (rw.contains("rw")) {
-            float p = m_settings->getRandomReadPercentage();
-            sendResult((totalRead * p + totalWrite * (100.f - p)) / 100.f, index);
-        }
+if (!m_helperStarted)
+    if (!startHelper()) {
+        qWarning("Could not obtain administrator privileges.");
+        exit(0); /// TEST
     }
 
-    m_processes.clear();
+auto interface = helperInterface();
+if (!interface)
+    exit(0); /// TEST
+
+        QDBusPendingCall pcall = interface->startTest(m_settings->getBenchmarkFile(),
+                                                      m_settings->getMeasuringTime(),
+                                                      m_settings->getFileSize(),
+                                                      m_settings->getRandomReadPercentage(),
+                                                      blockSize, queueDepth, threads, rw);
+
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
+        QEventLoop loop;
+
+        auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
+            loop.exit();
+
+            if (watcher->isError())
+                qWarning() << watcher->error();
+            else {
+                QDBusPendingReply<QVariantMap> reply = *watcher;
+
+                QVariantMap replyContent = reply.value();
+                if (!replyContent[QStringLiteral("success")].toBool()) {
+                    setRunning(false);
+                }
+
+                if (m_running) {
+                    index++;
+
+                    auto result = parseResult(QString::fromLocal8Bit(replyContent[QStringLiteral("output")].toByteArray()),
+                            QString::fromLocal8Bit(replyContent[QStringLiteral("errorOutput")].toByteArray()));
+
+                    switch (m_settings->performanceProfile)
+                    {
+                        case AppSettings::PerformanceProfile::Default:
+                            totalRead  += result.read;
+                            totalWrite += result.write;
+                        break;
+                        case AppSettings::PerformanceProfile::Peak:
+                        case AppSettings::PerformanceProfile::RealWorld:
+                            totalRead.updateWithBetterValues(result.read);
+                            totalWrite.updateWithBetterValues(result.write);
+                        break;
+                    }
+                }
+
+                if (rw.contains("read")) {
+                    sendResult(totalRead, index);
+                }
+                else if (rw.contains("write")) {
+                    sendResult(totalWrite, index);
+                }
+                else if (rw.contains("rw")) {
+                    float p = m_settings->getRandomReadPercentage();
+                    sendResult((totalRead * p + totalWrite * (100.f - p)) / 100.f, index);
+                }
+            }
+        };
+
+        connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
+        loop.exec();
+    }
 }
 
 void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int index)
@@ -179,16 +147,13 @@ void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int
     }
 }
 
-Benchmark::ParsedJob Benchmark::parseResult(const std::shared_ptr<QProcess> process)
+Benchmark::ParsedJob Benchmark::parseResult(const QString &output, const QString &errorOutput)
 {
-    QString output = QString(process->readAllStandardOutput());
     QJsonDocument jsonResponse = QJsonDocument::fromJson(output.toUtf8());
     QJsonObject jsonObject = jsonResponse.object();
     QJsonArray jobs = jsonObject["jobs"].toArray();
 
     ParsedJob parsedJob {{0, 0, 0}, {0, 0, 0}};
-
-    QString errorOutput = process->readAllStandardError();
 
     int jobsCount = jobs.count();
 
@@ -233,18 +198,25 @@ void Benchmark::setRunning(bool state)
     m_running = state;
 
     if (!m_running) {
-        for (auto &process : m_processes) {
+        /*for (auto &process : m_processes) {
             if (process->state() == QProcess::Running || process->state() == QProcess::Starting) {
                 kill(process->processId(), SIGINT);
             }
-        }
+        }*/
     }
 
     emit runningStateChanged(state);
 }
 
+bool Benchmark::isRunning()
+{
+    return m_running;
+}
+
 void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests)
 {
+    setRunning(true);
+
     QListIterator<QPair<Benchmark::Type, QVector<QProgressBar*>>> iter(tests);
     // Set to 0 all the progressbars for current tests
     while (iter.hasNext()) {
@@ -269,63 +241,63 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
         {
         case SEQ_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
             break;
         case SEQ_1_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
             break;
         case SEQ_1_Mix:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
             break;
         case SEQ_2_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            startFIO(params.BlockSize, params.Queues,params.Threads,
-                     Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
+            startTest(params.BlockSize, params.Queues,params.Threads,
+                      Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
             break;
         case SEQ_2_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
             break;
         case SEQ_2_Mix:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
             break;
         case RND_1_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWRandomRead(), tr("Random Read %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWRandomRead(), tr("Random Read %1/%2"));
             break;
         case RND_1_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWRandomWrite(), tr("Random Write %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWRandomWrite(), tr("Random Write %1/%2"));
             break;
         case RND_1_Mix:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
             break;
         case RND_2_Read:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWRandomRead(), tr("Random Read %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWRandomRead(), tr("Random Read %1/%2"));
             break;
         case RND_2_Write:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWRandomWrite(), tr("Random Write %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWRandomWrite(), tr("Random Write %1/%2"));
             break;
         case RND_2_Mix:
             params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            startFIO(params.BlockSize, params.Queues, params.Threads,
-                     Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
+            startTest(params.BlockSize, params.Queues, params.Threads,
+                      Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
             break;
         }
 
@@ -394,15 +366,15 @@ bool Benchmark::startHelper()
 
 bool Benchmark::listStorages()
 {
-    if (!m_helperStarted)
-        if (!startHelper()) {
-            qWarning("Could not obtain administrator privileges.");
-            return false;
-        }
-
-    auto interface = helperInterface();
-    if (!interface)
+if (!m_helperStarted)
+    if (!startHelper()) {
+        qWarning("Could not obtain administrator privileges.");
         return false;
+    }
+
+auto interface = helperInterface();
+if (!interface)
+    return false;
 
     QDBusPendingCall pcall = interface->listStorages();
 
@@ -434,6 +406,94 @@ bool Benchmark::listStorages()
     loop.exec();
 
     return true;
+}
+
+// Combine two next ?
+
+bool Benchmark::flushPageCache()
+{
+if (!m_helperStarted)
+    if (!startHelper()) {
+        qWarning("Could not obtain administrator privileges.");
+        return false;
+    }
+
+auto interface = helperInterface();
+if (!interface)
+    return false;
+
+    bool flushed = true;
+
+    QDBusPendingCall pcall = interface->flushPageCache();
+
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
+    QEventLoop loop;
+
+    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
+        loop.exit();
+
+        if (watcher->isError())
+            qWarning() << watcher->error();
+        else {
+            QDBusPendingReply<QVariantMap> reply = *watcher;
+
+            QVariantMap replyContent = reply.value();
+            if (!replyContent[QStringLiteral("success")].toBool()) {
+                flushed = false;
+                QString error = replyContent[QStringLiteral("success")].toString();
+                if (!error.isEmpty())
+                    emit failed(error);
+            }
+        }
+    };
+
+    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
+    loop.exec();
+
+    return flushed;
+}
+
+bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
+{
+if (!m_helperStarted)
+    if (!startHelper()) {
+        qWarning("Could not obtain administrator privileges.");
+        return false;
+    }
+
+auto interface = helperInterface();
+if (!interface)
+    return false;
+
+    bool flushed = true;
+
+    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, rw);
+
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
+    QEventLoop loop;
+
+    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
+        loop.exit();
+
+        if (watcher->isError())
+            qWarning() << watcher->error();
+        else {
+            QDBusPendingReply<QVariantMap> reply = *watcher;
+
+            QVariantMap replyContent = reply.value();
+            if (!replyContent[QStringLiteral("success")].toBool()) {
+                flushed = false;
+                QString error = replyContent[QStringLiteral("success")].toString();
+                if (!error.isEmpty())
+                    emit failed(error);
+            }
+        }
+    };
+
+    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
+    loop.exec();
+
+    return flushed;
 }
 
 void Benchmark::stopHelper()

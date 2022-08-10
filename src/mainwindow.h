@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow
 private:
     Benchmark *m_benchmark;
     AppSettings *m_settings;
-    bool m_isBenchmarkThreadRunning = false;
     QVector<QProgressBar*> m_progressBars;
     QString m_windowTitle;
 
@@ -67,13 +66,10 @@ public slots:
     void profileSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 
-signals:
-    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>>);
-
 private:
     Ui::MainWindow *ui;
     void updateFileSizeList();
-    void inverseBenchmarkThreadRunningState();
+    void defineBenchmark(std::function<void()> bodyFunc);
     void closeEvent(QCloseEvent *event);
     QString formatSize(quint64 available, quint64 total);
     QString getTextBenchmarkResult();

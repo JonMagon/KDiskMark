@@ -32,11 +32,8 @@ class Benchmark : public QObject
 public:
     ~Benchmark();
 
-    bool listStorages(); // TEST !
-
 private:
     AppSettings *m_settings;
-    std::vector<std::shared_ptr<QProcess>> m_processes;
     bool m_running;
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
@@ -54,6 +51,9 @@ public:
     Benchmark(AppSettings *settings);
     QString getFIOVersion();
     bool isFIODetected();
+
+    void setRunning(bool state);
+    bool isRunning();
 
     // KAuth
     bool startHelper();
@@ -127,14 +127,19 @@ public:
 
     QVector<Storage> storages;
 
-private:
-    void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
-    Benchmark::ParsedJob parseResult(const std::shared_ptr<QProcess> process);
-    void sendResult(const Benchmark::PerformanceResult &result, const int index);
+public:
+    bool listStorages(); // TEST !
 
-public slots:
-    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests);
-    void setRunning(bool state);
+
+    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests); // TEST !
+
+private:
+    bool flushPageCache(); // TEST !
+    bool prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw); // TEST !
+
+    void startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage);
+    Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
+    void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
 signals:
     void benchmarkStatusUpdate(const QString &name);

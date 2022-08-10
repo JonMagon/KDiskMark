@@ -111,6 +111,13 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     m_benchmark = benchmark;
 
+    // Move Benchmark to another thread and set callbacks
+    m_benchmark = benchmark;
+
+    connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
+    connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
+    connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
+
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
 
@@ -542,6 +549,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->loopsCount->setEnabled(false);
         ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Storages->setEnabled(false);
+        ui->refreshStoragesButton->setEnabled(false);
         ui->comboBox_ComparisonField->setEnabled(false);
         ui->comboBox_MixRatio->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
@@ -556,6 +564,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Storages->setEnabled(true);
+        ui->refreshStoragesButton->setEnabled(true);
         ui->comboBox_ComparisonField->setEnabled(true);
         ui->comboBox_MixRatio->setEnabled(true);
         ui->pushButton_All->setEnabled(true);
@@ -566,8 +575,6 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->pushButton_All->setText(tr("All"));
         updateBenchmarkButtonsContent();
     }
-
-    m_isBenchmarkThreadRunning = state;
 }
 
 void MainWindow::showAbout()
@@ -586,10 +593,9 @@ void MainWindow::showSettings()
     updateBenchmarkButtonsContent();
 }
 
-void MainWindow::inverseBenchmarkThreadRunningState()
+void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
 {
-    /*
-    if (m_isBenchmarkThreadRunning) {
+    if (m_benchmark->isRunning()) {
         m_benchmark->setRunning(false);
         benchmarkStatusUpdate(tr("Stopping..."));
     }
@@ -605,11 +611,10 @@ void MainWindow::inverseBenchmarkThreadRunningState()
                                      QMessageBox::Yes | QMessageBox::No)) {
             m_settings->setFileSize(ui->comboBox_fileSize->currentData().toInt());
             m_settings->setFlushingCacheState(ui->actionFlush_Pagecache->isChecked());
-            m_benchmark->setRunning(true);
-            m_benchmarkThread.start();
+
+            bodyFunc();
         }
     }
-    */
 }
 
 void MainWindow::benchmarkFailed(const QString &error)
@@ -619,8 +624,7 @@ void MainWindow::benchmarkFailed(const QString &error)
 
 void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
-    if (m_isBenchmarkThreadRunning)
-        setWindowTitle(QString("%1 - %2").arg(m_windowTitle, name));
+    setWindowTitle(QString("%1 - %2").arg(m_windowTitle, name));
 }
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
@@ -712,7 +716,7 @@ bool MainWindow::runCombinedRandomTest()
             { Benchmark::RND_1_Mix,   {  ui->mixBar_2,  ui->mixBar_3,   ui->mixBar_4   } };
         }
 
-        runBenchmark(set);
+        m_benchmark->runBenchmark(set);
 
         return true;
     }
@@ -722,9 +726,7 @@ bool MainWindow::runCombinedRandomTest()
 
 void MainWindow::on_pushButton_Test_1_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
             { Benchmark::SEQ_1_Read,  { ui->readBar_1  } },
             { Benchmark::SEQ_1_Write, { ui->writeBar_1 } }
@@ -735,15 +737,13 @@ void MainWindow::on_pushButton_Test_1_clicked()
             { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_Test_2_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
@@ -756,15 +756,13 @@ void MainWindow::on_pushButton_Test_2_clicked()
             { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_Test_3_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
@@ -777,15 +775,13 @@ void MainWindow::on_pushButton_Test_3_clicked()
             { Benchmark::RND_1_Mix,   { ui->mixBar_3   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_Test_4_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
@@ -798,15 +794,13 @@ void MainWindow::on_pushButton_Test_4_clicked()
             { Benchmark::RND_2_Mix,   { ui->mixBar_4   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_All_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set;
 
         if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default) {
@@ -846,7 +840,7 @@ void MainWindow::on_pushButton_All_clicked()
             }
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
