@@ -4,6 +4,50 @@
 #include <QtDBus>
 #include <QFile>
 
+#include <signal.h>
+
+HelperAdaptor::HelperAdaptor(Helper *parent) :
+    QDBusAbstractAdaptor(parent)
+{
+    m_parentHelper = parent;
+}
+
+QVariantMap HelperAdaptor::listStorages()
+{
+    return m_parentHelper->listStorages();
+}
+
+void HelperAdaptor::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
+{
+    return m_parentHelper->prepareFile(benchmarkFile, fileSize, rw);
+}
+
+void HelperAdaptor::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage,
+                              int blockSize, int queueDepth, int threads, const QString &rw)
+{
+    m_parentHelper->startTest(benchmarkFile, measuringTime, fileSize, randomReadPercentage, blockSize, queueDepth, threads, rw);
+}
+
+QVariantMap HelperAdaptor::flushPageCache()
+{
+    return m_parentHelper->flushPageCache();
+}
+
+bool HelperAdaptor::removeFile(const QString &benchmarkFile)
+{
+    return m_parentHelper->removeFile(benchmarkFile);
+}
+
+void HelperAdaptor::stopCurrentTask()
+{
+    m_parentHelper->stopCurrentTask();
+}
+
+void HelperAdaptor::exit()
+{
+    m_parentHelper->exit();
+}
+
 ActionReply Helper::init(const QVariantMap& args)
 {
     Q_UNUSED(args)
@@ -11,7 +55,7 @@ ActionReply Helper::init(const QVariantMap& args)
     ActionReply reply;
 
     if (!QDBusConnection::systemBus().isConnected() || !QDBusConnection::systemBus().registerService(QStringLiteral("dev.jonmagon.kdiskmark.helperinterface")) ||
-        !QDBusConnection::systemBus().registerObject(QStringLiteral("/Helper"), this, QDBusConnection::ExportAllSlots)) {
+        !QDBusConnection::systemBus().registerObject(QStringLiteral("/Helper"), this)) {
         qWarning() << QDBusConnection::systemBus().lastError().message();
         reply.addData(QStringLiteral("success"), false);
 
@@ -56,62 +100,50 @@ QVariantMap Helper::listStorages()
     return reply;
 }
 
-QVariantMap Helper::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
+void Helper::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
 {
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QVariantMap reply;
-
    // check benchmarkFile is file
 
-    QProcess process;
-    process.start("fio", QStringList()
-                  << "--create_only=1"
-                  << QStringLiteral("--filename=%1").arg(benchmarkFile)
-                  << QStringLiteral("--size=%1m").arg(fileSize)
-                  << QStringLiteral("--name=%1").arg(rw));
+    m_process = new QProcess();
+    m_process->start("fio", QStringList()
+                     << "--create_only=1"
+                     << QStringLiteral("--filename=%1").arg(benchmarkFile)
+                     << QStringLiteral("--size=%1m").arg(fileSize)
+                     << QStringLiteral("--name=%1").arg(rw));
 
-    process.waitForFinished(-1);
-
-    reply[QStringLiteral("success")] = process.exitStatus() == QProcess::NormalExit;
-    reply[QStringLiteral("output")] = process.readAllStandardOutput();
-    reply[QStringLiteral("errorOutput")] = process.readAllStandardError();
-
-    return reply;
+    connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            [=] (int exitCode, QProcess::ExitStatus exitStatus) {
+        emit taskFinished(exitStatus == QProcess::NormalExit, QString(m_process->readAllStandardOutput()), QString(m_process->readAllStandardError()));
+    });
 }
 
-QVariantMap Helper::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage,
-                              int blockSize, int queueDepth, int threads, const QString &rw)
+void Helper::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage,
+                       int blockSize, int queueDepth, int threads, const QString &rw)
 {
-    QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
-    QVariantMap reply;
-
     // check benchmarkFile is file
 
-    QProcess process;
-    process.start("fio", QStringList()
-                  << "--output-format=json"
-                  << "--ioengine=libaio"
-                  << "--direct=1"
-                  << "--randrepeat=0"
-                  << "--refill_buffers"
-                  << "--end_fsync=1"
-                  << QStringLiteral("--rwmixread=%1").arg(randomReadPercentage)
-                  << QStringLiteral("--filename=%1").arg(benchmarkFile)
-                  << QStringLiteral("--name=%1").arg(rw)
-                  << QStringLiteral("--size=%1m").arg(fileSize)
-                  << QStringLiteral("--bs=%1k").arg(blockSize)
-                  << QStringLiteral("--runtime=%1").arg(measuringTime)
-                  << QStringLiteral("--rw=%1").arg(rw)
-                  << QStringLiteral("--iodepth=%1").arg(queueDepth)
-                  << QStringLiteral("--numjobs=%1").arg(threads));
+    m_process = new QProcess();
+    m_process->start("fio", QStringList()
+                     << "--output-format=json"
+                     << "--ioengine=libaio"
+                     << "--direct=1"
+                     << "--randrepeat=0"
+                     << "--refill_buffers"
+                     << "--end_fsync=1"
+                     << QStringLiteral("--rwmixread=%1").arg(randomReadPercentage)
+                     << QStringLiteral("--filename=%1").arg(benchmarkFile)
+                     << QStringLiteral("--name=%1").arg(rw)
+                     << QStringLiteral("--size=%1m").arg(fileSize)
+                     << QStringLiteral("--bs=%1k").arg(blockSize)
+                     << QStringLiteral("--runtime=%1").arg(measuringTime)
+                     << QStringLiteral("--rw=%1").arg(rw)
+                     << QStringLiteral("--iodepth=%1").arg(queueDepth)
+                     << QStringLiteral("--numjobs=%1").arg(threads));
 
-    process.waitForFinished(-1);
-
-    reply[QStringLiteral("success")] = process.exitStatus() == QProcess::NormalExit;
-    reply[QStringLiteral("output")] = process.readAllStandardOutput();
-    reply[QStringLiteral("errorOutput")] = process.readAllStandardError();
-
-    return reply;
+    connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+            [=] (int exitCode, QProcess::ExitStatus exitStatus) {
+        emit taskFinished(exitStatus == QProcess::NormalExit, QString(m_process->readAllStandardOutput()), QString(m_process->readAllStandardError()));
+    });
 }
 
 QVariantMap Helper::flushPageCache()
@@ -131,6 +163,23 @@ QVariantMap Helper::flushPageCache()
     }
 
     return reply;
+}
+
+bool Helper::removeFile(const QString &benchmarkFile)
+{
+    return QFile(benchmarkFile).remove();
+}
+
+void Helper::stopCurrentTask()
+{
+    if (!m_process) return;
+
+    if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
+        m_process->terminate();
+        m_process->waitForFinished(-1);
+    }
+
+    delete m_process;
 }
 
 void Helper::exit()

@@ -560,6 +560,11 @@ void MainWindow::benchmarkStateChanged(bool state)
     }
     else {
         setWindowTitle(m_windowTitle);
+        ui->pushButton_All->setEnabled(true);
+        ui->pushButton_Test_1->setEnabled(true);
+        ui->pushButton_Test_2->setEnabled(true);
+        ui->pushButton_Test_3->setEnabled(true);
+        ui->pushButton_Test_4->setEnabled(true);
         ui->menubar->setEnabled(true);
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
@@ -596,8 +601,13 @@ void MainWindow::showSettings()
 void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
 {
     if (m_benchmark->isRunning()) {
-        m_benchmark->setRunning(false);
         benchmarkStatusUpdate(tr("Stopping..."));
+        ui->pushButton_All->setEnabled(false);
+        ui->pushButton_Test_1->setEnabled(false);
+        ui->pushButton_Test_2->setEnabled(false);
+        ui->pushButton_Test_3->setEnabled(false);
+        ui->pushButton_Test_4->setEnabled(false);
+        m_benchmark->setRunning(false);
     }
     else {
         if (m_settings->getBenchmarkFile().isNull()) {

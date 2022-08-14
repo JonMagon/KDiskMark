@@ -78,58 +78,51 @@ if (!interface)
                                                       m_settings->getFileSize(),
                                                       m_settings->getRandomReadPercentage(),
                                                       blockSize, queueDepth, threads, rw);
-
-        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
         QEventLoop loop;
 
-        auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
+        auto exitLoop = [&] (bool success, QString output, QString errorOutput) {
             loop.exit();
 
-            if (watcher->isError())
-                qWarning() << watcher->error();
-            else {
-                QDBusPendingReply<QVariantMap> reply = *watcher;
+            if (!success) {
+                setRunning(false);
+            }
 
-                QVariantMap replyContent = reply.value();
-                if (!replyContent[QStringLiteral("success")].toBool()) {
-                    setRunning(false);
-                }
+            if (m_running) {
+                index++;
 
-                if (m_running) {
-                    index++;
+                auto result = parseResult(output, errorOutput);
 
-                    auto result = parseResult(QString::fromLocal8Bit(replyContent[QStringLiteral("output")].toByteArray()),
-                            QString::fromLocal8Bit(replyContent[QStringLiteral("errorOutput")].toByteArray()));
+                switch (m_settings->performanceProfile)
+                {
+                    case AppSettings::PerformanceProfile::Default:
+                        totalRead  += result.read;
+                        totalWrite += result.write;
+                    break;
+                    case AppSettings::PerformanceProfile::Peak:
+                    case AppSettings::PerformanceProfile::RealWorld:
+                        totalRead.updateWithBetterValues(result.read);
+                        totalWrite.updateWithBetterValues(result.write);
+                    break;
+                }
+            }
 
-                    switch (m_settings->performanceProfile)
-                    {
-                        case AppSettings::PerformanceProfile::Default:
-                            totalRead  += result.read;
-                            totalWrite += result.write;
-                        break;
-                        case AppSettings::PerformanceProfile::Peak:
-                        case AppSettings::PerformanceProfile::RealWorld:
-                            totalRead.updateWithBetterValues(result.read);
-                            totalWrite.updateWithBetterValues(result.write);
-                        break;
-                    }
-                }
-
-                if (rw.contains("read")) {
-                    sendResult(totalRead, index);
-                }
-                else if (rw.contains("write")) {
-                    sendResult(totalWrite, index);
-                }
-                else if (rw.contains("rw")) {
-                    float p = m_settings->getRandomReadPercentage();
-                    sendResult((totalRead * p + totalWrite * (100.f - p)) / 100.f, index);
-                }
+            if (rw.contains("read")) {
+                sendResult(totalRead, index);
+            }
+            else if (rw.contains("write")) {
+                sendResult(totalWrite, index);
+            }
+            else if (rw.contains("rw")) {
+                float p = m_settings->getRandomReadPercentage();
+                sendResult((totalRead * p + totalWrite * (100.f - p)) / 100.f, index);
             }
         };
 
-        connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
+        auto conn = QObject::connect(interface, &DevJonmagonKdiskmarkHelperInterface::taskFinished, exitLoop);
+
         loop.exec();
+
+        QObject::disconnect(conn);
     }
 }
 
@@ -198,11 +191,20 @@ void Benchmark::setRunning(bool state)
     m_running = state;
 
     if (!m_running) {
-        /*for (auto &process : m_processes) {
-            if (process->state() == QProcess::Running || process->state() == QProcess::Starting) {
-                kill(process->processId(), SIGINT);
-            }
-        }*/
+if (!m_helperStarted)
+    if (!startHelper()) {
+        qWarning("Could not obtain administrator privileges.");
+        exit(0); /// TEST
+    }
+
+auto interface = helperInterface();
+if (!interface)
+    exit(0); /// TEST
+
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(interface->stopCurrentTask(), this);
+        QEventLoop loop;
+        connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) { loop.exit(); });
+        loop.exec();
     }
 
     emit runningStateChanged(state);
@@ -309,7 +311,17 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
         }
     }
 
-    QFile(m_settings->getBenchmarkFile()).remove();
+if (!m_helperStarted)
+    if (!startHelper()) {
+        qWarning("Could not obtain administrator privileges.");
+        exit(0);
+    }
+
+auto interface = helperInterface();
+if (!interface)
+    exit(0);
+
+    interface->removeFile(m_settings->getBenchmarkFile());
 
     setRunning(false);
     emit finished();
@@ -469,29 +481,23 @@ if (!interface)
 
     QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, rw);
 
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
     QEventLoop loop;
 
-    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
+    auto exitLoop = [&] (bool success, QString output, QString errorOutput) {
         loop.exit();
 
-        if (watcher->isError())
-            qWarning() << watcher->error();
-        else {
-            QDBusPendingReply<QVariantMap> reply = *watcher;
-
-            QVariantMap replyContent = reply.value();
-            if (!replyContent[QStringLiteral("success")].toBool()) {
-                flushed = false;
-                QString error = replyContent[QStringLiteral("success")].toString();
-                if (!error.isEmpty())
-                    emit failed(error);
-            }
+        if (!success) {
+            flushed = false;
+            if (!errorOutput.isEmpty())
+                emit failed(errorOutput);
         }
     };
 
-    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
+    auto conn = QObject::connect(interface, &DevJonmagonKdiskmarkHelperInterface::taskFinished, exitLoop);
+
     loop.exec();
+
+    QObject::disconnect(conn);
 
     return flushed;
 }
