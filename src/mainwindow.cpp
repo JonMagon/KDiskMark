@@ -109,14 +109,12 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     updateBenchmarkButtonsContent();
 
+    // Set callbacks
     m_benchmark = benchmark;
-
-    // Move Benchmark to another thread and set callbacks
-    m_benchmark = benchmark;
-
     connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
+    connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
 
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
@@ -135,9 +133,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
-    m_benchmark->stopHelper(); // TEST !
-
-    m_benchmark->setRunning(false);
+    auto stopHelper = [&] () { m_benchmark->stopHelper(); };
+    if (m_benchmark->isRunning()) {
+        connect(m_benchmark, &Benchmark::finished, this, stopHelper);
+        m_benchmark->setRunning(false);
+    }
+    else {
+        stopHelper();
+    }
 }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -348,7 +351,7 @@ void MainWindow::updateLabels()
 }
 
 QString MainWindow::combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
-                                         const AppSettings::BenchmarkParams &params)
+                                            const AppSettings::BenchmarkParams &params)
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
 

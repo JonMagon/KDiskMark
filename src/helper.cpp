@@ -102,10 +102,11 @@ QVariantMap Helper::listStorages()
 
 void Helper::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
 {
-   // check benchmarkFile is file
+    testFilePath(benchmarkFile);
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
+                     << "--output-format=json"
                      << "--create_only=1"
                      << QStringLiteral("--filename=%1").arg(benchmarkFile)
                      << QStringLiteral("--size=%1m").arg(fileSize)
@@ -120,7 +121,7 @@ void Helper::prepareFile(const QString &benchmarkFile, int fileSize, const QStri
 void Helper::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage,
                        int blockSize, int queueDepth, int threads, const QString &rw)
 {
-    // check benchmarkFile is file
+    testFilePath(benchmarkFile);
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
@@ -163,6 +164,12 @@ QVariantMap Helper::flushPageCache()
     }
 
     return reply;
+}
+
+void Helper::testFilePath(const QString &benchmarkFile)
+{
+    if (!benchmarkFile.endsWith("/.kdiskmark.tmp"))
+        qFatal("The path must end with /.kdiskmark.tmp");
 }
 
 bool Helper::removeFile(const QString &benchmarkFile)

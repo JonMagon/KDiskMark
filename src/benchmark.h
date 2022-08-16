@@ -8,11 +8,10 @@
 #include <QObject>
 #include <QThread>
 
-#include <KAuth>
-
 #include <memory>
 
 class AppSettings;
+class QDBusPendingCall;
 class DevJonmagonKdiskmarkHelperInterface;
 
 struct HelperPrivate;
@@ -32,21 +31,6 @@ class Benchmark : public QObject
 public:
     ~Benchmark();
 
-private:
-    AppSettings *m_settings;
-    bool m_running;
-    QString m_FIOVersion;
-    QVector<QProgressBar*> m_progressBars;
-
-    DevJonmagonKdiskmarkHelperInterface* helperInterface();
-
-private:
-    DBusThread *m_thread;
-
-    // KAuth
-    KAuth::ExecuteJob *m_job;
-    bool m_helperStarted = false;
-
 public:
     Benchmark(AppSettings *settings);
     QString getFIOVersion();
@@ -58,6 +42,8 @@ public:
     // KAuth
     bool startHelper();
     void stopHelper();
+
+    bool listStorages();
 
     enum Type {
         SEQ_1_Read,
@@ -73,6 +59,8 @@ public:
         RND_2_Write,
         RND_2_Mix
     };
+
+    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests);
 
     struct PerformanceResult
     {
@@ -127,19 +115,27 @@ public:
 
     QVector<Storage> storages;
 
-public:
-    bool listStorages(); // TEST !
+private:
+    AppSettings *m_settings;
+    bool m_running;
+    QString m_FIOVersion;
+    QVector<QProgressBar*> m_progressBars;
 
+    DevJonmagonKdiskmarkHelperInterface* helperInterface();
+    DBusThread *m_thread;
 
-    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests); // TEST !
+    // KAuth
+    bool m_helperStarted = false;
 
 private:
-    bool flushPageCache(); // TEST !
-    bool prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw); // TEST !
-
     void startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage);
     Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
+
+    bool prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw);
+    bool flushPageCache();
+
+    void dbusWaitForFinish(QDBusPendingCall pcall);
 
 signals:
     void benchmarkStatusUpdate(const QString &name);

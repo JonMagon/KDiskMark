@@ -43,7 +43,7 @@ public:
     Helper()
     {
         m_helperAdaptor = new HelperAdaptor(this);
-        QObject::connect(this, SIGNAL(taskFinished(bool, QString, QString)), m_helperAdaptor, SIGNAL(taskFinished(bool, QString, QString)));
+        QObject::connect(this, &Helper::taskFinished, m_helperAdaptor, &HelperAdaptor::taskFinished);
     }
 
 public:
@@ -55,6 +55,9 @@ public:
     bool removeFile(const QString &benchmarkFile);
     void stopCurrentTask();
     void exit();
+
+private:
+    void testFilePath(const QString &benchmarkFile);
 
 public slots:
     ActionReply init(const QVariantMap& args);

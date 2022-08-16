@@ -8,6 +8,8 @@
 #include <QFile>
 #include <QEventLoop>
 
+#include <KAuth>
+
 #include "appsettings.h"
 #include "global.h"
 
@@ -175,7 +177,7 @@ Benchmark::ParsedJob Benchmark::parseResult(const QString &output, const QString
             }
             else {
                 setRunning(false);
-                emit failed(errorOutput.mid(errorOutput.simplified().lastIndexOf("=") + 1));
+                emit failed(errorOutput/*.mid(errorOutput.simplified().lastIndexOf("=") + 1)*/);
             }
         }
     }
@@ -201,10 +203,7 @@ auto interface = helperInterface();
 if (!interface)
     exit(0); /// TEST
 
-        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(interface->stopCurrentTask(), this);
-        QEventLoop loop;
-        connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) { loop.exit(); });
-        loop.exec();
+        dbusWaitForFinish(interface->stopCurrentTask());
     }
 
     emit runningStateChanged(state);
@@ -306,7 +305,9 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
         if (iter.hasNext()) {
             for (int i = 0; i < m_settings->getIntervalTime() && m_running; i++) {
                 emit benchmarkStatusUpdate(tr("Interval Time %1/%2 sec").arg(i).arg(m_settings->getIntervalTime()));
-                QThread::sleep(1);
+                QEventLoop loop;
+                QTimer::singleShot(1000, &loop, SLOT(quit()));
+                loop.exec();
             }
         }
     }
@@ -321,7 +322,7 @@ auto interface = helperInterface();
 if (!interface)
     exit(0);
 
-    interface->removeFile(m_settings->getBenchmarkFile());
+    dbusWaitForFinish(interface->removeFile(m_settings->getBenchmarkFile()));
 
     setRunning(false);
     emit finished();
@@ -362,13 +363,13 @@ bool Benchmark::startHelper()
 
     QVariantMap arguments;
     action.setArguments(arguments);
-    m_job = action.execute();
-    m_job->start();
+    KAuth::ExecuteJob *job = action.execute();
+    job->start();
 
     QEventLoop loop;
     auto exitLoop = [&] () { loop.exit(); };
-    auto conn = QObject::connect(m_job, &KAuth::ExecuteJob::newData, exitLoop);
-    QObject::connect(m_job, &KJob::finished, [=] () { if (m_job->error()) exitLoop(); } );
+    auto conn = QObject::connect(job, &KAuth::ExecuteJob::newData, exitLoop);
+    QObject::connect(job, &KJob::finished, [=] () { if (job->error()) exitLoop(); } );
     loop.exec();
     QObject::disconnect(conn);
 
@@ -491,6 +492,10 @@ if (!interface)
             if (!errorOutput.isEmpty())
                 emit failed(errorOutput);
         }
+
+        if (m_running) {
+            parseResult(output, errorOutput);
+        }
     };
 
     auto conn = QObject::connect(interface, &DevJonmagonKdiskmarkHelperInterface::taskFinished, exitLoop);
@@ -500,6 +505,14 @@ if (!interface)
     QObject::disconnect(conn);
 
     return flushed;
+}
+
+void Benchmark::dbusWaitForFinish(QDBusPendingCall pcall)
+{
+    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
+    QEventLoop loop;
+    connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) { loop.exit(); });
+    loop.exec();
 }
 
 void Benchmark::stopHelper()
