@@ -46,10 +46,10 @@ Profile: Default
 * GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
-* [KAuth](https://github.com/KDE/kauth) (optional)
-* Qt with Widgets >= 5.9
+* [KAuth](https://github.com/KDE/kauth)
+* Qt with Widgets and DBus >= 5.9
 ### Runtime
-* Qt with Widgets >= 5.9
+* Qt with Widgets and DBus >= 5.9
 * [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
     * If you build FIO from source, install `libaio-dev` package.
 * KAuth Library
@@ -106,13 +106,6 @@ mkdir build && cd build
 cmake -D CMAKE_BUILD_TYPE=Release ..
 cpack -G DEB # Or RPM, ZIP etc.
 ```
-
-### Build parameters
-* `PAGECACHE_FLUSH` enables pagecache clearing functionality (default is ON). If disabled, the application will not be able to clear the pagecache in any way.
-* `KF5AUTH_USING` determines whether a helper will be built (default is ON). If the KF5Auth helper is not built, the application will be able to clear the pagecache if it is run as root.
-
-Build parameters are passed at configuration stage:  
-`cmake -D KF5AUTH_USING=OFF ..`
 
 ## Localization [![Crowdin](https://badges.crowdin.net/kdiskmark/localized.svg)](https://crowdin.com/project/kdiskmark)
 To help with localization you can use [Crowdin](https://crowdin.com/project/kdiskmark) or translate files in `data/translations` with [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html) directly. To add a new language, copy `data/translations/kdiskmark.ts` to `data/translations/kdiskmark_<ISO 639-1 language code>_<ISO 3166-1 alpha-2 language code>.ts`, translate it, then add the file to the TS_FILES variable in CMakeLists.txt, and create a pull request. It is also possible to add localized Comment and Keywords sections into `data/kdiskmark.desktop`.
