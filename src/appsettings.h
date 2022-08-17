@@ -6,10 +6,12 @@
 #include <QString>
 
 class QTranslator;
+class QSettings;
 
 class AppSettings : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(AppSettings)
 
 public:
     enum BenchmarkTest {
@@ -40,41 +42,42 @@ public:
         RealWorld
     } performanceProfile = Default;
 
-    AppSettings() {}
+    AppSettings(QObject *parent = nullptr);
 
     void setupLocalization();
-    QLocale getLocale();
-    void setLocale(const QLocale locale);
+    QLocale locale() const;
+    void setLocale(const QLocale &locale);
+    static void applyLocale(const QLocale &locale);
     static QLocale defaultLocale();
 
     BenchmarkParams getBenchmarkParams(BenchmarkTest test);
     void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
-    void restoreDefaultBenchmarkParams();
-    void setLoopsCount(int loops);
-    int getLoopsCount();
-    void setFileSize(int size);
-    int getFileSize();
+
+    int getLoopsCount() const;
+    void setLoopsCount(int loopsCount);
+    static int defaultLoopsCount();
+
+    int getFileSize() const;
+    void setFileSize(int fileSize);
+    static int defaultFileSize();
+
+    int getMeasuringTime() const;
     void setMeasuringTime(int measuringTime);
-    int getMeasuringTime();
+    static int defaultMeasuringTime();
+
+    int getIntervalTime() const;
     void setIntervalTime(int intervalTime);
-    int getIntervalTime();
-    void setDir(const QString &dir);
-    void setRandomReadPercentage(float percentage);
-    int getRandomReadPercentage();
-    QString getBenchmarkFile();
-    void setMixed(bool state);
-    bool isMixed();
-    void setFlushingCacheState(bool state);
-    bool shouldFlushCache();
+    static int defaultIntervalTime();
+
+    int getRandomReadPercentage() const;
+    void setRandomReadPercentage(int randomReadPercentage);
+    static int defaultRandomReadPercentage();
+
+    bool getFlusingCacheState() const;
+    void setFlushingCacheState(bool flushingCacheState);
+    static bool defaultFlushingCacheState();
 
 private:
-    int m_loopsCount = 5;
-    int m_fileSize = 1024;
-    int m_percentage = 70;
-    QString m_dir;
-    bool m_mixedState = false;
-    bool m_shouldFlushCache = false;
-
     const BenchmarkParams m_default_SEQ_1 { 1024,  8,  1 };
     const BenchmarkParams m_default_SEQ_2 { 1024,  1,  1 };
     const BenchmarkParams m_default_RND_1 {    4, 32,  1 };
@@ -88,14 +91,10 @@ private:
     BenchmarkParams m_RND_1 = m_default_RND_1;
     BenchmarkParams m_RND_2 = m_default_RND_2;
 
-    const int m_default_intervalTime = 5;
-    int m_intervalTime = m_default_intervalTime;
-
-    const int m_default_measuringTime = 5;
-    int m_measuringTime = m_default_measuringTime;
-
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;
+
+    QSettings *m_settings;
 };
 
 #endif // APPSETTINGS_H

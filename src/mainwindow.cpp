@@ -23,14 +23,16 @@
 #include "diskdriveinfo.h"
 #include "global.h"
 
-MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_benchmark(new Benchmark(new AppSettings))
 {
     ui->setupUi(this);
 
-    m_settings = settings;
-    m_benchmark = benchmark;
+    const AppSettings settings;
+
+    m_settings = new AppSettings;
 
     QActionGroup *localesGroup = new QActionGroup(this);
 
@@ -64,7 +66,7 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
 
     // Default values
-    ui->loopsCount->setValue(m_settings->getLoopsCount());
+    ui->loopsCount->setValue(settings.getLoopsCount());
 
     on_comboBox_ComparisonField_currentIndexChanged(0);
 
@@ -91,11 +93,13 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     connect(profilesGroup, SIGNAL(triggered(QAction*)), this, SLOT(profileSelected(QAction*)));
 
+    ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
+
     profileSelected(ui->actionDefault);
 
     updateFileSizeList();
 
-    int indexMixRatio = m_settings->getRandomReadPercentage() / 10 - 1;
+    int indexMixRatio = settings.getRandomReadPercentage() / 10 - 1;
 
     for (int i = 1; i <= 9; i++) {
         ui->comboBox_MixRatio->addItem(QStringLiteral("R%1%/W%2%").arg(i * 10).arg((10 - i) * 10));
@@ -154,8 +158,8 @@ void MainWindow::changeEvent(QEvent *event)
 {
     switch (event->type()) {
     case QEvent::LocaleChange: {
-        if (QLocale() == QLocale::AnyLanguage)
-            m_settings->setLocale(QLocale::AnyLanguage);
+        if (const QLocale locale = AppSettings().locale(); locale == AppSettings::defaultLocale())
+            AppSettings::applyLocale(locale);
         break;
     }
     case QEvent::LanguageChange: {
@@ -218,24 +222,13 @@ void MainWindow::on_refreshStoragesButton_clicked()
 
     // Resize items popup
     resizeComboBoxItemsPopup(ui->comboBox_Storages);
-
-    // TEST
-    if (ui->comboBox_Storages->count() == 0) {
-        ui->pushButton_All->setEnabled(false);
-        ui->pushButton_Test_1->setEnabled(false);
-        ui->pushButton_Test_2->setEnabled(false);
-        ui->pushButton_Test_3->setEnabled(false);
-        ui->pushButton_Test_4->setEnabled(false);
-    }
 }
 
 void MainWindow::updateFileSizeList()
 {
-    int index = ui->comboBox_fileSize->currentIndex();
+    const AppSettings settings;
 
-    if (index == -1) {
-        index = ui->comboBox_fileSize->findData(m_settings->getFileSize());
-    }
+    int fileSize = settings.getFileSize();
 
     ui->comboBox_fileSize->clear();
 
@@ -247,9 +240,15 @@ void MainWindow::updateFileSizeList()
         ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("GiB")), i * 1024);
     }
 
-    ui->comboBox_fileSize->setCurrentIndex(index);
+    ui->comboBox_fileSize->setCurrentIndex(ui->comboBox_fileSize->findData(fileSize));
 
     resizeComboBoxItemsPopup(ui->comboBox_fileSize);
+}
+
+void MainWindow::on_comboBox_fileSize_currentIndexChanged(int index)
+{
+    AppSettings settings;
+    settings.setFileSize(ui->comboBox_fileSize->currentData().toInt());
 }
 
 void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
@@ -270,6 +269,12 @@ void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
     QAbstractItemView *view = combobox->view();
     if (view->minimumWidth() < maxWidth)
         view->setMinimumWidth(maxWidth + view->autoScrollMargin() + combobox->style()->pixelMetric(QStyle::PM_ScrollBarExtent));
+}
+
+void MainWindow::on_actionFlush_Pagecache_triggered(bool checked)
+{
+    AppSettings settings;
+    settings.setFlushingCacheState(checked);
 }
 
 void MainWindow::updateBenchmarkButtonsContent()
@@ -405,6 +410,8 @@ QString MainWindow::combineOutputTestResult(const QString &name, const QProgress
 
 QString MainWindow::getTextBenchmarkResult()
 {
+    const AppSettings settings;
+
     QStringList output;
 
     output << QString("KDiskMark (%1): https://github.com/JonMagon/KDiskMark")
@@ -443,11 +450,11 @@ QString MainWindow::getTextBenchmarkResult()
     output << combineOutputTestResult("Random", ui->writeBar_4,
                                       m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
 
-    if (m_settings->isMixed()) {
+    if (m_benchmark->isMixed()) {
          output << QString()
                 << QString("[Mix] Read %1%/Write %2%")
-                   .arg(m_settings->getRandomReadPercentage())
-                   .arg(100 - m_settings->getRandomReadPercentage())
+                   .arg(settings.getRandomReadPercentage())
+                   .arg(100 - settings.getRandomReadPercentage())
                 << combineOutputTestResult("Sequential", ui->mixBar_1,
                                            m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
          if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
@@ -464,14 +471,14 @@ QString MainWindow::getTextBenchmarkResult()
 
     output << QString()
            << QString("Profile: %1%2")
-              .arg(profiles[(int)m_settings->performanceProfile]).arg(m_settings->isMixed() ? " [+Mix]" : QString())
+              .arg(profiles[(int)m_settings->performanceProfile]).arg(m_benchmark->isMixed() ? " [+Mix]" : QString())
            << QString("   Test: %1")
               .arg("%1 %2 (x%3) [Interval: %4 %5]")
-              .arg(m_settings->getFileSize() >= 1024 ? m_settings->getFileSize() / 1024 : m_settings->getFileSize())
-              .arg(m_settings->getFileSize() >= 1024 ? "GiB" : "MiB")
-              .arg(m_settings->getLoopsCount())
-              .arg(m_settings->getIntervalTime() >= 60 ? m_settings->getIntervalTime() / 60 : m_settings->getIntervalTime())
-              .arg(m_settings->getIntervalTime() >= 60 ? "min" : "sec")
+              .arg(settings.getFileSize() >= 1024 ? settings.getFileSize() / 1024 : settings.getFileSize())
+              .arg(settings.getFileSize() >= 1024 ? "GiB" : "MiB")
+              .arg(settings.getLoopsCount())
+              .arg(settings.getIntervalTime() >= 60 ? settings.getIntervalTime() / 60 : settings.getIntervalTime())
+              .arg(settings.getIntervalTime() >= 60 ? "min" : "sec")
            << QString("   Date: %1 %2")
               .arg(QDate::currentDate().toString("yyyy-MM-dd"))
               .arg(QTime::currentTime().toString("hh:mm:ss"))
@@ -505,12 +512,14 @@ void MainWindow::saveBenchmarkResult()
 
 void MainWindow::on_loopsCount_valueChanged(int arg1)
 {
-    m_settings->setLoopsCount(arg1);
+    AppSettings settings;
+    settings.setLoopsCount(arg1);
 }
 
 void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 {
-    m_settings->setRandomReadPercentage((index + 1) * 10.f);
+    AppSettings settings;
+    settings.setRandomReadPercentage((index + 1) * 10.f);
 }
 
 void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
@@ -518,7 +527,7 @@ void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
     QVariant variant = ui->comboBox_Storages->itemData(index);
     if (variant.canConvert<QStringList>()) {
         QStringList volumeInfo = variant.value<QStringList>();
-        m_settings->setDir(volumeInfo[0]);
+        m_benchmark->setDir(volumeInfo[0]);
         ui->deviceModel->setText(volumeInfo[1]);
         ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
     }
@@ -535,7 +544,7 @@ void MainWindow::profileSelected(QAction* act)
 {
     bool isMixed = act->property("mixed").toBool();
 
-    m_settings->setMixed(isMixed);
+    m_benchmark->setMixed(isMixed);
 
     ui->mixWidget->setVisible(isMixed);
     ui->comboBox_MixRatio->setVisible(isMixed);
@@ -633,6 +642,8 @@ void MainWindow::showSettings()
 
 void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
 {
+    AppSettings settings;
+
     if (m_benchmark->isRunning()) {
         benchmarkStatusUpdate(tr("Stopping..."));
         ui->pushButton_All->setEnabled(false);
@@ -643,18 +654,15 @@ void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
         m_benchmark->setRunning(false);
     }
     else {
-        if (m_settings->getBenchmarkFile().isNull()) {
+        if (m_benchmark->getBenchmarkFile().isNull()) {
             QMessageBox::critical(this, tr("Not available"), tr("Directory is not specified."));
         }
         else if (QMessageBox::Yes ==
                 QMessageBox::warning(this, tr("Confirmation"),
                                      tr("This action destroys the data in %1\nDo you want to continue?")
-                                     .arg(m_settings->getBenchmarkFile()
+                                     .arg(m_benchmark->getBenchmarkFile()
                                           .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
-            m_settings->setFileSize(ui->comboBox_fileSize->currentData().toInt());
-            m_settings->setFlushingCacheState(ui->actionFlush_Pagecache->isChecked());
-
             bodyFunc();
         }
     }
@@ -754,7 +762,7 @@ bool MainWindow::runCombinedRandomTest()
             { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
         };
 
-        if (m_settings->isMixed()) {
+        if (m_benchmark->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::RND_1_Mix,   {  ui->mixBar_2,  ui->mixBar_3,   ui->mixBar_4   } };
         }
@@ -775,7 +783,7 @@ void MainWindow::on_pushButton_Test_1_clicked()
             { Benchmark::SEQ_1_Write, { ui->writeBar_1 } }
         };
 
-        if (m_settings->isMixed()) {
+        if (m_benchmark->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } };
         }
@@ -794,7 +802,7 @@ void MainWindow::on_pushButton_Test_2_clicked()
             { Benchmark::SEQ_2_Write, { ui->writeBar_2 } }
         };
 
-        if (m_settings->isMixed()) {
+        if (m_benchmark->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } };
         }
@@ -813,7 +821,7 @@ void MainWindow::on_pushButton_Test_3_clicked()
             { Benchmark::RND_1_Write, { ui->writeBar_3 } }
         };
 
-        if (m_settings->isMixed()) {
+        if (m_benchmark->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::RND_1_Mix,   { ui->mixBar_3   } };
         }
@@ -832,7 +840,7 @@ void MainWindow::on_pushButton_Test_4_clicked()
             { Benchmark::RND_2_Write, { ui->writeBar_4 } }
         };
 
-        if (m_settings->isMixed()) {
+        if (m_benchmark->isMixed()) {
             set << QPair<Benchmark::Type, QVector<QProgressBar*>>
             { Benchmark::RND_2_Mix,   { ui->mixBar_4   } };
         }
@@ -858,7 +866,7 @@ void MainWindow::on_pushButton_All_clicked()
                 { Benchmark::RND_2_Write, { ui->writeBar_4 } }
             };
 
-            if (m_settings->isMixed()) {
+            if (m_benchmark->isMixed()) {
                 set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
                 { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
                 { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } },
@@ -875,7 +883,7 @@ void MainWindow::on_pushButton_All_clicked()
                 { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
             };
 
-            if (m_settings->isMixed()) {
+            if (m_benchmark->isMixed()) {
                 set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
                 { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
                 { Benchmark::RND_1_Mix,   {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4  } }
@@ -886,4 +894,3 @@ void MainWindow::on_pushButton_All_clicked()
         m_benchmark->runBenchmark(set);
     });
 }
-

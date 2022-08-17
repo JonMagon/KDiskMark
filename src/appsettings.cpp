@@ -7,133 +7,148 @@
 #include <QTranslator>
 #include <QStandardPaths>
 #include <QLibraryInfo>
+#include <QSettings>
 
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
+AppSettings::AppSettings(QObject *parent)
+    : QObject(parent)
+    , m_settings(new QSettings(this))
+{
+}
+
 void AppSettings::setupLocalization()
 {
-    setLocale(QLocale());
+    applyLocale(locale());
     QCoreApplication::installTranslator(&s_appTranslator);
     QCoreApplication::installTranslator(&s_qtTranslator);
 }
 
-void AppSettings::setLocale(const QLocale locale)
+QLocale AppSettings::locale() const
 {
-    if (locale == QLocale::AnyLanguage)
-        QLocale::setDefault(QLocale::system());
-    else
-        QLocale::setDefault(QLocale(locale));
+    return m_settings->value(QStringLiteral("Locale"), defaultLocale()).value<QLocale>();
+}
 
-    s_appTranslator.load(QLocale(), qAppName(), QStringLiteral("_"),
-                         QStandardPaths::locate(QStandardPaths::AppDataLocation,
-                                                QStringLiteral("translations"),
-                                                QStandardPaths::LocateDirectory));
-    s_qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"),
-                        QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+void AppSettings::setLocale(const QLocale &locale)
+{
+    if (locale != this->locale()) {
+        m_settings->setValue(QStringLiteral("Locale"), locale);
+        applyLocale(locale);
+    }
+}
+
+void AppSettings::applyLocale(const QLocale &locale)
+{
+    const QLocale newLocale = locale == defaultLocale() ? QLocale::system() : locale;
+    QLocale::setDefault(newLocale);
+    s_appTranslator.load(newLocale, QStringLiteral(PROJECT_NAME), QStringLiteral("_"), QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("translations"), QStandardPaths::LocateDirectory));
+    s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 }
 
 QLocale AppSettings::defaultLocale()
 {
-    return QLocale::AnyLanguage;
+    return QLocale::c(); // C locale is used as the system language on apply
 }
 
-void AppSettings::setLoopsCount(int loops)
+
+
+
+int AppSettings::getLoopsCount() const
 {
-    m_loopsCount = loops;
+    return m_settings->value(QStringLiteral("Benchmark/LoopsCount"), defaultLoopsCount()).toInt();
 }
 
-int AppSettings::getLoopsCount()
+void AppSettings::setLoopsCount(int loopsCount)
 {
-    return m_loopsCount;
+    m_settings->setValue(QStringLiteral("Benchmark/LoopsCount"), loopsCount);
 }
 
-void AppSettings::setFileSize(int size)
+int AppSettings::defaultLoopsCount()
 {
-    m_fileSize = size;
+    return 5;
 }
 
-int AppSettings::getFileSize()
+int AppSettings::getFileSize() const
 {
-    return m_fileSize;
+    return m_settings->value(QStringLiteral("Benchmark/FileSize"), defaultFileSize()).toInt();
+}
+
+void AppSettings::setFileSize(int fileSize)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/FileSize"), fileSize);
+}
+
+int AppSettings::defaultFileSize()
+{
+    return 1024;
+}
+
+int AppSettings::getMeasuringTime() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/MeasuringTime"), defaultMeasuringTime()).toInt();
 }
 
 void AppSettings::setMeasuringTime(int measuringTime)
 {
-    m_measuringTime = measuringTime;
+    m_settings->setValue(QStringLiteral("Benchmark/MeasuringTime"), measuringTime);
 }
 
-int AppSettings::getMeasuringTime()
+int AppSettings::defaultMeasuringTime()
 {
-    return m_measuringTime;
+    return 5;
+}
+
+int AppSettings::getIntervalTime() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/IntervalTime"), defaultIntervalTime()).toInt();
 }
 
 void AppSettings::setIntervalTime(int intervalTime)
 {
-    m_intervalTime = intervalTime;
+    m_settings->setValue(QStringLiteral("Benchmark/IntervalTime"), intervalTime);
 }
 
-int AppSettings::getIntervalTime()
+int AppSettings::defaultIntervalTime()
 {
-    return m_intervalTime;
+    return 5;
 }
 
-void AppSettings::setDir(const QString &dir)
+int AppSettings::getRandomReadPercentage() const
 {
-    m_dir = dir;
+    return m_settings->value(QStringLiteral("Benchmark/RandomReadPercentage"), defaultRandomReadPercentage()).toInt();
 }
 
-void AppSettings::setRandomReadPercentage(float percentage)
+void AppSettings::setRandomReadPercentage(int randomReadPercentage)
 {
-    m_percentage = percentage;
+    m_settings->setValue(QStringLiteral("Benchmark/RandomReadPercentage"), randomReadPercentage);
 }
 
-int AppSettings::getRandomReadPercentage()
+int AppSettings::defaultRandomReadPercentage()
 {
-    return m_percentage;
+    return 70;
 }
 
-QString AppSettings::getBenchmarkFile()
+bool AppSettings::getFlusingCacheState() const
 {
-    if (m_dir.isNull())
-        return QString();
-
-    if (m_dir.endsWith("/")) {
-        return m_dir + ".kdiskmark.tmp";
-    }
-    else {
-        return m_dir + "/.kdiskmark.tmp";
-    }
-}
-
-bool AppSettings::isMixed()
-{
-    return m_mixedState;
-}
-
-void AppSettings::setMixed(bool state)
-{
-    m_mixedState = state;
+    return m_settings->value(QStringLiteral("Benchmark/FlushingCache"), defaultFlushingCacheState()).toBool();
 }
 
 void AppSettings::setFlushingCacheState(bool state)
 {
-    m_shouldFlushCache = state;
+    m_settings->setValue(QStringLiteral("Benchmark/FlushingCache"), state);
 }
 
-bool AppSettings::shouldFlushCache()
+bool AppSettings::defaultFlushingCacheState()
 {
-    return m_shouldFlushCache;
+    return true;
 }
 
-void AppSettings::restoreDefaultBenchmarkParams()
-{
-    m_SEQ_1 = m_default_SEQ_1;
-    m_SEQ_2 = m_default_SEQ_2;
-    m_RND_1 = m_default_RND_1;
-    m_RND_2 = m_default_RND_2;
-    m_intervalTime = m_default_intervalTime;
-}
+
+
+
+
+
 
 AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
 {

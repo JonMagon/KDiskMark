@@ -91,6 +91,8 @@ void Settings::findDataAndSet(QComboBox *comboBox, int data)
 
 void Settings::setActualValues()
 {
+    const AppSettings settings;
+
     AppSettings::BenchmarkParams params;
 
     params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
@@ -113,12 +115,14 @@ void Settings::setActualValues()
     findDataAndSet(ui->RND_2_Queues, params.Queues);
     findDataAndSet(ui->RND_2_Threads, params.Threads);
 
-    findDataAndSet(ui->MeasuringTime, m_settings->getMeasuringTime());
-    findDataAndSet(ui->IntervalTime, m_settings->getIntervalTime());
+    findDataAndSet(ui->MeasuringTime, settings.getMeasuringTime());
+    findDataAndSet(ui->IntervalTime, settings.getIntervalTime());
 }
 
 void Settings::on_buttonBox_clicked(QAbstractButton *button)
 {
+    AppSettings settings;
+
     if (ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
         m_settings->setBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1,
                                        ui->SEQ_1_BlockSize->currentData().toInt(),
@@ -140,14 +144,15 @@ void Settings::on_buttonBox_clicked(QAbstractButton *button)
                                        ui->RND_2_Queues->currentData().toInt(),
                                        ui->RND_2_Threads->currentData().toInt());
 
-        m_settings->setMeasuringTime(ui->MeasuringTime->currentData().toInt());
-        m_settings->setIntervalTime(ui->IntervalTime->currentData().toInt());
+        settings.setMeasuringTime(ui->MeasuringTime->currentData().toInt());
+        settings.setIntervalTime(ui->IntervalTime->currentData().toInt());
 
         close();
     }
     else if (ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
-        m_settings->restoreDefaultBenchmarkParams();
+        findDataAndSet(ui->MeasuringTime, settings.defaultMeasuringTime());
+        findDataAndSet(ui->IntervalTime, settings.defaultIntervalTime());
 
-        setActualValues();
+        //setActualValues();
     }
 }

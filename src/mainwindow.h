@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -50,6 +50,10 @@ private slots:
     void on_comboBox_MixRatio_currentIndexChanged(int index);
 
     void on_refreshStoragesButton_clicked();
+
+    void on_comboBox_fileSize_currentIndexChanged(int index);
+
+    void on_actionFlush_Pagecache_triggered(bool checked);
 
 private:
     Ui::MainWindow *ui;

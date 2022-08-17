@@ -23,20 +23,18 @@ int main(int argc, char *argv[])
     qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
     qRegisterMetaType<QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>>("QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>");
 
-    AppSettings settings;
-    settings.setupLocalization();
-    Benchmark benchmark(&settings);
+    AppSettings().setupLocalization();
 
-    if (benchmark.isFIODetected()) {
-        MainWindow w(&settings, &benchmark);
+    //if (benchmark.isFIODetected()) {
+        MainWindow w;
         w.setFixedSize(w.size());
         w.show();
 
         return a.exec();
-    }
+    /*}
     else {
         QMessageBox::critical(0, "KDiskMark",
                               QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
         return -1;
-    }
+    }*/
 }

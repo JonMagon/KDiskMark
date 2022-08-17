@@ -41,11 +41,41 @@ bool Benchmark::isFIODetected()
     return m_FIOVersion.indexOf("fio-") == 0;
 }
 
+void Benchmark::setDir(const QString &dir)
+{
+    m_dir = dir;
+}
+
+QString Benchmark::getBenchmarkFile()
+{
+    if (m_dir.isNull())
+        return QString();
+
+    if (m_dir.endsWith("/")) {
+        return m_dir + ".kdiskmark.tmp";
+    }
+    else {
+        return m_dir + "/.kdiskmark.tmp";
+    }
+}
+
+bool Benchmark::isMixed()
+{
+    return m_mixedState;
+}
+
+void Benchmark::setMixed(bool state)
+{
+    m_mixedState = state;
+}
+
 void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage)
 {
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
-    if (!prepareFile(m_settings->getBenchmarkFile(), m_settings->getFileSize(), rw)) {
+    const AppSettings settings;
+
+    if (!prepareFile(getBenchmarkFile(), settings.getFileSize(), rw)) {
         setRunning(false);
         return;
     }
@@ -54,12 +84,12 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
 
     unsigned int index = 0;
 
-    for (int i = 0; i < m_settings->getLoopsCount(); i++) {
+    for (int i = 0; i < settings.getLoopsCount(); i++) {
         if (!m_running) break;
 
-        emit benchmarkStatusUpdate(statusMessage.arg(index).arg(m_settings->getLoopsCount()));
+        emit benchmarkStatusUpdate(statusMessage.arg(index).arg(settings.getLoopsCount()));
 
-        if (m_settings->shouldFlushCache() && !flushPageCache()) {
+        if (settings.getFlusingCacheState() && !flushPageCache()) {
             setRunning(false);
             return;
         }
@@ -75,10 +105,10 @@ auto interface = helperInterface();
 if (!interface)
     exit(0); /// TEST
 
-        QDBusPendingCall pcall = interface->startTest(m_settings->getBenchmarkFile(),
-                                                      m_settings->getMeasuringTime(),
-                                                      m_settings->getFileSize(),
-                                                      m_settings->getRandomReadPercentage(),
+        QDBusPendingCall pcall = interface->startTest(getBenchmarkFile(),
+                                                      settings.getMeasuringTime(),
+                                                      settings.getFileSize(),
+                                                      settings.getRandomReadPercentage(),
                                                       blockSize, queueDepth, threads, rw);
         QEventLoop loop;
 
@@ -115,7 +145,7 @@ if (!interface)
                 sendResult(totalWrite, index);
             }
             else if (rw.contains("rw")) {
-                float p = m_settings->getRandomReadPercentage();
+                float p = settings.getRandomReadPercentage();
                 sendResult((totalRead * p + totalWrite * (100.f - p)) / 100.f, index);
             }
         };
@@ -229,6 +259,8 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
 
     iter.toFront();
 
+    AppSettings settings;
+
     AppSettings::BenchmarkParams params;
 
     QPair<Benchmark::Type, QVector<QProgressBar*>> item;
@@ -303,8 +335,8 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
         }
 
         if (iter.hasNext()) {
-            for (int i = 0; i < m_settings->getIntervalTime() && m_running; i++) {
-                emit benchmarkStatusUpdate(tr("Interval Time %1/%2 sec").arg(i).arg(m_settings->getIntervalTime()));
+            for (int i = 0, intervalTime = settings.getIntervalTime(); i < intervalTime && m_running; i++) {
+                emit benchmarkStatusUpdate(tr("Interval Time %1/%2 sec").arg(i).arg(intervalTime));
                 QEventLoop loop;
                 QTimer::singleShot(1000, &loop, SLOT(quit()));
                 loop.exec();
@@ -322,7 +354,7 @@ auto interface = helperInterface();
 if (!interface)
     exit(0);
 
-    dbusWaitForFinish(interface->removeFile(m_settings->getBenchmarkFile()));
+    dbusWaitForFinish(interface->removeFile(getBenchmarkFile()));
 
     setRunning(false);
     emit finished();

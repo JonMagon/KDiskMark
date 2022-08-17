@@ -35,6 +35,12 @@ public:
     QString getFIOVersion();
     bool isFIODetected();
 
+    void setDir(const QString &dir);
+    QString getBenchmarkFile();
+
+    void setMixed(bool state);
+    bool isMixed();
+
     void setRunning(bool state);
     bool isRunning();
 
@@ -119,6 +125,8 @@ private:
     bool m_running;
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
+    QString m_dir;
+    bool m_mixedState = false;
 
     DevJonmagonKdiskmarkHelperInterface* helperInterface();
     DBusThread *m_thread;
