@@ -4,13 +4,11 @@
 #include <QTranslator>
 #include <QMessageBox>
 #include <QLibraryInfo>
-#include <QStyleFactory>
 #include <QStandardPaths>
 
 #include "cmake.h"
 
 #include <KAuth>
-#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -20,8 +18,6 @@ int main(int argc, char *argv[])
     
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
-
-    a.setStyle(QStyleFactory::create("Fusion"));
 
     qRegisterMetaType<Benchmark::Type>("Benchmark::Type");
     qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");

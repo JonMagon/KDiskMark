@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>536</width>
-    <height>255</height>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
      <x>10</x>
      <y>40</y>
      <width>151</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
@@ -38,7 +38,7 @@
      <x>170</x>
      <y>40</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -48,7 +48,7 @@
      <x>290</x>
      <y>40</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -58,7 +58,7 @@
      <x>410</x>
      <y>40</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -66,9 +66,9 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>70</y>
+     <y>80</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -76,9 +76,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>70</y>
+     <y>80</y>
      <width>151</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
@@ -92,9 +92,9 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>70</y>
+     <y>80</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -102,9 +102,9 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>70</y>
+     <y>80</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -112,9 +112,9 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>100</y>
+     <y>120</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -122,9 +122,9 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>100</y>
+     <y>120</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -132,9 +132,9 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>100</y>
+     <y>120</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -142,9 +142,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
+     <y>120</y>
      <width>151</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
@@ -158,9 +158,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>130</y>
+     <y>160</y>
      <width>151</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
@@ -174,9 +174,9 @@
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>130</y>
+     <y>160</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -184,9 +184,9 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>130</y>
+     <y>160</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -194,9 +194,9 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>130</y>
+     <y>160</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>
@@ -252,14 +252,20 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>210</y>
+     <y>260</y>
      <width>511</width>
-     <height>31</height>
+     <height>33</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>31</height>
+       </size>
+      </property>
       <property name="standardButtons">
        <set>QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
       </property>
@@ -271,9 +277,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>170</y>
+     <y>210</y>
      <width>151</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
@@ -287,19 +293,25 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>170</y>
+     <y>210</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
    </property>
   </widget>
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
      <x>290</x>
-     <y>170</y>
+     <y>210</y>
      <width>111</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="text">
@@ -313,9 +325,9 @@
    <property name="geometry">
     <rect>
      <x>410</x>
-     <y>170</y>
+     <y>210</y>
      <width>111</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
   </widget>

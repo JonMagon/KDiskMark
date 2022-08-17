@@ -14,6 +14,8 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QInputDialog>
+#include <QAbstractItemView>
+#include <QStyleFactory>
 
 #include "math.h"
 #include "about.h"
@@ -26,6 +28,9 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    m_settings = settings;
+    m_benchmark = benchmark;
 
     QActionGroup *localesGroup = new QActionGroup(this);
 
@@ -57,8 +62,6 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
     statusBar()->hide();
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
-
-    m_settings = settings;
 
     // Default values
     ui->loopsCount->setValue(m_settings->getLoopsCount());
@@ -105,12 +108,16 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
                    << ui->readBar_3 << ui->writeBar_3 << ui->mixBar_3
                    << ui->readBar_4 << ui->writeBar_4 << ui->mixBar_4;
 
+    QStyle *progressBarStyle = QStyleFactory::create("Fusion");
+    for (auto const& progressBar: m_progressBars) {
+        progressBar->setStyle(progressBarStyle);
+    }
+
     refreshProgressBars();
 
     updateBenchmarkButtonsContent();
 
     // Set callbacks
-    m_benchmark = benchmark;
     connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
@@ -209,6 +216,8 @@ void MainWindow::on_refreshStoragesButton_clicked()
         if (foundIndex != -1) ui->comboBox_Storages->setCurrentIndex(foundIndex);
     }
 
+    // Resize items popup
+    resizeComboBoxItemsPopup(ui->comboBox_Storages);
 
     // TEST
     if (ui->comboBox_Storages->count() == 0) {
@@ -240,6 +249,23 @@ void MainWindow::updateFileSizeList()
 
     ui->comboBox_fileSize->setCurrentIndex(index);
 
+    resizeComboBoxItemsPopup(ui->comboBox_fileSize);
+}
+
+void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
+{
+    int maxWidth = 0;
+    QFontMetrics fontMetrics(combobox->font());
+    for (int i = 0; i < combobox->count(); i++)
+    {
+        int width = fontMetrics.horizontalAdvance(combobox->itemText(i));
+        if (width > maxWidth)
+            maxWidth = width;
+    }
+
+    QAbstractItemView *view = combobox->view();
+    if (view->minimumWidth() < maxWidth)
+        view->setMinimumWidth(maxWidth + view->autoScrollMargin() + combobox->style()->pixelMetric(QStyle::PM_ScrollBarExtent));
 }
 
 void MainWindow::updateBenchmarkButtonsContent()

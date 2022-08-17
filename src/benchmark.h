@@ -29,10 +29,9 @@ class Benchmark : public QObject
     Q_OBJECT
 
 public:
+    Benchmark(AppSettings *settings);
     ~Benchmark();
 
-public:
-    Benchmark(AppSettings *settings);
     QString getFIOVersion();
     bool isFIODetected();
 

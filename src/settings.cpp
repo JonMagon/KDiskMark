@@ -13,8 +13,6 @@ Settings::Settings(AppSettings *settings, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-
     m_settings = settings;
 
     for (int val : { 0, 1, 3, 5, 10, 30, 60, 180, 300, 600 }) {

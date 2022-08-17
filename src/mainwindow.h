@@ -3,12 +3,11 @@
 
 #include <QMainWindow>
 
-#include <QProgressBar>
-#include <QThreadPool>
-
 #include "benchmark.h"
 #include "appsettings.h"
 
+class QComboBox;
+class QProgressBar;
 class QStorageInfo;
 
 QT_BEGIN_NAMESPACE
@@ -18,12 +17,6 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
-private:
-    Benchmark *m_benchmark;
-    AppSettings *m_settings;
-    QVector<QProgressBar*> m_progressBars;
-    QString m_windowTitle;
 
 public:
     MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent = nullptr);
@@ -58,16 +51,13 @@ private slots:
 
     void on_refreshStoragesButton_clicked();
 
-public slots:
-    void benchmarkStatusUpdate(const QString &name);
-    void benchmarkFailed(const QString &error);
-    void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
-    void localeSelected(QAction* act);
-    void profileSelected(QAction* act);
-    void benchmarkStateChanged(bool state);
-
 private:
     Ui::MainWindow *ui;
+    Benchmark *m_benchmark;
+    AppSettings *m_settings;
+    QVector<QProgressBar*> m_progressBars;
+    QString m_windowTitle;
+
     void updateFileSizeList();
     void defineBenchmark(std::function<void()> bodyFunc);
     void closeEvent(QCloseEvent *event);
@@ -80,6 +70,15 @@ private:
     bool runCombinedRandomTest();
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
                                     const AppSettings::BenchmarkParams &params);
+    void resizeComboBoxItemsPopup(QComboBox *combobox);
+
+public slots:
+    void benchmarkStatusUpdate(const QString &name);
+    void benchmarkFailed(const QString &error);
+    void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
+    void localeSelected(QAction* act);
+    void profileSelected(QAction* act);
+    void benchmarkStateChanged(bool state);
 
 protected slots:
     virtual void changeEvent(QEvent * event);

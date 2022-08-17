@@ -13,8 +13,6 @@ About::About(const QString &FIOVersion, QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-
     ui->label_Version->setText(qApp->applicationVersion());
     ui->label_FIO->setText(FIOVersion);
 
