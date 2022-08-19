@@ -15,10 +15,8 @@ class Settings : public QDialog
 {
     Q_OBJECT
 
-    AppSettings *m_settings;
-
 public:
-    explicit Settings(AppSettings *settings, QWidget *parent = nullptr);
+    explicit Settings(QWidget *parent = nullptr);
     ~Settings();
 
 private slots:
@@ -26,7 +24,6 @@ private slots:
 
 private:
     Ui::Settings *ui;
-    void setActualValues();
     void findDataAndSet(QComboBox* comboBox, int data);
 };
 

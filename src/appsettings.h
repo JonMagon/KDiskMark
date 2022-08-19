@@ -5,6 +5,8 @@
 #include <QLocale>
 #include <QString>
 
+#include "global.h"
+
 class QTranslator;
 class QSettings;
 
@@ -14,34 +16,6 @@ class AppSettings : public QObject
     Q_DISABLE_COPY(AppSettings)
 
 public:
-    enum BenchmarkTest {
-        SEQ_1,
-        SEQ_2,
-        RND_1,
-        RND_2
-    };
-
-    struct BenchmarkParams {
-        int BlockSize; // KiB
-        int Queues;
-        int Threads;
-    };
-
-    enum ComparisonField {
-        MBPerSec,
-        GBPerSec,
-        IOPS,
-        Latency,
-    } comprasionField = MBPerSec;
-
-    Q_ENUM(ComparisonField)
-
-    enum PerformanceProfile {
-        Default,
-        Peak,
-        RealWorld
-    } performanceProfile = Default;
-
     AppSettings(QObject *parent = nullptr);
 
     void setupLocalization();
@@ -50,8 +24,9 @@ public:
     static void applyLocale(const QLocale &locale);
     static QLocale defaultLocale();
 
-    BenchmarkParams getBenchmarkParams(BenchmarkTest test);
-    void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
+    Global::BenchmarkParams getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile = Global::PerformanceProfile::Default) const;
+    void setBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkParams params);
+    static Global::BenchmarkParams defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile);
 
     int getLoopsCount() const;
     void setLoopsCount(int loopsCount);
@@ -78,19 +53,6 @@ public:
     static bool defaultFlushingCacheState();
 
 private:
-    const BenchmarkParams m_default_SEQ_1 { 1024,  8,  1 };
-    const BenchmarkParams m_default_SEQ_2 { 1024,  1,  1 };
-    const BenchmarkParams m_default_RND_1 {    4, 32,  1 };
-    const BenchmarkParams m_default_RND_2 {    4,  1,  1 };
-
-    const BenchmarkParams m_RealWorld_SEQ { 1024,  1,  1 };
-    const BenchmarkParams m_RealWorld_RND {    4,  1,  1 };
-
-    BenchmarkParams m_SEQ_1 = m_default_SEQ_1;
-    BenchmarkParams m_SEQ_2 = m_default_SEQ_2;
-    BenchmarkParams m_RND_1 = m_default_RND_1;
-    BenchmarkParams m_RND_2 = m_default_RND_2;
-
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;
 

@@ -73,7 +73,7 @@ private:
     void updateLabels();
     bool runCombinedRandomTest();
     QString combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
-                                    const AppSettings::BenchmarkParams &params);
+                                    const Global::BenchmarkParams &params);
     void resizeComboBoxItemsPopup(QComboBox *combobox);
 
 public slots:

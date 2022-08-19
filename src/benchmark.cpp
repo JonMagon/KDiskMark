@@ -10,7 +10,6 @@
 
 #include <KAuth>
 
-#include "appsettings.h"
 #include "global.h"
 
 #include "helper_interface.h"
@@ -124,14 +123,14 @@ if (!interface)
 
                 auto result = parseResult(output, errorOutput);
 
-                switch (m_settings->performanceProfile)
+                switch (this->performanceProfile)
                 {
-                    case AppSettings::PerformanceProfile::Default:
+                    case Global::PerformanceProfile::Default:
                         totalRead  += result.read;
                         totalWrite += result.write;
                     break;
-                    case AppSettings::PerformanceProfile::Peak:
-                    case AppSettings::PerformanceProfile::RealWorld:
+                    case Global::PerformanceProfile::Peak:
+                    case Global::PerformanceProfile::RealWorld:
                         totalRead.updateWithBetterValues(result.read);
                         totalWrite.updateWithBetterValues(result.write);
                     break;
@@ -160,7 +159,7 @@ if (!interface)
 
 void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int index)
 {
-    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default) {
+    if (this->performanceProfile == Global::PerformanceProfile::Default) {
         for (auto progressBar : m_progressBars) {
             emit resultReady(progressBar, result / index);
         }
@@ -244,11 +243,11 @@ bool Benchmark::isRunning()
     return m_running;
 }
 
-void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests)
+void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> tests)
 {
     setRunning(true);
 
-    QListIterator<QPair<Benchmark::Type, QVector<QProgressBar*>>> iter(tests);
+    QListIterator<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> iter(tests);
     // Set to 0 all the progressbars for current tests
     while (iter.hasNext()) {
         auto progressBars = iter.next().second;
@@ -261,76 +260,46 @@ void Benchmark::runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>
 
     AppSettings settings;
 
-    AppSettings::BenchmarkParams params;
-
-    QPair<Benchmark::Type, QVector<QProgressBar*>> item;
+    QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>> item;
 
     while (iter.hasNext() && m_running) {
         item = iter.next();
 
         m_progressBars = item.second;
 
-        switch (item.first)
+        Global::BenchmarkParams params = settings.getBenchmarkParams(item.first.first, performanceProfile);
+
+        switch (item.first.second)
         {
-        case SEQ_1_Read:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
+        case Global::BenchmarkIOReadWrite::Read:
+            if (params.Pattern == Global::BenchmarkIOPattern::SEQ) {
+                startTest(params.BlockSize, params.Queues, params.Threads,
+                          Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
+            }
+            else {
+                startTest(params.BlockSize, params.Queues, params.Threads,
+                          Global::getRWRandomRead(), tr("Random Read %1/%2"));
+            }
             break;
-        case SEQ_1_Write:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
+        case Global::BenchmarkIOReadWrite::Write:
+            if (params.Pattern == Global::BenchmarkIOPattern::SEQ) {
+                startTest(params.BlockSize, params.Queues, params.Threads,
+                          Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
+            }
+            else {
+                startTest(params.BlockSize, params.Queues, params.Threads,
+                          Global::getRWRandomWrite(), tr("Random Write %1/%2"));
+            }
             break;
-        case SEQ_1_Mix:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
-            break;
-        case SEQ_2_Read:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            startTest(params.BlockSize, params.Queues,params.Threads,
-                      Global::getRWSequentialRead(), tr("Sequential Read %1/%2"));
-            break;
-        case SEQ_2_Write:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWSequentialWrite(), tr("Sequential Write %1/%2"));
-            break;
-        case SEQ_2_Mix:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
-            break;
-        case RND_1_Read:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWRandomRead(), tr("Random Read %1/%2"));
-            break;
-        case RND_1_Write:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWRandomWrite(), tr("Random Write %1/%2"));
-            break;
-        case RND_1_Mix:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
-            break;
-        case RND_2_Read:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWRandomRead(), tr("Random Read %1/%2"));
-            break;
-        case RND_2_Write:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWRandomWrite(), tr("Random Write %1/%2"));
-            break;
-        case RND_2_Mix:
-            params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-            startTest(params.BlockSize, params.Queues, params.Threads,
-                      Global::getRWSequentialMix(), tr("Random Mix %1/%2"));
+        case Global::BenchmarkIOReadWrite::Mix:
+            if (params.Pattern == Global::BenchmarkIOPattern::SEQ) {
+                startTest(params.BlockSize, params.Queues, params.Threads,
+                          Global::getRWSequentialMix(), tr("Sequential Mix %1/%2"));
+            }
+            else {
+                startTest(params.BlockSize, params.Queues, params.Threads,
+                          Global::getRWRandomMix(), tr("Random Mix %1/%2"));
+            }
             break;
         }
 

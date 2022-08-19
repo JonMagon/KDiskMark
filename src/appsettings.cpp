@@ -8,6 +8,7 @@
 #include <QStandardPaths>
 #include <QLibraryInfo>
 #include <QSettings>
+#include <QMetaEnum>
 
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
@@ -48,11 +49,8 @@ void AppSettings::applyLocale(const QLocale &locale)
 
 QLocale AppSettings::defaultLocale()
 {
-    return QLocale::c(); // C locale is used as the system language on apply
+    return QLocale::c();
 }
-
-
-
 
 int AppSettings::getLoopsCount() const
 {
@@ -144,43 +142,74 @@ bool AppSettings::defaultFlushingCacheState()
     return true;
 }
 
-
-
-
-
-
-
-AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
+Global::BenchmarkParams AppSettings::getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile) const
 {
-    switch (test)
-    {
-    case SEQ_1:
-        return performanceProfile != PerformanceProfile::RealWorld ? m_SEQ_1 : m_RealWorld_SEQ;
-    case SEQ_2:
-        return m_SEQ_2;
-    case RND_1:
-        return performanceProfile != PerformanceProfile::RealWorld ? m_RND_1 : m_RealWorld_RND;
-    case RND_2:
-        return m_RND_2;
-    }
-    Q_UNREACHABLE();
+    Global::BenchmarkParams defaultSet = defaultBenchmarkParams(test, profile);
+    if (profile == Global::PerformanceProfile::RealWorld) return defaultSet;
+
+    QString settingKey = QStringLiteral("Benchmark/Params/%1/%2/%3")
+            .arg(QMetaEnum::fromType<Global::PerformanceProfile>().valueToKey(profile))
+            .arg(QMetaEnum::fromType<Global::BenchmarkTest>().valueToKey(test));
+
+    return {
+        (Global::BenchmarkIOPattern)m_settings->value(settingKey.arg("Pattern"), defaultSet.Pattern).toInt(),
+        m_settings->value(settingKey.arg("BlockSize"), defaultSet.BlockSize).toInt(),
+        m_settings->value(settingKey.arg("Queues"), defaultSet.Queues).toInt(),
+        m_settings->value(settingKey.arg("Threads"), defaultSet.Threads).toInt()
+    };
 }
 
-void AppSettings::setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads)
+void AppSettings::setBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkParams params)
 {
-    switch (test)
+    QString settingKey = QStringLiteral("Benchmark/Params/%1/%2/%3")
+            .arg(QMetaEnum::fromType<Global::PerformanceProfile>().valueToKey(profile))
+            .arg(QMetaEnum::fromType<Global::BenchmarkTest>().valueToKey(test));
+
+    m_settings->setValue(settingKey.arg("Pattern"), params.Pattern);
+    m_settings->setValue(settingKey.arg("BlockSize"), params.BlockSize);
+    m_settings->setValue(settingKey.arg("Queues"), params.Queues);
+    m_settings->setValue(settingKey.arg("Threads"), params.Threads);
+}
+
+Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile)
+{
+    switch (profile)
     {
-    case SEQ_1:
-        m_SEQ_1 = { blockSize, queues, threads };
-        break;
-    case SEQ_2:
-        m_SEQ_2 = { blockSize, queues, threads };
-        break;
-    case RND_1:
-        m_RND_1 = { blockSize, queues, threads };
-        break;
-    case RND_2:
-        m_RND_2 = { blockSize, queues, threads };
-        break;
+        case Global::PerformanceProfile::Default:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
+            case Global::BenchmarkTest::Test_2:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  1,  1 };
+            case Global::BenchmarkTest::Test_3:
+                return { Global::BenchmarkIOPattern::RND,    4, 32,  1 };
+            case Global::BenchmarkTest::Test_4:
+                return { Global::BenchmarkIOPattern::RND,    4,  1,  1 };
+            }
+            break;
+        case Global::PerformanceProfile::Peak:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
+            case Global::BenchmarkTest::Test_2:
+                return { Global::BenchmarkIOPattern::RND,    4, 32,  1 };
+            }
+        case Global::PerformanceProfile::Demo:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
+            }
+        case Global::PerformanceProfile::RealWorld:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  1,  1 };
+            case Global::BenchmarkTest::Test_2:
+                return { Global::BenchmarkIOPattern::RND,    4,  1,  1 };
+            }
     }
+    Q_UNREACHABLE();
 }

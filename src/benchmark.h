@@ -10,7 +10,8 @@
 
 #include <memory>
 
-class AppSettings;
+#include "appsettings.h"
+
 class QDBusPendingCall;
 class DevJonmagonKdiskmarkHelperInterface;
 
@@ -50,22 +51,18 @@ public:
 
     bool listStorages();
 
-    enum Type {
-        SEQ_1_Read,
-        SEQ_1_Write,
-        SEQ_1_Mix,
-        SEQ_2_Read,
-        SEQ_2_Write,
-        SEQ_2_Mix,
-        RND_1_Read,
-        RND_1_Write,
-        RND_1_Mix,
-        RND_2_Read,
-        RND_2_Write,
-        RND_2_Mix
-    };
+    enum ComparisonField {
+        MBPerSec,
+        GBPerSec,
+        IOPS,
+        Latency,
+    } comprasionField = MBPerSec;
 
-    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests);
+    Q_ENUM(ComparisonField)
+
+    Global::PerformanceProfile performanceProfile = Global::PerformanceProfile::Default;
+
+    void runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> tests);
 
     struct PerformanceResult
     {
@@ -152,7 +149,6 @@ signals:
     void runningStateChanged(bool state);
 };
 
-Q_DECLARE_METATYPE(Benchmark::Type)
 Q_DECLARE_METATYPE(Benchmark::PerformanceResult)
 
 #endif // BENCHMARK_H

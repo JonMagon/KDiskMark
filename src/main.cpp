@@ -19,9 +19,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
-    qRegisterMetaType<Benchmark::Type>("Benchmark::Type");
     qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
-    qRegisterMetaType<QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>>("QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>");
 
     AppSettings().setupLocalization();
 
