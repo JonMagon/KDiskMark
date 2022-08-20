@@ -247,10 +247,15 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 {
     setRunning(true);
 
-    QListIterator<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> iter(tests);
+    QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>> item;
+
+    QMutableListIterator<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> iter(tests);
     // Set to 0 all the progressbars for current tests
     while (iter.hasNext()) {
-        auto progressBars = iter.next().second;
+        item = iter.next();
+        if (item.first.second == Global::BenchmarkIOReadWrite::Read && this->benchmarkMode == Global::BenchmarkMode::WriteMix) { iter.remove(); continue; }
+        if (item.first.second == Global::BenchmarkIOReadWrite::Write && this->benchmarkMode == Global::BenchmarkMode::ReadMix) { iter.remove(); continue; }
+        auto progressBars = item.second;
         for (auto obj : progressBars) {
             emit resultReady(obj, PerformanceResult());
         }
@@ -259,8 +264,6 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     iter.toFront();
 
     AppSettings settings;
-
-    QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>> item;
 
     while (iter.hasNext() && m_running) {
         item = iter.next();

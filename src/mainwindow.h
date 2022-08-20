@@ -80,6 +80,7 @@ public slots:
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void localeSelected(QAction* act);
     void profileSelected(QAction* act);
+    void modeSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 
 protected slots:

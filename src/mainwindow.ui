@@ -1024,6 +1024,10 @@
     <addaction name="actionDefault_Mix"/>
     <addaction name="actionPeak_Performance_Mix"/>
     <addaction name="actionReal_World_Performance_Mix"/>
+    <addaction name="separator"/>
+    <addaction name="actionRead_Write_Mix"/>
+    <addaction name="actionRead_Mix"/>
+    <addaction name="actionWrite_Mix"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1136,6 +1140,38 @@
    </property>
    <property name="text">
     <string>Demo</string>
+   </property>
+  </action>
+  <action name="actiongfdg">
+   <property name="text">
+    <string>Read &amp; Write [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionRead_Write_Mix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Read and Write [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionRead_Mix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Read [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionWrite_Mix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Write [+Mix]</string>
    </property>
   </action>
  </widget>

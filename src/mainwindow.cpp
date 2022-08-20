@@ -94,6 +94,17 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(profilesGroup, SIGNAL(triggered(QAction*)), this, SLOT(profileSelected(QAction*)));
 
+    ui->actionRead_Write_Mix->setProperty("mode", Global::BenchmarkMode::ReadWriteMix);
+    ui->actionRead_Mix->setProperty("mode", Global::BenchmarkMode::ReadMix);
+    ui->actionWrite_Mix->setProperty("mode", Global::BenchmarkMode::WriteMix);
+
+    QActionGroup *modesGroup = new QActionGroup(this);
+    ui->actionRead_Write_Mix->setActionGroup(modesGroup);
+    ui->actionRead_Mix->setActionGroup(modesGroup);
+    ui->actionWrite_Mix->setActionGroup(modesGroup);
+
+    connect(modesGroup, SIGNAL(triggered(QAction*)), this, SLOT(modeSelected(QAction*)));
+
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
 
     profileSelected(ui->actionDefault);
@@ -601,6 +612,11 @@ void MainWindow::profileSelected(QAction* act)
 
     refreshProgressBars();
     updateBenchmarkButtonsContent();
+}
+
+void MainWindow::modeSelected(QAction* act)
+{
+    m_benchmark->benchmarkMode = (Global::BenchmarkMode)act->property("mode").toInt();
 }
 
 void MainWindow::benchmarkStateChanged(bool state)

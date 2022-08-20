@@ -43,6 +43,12 @@ namespace Global
     };
     Q_ENUM_NS(PerformanceProfile)
 
+    enum BenchmarkMode {
+        ReadWriteMix,
+        ReadMix,
+        WriteMix
+    };
+
     int getOutputColumnsCount();
     QString getBenchmarkButtonText(BenchmarkParams params, QString paramsLine = QStringLiteral());
     QString getBenchmarkButtonToolTip(BenchmarkParams params, bool extraField = false);
