@@ -38,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
-                                 QLocale::French, QLocale::Italian, QLocale::Polish,
-                                 QLocale(QLocale::Portuguese, QLocale::Brazil),
+                                 QLocale::French, QLocale::Italian, QLocale::Hungarian,
+                                 QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil),
                                  QLocale::Slovak, QLocale::Turkish, QLocale::Russian,
                                  QLocale::Ukrainian, QLocale::Chinese, QLocale::Hindi };
 

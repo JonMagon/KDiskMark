@@ -72,6 +72,7 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_es_MX.ts
     data/translations/${PROJECT_NAME}_fr_FR.ts
     data/translations/${PROJECT_NAME}_hi_IN.ts
+    data/translations/${PROJECT_NAME}_hu_HU.ts
     data/translations/${PROJECT_NAME}_it_IT.ts
     data/translations/${PROJECT_NAME}_pl_PL.ts
     data/translations/${PROJECT_NAME}_pt_BR.ts
@@ -108,7 +109,11 @@ add_executable(${PROJECT_NAME}
     src/diskdriveinfo.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets Qt5::DBus KF5::Auth)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt5::Widgets
+    Qt5::DBus
+    KF5::Auth
+)
 
 set(APP_ICONS
     data/icons/16-apps-kdiskmark.png
