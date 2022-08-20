@@ -397,16 +397,15 @@ void MainWindow::updateLabels()
     ui->label_Unit_Write_Demo->setText(ui->comboBox_ComparisonField->currentText());
 }
 
-QString MainWindow::combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
-                                            const Global::BenchmarkParams &params)
+QString MainWindow::combineOutputTestResult(const QProgressBar *progressBar, const Global::BenchmarkParams &params)
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
 
     return QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
-           .arg(name)
+           .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? "Sequential" : "Random")
            .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
            .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
-           .arg(QString::number(params.Queues).rightJustified(2, ' '))
+           .arg(QString::number(params.Queues).rightJustified(3, ' '))
            .arg(QString::number(params.Threads).rightJustified(2, ' '))
            .arg(QString::number(
                     progressBar->property(metaEnum.valueToKey(Benchmark::MBPerSec)).toFloat(), 'f', 3)
@@ -421,7 +420,7 @@ QString MainWindow::combineOutputTestResult(const QString &name, const QProgress
 }
 
 QString MainWindow::getTextBenchmarkResult()
-{/*
+{
     const AppSettings settings;
 
     QStringList output;
@@ -437,58 +436,58 @@ QString MainWindow::getTextBenchmarkResult()
            << "* KB = 1000 bytes, KiB = 1024 bytes";
 
     output << QString()
-           << "[Read]"
-           << combineOutputTestResult("Sequential", ui->readBar_1,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::SEQ_1));
-    if (m_benchmark->performanceProfile == Benchmark::PerformanceProfile::Default)
-    output << combineOutputTestResult("Sequential", ui->readBar_2,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::SEQ_2));
-    output << combineOutputTestResult("Random", ui->readBar_3,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::RND_1));
-    if (m_benchmark->performanceProfile == Benchmark::PerformanceProfile::Default)
-    output << combineOutputTestResult("Random", ui->readBar_4,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::RND_2));
+           << "[Read]";
+    if (m_benchmark->performanceProfile == Global::PerformanceProfile::Demo) {
+        output << combineOutputTestResult(ui->readBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
+    }
+    else {
+        output << combineOutputTestResult(ui->readBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
+        output << combineOutputTestResult(ui->readBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, m_benchmark->performanceProfile));
+        if (m_benchmark->performanceProfile == Global::PerformanceProfile::Default) {
+            output << combineOutputTestResult(ui->readBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, m_benchmark->performanceProfile));
+            output << combineOutputTestResult(ui->readBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, m_benchmark->performanceProfile));
+        }
+    }
 
     output << QString()
-           << "[Write]"
-           << combineOutputTestResult("Sequential", ui->writeBar_1,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::SEQ_1));
-    if (m_benchmark->performanceProfile == Benchmark::PerformanceProfile::Default)
-    output << combineOutputTestResult("Sequential", ui->writeBar_2,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::SEQ_2));
-    output << combineOutputTestResult("Random", ui->writeBar_3,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::RND_1));
-    if (m_benchmark->performanceProfile == Benchmark::PerformanceProfile::Default)
-    output << combineOutputTestResult("Random", ui->writeBar_4,
-                                      settings.getBenchmarkParams(Global::BenchmarkTest::RND_2));
+           << "[Write]";
+    if (m_benchmark->performanceProfile == Global::PerformanceProfile::Demo) {
+        output << combineOutputTestResult(ui->writeBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
+    }
+    else {
+        output << combineOutputTestResult(ui->writeBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
+        output << combineOutputTestResult(ui->writeBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, m_benchmark->performanceProfile));
+        if (m_benchmark->performanceProfile == Global::PerformanceProfile::Default) {
+            output << combineOutputTestResult(ui->writeBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, m_benchmark->performanceProfile));
+            output << combineOutputTestResult(ui->writeBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, m_benchmark->performanceProfile));
+        }
+    }
 
-    if (m_benchmark->isMixed()) {
+    if (m_benchmark->isMixed() && m_benchmark->performanceProfile != Global::PerformanceProfile::Demo) {
          output << QString()
                 << QString("[Mix] Read %1%/Write %2%")
                    .arg(settings.getRandomReadPercentage())
                    .arg(100 - settings.getRandomReadPercentage())
-                << combineOutputTestResult("Sequential", ui->mixBar_1,
-                                           settings.getBenchmarkParams(Global::BenchmarkTest::SEQ_1));
-         if (m_benchmark->performanceProfile == Benchmark::PerformanceProfile::Default)
-         output << combineOutputTestResult("Sequential", ui->mixBar_2,
-                                           settings.getBenchmarkParams(Global::BenchmarkTest::SEQ_2));
-         output << combineOutputTestResult("Random", ui->mixBar_3,
-                                           settings.getBenchmarkParams(Global::BenchmarkTest::RND_1));
-         if (m_benchmark->performanceProfile == Benchmark::PerformanceProfile::Default)
-         output << combineOutputTestResult("Random", ui->mixBar_4,
-                                           settings.getBenchmarkParams(Global::BenchmarkTest::RND_2));
+                << combineOutputTestResult(ui->mixBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile))
+                << combineOutputTestResult(ui->mixBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, m_benchmark->performanceProfile));
+             if (m_benchmark->performanceProfile == Global::PerformanceProfile::Default) {
+                 output << combineOutputTestResult(ui->mixBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, m_benchmark->performanceProfile));
+                 output << combineOutputTestResult(ui->mixBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, m_benchmark->performanceProfile));
+             }
     }
 
-    QString profiles[] = { "Default", "Peak Performance", "Real World Performance" };
+    QString profiles[] = { "Default", "Peak Performance", "Real World Performance", "Demo" };
 
     output << QString()
            << QString("Profile: %1%2")
               .arg(profiles[(int)m_benchmark->performanceProfile]).arg(m_benchmark->isMixed() ? " [+Mix]" : QString())
            << QString("   Test: %1")
-              .arg("%1 %2 (x%3) [Interval: %4 %5]")
+              .arg("%1 %2 (x%3) [Measure: %4 %5 / Interval: %6 %7]")
               .arg(settings.getFileSize() >= 1024 ? settings.getFileSize() / 1024 : settings.getFileSize())
               .arg(settings.getFileSize() >= 1024 ? "GiB" : "MiB")
               .arg(settings.getLoopsCount())
+              .arg(settings.getMeasuringTime() >= 60 ? settings.getMeasuringTime() / 60 : settings.getMeasuringTime())
+              .arg(settings.getMeasuringTime() >= 60 ? "min" : "sec")
               .arg(settings.getIntervalTime() >= 60 ? settings.getIntervalTime() / 60 : settings.getIntervalTime())
               .arg(settings.getIntervalTime() >= 60 ? "min" : "sec")
            << QString("   Date: %1 %2")
@@ -497,7 +496,7 @@ QString MainWindow::getTextBenchmarkResult()
            << QString("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
               .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
 
-    return output.join("\n");*/
+    return output.join("\n");
 }
 
 void MainWindow::copyBenchmarkResult()
@@ -581,10 +580,9 @@ void MainWindow::profileSelected(QAction* act)
         break;
     case Global::PerformanceProfile::Demo:
         m_windowTitle = "KDiskMark <DEMO>";
+        ui->comboBox_ComparisonField->setVisible(true);
         break;
     }
-
-
 
     setWindowTitle(m_windowTitle);
 

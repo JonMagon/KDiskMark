@@ -5,7 +5,7 @@
 
 int Global::getOutputColumnsCount()
 {
-    return 77;
+    return 78;
 }
 
 QString Global::getBenchmarkButtonText(BenchmarkParams params, QString paramsLine)
