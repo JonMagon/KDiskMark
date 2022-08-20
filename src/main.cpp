@@ -23,16 +23,16 @@ int main(int argc, char *argv[])
 
     AppSettings().setupLocalization();
 
-    //if (benchmark.isFIODetected()) {
+    if (Benchmark().isFIODetected()) {
         MainWindow w;
         w.setFixedSize(w.size());
         w.show();
 
         return a.exec();
-    /*}
+    }
     else {
         QMessageBox::critical(0, "KDiskMark",
                               QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
         return -1;
-    }*/
+    }
 }

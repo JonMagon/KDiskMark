@@ -14,10 +14,9 @@
 
 #include "helper_interface.h"
 
-Benchmark::Benchmark(AppSettings *settings)
+Benchmark::Benchmark()
 {
     m_running = false;
-    m_settings = settings;
 
     QProcess process;
     process.start("fio", {"--version"});

@@ -58,7 +58,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Benchmark *m_benchmark;
-    AppSettings *m_settings;
     QVector<QProgressBar*> m_progressBars;
     QString m_windowTitle;
 

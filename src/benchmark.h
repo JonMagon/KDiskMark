@@ -28,9 +28,10 @@ class DBusThread : public QThread
 class Benchmark : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(Benchmark)
 
 public:
-    Benchmark(AppSettings *settings);
+    Benchmark();
     ~Benchmark();
 
     QString getFIOVersion();
@@ -118,7 +119,6 @@ public:
     QVector<Storage> storages;
 
 private:
-    AppSettings *m_settings;
     bool m_running;
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;

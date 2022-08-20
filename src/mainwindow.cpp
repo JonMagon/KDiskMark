@@ -26,13 +26,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , m_benchmark(new Benchmark(new AppSettings))
+    , m_benchmark(new Benchmark)
 {
     ui->setupUi(this);
 
     const AppSettings settings;
-
-    m_settings = new AppSettings;
 
     QActionGroup *localesGroup = new QActionGroup(this);
 
@@ -549,9 +547,11 @@ void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
 
 void MainWindow::localeSelected(QAction* act)
 {
+    AppSettings settings;
+
     if (!act->data().canConvert<QLocale>()) return;
 
-    m_settings->setLocale(act->data().toLocale());
+    settings.setLocale(act->data().toLocale());
 }
 
 void MainWindow::profileSelected(QAction* act)
