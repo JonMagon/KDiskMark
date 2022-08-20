@@ -394,6 +394,9 @@ void MainWindow::updateLabels()
 
     ui->label_Mix->setText(Global::getComparisonLabelTemplate()
                              .arg(tr("Mix"), ui->comboBox_ComparisonField->currentText()));
+
+    ui->label_Unit_Read_Demo->setText(ui->comboBox_ComparisonField->currentText());
+    ui->label_Unit_Write_Demo->setText(ui->comboBox_ComparisonField->currentText());
 }
 
 QString MainWindow::combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
