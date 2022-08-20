@@ -86,7 +86,7 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
     for (int i = 0; i < settings.getLoopsCount(); i++) {
         if (!m_running) break;
 
-        emit benchmarkStatusUpdate(statusMessage.arg(index).arg(settings.getLoopsCount()));
+        emit benchmarkStatusUpdate(statusMessage.arg(index + 1).arg(settings.getLoopsCount()));
 
         if (settings.getFlusingCacheState() && !flushPageCache()) {
             setRunning(false);
@@ -126,6 +126,7 @@ if (!interface)
                 switch (this->performanceProfile)
                 {
                     case Global::PerformanceProfile::Default:
+                    case Global::PerformanceProfile::Demo:
                         totalRead  += result.read;
                         totalWrite += result.write;
                     break;
@@ -159,7 +160,7 @@ if (!interface)
 
 void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int index)
 {
-    if (this->performanceProfile == Global::PerformanceProfile::Default) {
+    if (this->performanceProfile == Global::PerformanceProfile::Default || this->performanceProfile == Global::PerformanceProfile::Demo) {
         for (auto progressBar : m_progressBars) {
             emit resultReady(progressBar, result / index);
         }

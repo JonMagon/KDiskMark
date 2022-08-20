@@ -196,12 +196,6 @@ Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTes
             case Global::BenchmarkTest::Test_2:
                 return { Global::BenchmarkIOPattern::RND,    4, 32,  1 };
             }
-        case Global::PerformanceProfile::Demo:
-            switch (test)
-            {
-            case Global::BenchmarkTest::Test_1:
-                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
-            }
         case Global::PerformanceProfile::RealWorld:
             switch (test)
             {
@@ -209,6 +203,12 @@ Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTes
                 return { Global::BenchmarkIOPattern::SEQ, 1024,  1,  1 };
             case Global::BenchmarkTest::Test_2:
                 return { Global::BenchmarkIOPattern::RND,    4,  1,  1 };
+            }
+        case Global::PerformanceProfile::Demo:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
             }
     }
     Q_UNREACHABLE();

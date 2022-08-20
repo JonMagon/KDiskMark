@@ -13,7 +13,7 @@ QString Global::getBenchmarkButtonText(BenchmarkParams params, QString paramsLin
     QString text = QStringLiteral("%1%2%3\n%4")
             .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? QStringLiteral("SEQ") : QStringLiteral("RND"))
             .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
-            .arg(params.BlockSize >= 1024 ? QStringLiteral("M") :QStringLiteral("K"));
+            .arg(params.BlockSize >= 1024 ? QStringLiteral("M") : QStringLiteral("K"));
     if (paramsLine.isEmpty())
         return text.arg("Q%1T%2").arg(params.Queues).arg(params.Threads);
     else

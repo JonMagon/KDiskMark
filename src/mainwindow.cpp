@@ -76,6 +76,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionPeak_Performance->setProperty("mixed", false);
     ui->actionReal_World_Performance->setProperty("profile", Global::PerformanceProfile::RealWorld);
     ui->actionReal_World_Performance->setProperty("mixed", false);
+    ui->actionDemo->setProperty("profile", Global::PerformanceProfile::Demo);
+    ui->actionDemo->setProperty("mixed", false);
     ui->actionDefault_Mix->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault_Mix->setProperty("mixed", true);
     ui->actionPeak_Performance_Mix->setProperty("profile", Global::PerformanceProfile::Peak);
@@ -87,6 +89,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionDefault->setActionGroup(profilesGroup);
     ui->actionPeak_Performance->setActionGroup(profilesGroup);
     ui->actionReal_World_Performance->setActionGroup(profilesGroup);
+    ui->actionDemo->setActionGroup(profilesGroup);
     ui->actionDefault_Mix->setActionGroup(profilesGroup);
     ui->actionPeak_Performance_Mix->setActionGroup(profilesGroup);
     ui->actionReal_World_Performance_Mix->setActionGroup(profilesGroup);
@@ -110,7 +113,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_progressBars << ui->readBar_1 << ui->writeBar_1 << ui->mixBar_1
                    << ui->readBar_2 << ui->writeBar_2 << ui->mixBar_2
                    << ui->readBar_3 << ui->writeBar_3 << ui->mixBar_3
-                   << ui->readBar_4 << ui->writeBar_4 << ui->mixBar_4;
+                   << ui->readBar_4 << ui->writeBar_4 << ui->mixBar_4
+                   << ui->readBar_Demo << ui->writeBar_Demo;
 
     QStyle *progressBarStyle = QStyleFactory::create("Fusion");
     for (auto const& progressBar: m_progressBars) {
@@ -173,12 +177,13 @@ void MainWindow::changeEvent(QEvent *event)
         QLocale locale = QLocale();
 
         for (auto const& progressBar: m_progressBars) {
-            progressBar->setToolTip(
-                Global::getToolTipTemplate().arg(
-                    locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::MBPerSec)).toFloat(), 'f', 3),
-                    locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::GBPerSec)).toFloat(), 'f', 3),
-                    locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::IOPS)).toFloat(), 'f', 3),
-                    locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::Latency)).toFloat(), 'f', 3)));
+            if (!progressBar->property("Demo").toBool())
+                progressBar->setToolTip(
+                    Global::getToolTipTemplate().arg(
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::MBPerSec)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::GBPerSec)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::IOPS)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::Latency)).toFloat(), 'f', 3)));
             updateProgressBar(progressBar);
         }
 
@@ -319,6 +324,13 @@ void MainWindow::updateBenchmarkButtonsContent()
         ui->pushButton_Test_4->setText(Global::getBenchmarkButtonText(params, tr("μs")));
         ui->pushButton_Test_4->setToolTip(Global::getBenchmarkButtonToolTip(params, true).arg(tr("μs")));
         break;
+    case Global::PerformanceProfile::Demo:
+        ui->label_Demo->setText(QStringLiteral("%1 %2 %3, Q=%4, T=%5")
+                                .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? QStringLiteral("SEQ") : QStringLiteral("RND"))
+                                .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
+                                .arg(params.BlockSize >= 1024 ? tr("MiB") : tr("KiB"))
+                                .arg(params.Queues).arg(params.Threads));
+        break;
     }
 }
 
@@ -334,7 +346,8 @@ void MainWindow::refreshProgressBars()
         progressBar->setProperty(metaEnum.valueToKey(Benchmark::IOPS), 0);
         progressBar->setProperty(metaEnum.valueToKey(Benchmark::Latency), 0);
         progressBar->setValue(0);
-        progressBar->setFormat(locale.toString(0., 'f', 2));
+        progressBar->setFormat(locale.toString(0., 'f', progressBar->property("Demo").toBool() ? 1 : 2));
+        if (!progressBar->property("Demo").toBool())
         progressBar->setToolTip(
                     Global::getToolTipTemplate().arg(
                         locale.toString(0., 'f', 3),
@@ -563,13 +576,20 @@ void MainWindow::profileSelected(QAction* act)
         ui->comboBox_ComparisonField->setCurrentIndex(0);
         ui->comboBox_ComparisonField->setVisible(false);
         break;
+    case Global::PerformanceProfile::Demo:
+        m_windowTitle = "KDiskMark <DEMO>";
+        break;
     }
+
+
 
     setWindowTitle(m_windowTitle);
 
     m_benchmark->performanceProfile = (Global::PerformanceProfile)act->property("profile").toInt();
 
-    int right = isMixed ? ui->mixWidget->geometry().right() : ui->writeWidget->geometry().right();
+    ui->stackedWidget->setCurrentIndex(m_benchmark->performanceProfile == Global::PerformanceProfile::Demo ? 1 : 0);
+
+    int right = (isMixed ? ui->mixWidget->geometry().right() : ui->writeWidget->geometry().right()) + ui->stackedWidget->geometry().x();
 
     ui->targetLayoutWidget->resize(right - ui->targetLayoutWidget->geometry().left(),
                                    ui->targetLayoutWidget->geometry().height());
@@ -685,16 +705,18 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
     progressBar->setProperty(metaEnum.valueToKey(Benchmark::IOPS), result.IOPS);
     progressBar->setProperty(metaEnum.valueToKey(Benchmark::Latency), result.Latency);
 
-    QLocale locale = QLocale();
+    if (!progressBar->property("Demo").toBool()) {
+        QLocale locale = QLocale();
 
-    progressBar->setToolTip(
-                Global::getToolTipTemplate().arg(
-                    locale.toString(result.Bandwidth, 'f', 3),
-                    locale.toString(result.Bandwidth / 1000, 'f', 3),
-                    locale.toString(result.IOPS, 'f', 3),
-                    locale.toString(result.Latency, 'f', 3)
-                    )
-                );
+        progressBar->setToolTip(
+                    Global::getToolTipTemplate().arg(
+                        locale.toString(result.Bandwidth, 'f', 3),
+                        locale.toString(result.Bandwidth / 1000, 'f', 3),
+                        locale.toString(result.IOPS, 'f', 3),
+                        locale.toString(result.Latency, 'f', 3)
+                        )
+                    );
+    }
 
     updateProgressBar(progressBar);
 }
@@ -728,27 +750,29 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 
     switch (comparisonField) {
     case Benchmark::MBPerSec:
-        progressBar->setFormat(score >= 1000000.0 ? locale.toString((int)score) : locale.toString(score, 'f', 2));
+        progressBar->setFormat(score >= 1000000.0 ? locale.toString((int)score) : locale.toString(score, 'f', progressBar->property("Demo").toBool() ? 1 : 2));
         break;
     case Benchmark::GBPerSec:
         value = progressBar->property(metaEnum.valueToKey(Benchmark::GBPerSec)).toFloat();
-        progressBar->setFormat(locale.toString(value, 'f', 3));
+        progressBar->setFormat(locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 1 : 3));
         break;
     case Benchmark::IOPS:
         value = progressBar->property(metaEnum.valueToKey(Benchmark::IOPS)).toFloat();
-        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', 2));
+        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 0 : 2));
         break;
     case Benchmark::Latency:
         value = progressBar->property(metaEnum.valueToKey(Benchmark::Latency)).toFloat();
-        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', 2));
+        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 1 : 2));
         break;
     }
 
-    if (comparisonField == Benchmark::Latency) {
-        progressBar->setValue(value <= 0.0000000001 ? 0 : 100 - 16.666666666666 * log10(value));
-    }
-    else {
-        progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
+    if (!progressBar->property("Demo").toBool()) {
+        if (comparisonField == Benchmark::Latency) {
+            progressBar->setValue(value <= 0.0000000001 ? 0 : 100 - 16.666666666666 * log10(value));
+        }
+        else {
+            progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
+        }
     }
 }
 
@@ -872,6 +896,12 @@ void MainWindow::on_pushButton_All_clicked()
                 { { Global::Test_4, Global::Mix   }, { ui->mixBar_4   } }
             };
             }
+        }
+        else if (m_benchmark->performanceProfile == Global::PerformanceProfile::Demo) {
+            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                { { Global::Test_1, Global::Read  }, { ui->readBar_Demo  } },
+                { { Global::Test_1, Global::Write }, { ui->writeBar_Demo } }
+            };
         }
         else {
             set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
