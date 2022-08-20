@@ -125,12 +125,12 @@ if (!interface)
                 switch (this->performanceProfile)
                 {
                     case Global::PerformanceProfile::Default:
-                    case Global::PerformanceProfile::Demo:
                         totalRead  += result.read;
                         totalWrite += result.write;
                     break;
                     case Global::PerformanceProfile::Peak:
                     case Global::PerformanceProfile::RealWorld:
+                    case Global::PerformanceProfile::Demo:
                         totalRead.updateWithBetterValues(result.read);
                         totalWrite.updateWithBetterValues(result.write);
                     break;
@@ -159,7 +159,7 @@ if (!interface)
 
 void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int index)
 {
-    if (this->performanceProfile == Global::PerformanceProfile::Default || this->performanceProfile == Global::PerformanceProfile::Demo) {
+    if (this->performanceProfile == Global::PerformanceProfile::Default) {
         for (auto progressBar : m_progressBars) {
             emit resultReady(progressBar, result / index);
         }
