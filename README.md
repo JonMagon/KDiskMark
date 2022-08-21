@@ -128,8 +128,7 @@ Languages currently available:
 * Ukrainian
 
 ## TODO
-- [ ] CLI
-- [ ] Windows compatibility
+- [ ] Text-based user interface
 - [x] Performance profiles (mix, peak, real-world)
 
 ## Special Thanks
