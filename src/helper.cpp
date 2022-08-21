@@ -17,15 +17,15 @@ QVariantMap HelperAdaptor::listStorages()
     return m_parentHelper->listStorages();
 }
 
-void HelperAdaptor::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
+void HelperAdaptor::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros, const QString &rw)
 {
-    return m_parentHelper->prepareFile(benchmarkFile, fileSize, rw);
+    return m_parentHelper->prepareFile(benchmarkFile, fileSize, fillZeros, rw);
 }
 
-void HelperAdaptor::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage,
+void HelperAdaptor::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
                               int blockSize, int queueDepth, int threads, const QString &rw)
 {
-    m_parentHelper->startTest(benchmarkFile, measuringTime, fileSize, randomReadPercentage, blockSize, queueDepth, threads, rw);
+    m_parentHelper->startTest(benchmarkFile, measuringTime, fileSize, randomReadPercentage, fillZeros, blockSize, queueDepth, threads, rw);
 }
 
 QVariantMap HelperAdaptor::flushPageCache()
@@ -100,7 +100,7 @@ QVariantMap Helper::listStorages()
     return reply;
 }
 
-void Helper::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
+void Helper::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros, const QString &rw)
 {
     testFilePath(benchmarkFile);
 
@@ -110,6 +110,7 @@ void Helper::prepareFile(const QString &benchmarkFile, int fileSize, const QStri
                      << "--create_only=1"
                      << QStringLiteral("--filename=%1").arg(benchmarkFile)
                      << QStringLiteral("--size=%1m").arg(fileSize)
+                     << QStringLiteral("--zero_buffers=%1").arg(fillZeros)
                      << QStringLiteral("--name=%1").arg(rw));
 
     connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
@@ -118,7 +119,7 @@ void Helper::prepareFile(const QString &benchmarkFile, int fileSize, const QStri
     });
 }
 
-void Helper::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage,
+void Helper::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
                        int blockSize, int queueDepth, int threads, const QString &rw)
 {
     testFilePath(benchmarkFile);
@@ -135,6 +136,7 @@ void Helper::startTest(const QString &benchmarkFile, int measuringTime, int file
                      << QStringLiteral("--filename=%1").arg(benchmarkFile)
                      << QStringLiteral("--name=%1").arg(rw)
                      << QStringLiteral("--size=%1m").arg(fileSize)
+                     << QStringLiteral("--zero_buffers=%1").arg(fillZeros)
                      << QStringLiteral("--bs=%1k").arg(blockSize)
                      << QStringLiteral("--runtime=%1").arg(measuringTime)
                      << QStringLiteral("--rw=%1").arg(rw)

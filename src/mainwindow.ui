@@ -1010,6 +1010,15 @@
     <property name="title">
      <string>Settings</string>
     </property>
+    <widget class="QMenu" name="menuTest_Data">
+     <property name="title">
+      <string>Test Data</string>
+     </property>
+     <addaction name="actionTestData_Random"/>
+     <addaction name="actionTestData_Zeros"/>
+    </widget>
+    <addaction name="menuTest_Data"/>
+    <addaction name="separator"/>
     <addaction name="actionQueues_Threads"/>
     <addaction name="actionFlush_Pagecache"/>
    </widget>
@@ -1172,6 +1181,25 @@
    </property>
    <property name="text">
     <string>Write [+Mix]</string>
+   </property>
+  </action>
+  <action name="actionTestData_Random">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Random</string>
+   </property>
+  </action>
+  <action name="actionTestData_Zeros">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Fill with zeros</string>
    </property>
   </action>
  </widget>

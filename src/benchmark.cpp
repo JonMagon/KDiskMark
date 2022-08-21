@@ -107,6 +107,7 @@ if (!interface)
                                                       settings.getMeasuringTime(),
                                                       settings.getFileSize(),
                                                       settings.getRandomReadPercentage(),
+                                                      this->benchmarkTestData == BenchmarkTestData::Zeros,
                                                       blockSize, queueDepth, threads, rw);
         QEventLoop loop;
 
@@ -253,8 +254,8 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     // Set to 0 all the progressbars for current tests
     while (iter.hasNext()) {
         item = iter.next();
-        if (item.first.second == Global::BenchmarkIOReadWrite::Read && this->benchmarkMode == Global::BenchmarkMode::WriteMix) { iter.remove(); continue; }
-        if (item.first.second == Global::BenchmarkIOReadWrite::Write && this->benchmarkMode == Global::BenchmarkMode::ReadMix) { iter.remove(); continue; }
+        if (item.first.second == Global::BenchmarkIOReadWrite::Read && this->benchmarkMode == BenchmarkMode::WriteMix) { iter.remove(); continue; }
+        if (item.first.second == Global::BenchmarkIOReadWrite::Write && this->benchmarkMode == BenchmarkMode::ReadMix) { iter.remove(); continue; }
         auto progressBars = item.second;
         for (auto obj : progressBars) {
             emit resultReady(obj, PerformanceResult());
@@ -484,7 +485,7 @@ if (!interface)
 
     bool flushed = true;
 
-    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, rw);
+    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, this->benchmarkTestData == BenchmarkTestData::Zeros, rw);
 
     QEventLoop loop;
 

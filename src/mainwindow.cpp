@@ -91,19 +91,25 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionDefault_Mix->setActionGroup(profilesGroup);
     ui->actionPeak_Performance_Mix->setActionGroup(profilesGroup);
     ui->actionReal_World_Performance_Mix->setActionGroup(profilesGroup);
-
     connect(profilesGroup, SIGNAL(triggered(QAction*)), this, SLOT(profileSelected(QAction*)));
 
-    ui->actionRead_Write_Mix->setProperty("mode", Global::BenchmarkMode::ReadWriteMix);
-    ui->actionRead_Mix->setProperty("mode", Global::BenchmarkMode::ReadMix);
-    ui->actionWrite_Mix->setProperty("mode", Global::BenchmarkMode::WriteMix);
+    ui->actionRead_Write_Mix->setProperty("mode", Benchmark::BenchmarkMode::ReadWriteMix);
+    ui->actionRead_Mix->setProperty("mode", Benchmark::BenchmarkMode::ReadMix);
+    ui->actionWrite_Mix->setProperty("mode", Benchmark::BenchmarkMode::WriteMix);
 
     QActionGroup *modesGroup = new QActionGroup(this);
     ui->actionRead_Write_Mix->setActionGroup(modesGroup);
     ui->actionRead_Mix->setActionGroup(modesGroup);
     ui->actionWrite_Mix->setActionGroup(modesGroup);
-
     connect(modesGroup, SIGNAL(triggered(QAction*)), this, SLOT(modeSelected(QAction*)));
+
+    ui->actionTestData_Random->setProperty("data", Benchmark::BenchmarkTestData::Random);
+    ui->actionTestData_Zeros->setProperty("data", Benchmark::BenchmarkTestData::Zeros);
+
+    QActionGroup *testDataGroup = new QActionGroup(this);
+    ui->actionTestData_Random->setActionGroup(testDataGroup);
+    ui->actionTestData_Zeros->setActionGroup(testDataGroup);
+    connect(testDataGroup, SIGNAL(triggered(QAction*)), this, SLOT(testDataSelected(QAction*)));
 
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
 
@@ -616,7 +622,12 @@ void MainWindow::profileSelected(QAction* act)
 
 void MainWindow::modeSelected(QAction* act)
 {
-    m_benchmark->benchmarkMode = (Global::BenchmarkMode)act->property("mode").toInt();
+    m_benchmark->benchmarkMode = (Benchmark::BenchmarkMode)act->property("mode").toInt();
+}
+
+void MainWindow::testDataSelected(QAction* act)
+{
+    m_benchmark->benchmarkTestData = (Benchmark::BenchmarkTestData)act->property("data").toInt();
 }
 
 void MainWindow::benchmarkStateChanged(bool state)

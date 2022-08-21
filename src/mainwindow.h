@@ -81,6 +81,7 @@ public slots:
     void localeSelected(QAction* act);
     void profileSelected(QAction* act);
     void modeSelected(QAction* act);
+    void testDataSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 
 protected slots:

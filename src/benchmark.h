@@ -62,7 +62,17 @@ public:
     Q_ENUM(ComparisonField)
 
     Global::PerformanceProfile performanceProfile = Global::PerformanceProfile::Default;
-    Global::BenchmarkMode benchmarkMode = Global::BenchmarkMode::ReadWriteMix;
+
+    enum BenchmarkMode {
+        ReadWriteMix,
+        ReadMix,
+        WriteMix
+    } benchmarkMode = ReadWriteMix;
+
+    enum BenchmarkTestData {
+        Random,
+        Zeros
+    } benchmarkTestData = Random;
 
     void runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> tests);
 
