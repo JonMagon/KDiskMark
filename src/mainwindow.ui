@@ -1019,6 +1019,9 @@
     </widget>
     <addaction name="menuTest_Data"/>
     <addaction name="separator"/>
+    <addaction name="actionPreset_Standard"/>
+    <addaction name="actionPreset_NVMe_SSD"/>
+    <addaction name="separator"/>
     <addaction name="actionQueues_Threads"/>
     <addaction name="actionFlush_Pagecache"/>
    </widget>
@@ -1200,6 +1203,22 @@
    </property>
    <property name="text">
     <string>Fill with zeros</string>
+   </property>
+  </action>
+  <action name="actionPreset_Standard">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Standard Preset</string>
+   </property>
+  </action>
+  <action name="actionPreset_NVMe_SSD">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>NVMe SSD</string>
    </property>
   </action>
  </widget>

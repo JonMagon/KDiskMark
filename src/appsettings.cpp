@@ -144,7 +144,7 @@ bool AppSettings::defaultFlushingCacheState()
 
 Global::BenchmarkParams AppSettings::getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile) const
 {
-    Global::BenchmarkParams defaultSet = defaultBenchmarkParams(test, profile);
+    Global::BenchmarkParams defaultSet = defaultBenchmarkParams(test, profile, Global::BenchmarkPreset::Standard);
     if (profile == Global::PerformanceProfile::RealWorld) return defaultSet;
 
     QString settingKey = QStringLiteral("Benchmark/Params/%1/%2/%3")
@@ -171,7 +171,7 @@ void AppSettings::setBenchmarkParams(Global::BenchmarkTest test, Global::Perform
     m_settings->setValue(settingKey.arg("Threads"), params.Threads);
 }
 
-Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile)
+Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkPreset preset)
 {
     switch (profile)
     {
@@ -181,9 +181,15 @@ Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTes
             case Global::BenchmarkTest::Test_1:
                 return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
             case Global::BenchmarkTest::Test_2:
+                if (preset == Global::BenchmarkPreset::Standard)
                 return { Global::BenchmarkIOPattern::SEQ, 1024,  1,  1 };
+                else
+                return { Global::BenchmarkIOPattern::SEQ,  128, 32,  1 };
             case Global::BenchmarkTest::Test_3:
+                if (preset == Global::BenchmarkPreset::Standard)
                 return { Global::BenchmarkIOPattern::RND,    4, 32,  1 };
+                else
+                return { Global::BenchmarkIOPattern::RND,    4, 32, 16 };
             case Global::BenchmarkTest::Test_4:
                 return { Global::BenchmarkIOPattern::RND,    4,  1,  1 };
             }
@@ -194,7 +200,10 @@ Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTes
             case Global::BenchmarkTest::Test_1:
                 return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
             case Global::BenchmarkTest::Test_2:
+                if (preset == Global::BenchmarkPreset::Standard)
                 return { Global::BenchmarkIOPattern::RND,    4, 32,  1 };
+                else
+                return { Global::BenchmarkIOPattern::RND,    4, 32, 16 };
             }
         case Global::PerformanceProfile::RealWorld:
             switch (test)

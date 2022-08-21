@@ -13,6 +13,8 @@ Settings::Settings(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->buttonBox->addButton(QStringLiteral("NVMe SSD"), QDialogButtonBox::ActionRole);
+
     for (int val : { 0, 1, 3, 5, 10, 30, 60, 180, 300, 600 }) {
         ui->IntervalTime->addItem(val < 60 ? QString("%1 %2").arg(val).arg(tr("sec"))
                                            : QString("%1 %2").arg(val / 60).arg(tr("min")), val);
@@ -216,45 +218,96 @@ void Settings::on_buttonBox_clicked(QAbstractButton *button)
     else if (ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults) {
         Global::BenchmarkParams params;
 
-        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default);
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default, Global::BenchmarkPreset::Standard);
         findDataAndSet(ui->DefaultProfile_Test_1_Pattern, params.Pattern);
         findDataAndSet(ui->DefaultProfile_Test_1_BlockSize, params.BlockSize);
         findDataAndSet(ui->DefaultProfile_Test_1_Queues, params.Queues);
         findDataAndSet(ui->DefaultProfile_Test_1_Threads, params.Threads);
 
-        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default);
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default, Global::BenchmarkPreset::Standard);
         findDataAndSet(ui->DefaultProfile_Test_2_Pattern, params.Pattern);
         findDataAndSet(ui->DefaultProfile_Test_2_BlockSize, params.BlockSize);
         findDataAndSet(ui->DefaultProfile_Test_2_Queues, params.Queues);
         findDataAndSet(ui->DefaultProfile_Test_2_Threads, params.Threads);
 
-        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default);
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default, Global::BenchmarkPreset::Standard);
         findDataAndSet(ui->DefaultProfile_Test_3_Pattern, params.Pattern);
         findDataAndSet(ui->DefaultProfile_Test_3_BlockSize, params.BlockSize);
         findDataAndSet(ui->DefaultProfile_Test_3_Queues, params.Queues);
         findDataAndSet(ui->DefaultProfile_Test_3_Threads, params.Threads);
 
-        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default);
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default, Global::BenchmarkPreset::Standard);
         findDataAndSet(ui->DefaultProfile_Test_4_Pattern, params.Pattern);
         findDataAndSet(ui->DefaultProfile_Test_4_BlockSize, params.BlockSize);
         findDataAndSet(ui->DefaultProfile_Test_4_Queues, params.Queues);
         findDataAndSet(ui->DefaultProfile_Test_4_Threads, params.Threads);
 
 
-        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak);
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak, Global::BenchmarkPreset::Standard);
         findDataAndSet(ui->PeakPerformanceProfile_Test_1_Pattern, params.Pattern);
         findDataAndSet(ui->PeakPerformanceProfile_Test_1_BlockSize, params.BlockSize);
         findDataAndSet(ui->PeakPerformanceProfile_Test_1_Queues, params.Queues);
         findDataAndSet(ui->PeakPerformanceProfile_Test_1_Threads, params.Threads);
 
-        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak);
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak, Global::BenchmarkPreset::Standard);
         findDataAndSet(ui->PeakPerformanceProfile_Test_2_Pattern, params.Pattern);
         findDataAndSet(ui->PeakPerformanceProfile_Test_2_BlockSize, params.BlockSize);
         findDataAndSet(ui->PeakPerformanceProfile_Test_2_Queues, params.Queues);
         findDataAndSet(ui->PeakPerformanceProfile_Test_2_Threads, params.Threads);
 
 
-        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo);
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo, Global::BenchmarkPreset::Standard);
+        findDataAndSet(ui->DemoProfile_Test_1_Pattern, params.Pattern);
+        findDataAndSet(ui->DemoProfile_Test_1_BlockSize, params.BlockSize);
+        findDataAndSet(ui->DemoProfile_Test_1_Queues, params.Queues);
+        findDataAndSet(ui->DemoProfile_Test_1_Threads, params.Threads);
+
+
+        findDataAndSet(ui->MeasuringTime, settings.defaultMeasuringTime());
+        findDataAndSet(ui->IntervalTime, settings.defaultIntervalTime());
+    }
+    else {
+        Global::BenchmarkParams params;
+
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default, Global::BenchmarkPreset::NVMe_SSD);
+        findDataAndSet(ui->DefaultProfile_Test_1_Pattern, params.Pattern);
+        findDataAndSet(ui->DefaultProfile_Test_1_BlockSize, params.BlockSize);
+        findDataAndSet(ui->DefaultProfile_Test_1_Queues, params.Queues);
+        findDataAndSet(ui->DefaultProfile_Test_1_Threads, params.Threads);
+
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default, Global::BenchmarkPreset::NVMe_SSD);
+        findDataAndSet(ui->DefaultProfile_Test_2_Pattern, params.Pattern);
+        findDataAndSet(ui->DefaultProfile_Test_2_BlockSize, params.BlockSize);
+        findDataAndSet(ui->DefaultProfile_Test_2_Queues, params.Queues);
+        findDataAndSet(ui->DefaultProfile_Test_2_Threads, params.Threads);
+
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default, Global::BenchmarkPreset::NVMe_SSD);
+        findDataAndSet(ui->DefaultProfile_Test_3_Pattern, params.Pattern);
+        findDataAndSet(ui->DefaultProfile_Test_3_BlockSize, params.BlockSize);
+        findDataAndSet(ui->DefaultProfile_Test_3_Queues, params.Queues);
+        findDataAndSet(ui->DefaultProfile_Test_3_Threads, params.Threads);
+
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default, Global::BenchmarkPreset::NVMe_SSD);
+        findDataAndSet(ui->DefaultProfile_Test_4_Pattern, params.Pattern);
+        findDataAndSet(ui->DefaultProfile_Test_4_BlockSize, params.BlockSize);
+        findDataAndSet(ui->DefaultProfile_Test_4_Queues, params.Queues);
+        findDataAndSet(ui->DefaultProfile_Test_4_Threads, params.Threads);
+
+
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak, Global::BenchmarkPreset::NVMe_SSD);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_1_Pattern, params.Pattern);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_1_BlockSize, params.BlockSize);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_1_Queues, params.Queues);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_1_Threads, params.Threads);
+
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak, Global::BenchmarkPreset::NVMe_SSD);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_2_Pattern, params.Pattern);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_2_BlockSize, params.BlockSize);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_2_Queues, params.Queues);
+        findDataAndSet(ui->PeakPerformanceProfile_Test_2_Threads, params.Threads);
+
+
+        params = settings.defaultBenchmarkParams(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo, Global::BenchmarkPreset::NVMe_SSD);
         findDataAndSet(ui->DemoProfile_Test_1_Pattern, params.Pattern);
         findDataAndSet(ui->DemoProfile_Test_1_BlockSize, params.BlockSize);
         findDataAndSet(ui->DemoProfile_Test_1_Queues, params.Queues);

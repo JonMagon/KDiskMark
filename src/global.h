@@ -33,6 +33,12 @@ namespace Global
         int BlockSize; // KiB
         int Queues;
         int Threads;
+
+        bool operator==(const BenchmarkParams& rhs)
+        {
+            return this->Pattern == rhs.Pattern && this->BlockSize == rhs.BlockSize &&
+                   this->Queues  == rhs.Queues  && this->Threads   == rhs.Threads;
+        }
     };
 
     enum PerformanceProfile {
@@ -42,6 +48,11 @@ namespace Global
         Demo
     };
     Q_ENUM_NS(PerformanceProfile)
+
+    enum BenchmarkPreset {
+        Standard,
+        NVMe_SSD
+    };
 
     int getOutputColumnsCount();
     QString getBenchmarkButtonText(BenchmarkParams params, QString paramsLine = QStringLiteral());

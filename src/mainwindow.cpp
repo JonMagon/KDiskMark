@@ -111,6 +111,14 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionTestData_Zeros->setActionGroup(testDataGroup);
     connect(testDataGroup, SIGNAL(triggered(QAction*)), this, SLOT(testDataSelected(QAction*)));
 
+    ui->actionPreset_Standard->setProperty("preset", Global::BenchmarkPreset::Standard);
+    ui->actionPreset_NVMe_SSD->setProperty("preset", Global::BenchmarkPreset::NVMe_SSD);
+
+    QActionGroup *presetsGroup = new QActionGroup(this);
+    ui->actionPreset_Standard->setActionGroup(presetsGroup);
+    ui->actionPreset_NVMe_SSD->setActionGroup(presetsGroup);
+    connect(presetsGroup, SIGNAL(triggered(QAction*)), this, SLOT(presetSelected(QAction*)));
+
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
 
     profileSelected(ui->actionDefault);
@@ -138,6 +146,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     refreshProgressBars();
 
+    updatePresetsSelection();
     updateBenchmarkButtonsContent();
 
     // Set callbacks
@@ -349,6 +358,41 @@ void MainWindow::updateBenchmarkButtonsContent()
     }
 }
 
+void MainWindow::updatePresetsSelection()
+{
+    const AppSettings settings;
+
+    auto testFunc = [&] (Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkPreset preset) {
+        return settings.getBenchmarkParams(test, profile) == settings.defaultBenchmarkParams(test, profile, preset);
+    };
+
+    Global::BenchmarkPreset preset = Global::BenchmarkPreset::Standard;
+    bool testStandardPreset =
+            testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak, preset) &&
+            testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak, preset) &&
+            testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo, preset);
+
+    ui->actionPreset_Standard->setChecked(testStandardPreset);
+
+    if (!testStandardPreset) {
+        Global::BenchmarkPreset preset = Global::BenchmarkPreset::NVMe_SSD;
+        bool testNVMeSSDPreset =
+                testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak, preset) &&
+                testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak, preset) &&
+                testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo, preset);
+
+        ui->actionPreset_NVMe_SSD->setChecked(testNVMeSSDPreset);
+    }
+}
+
 void MainWindow::refreshProgressBars()
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
@@ -420,7 +464,7 @@ QString MainWindow::combineOutputTestResult(const QProgressBar *progressBar, con
 
     return QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
            .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? "Sequential" : "Random")
-           .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
+           .arg(QString::number(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize).rightJustified(3, ' '))
            .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
            .arg(QString::number(params.Queues).rightJustified(3, ' '))
            .arg(QString::number(params.Threads).rightJustified(2, ' '))
@@ -630,6 +674,29 @@ void MainWindow::testDataSelected(QAction* act)
     m_benchmark->benchmarkTestData = (Benchmark::BenchmarkTestData)act->property("data").toInt();
 }
 
+void MainWindow::presetSelected(QAction* act)
+{
+    AppSettings settings;
+
+    Global::BenchmarkPreset preset = (Global::BenchmarkPreset)act->property("preset").toInt();
+
+    auto updateFunc = [&] (Global::BenchmarkTest test, Global::PerformanceProfile profile) {
+        settings.setBenchmarkParams(test, profile, settings.defaultBenchmarkParams(test, profile, preset));
+    };
+
+    updateFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default);
+    updateFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default);
+    updateFunc(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default);
+    updateFunc(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default);
+
+    updateFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak);
+    updateFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak);
+
+    updateFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo);
+
+    updateBenchmarkButtonsContent();
+}
+
 void MainWindow::benchmarkStateChanged(bool state)
 {
     if (state) {
@@ -683,6 +750,7 @@ void MainWindow::showSettings()
     settings.setFixedSize(settings.size());
     settings.exec();
 
+    updatePresetsSelection();
     updateBenchmarkButtonsContent();
 }
 

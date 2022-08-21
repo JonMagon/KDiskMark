@@ -67,6 +67,7 @@ private:
     QString formatSize(quint64 available, quint64 total);
     QString getTextBenchmarkResult();
     void updateBenchmarkButtonsContent();
+    void updatePresetsSelection();
     void refreshProgressBars();
     void updateProgressBar(QProgressBar *progressBar);
     void updateLabels();
@@ -82,6 +83,7 @@ public slots:
     void profileSelected(QAction* act);
     void modeSelected(QAction* act);
     void testDataSelected(QAction* act);
+    void presetSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 
 protected slots:
