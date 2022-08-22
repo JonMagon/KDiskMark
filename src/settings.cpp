@@ -1,7 +1,6 @@
 #include "settings.h"
 #include "ui_settings.h"
 
-#include <QAbstractButton>
 #include <QMetaEnum>
 
 #include "appsettings.h"

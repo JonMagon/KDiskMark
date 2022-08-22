@@ -4,7 +4,6 @@
 #include "cmake.h"
 #include "global.h"
 
-#include <QAbstractButton>
 #include <QIcon>
 
 About::About(const QString &FIOVersion, QWidget *parent) :

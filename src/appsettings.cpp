@@ -2,7 +2,6 @@
 
 #include "cmake.h"
 
-#include <QApplication>
 #include <QCoreApplication>
 #include <QTranslator>
 #include <QStandardPaths>

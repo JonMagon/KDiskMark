@@ -1,19 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QProcess>
-#include <QToolTip>
 #include <QMessageBox>
-#include <QThread>
 #include <QStorageInfo>
-#include <QStandardItemModel>
-#include <QLineEdit>
 #include <QMetaEnum>
 #include <QClipboard>
 #include <QDate>
 #include <QFileDialog>
 #include <QTextStream>
-#include <QInputDialog>
 #include <QAbstractItemView>
 #include <QStyleFactory>
 #include <QTimer>
@@ -184,7 +178,7 @@ MainWindow::MainWindow(QWidget *parent)
             this->setEnabled(true);
         }
         else {
-            QMessageBox::critical(0, "KDiskMark Helper",
+            QMessageBox::critical(this, "KDiskMark Helper",
                                   QObject::tr("Could not obtain administrator privileges.\nThe application will be closed."));
             qApp->quit();
         }

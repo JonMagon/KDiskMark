@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QLocale>
-#include <QString>
 
 #include "global.h"
 

@@ -1,13 +1,5 @@
 #include "benchmark.h"
 
-#include <QProcess>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QThread>
-#include <QFile>
-#include <QEventLoop>
-
 #include <KAuth>
 
 #include "global.h"
