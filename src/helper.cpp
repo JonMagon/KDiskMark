@@ -17,9 +17,9 @@ QVariantMap HelperAdaptor::listStorages()
     return m_parentHelper->listStorages();
 }
 
-void HelperAdaptor::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros, const QString &rw)
+void HelperAdaptor::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
 {
-    return m_parentHelper->prepareFile(benchmarkFile, fileSize, fillZeros, rw);
+    return m_parentHelper->prepareFile(benchmarkFile, fileSize, fillZeros);
 }
 
 void HelperAdaptor::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
@@ -100,7 +100,7 @@ QVariantMap Helper::listStorages()
     return reply;
 }
 
-void Helper::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros, const QString &rw)
+void Helper::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
 {
     testFilePath(benchmarkFile);
 
@@ -111,7 +111,7 @@ void Helper::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZe
                      << QStringLiteral("--filename=%1").arg(benchmarkFile)
                      << QStringLiteral("--size=%1m").arg(fileSize)
                      << QStringLiteral("--zero_buffers=%1").arg(fillZeros)
-                     << QStringLiteral("--name=%1").arg(rw));
+                     << QStringLiteral("--name=prepare"));
 
     connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
             [=] (int exitCode, QProcess::ExitStatus exitStatus) {

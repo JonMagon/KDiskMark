@@ -476,7 +476,7 @@ if (!interface)
 
     bool flushed = true;
 
-    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros, rw);
+    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
 
     QEventLoop loop;
 
