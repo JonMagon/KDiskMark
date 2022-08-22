@@ -16,6 +16,7 @@
 #include <QInputDialog>
 #include <QAbstractItemView>
 #include <QStyleFactory>
+#include <QTimer>
 
 #include "math.h"
 #include "about.h"
@@ -159,6 +160,7 @@ MainWindow::MainWindow(QWidget *parent)
     updateFileSizeList();
 
     // Set callbacks
+    connect(m_benchmark, &Benchmark::mountPointsListReady, this, &MainWindow::mountPointsListReady);
     connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
@@ -172,6 +174,21 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveBenchmarkResult);
+
+    this->setEnabled(false);
+
+    QTimer::singleShot(0, [&] {
+        if (m_benchmark->startHelper()) {
+            m_benchmark->listStorages();
+
+            this->setEnabled(true);
+        }
+        else {
+            QMessageBox::critical(0, "KDiskMark Helper",
+                                  QObject::tr("Could not obtain administrator privileges.\nThe application will be closed."));
+            qApp->quit();
+        }
+    });
 }
 
 MainWindow::~MainWindow()
@@ -231,9 +248,11 @@ void MainWindow::on_refreshStoragesButton_clicked()
 {
     if (!m_benchmark->listStorages()) {
         QMessageBox::critical(this, tr("Access Denied"), tr("Failed to retrieve storage list."));
-        return;
     }
+}
 
+void MainWindow::mountPointsListReady(const QVector<Benchmark::Storage> &storages)
+{
     QString temp;
 
     QVariant variant = ui->comboBox_Storages->currentData();
@@ -242,7 +261,7 @@ void MainWindow::on_refreshStoragesButton_clicked()
 
     ui->comboBox_Storages->clear();
 
-    for (Benchmark::Storage storage : m_benchmark->storages) {
+    for (Benchmark::Storage storage : storages) {
         QStringList volumeInfo = { storage.path, DiskDriveInfo::Instance().getModelName(QStorageInfo(storage.path).device()) };
 
         ui->comboBox_Storages->addItem(

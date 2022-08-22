@@ -19,20 +19,17 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
-    qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
-
     AppSettings().setupLocalization();
 
-    if (Benchmark().isFIODetected()) {
-        MainWindow w;
-        w.setFixedSize(w.size());
-        w.show();
-
-        return a.exec();
-    }
-    else {
+    if (!Benchmark().isFIODetected()) {
         QMessageBox::critical(0, "KDiskMark",
                               QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
-        return -1;
+        return EXIT_FAILURE;
     }
+
+    MainWindow w;
+    w.setFixedSize(w.size());
+    w.show();
+
+    return a.exec();
 }

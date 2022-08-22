@@ -82,16 +82,12 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
             return;
         }
 
-
-if (!m_helperStarted)
-    if (!startHelper()) {
-        qWarning("Could not obtain administrator privileges.");
-        exit(0); /// TEST
-    }
-
-auto interface = helperInterface();
-if (!interface)
-    exit(0); /// TEST
+        auto interface = helperInterface();
+        if (!interface) {
+            setRunning(false);
+            emit failed("Inteface is null");
+            return;
+        }
 
         QDBusPendingCall pcall = interface->startTest(getBenchmarkFile(),
                                                       settings.getMeasuringTime(),
@@ -214,17 +210,9 @@ void Benchmark::setRunning(bool state)
     m_running = state;
 
     if (!m_running) {
-if (!m_helperStarted)
-    if (!startHelper()) {
-        qWarning("Could not obtain administrator privileges.");
-        exit(0); /// TEST
-    }
-
-auto interface = helperInterface();
-if (!interface)
-    exit(0); /// TEST
-
-        dbusWaitForFinish(interface->stopCurrentTask());
+        auto interface = helperInterface();
+        if (interface)
+            dbusWaitForFinish(interface->stopCurrentTask());
     }
 
     emit runningStateChanged(state);
@@ -308,17 +296,9 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         }
     }
 
-if (!m_helperStarted)
-    if (!startHelper()) {
-        qWarning("Could not obtain administrator privileges.");
-        exit(0);
-    }
-
-auto interface = helperInterface();
-if (!interface)
-    exit(0);
-
-    dbusWaitForFinish(interface->removeFile(getBenchmarkFile()));
+    auto interface = helperInterface();
+    if (interface)
+        dbusWaitForFinish(interface->removeFile(getBenchmarkFile()));
 
     setRunning(false);
     emit finished();
@@ -327,13 +307,14 @@ if (!interface)
 DevJonmagonKdiskmarkHelperInterface* Benchmark::helperInterface()
 {
     if (!QDBusConnection::systemBus().isConnected()) {
-        qWarning() << QDBusConnection::systemBus().lastError().message();
+        qCritical() << QDBusConnection::systemBus().lastError().message();
         return nullptr;
     }
 
     auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helper"),
                 QStringLiteral("/Helper"), QDBusConnection::systemBus(), this);
     interface->setTimeout(10 * 24 * 3600 * 1000); // 10 days
+
     return interface;
 }
 
@@ -369,21 +350,13 @@ bool Benchmark::startHelper()
     loop.exec();
     QObject::disconnect(conn);
 
-    m_helperStarted = true;
-    return true;
+    return !job->error();
 }
 
 bool Benchmark::listStorages()
 {
-if (!m_helperStarted)
-    if (!startHelper()) {
-        qWarning("Could not obtain administrator privileges.");
-        return false;
-    }
-
-auto interface = helperInterface();
-if (!interface)
-    return false;
+    auto interface = helperInterface();
+    if (!interface) return false;
 
     QDBusPendingCall pcall = interface->listStorages();
 
@@ -400,7 +373,7 @@ if (!interface)
 
             QVariantMap replyContent = reply.value();
 
-            storages.clear();
+            QVector<Storage> storages;
 
             for (auto pathStorage : replyContent.keys()) {
                 QDBusVariant dbusVariant = qvariant_cast<QDBusVariant>(replyContent.value(pathStorage));
@@ -408,6 +381,8 @@ if (!interface)
                 dbusVariant.variant().value<QDBusArgument>() >> storageStats;
                 storages.append({ pathStorage, storageStats[0], storageStats[0] - storageStats[1] });
             }
+
+            emit mountPointsListReady(storages);
         }
     };
 
@@ -417,21 +392,12 @@ if (!interface)
     return true;
 }
 
-// Combine two next ?
-
 bool Benchmark::flushPageCache()
 {
-if (!m_helperStarted)
-    if (!startHelper()) {
-        qWarning("Could not obtain administrator privileges.");
-        return false;
-    }
-
-auto interface = helperInterface();
-if (!interface)
-    return false;
-
     bool flushed = true;
+
+    auto interface = helperInterface();
+    if (!interface) return false;
 
     QDBusPendingCall pcall = interface->flushPageCache();
 
@@ -449,9 +415,11 @@ if (!interface)
             QVariantMap replyContent = reply.value();
             if (!replyContent[QStringLiteral("success")].toBool()) {
                 flushed = false;
-                QString error = replyContent[QStringLiteral("success")].toString();
-                if (!error.isEmpty())
+                QString error = replyContent[QStringLiteral("error")].toString();
+                if (!error.isEmpty()) {
+                    setRunning(false);
                     emit failed(error);
+                }
             }
         }
     };
@@ -464,17 +432,10 @@ if (!interface)
 
 bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
 {
-if (!m_helperStarted)
-    if (!startHelper()) {
-        qWarning("Could not obtain administrator privileges.");
-        return false;
-    }
-
-auto interface = helperInterface();
-if (!interface)
-    return false;
-
     bool flushed = true;
+
+    auto interface = helperInterface();
+    if (!interface) return false;
 
     QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
 
@@ -485,8 +446,10 @@ if (!interface)
 
         if (!success) {
             flushed = false;
-            if (!errorOutput.isEmpty())
+            if (!errorOutput.isEmpty()) {
+                setRunning(false);
                 emit failed(errorOutput);
+            }
         }
 
         if (m_running) {

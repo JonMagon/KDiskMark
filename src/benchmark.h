@@ -102,8 +102,6 @@ public:
         qlonglong bytesOccupied;
     };
 
-    QVector<Storage> storages;
-
 private:
     bool m_running;
     QString m_FIOVersion;
@@ -112,9 +110,6 @@ private:
 
     DevJonmagonKdiskmarkHelperInterface* helperInterface();
     DBusThread *m_thread;
-
-    // KAuth
-    bool m_helperStarted = false;
 
 private:
     void startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage);
@@ -127,13 +122,12 @@ private:
     void dbusWaitForFinish(QDBusPendingCall pcall);
 
 signals:
+    void mountPointsListReady(const QVector<Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void failed(const QString &error);
     void finished();
     void runningStateChanged(bool state);
 };
-
-Q_DECLARE_METATYPE(Benchmark::PerformanceResult)
 
 #endif // BENCHMARK_H

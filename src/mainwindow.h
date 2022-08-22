@@ -61,6 +61,7 @@ private:
     QVector<QProgressBar*> m_progressBars;
     QString m_windowTitle;
 
+    void updateMountPointsList();
     void updateFileSizeList();
     void defineBenchmark(std::function<void()> bodyFunc);
     void closeEvent(QCloseEvent *event);
@@ -76,6 +77,7 @@ private:
     void resizeComboBoxItemsPopup(QComboBox *combobox);
 
 public slots:
+    void mountPointsListReady(const QVector<Benchmark::Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
