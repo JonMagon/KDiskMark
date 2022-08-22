@@ -121,7 +121,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
 
-    profileSelected(ui->actionDefault);
+    for (QAction *action : { ui->actionDefault, ui->actionPeak_Performance, ui->actionReal_World_Performance, ui->actionDemo,
+                             ui->actionDefault_Mix, ui->actionPeak_Performance_Mix, ui->actionReal_World_Performance_Mix }) {
+        if (action->property("profile").toInt() == settings.getPerformanceProfile() && action->property("mixed").toBool() == settings.getMixedState()) {
+            action->setChecked(true);
+            profileSelected(action);
+            break;
+        }
+    }
 
     updateFileSizeList();
 
@@ -314,10 +321,10 @@ void MainWindow::updateBenchmarkButtonsContent()
 
     Global::BenchmarkParams params;
 
-    params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile);
+    params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile());
     ui->pushButton_Test_1->setText(Global::getBenchmarkButtonText(params));
 
-    switch (m_benchmark->performanceProfile)
+    switch (settings.getPerformanceProfile())
     {
     case Global::PerformanceProfile::Default:
         ui->pushButton_Test_1->setToolTip(Global::getBenchmarkButtonToolTip(params));
@@ -338,7 +345,7 @@ void MainWindow::updateBenchmarkButtonsContent()
     case Global::PerformanceProfile::RealWorld:
         ui->pushButton_Test_1->setToolTip(Global::getBenchmarkButtonToolTip(params, true).arg(tr("MB/s")));
 
-        params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, m_benchmark->performanceProfile);
+        params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile());
         ui->pushButton_Test_2->setText(Global::getBenchmarkButtonText(params));
         ui->pushButton_Test_2->setToolTip(Global::getBenchmarkButtonToolTip(params, true).arg(tr("MB/s")));
 
@@ -498,42 +505,42 @@ QString MainWindow::getTextBenchmarkResult()
 
     output << QString()
            << "[Read]";
-    if (m_benchmark->performanceProfile == Global::PerformanceProfile::Demo) {
-        output << combineOutputTestResult(ui->readBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
+    if (settings.getPerformanceProfile() == Global::PerformanceProfile::Demo) {
+        output << combineOutputTestResult(ui->readBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
     }
     else {
-        output << combineOutputTestResult(ui->readBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
-        output << combineOutputTestResult(ui->readBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, m_benchmark->performanceProfile));
-        if (m_benchmark->performanceProfile == Global::PerformanceProfile::Default) {
-            output << combineOutputTestResult(ui->readBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, m_benchmark->performanceProfile));
-            output << combineOutputTestResult(ui->readBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, m_benchmark->performanceProfile));
+        output << combineOutputTestResult(ui->readBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
+        output << combineOutputTestResult(ui->readBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile()));
+        if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
+            output << combineOutputTestResult(ui->readBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, settings.getPerformanceProfile()));
+            output << combineOutputTestResult(ui->readBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, settings.getPerformanceProfile()));
         }
     }
 
     output << QString()
            << "[Write]";
-    if (m_benchmark->performanceProfile == Global::PerformanceProfile::Demo) {
-        output << combineOutputTestResult(ui->writeBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
+    if (settings.getPerformanceProfile() == Global::PerformanceProfile::Demo) {
+        output << combineOutputTestResult(ui->writeBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
     }
     else {
-        output << combineOutputTestResult(ui->writeBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile));
-        output << combineOutputTestResult(ui->writeBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, m_benchmark->performanceProfile));
-        if (m_benchmark->performanceProfile == Global::PerformanceProfile::Default) {
-            output << combineOutputTestResult(ui->writeBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, m_benchmark->performanceProfile));
-            output << combineOutputTestResult(ui->writeBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, m_benchmark->performanceProfile));
+        output << combineOutputTestResult(ui->writeBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
+        output << combineOutputTestResult(ui->writeBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile()));
+        if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
+            output << combineOutputTestResult(ui->writeBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, settings.getPerformanceProfile()));
+            output << combineOutputTestResult(ui->writeBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, settings.getPerformanceProfile()));
         }
     }
 
-    if (m_benchmark->isMixed() && m_benchmark->performanceProfile != Global::PerformanceProfile::Demo) {
+    if (settings.getMixedState() && settings.getPerformanceProfile() != Global::PerformanceProfile::Demo) {
          output << QString()
                 << QString("[Mix] Read %1%/Write %2%")
                    .arg(settings.getRandomReadPercentage())
                    .arg(100 - settings.getRandomReadPercentage())
-                << combineOutputTestResult(ui->mixBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, m_benchmark->performanceProfile))
-                << combineOutputTestResult(ui->mixBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, m_benchmark->performanceProfile));
-             if (m_benchmark->performanceProfile == Global::PerformanceProfile::Default) {
-                 output << combineOutputTestResult(ui->mixBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, m_benchmark->performanceProfile));
-                 output << combineOutputTestResult(ui->mixBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, m_benchmark->performanceProfile));
+                << combineOutputTestResult(ui->mixBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()))
+                << combineOutputTestResult(ui->mixBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile()));
+             if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
+                 output << combineOutputTestResult(ui->mixBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, settings.getPerformanceProfile()));
+                 output << combineOutputTestResult(ui->mixBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, settings.getPerformanceProfile()));
              }
     }
 
@@ -541,7 +548,7 @@ QString MainWindow::getTextBenchmarkResult()
 
     output << QString()
            << QString("Profile: %1%2")
-              .arg(profiles[(int)m_benchmark->performanceProfile]).arg(m_benchmark->isMixed() ? " [+Mix]" : QString())
+              .arg(profiles[(int)settings.getPerformanceProfile()]).arg(settings.getMixedState() ? " [+Mix]" : QString())
            << QString("   Test: %1")
               .arg("%1 %2 (x%3) [Measure: %4 %5 / Interval: %6 %7]")
               .arg(settings.getFileSize() >= 1024 ? settings.getFileSize() / 1024 : settings.getFileSize())
@@ -616,9 +623,11 @@ void MainWindow::localeSelected(QAction* act)
 
 void MainWindow::profileSelected(QAction* act)
 {
+    AppSettings settings;
+
     bool isMixed = act->property("mixed").toBool();
 
-    m_benchmark->setMixed(isMixed);
+    settings.setMixedState(isMixed);
 
     ui->mixWidget->setVisible(isMixed);
     ui->comboBox_MixRatio->setVisible(isMixed);
@@ -647,9 +656,9 @@ void MainWindow::profileSelected(QAction* act)
 
     setWindowTitle(m_windowTitle);
 
-    m_benchmark->performanceProfile = (Global::PerformanceProfile)act->property("profile").toInt();
+    settings.setPerformanceProfile((Global::PerformanceProfile)act->property("profile").toInt());
 
-    ui->stackedWidget->setCurrentIndex(m_benchmark->performanceProfile == Global::PerformanceProfile::Demo ? 1 : 0);
+    ui->stackedWidget->setCurrentIndex(settings.getPerformanceProfile() == Global::PerformanceProfile::Demo ? 1 : 0);
 
     int right = (isMixed ? ui->mixWidget->geometry().right() : ui->writeWidget->geometry().right()) + ui->stackedWidget->geometry().x();
 
@@ -819,6 +828,8 @@ void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::Perfo
 
 void MainWindow::updateProgressBar(QProgressBar *progressBar)
 {
+    const AppSettings settings;
+
     QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
 
     float score = progressBar->property(metaEnum.valueToKey(Benchmark::MBPerSec)).toFloat();
@@ -827,7 +838,7 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 
     Benchmark::ComparisonField comparisonField = Benchmark::MBPerSec;
 
-    switch (m_benchmark->performanceProfile) {
+    switch (settings.getPerformanceProfile()) {
     case Global::PerformanceProfile::Peak:
     case Global::PerformanceProfile::RealWorld:
         if (progressBar == ui->readBar_3 || progressBar == ui->writeBar_3 || progressBar == ui->mixBar_3) {
@@ -874,13 +885,15 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 
 bool MainWindow::runCombinedRandomTest()
 {
-    if (m_benchmark->performanceProfile == Global::PerformanceProfile::Peak || m_benchmark->performanceProfile == Global::PerformanceProfile::RealWorld) {
+    const AppSettings settings;
+
+    if (settings.getPerformanceProfile() == Global::PerformanceProfile::Peak || settings.getPerformanceProfile() == Global::PerformanceProfile::RealWorld) {
         QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
             { { Global::Test_2, Global::Read  }, { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
             { { Global::Test_2, Global::Write }, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
         };
 
-        if (m_benchmark->isMixed()) {
+        if (settings.getMixedState()) {
             set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
             { { Global::Test_2, Global::Mix   }, {  ui->mixBar_2,  ui->mixBar_3,   ui->mixBar_4   } };
         }
@@ -901,7 +914,7 @@ void MainWindow::on_pushButton_Test_1_clicked()
             { { Global::Test_1, Global::Write }, { ui->writeBar_1 } }
         };
 
-        if (m_benchmark->isMixed()) {
+        if (AppSettings().getMixedState()) {
             set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
             { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } };
         }
@@ -920,7 +933,7 @@ void MainWindow::on_pushButton_Test_2_clicked()
             { { Global::Test_2, Global::Write }, { ui->writeBar_2 } }
         };
 
-        if (m_benchmark->isMixed()) {
+        if (AppSettings().getMixedState()) {
             set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
             { { Global::Test_2, Global::Mix   }, { ui->mixBar_2   } };
         }
@@ -939,7 +952,7 @@ void MainWindow::on_pushButton_Test_3_clicked()
             { { Global::Test_3, Global::Write }, { ui->writeBar_3 } }
         };
 
-        if (m_benchmark->isMixed()) {
+        if (AppSettings().getMixedState()) {
             set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
             { { Global::Test_3, Global::Mix   }, { ui->mixBar_3   } };
         }
@@ -958,7 +971,7 @@ void MainWindow::on_pushButton_Test_4_clicked()
             { { Global::Test_4, Global::Write }, { ui->writeBar_4 } }
         };
 
-        if (m_benchmark->isMixed()) {
+        if (AppSettings().getMixedState()) {
             set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
             { { Global::Test_4, Global::Mix   }, { ui->mixBar_4   } };
         }
@@ -970,9 +983,11 @@ void MainWindow::on_pushButton_Test_4_clicked()
 void MainWindow::on_pushButton_All_clicked()
 {
     defineBenchmark([&]() {
+        const AppSettings settings;
+
         QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set;
 
-        if (m_benchmark->performanceProfile == Global::PerformanceProfile::Default) {
+        if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
             set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
                 { { Global::Test_1, Global::Read  }, { ui->readBar_1  } },
                 { { Global::Test_2, Global::Read  }, { ui->readBar_2  } },
@@ -984,7 +999,7 @@ void MainWindow::on_pushButton_All_clicked()
                 { { Global::Test_4, Global::Write }, { ui->writeBar_4 } }
             };
 
-            if (m_benchmark->isMixed()) {
+            if (settings.getMixedState()) {
                 set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
                 { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } },
                 { { Global::Test_2, Global::Mix   }, { ui->mixBar_2   } },
@@ -993,7 +1008,7 @@ void MainWindow::on_pushButton_All_clicked()
             };
             }
         }
-        else if (m_benchmark->performanceProfile == Global::PerformanceProfile::Demo) {
+        else if (settings.getPerformanceProfile() == Global::PerformanceProfile::Demo) {
             set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
                 { { Global::Test_1, Global::Read  }, { ui->readBar_Demo  } },
                 { { Global::Test_1, Global::Write }, { ui->writeBar_Demo } }
@@ -1007,7 +1022,7 @@ void MainWindow::on_pushButton_All_clicked()
                 { { Global::Test_2, Global::Write }, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
             };
 
-            if (m_benchmark->isMixed()) {
+            if (settings.getMixedState()) {
                 set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
                 { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } },
                 { { Global::Test_2, Global::Mix   }, { ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4   } }

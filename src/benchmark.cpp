@@ -57,16 +57,6 @@ QString Benchmark::getBenchmarkFile()
     }
 }
 
-bool Benchmark::isMixed()
-{
-    return m_mixedState;
-}
-
-void Benchmark::setMixed(bool state)
-{
-    m_mixedState = state;
-}
-
 void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage)
 {
     emit benchmarkStatusUpdate(tr("Preparing..."));
@@ -123,7 +113,7 @@ if (!interface)
 
                 auto result = parseResult(output, errorOutput);
 
-                switch (this->performanceProfile)
+                switch (settings.getPerformanceProfile())
                 {
                     case Global::PerformanceProfile::Default:
                         totalRead  += result.read;
@@ -160,7 +150,8 @@ if (!interface)
 
 void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int index)
 {
-    if (this->performanceProfile == Global::PerformanceProfile::Default) {
+    const AppSettings settings;
+    if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
         for (auto progressBar : m_progressBars) {
             emit resultReady(progressBar, result / index);
         }
@@ -264,14 +255,14 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     iter.toFront();
 
-    AppSettings settings;
+    const AppSettings settings;
 
     while (iter.hasNext() && m_running) {
         item = iter.next();
 
         m_progressBars = item.second;
 
-        Global::BenchmarkParams params = settings.getBenchmarkParams(item.first.first, performanceProfile);
+        Global::BenchmarkParams params = settings.getBenchmarkParams(item.first.first, settings.getPerformanceProfile());
 
         switch (item.first.second)
         {

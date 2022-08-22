@@ -40,9 +40,6 @@ public:
     void setDir(const QString &dir);
     QString getBenchmarkFile();
 
-    void setMixed(bool state);
-    bool isMixed();
-
     void setRunning(bool state);
     bool isRunning();
 
@@ -60,8 +57,6 @@ public:
     } comprasionField = MBPerSec;
 
     Q_ENUM(ComparisonField)
-
-    Global::PerformanceProfile performanceProfile = Global::PerformanceProfile::Default;
 
     enum BenchmarkMode {
         ReadWriteMix,
@@ -134,7 +129,6 @@ private:
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
     QString m_dir;
-    bool m_mixedState = false;
 
     DevJonmagonKdiskmarkHelperInterface* helperInterface();
     DBusThread *m_thread;

@@ -52,6 +52,36 @@ QLocale AppSettings::defaultLocale()
     return QLocale::c();
 }
 
+Global::PerformanceProfile AppSettings::getPerformanceProfile() const
+{
+    return (Global::PerformanceProfile)m_settings->value(QStringLiteral("Benchmark/PerformanceProfile"), defaultPerformanceProfile()).toInt();
+}
+
+void AppSettings::setPerformanceProfile(Global::PerformanceProfile performanceProfile)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/PerformanceProfile"), performanceProfile);
+}
+
+Global::PerformanceProfile AppSettings::defaultPerformanceProfile()
+{
+    return Global::PerformanceProfile::Default;
+}
+
+bool AppSettings::getMixedState() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/Mixed"), defaultMixedState()).toBool();
+}
+
+void AppSettings::setMixedState(bool state)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/Mixed"), state);
+}
+
+bool AppSettings::defaultMixedState()
+{
+    return false;
+}
+
 int AppSettings::getLoopsCount() const
 {
     return m_settings->value(QStringLiteral("Benchmark/LoopsCount"), defaultLoopsCount()).toInt();

@@ -24,6 +24,14 @@ public:
     static void applyLocale(const QLocale &locale);
     static QLocale defaultLocale();
 
+    Global::PerformanceProfile getPerformanceProfile() const;
+    void setPerformanceProfile(Global::PerformanceProfile performanceProfile);
+    static Global::PerformanceProfile defaultPerformanceProfile();
+
+    bool getMixedState() const;
+    void setMixedState(bool mixedState);
+    static bool defaultMixedState();
+
     Global::BenchmarkParams getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile = Global::PerformanceProfile::Default) const;
     void setBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkParams params);
     static Global::BenchmarkParams defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkPreset preset);
