@@ -82,6 +82,36 @@ bool AppSettings::defaultMixedState()
     return false;
 }
 
+Global::BenchmarkMode AppSettings::getBenchmarkMode() const
+{
+    return (Global::BenchmarkMode)m_settings->value(QStringLiteral("Benchmark/Mode"), defaultBenchmarkMode()).toInt();
+}
+
+void AppSettings::setBenchmarkMode(Global::BenchmarkMode benchmarkMode)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/Mode"), benchmarkMode);
+}
+
+Global::BenchmarkMode AppSettings::defaultBenchmarkMode()
+{
+    return Global::BenchmarkMode::ReadWriteMix;
+}
+
+Global::BenchmarkTestData AppSettings::getBenchmarkTestData() const
+{
+    return (Global::BenchmarkTestData)m_settings->value(QStringLiteral("Benchmark/TestData"), defaultBenchmarkTestData()).toInt();
+}
+
+void AppSettings::setBenchmarkTestData(Global::BenchmarkTestData benchmarkTestData)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/TestData"), benchmarkTestData);
+}
+
+Global::BenchmarkTestData AppSettings::defaultBenchmarkTestData()
+{
+    return Global::BenchmarkTestData::Random;
+}
+
 int AppSettings::getLoopsCount() const
 {
     return m_settings->value(QStringLiteral("Benchmark/LoopsCount"), defaultLoopsCount()).toInt();
@@ -170,6 +200,21 @@ void AppSettings::setFlushingCacheState(bool state)
 bool AppSettings::defaultFlushingCacheState()
 {
     return true;
+}
+
+Global::ComparisonUnit AppSettings::getComparisonUnit() const
+{
+    return (Global::ComparisonUnit)m_settings->value(QStringLiteral("Interface/ComparisonUnit"), defaultComparisonUnit()).toInt();
+}
+
+void AppSettings::setComparisonUnit(Global::ComparisonUnit comparisonUnit)
+{
+    m_settings->setValue(QStringLiteral("Interface/ComparisonUnit"), comparisonUnit);
+}
+
+Global::ComparisonUnit AppSettings::defaultComparisonUnit()
+{
+    return Global::ComparisonUnit::MBPerSec;
 }
 
 Global::BenchmarkParams AppSettings::getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile) const

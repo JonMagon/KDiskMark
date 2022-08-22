@@ -49,26 +49,6 @@ public:
 
     bool listStorages();
 
-    enum ComparisonField {
-        MBPerSec,
-        GBPerSec,
-        IOPS,
-        Latency,
-    } comprasionField = MBPerSec;
-
-    Q_ENUM(ComparisonField)
-
-    enum BenchmarkMode {
-        ReadWriteMix,
-        ReadMix,
-        WriteMix
-    } benchmarkMode = ReadWriteMix;
-
-    enum BenchmarkTestData {
-        Random,
-        Zeros
-    } benchmarkTestData = Random;
-
     void runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> tests);
 
     struct PerformanceResult

@@ -41,7 +41,7 @@ private slots:
 
     void on_loopsCount_valueChanged(int arg1);
 
-    void on_comboBox_ComparisonField_currentIndexChanged(int index);
+    void on_comboBox_ComparisonUnit_currentIndexChanged(int index);
 
     void copyBenchmarkResult();
 

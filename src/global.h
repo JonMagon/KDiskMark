@@ -54,6 +54,25 @@ namespace Global
         NVMe_SSD
     };
 
+    enum BenchmarkMode {
+        ReadWriteMix,
+        ReadMix,
+        WriteMix
+    };
+
+    enum BenchmarkTestData {
+        Random,
+        Zeros
+    };
+
+    enum ComparisonUnit {
+        MBPerSec,
+        GBPerSec,
+        IOPS,
+        Latency,
+    };
+    Q_ENUM_NS(ComparisonUnit)
+
     int getOutputColumnsCount();
     QString getBenchmarkButtonText(BenchmarkParams params, QString paramsLine = QStringLiteral());
     QString getBenchmarkButtonToolTip(BenchmarkParams params, bool extraField = false);

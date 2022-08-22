@@ -30,8 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    const AppSettings settings;
-
     QActionGroup *localesGroup = new QActionGroup(this);
 
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
@@ -63,11 +61,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
 
-    // Default values
-    ui->loopsCount->setValue(settings.getLoopsCount());
-
-    on_comboBox_ComparisonField_currentIndexChanged(0);
-
     ui->actionDefault->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault->setProperty("mixed", false);
     ui->actionPeak_Performance->setProperty("profile", Global::PerformanceProfile::Peak);
@@ -93,9 +86,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionReal_World_Performance_Mix->setActionGroup(profilesGroup);
     connect(profilesGroup, SIGNAL(triggered(QAction*)), this, SLOT(profileSelected(QAction*)));
 
-    ui->actionRead_Write_Mix->setProperty("mode", Benchmark::BenchmarkMode::ReadWriteMix);
-    ui->actionRead_Mix->setProperty("mode", Benchmark::BenchmarkMode::ReadMix);
-    ui->actionWrite_Mix->setProperty("mode", Benchmark::BenchmarkMode::WriteMix);
+    ui->actionRead_Write_Mix->setProperty("mode", Global::BenchmarkMode::ReadWriteMix);
+    ui->actionRead_Mix->setProperty("mode", Global::BenchmarkMode::ReadMix);
+    ui->actionWrite_Mix->setProperty("mode", Global::BenchmarkMode::WriteMix);
 
     QActionGroup *modesGroup = new QActionGroup(this);
     ui->actionRead_Write_Mix->setActionGroup(modesGroup);
@@ -103,8 +96,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionWrite_Mix->setActionGroup(modesGroup);
     connect(modesGroup, SIGNAL(triggered(QAction*)), this, SLOT(modeSelected(QAction*)));
 
-    ui->actionTestData_Random->setProperty("data", Benchmark::BenchmarkTestData::Random);
-    ui->actionTestData_Zeros->setProperty("data", Benchmark::BenchmarkTestData::Zeros);
+    ui->actionTestData_Random->setProperty("data", Global::BenchmarkTestData::Random);
+    ui->actionTestData_Zeros->setProperty("data", Global::BenchmarkTestData::Zeros);
 
     QActionGroup *testDataGroup = new QActionGroup(this);
     ui->actionTestData_Random->setActionGroup(testDataGroup);
@@ -119,27 +112,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionPreset_NVMe_SSD->setActionGroup(presetsGroup);
     connect(presetsGroup, SIGNAL(triggered(QAction*)), this, SLOT(presetSelected(QAction*)));
 
-    ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
-
-    for (QAction *action : { ui->actionDefault, ui->actionPeak_Performance, ui->actionReal_World_Performance, ui->actionDemo,
-                             ui->actionDefault_Mix, ui->actionPeak_Performance_Mix, ui->actionReal_World_Performance_Mix }) {
-        if (action->property("profile").toInt() == settings.getPerformanceProfile() && action->property("mixed").toBool() == settings.getMixedState()) {
-            action->setChecked(true);
-            profileSelected(action);
-            break;
-        }
-    }
-
-    updateFileSizeList();
-
-    int indexMixRatio = settings.getRandomReadPercentage() / 10 - 1;
-
-    for (int i = 1; i <= 9; i++) {
-        ui->comboBox_MixRatio->addItem(QStringLiteral("R%1%/W%2%").arg(i * 10).arg((10 - i) * 10));
-    }
-
-    ui->comboBox_MixRatio->setCurrentIndex(indexMixRatio);
-
     m_progressBars << ui->readBar_1 << ui->writeBar_1 << ui->mixBar_1
                    << ui->readBar_2 << ui->writeBar_2 << ui->mixBar_2
                    << ui->readBar_3 << ui->writeBar_3 << ui->mixBar_3
@@ -153,8 +125,38 @@ MainWindow::MainWindow(QWidget *parent)
 
     refreshProgressBars();
 
+    // Load settings
+    const AppSettings settings;
+
+    for (QAction *action : { ui->actionDefault, ui->actionPeak_Performance, ui->actionReal_World_Performance, ui->actionDemo,
+                             ui->actionDefault_Mix, ui->actionPeak_Performance_Mix, ui->actionReal_World_Performance_Mix }) {
+        if (action->property("profile").toInt() == settings.getPerformanceProfile() && action->property("mixed").toBool() == settings.getMixedState()) {
+            action->setChecked(true);
+            profileSelected(action);
+            break;
+        }
+    }
+
+    int indexMixRatio = settings.getRandomReadPercentage() / 10 - 1;
+
+    for (int i = 1; i <= 9; i++) {
+        ui->comboBox_MixRatio->addItem(QStringLiteral("R%1%/W%2%").arg(i * 10).arg((10 - i) * 10));
+    }
+
+    ui->comboBox_ComparisonUnit->setCurrentIndex(settings.getComparisonUnit());
+    ui->comboBox_MixRatio->setCurrentIndex(indexMixRatio);
+
+    ui->actionTestData_Zeros->setChecked(settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
+    ui->actionRead_Mix->setChecked(settings.getBenchmarkMode() == Global::BenchmarkMode::ReadMix);
+    ui->actionWrite_Mix->setChecked(settings.getBenchmarkMode() == Global::BenchmarkMode::WriteMix);
+
+    ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
+    ui->loopsCount->setValue(settings.getLoopsCount());
+
     updatePresetsSelection();
     updateBenchmarkButtonsContent();
+
+    updateFileSizeList();
 
     // Set callbacks
     connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
@@ -203,7 +205,7 @@ void MainWindow::changeEvent(QEvent *event)
         updateBenchmarkButtonsContent();
         updateLabels();
 
-        QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
+        QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
         QLocale locale = QLocale();
 
@@ -211,10 +213,10 @@ void MainWindow::changeEvent(QEvent *event)
             if (!progressBar->property("Demo").toBool())
                 progressBar->setToolTip(
                     Global::getToolTipTemplate().arg(
-                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::MBPerSec)).toFloat(), 'f', 3),
-                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::GBPerSec)).toFloat(), 'f', 3),
-                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::IOPS)).toFloat(), 'f', 3),
-                        locale.toString(progressBar->property(metaEnum.valueToKey(Benchmark::Latency)).toFloat(), 'f', 3)));
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::IOPS)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::Latency)).toFloat(), 'f', 3)));
             updateProgressBar(progressBar);
         }
 
@@ -402,15 +404,15 @@ void MainWindow::updatePresetsSelection()
 
 void MainWindow::refreshProgressBars()
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
     QLocale locale = QLocale();
 
     for (auto const& progressBar: m_progressBars) {
-        progressBar->setProperty(metaEnum.valueToKey(Benchmark::MBPerSec), 0);
-        progressBar->setProperty(metaEnum.valueToKey(Benchmark::GBPerSec), 0);
-        progressBar->setProperty(metaEnum.valueToKey(Benchmark::IOPS), 0);
-        progressBar->setProperty(metaEnum.valueToKey(Benchmark::Latency), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::IOPS), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::Latency), 0);
         progressBar->setValue(0);
         progressBar->setFormat(locale.toString(0., 'f', progressBar->property("Demo").toBool() ? 1 : 2));
         if (!progressBar->property("Demo").toBool())
@@ -440,9 +442,9 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
             .arg(outputTotal, 0, 'f', 2).arg(units[i]);
 }
 
-void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
+void MainWindow::on_comboBox_ComparisonUnit_currentIndexChanged(int index)
 {
-    m_benchmark->comprasionField = Benchmark::ComparisonField(index);
+    AppSettings().setComparisonUnit(Global::ComparisonUnit(index));
     updateLabels();
 
     for (auto const& progressBar: m_progressBars) {
@@ -453,21 +455,21 @@ void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
 void MainWindow::updateLabels()
 {
     ui->label_Read->setText(Global::getComparisonLabelTemplate()
-                            .arg(tr("Read"), ui->comboBox_ComparisonField->currentText()));
+                            .arg(tr("Read"), ui->comboBox_ComparisonUnit->currentText()));
 
     ui->label_Write->setText(Global::getComparisonLabelTemplate()
-                             .arg(tr("Write"), ui->comboBox_ComparisonField->currentText()));
+                             .arg(tr("Write"), ui->comboBox_ComparisonUnit->currentText()));
 
     ui->label_Mix->setText(Global::getComparisonLabelTemplate()
-                             .arg(tr("Mix"), ui->comboBox_ComparisonField->currentText()));
+                             .arg(tr("Mix"), ui->comboBox_ComparisonUnit->currentText()));
 
-    ui->label_Unit_Read_Demo->setText(ui->comboBox_ComparisonField->currentText());
-    ui->label_Unit_Write_Demo->setText(ui->comboBox_ComparisonField->currentText());
+    ui->label_Unit_Read_Demo->setText(ui->comboBox_ComparisonUnit->currentText());
+    ui->label_Unit_Write_Demo->setText(ui->comboBox_ComparisonUnit->currentText());
 }
 
 QString MainWindow::combineOutputTestResult(const QProgressBar *progressBar, const Global::BenchmarkParams &params)
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
     return QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
            .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? "Sequential" : "Random")
@@ -476,13 +478,13 @@ QString MainWindow::combineOutputTestResult(const QProgressBar *progressBar, con
            .arg(QString::number(params.Queues).rightJustified(3, ' '))
            .arg(QString::number(params.Threads).rightJustified(2, ' '))
            .arg(QString::number(
-                    progressBar->property(metaEnum.valueToKey(Benchmark::MBPerSec)).toFloat(), 'f', 3)
+                    progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec)).toFloat(), 'f', 3)
                 .rightJustified(9, ' '))
            .arg(QString::number(
-                    progressBar->property(metaEnum.valueToKey(Benchmark::IOPS)).toFloat(), 'f', 1)
+                    progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::IOPS)).toFloat(), 'f', 1)
                 .rightJustified(8, ' '))
            .arg(QString::number(
-                    progressBar->property(metaEnum.valueToKey(Benchmark::Latency)).toFloat(), 'f', 2)
+                    progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::Latency)).toFloat(), 'f', 2)
                 .rightJustified(8, ' '))
            .rightJustified(Global::getOutputColumnsCount(), ' ');
 }
@@ -636,21 +638,21 @@ void MainWindow::profileSelected(QAction* act)
     {
     case Global::PerformanceProfile::Default:
         m_windowTitle = "KDiskMark";
-        ui->comboBox_ComparisonField->setVisible(true);
+        ui->comboBox_ComparisonUnit->setVisible(true);
         break;
     case Global::PerformanceProfile::Peak:
         m_windowTitle = "KDiskMark <PEAK>";
-        ui->comboBox_ComparisonField->setCurrentIndex(0);
-        ui->comboBox_ComparisonField->setVisible(false);
+        ui->comboBox_ComparisonUnit->setCurrentIndex(0);
+        ui->comboBox_ComparisonUnit->setVisible(false);
         break;
     case Global::PerformanceProfile::RealWorld:
         m_windowTitle = "KDiskMark <REAL>";
-        ui->comboBox_ComparisonField->setCurrentIndex(0);
-        ui->comboBox_ComparisonField->setVisible(false);
+        ui->comboBox_ComparisonUnit->setCurrentIndex(0);
+        ui->comboBox_ComparisonUnit->setVisible(false);
         break;
     case Global::PerformanceProfile::Demo:
         m_windowTitle = "KDiskMark <DEMO>";
-        ui->comboBox_ComparisonField->setVisible(true);
+        ui->comboBox_ComparisonUnit->setVisible(true);
         break;
     }
 
@@ -675,12 +677,12 @@ void MainWindow::profileSelected(QAction* act)
 
 void MainWindow::modeSelected(QAction* act)
 {
-    m_benchmark->benchmarkMode = (Benchmark::BenchmarkMode)act->property("mode").toInt();
+    AppSettings().setBenchmarkMode((Global::BenchmarkMode)act->property("mode").toInt());
 }
 
 void MainWindow::testDataSelected(QAction* act)
 {
-    m_benchmark->benchmarkTestData = (Benchmark::BenchmarkTestData)act->property("data").toInt();
+    AppSettings().setBenchmarkTestData((Global::BenchmarkTestData)act->property("data").toInt());
 }
 
 void MainWindow::presetSelected(QAction* act)
@@ -714,7 +716,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Storages->setEnabled(false);
         ui->refreshStoragesButton->setEnabled(false);
-        ui->comboBox_ComparisonField->setEnabled(false);
+        ui->comboBox_ComparisonUnit->setEnabled(false);
         ui->comboBox_MixRatio->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
         ui->pushButton_Test_1->setText(tr("Stop"));
@@ -734,7 +736,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Storages->setEnabled(true);
         ui->refreshStoragesButton->setEnabled(true);
-        ui->comboBox_ComparisonField->setEnabled(true);
+        ui->comboBox_ComparisonUnit->setEnabled(true);
         ui->comboBox_MixRatio->setEnabled(true);
         ui->pushButton_All->setEnabled(true);
         ui->pushButton_Test_1->setEnabled(true);
@@ -803,12 +805,12 @@ void MainWindow::benchmarkStatusUpdate(const QString &name)
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
-    progressBar->setProperty(metaEnum.valueToKey(Benchmark::MBPerSec), result.Bandwidth);
-    progressBar->setProperty(metaEnum.valueToKey(Benchmark::GBPerSec), result.Bandwidth / 1000);
-    progressBar->setProperty(metaEnum.valueToKey(Benchmark::IOPS), result.IOPS);
-    progressBar->setProperty(metaEnum.valueToKey(Benchmark::Latency), result.Latency);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec), result.Bandwidth);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec), result.Bandwidth / 1000);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::IOPS), result.IOPS);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::Latency), result.Latency);
 
     if (!progressBar->property("Demo").toBool()) {
         QLocale locale = QLocale();
@@ -830,51 +832,51 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
 {
     const AppSettings settings;
 
-    QMetaEnum metaEnum = QMetaEnum::fromType<Benchmark::ComparisonField>();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
-    float score = progressBar->property(metaEnum.valueToKey(Benchmark::MBPerSec)).toFloat();
+    float score = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec)).toFloat();
 
     float value;
 
-    Benchmark::ComparisonField comparisonField = Benchmark::MBPerSec;
+    Global::ComparisonUnit comparisonUnit = Global::ComparisonUnit::MBPerSec;
 
     switch (settings.getPerformanceProfile()) {
     case Global::PerformanceProfile::Peak:
     case Global::PerformanceProfile::RealWorld:
         if (progressBar == ui->readBar_3 || progressBar == ui->writeBar_3 || progressBar == ui->mixBar_3) {
-            comparisonField = Benchmark::IOPS;
+            comparisonUnit = Global::ComparisonUnit::IOPS;
         }
         else if (progressBar == ui->readBar_4 || progressBar == ui->writeBar_4 || progressBar == ui->mixBar_4) {
-            comparisonField = Benchmark::Latency;
+            comparisonUnit = Global::ComparisonUnit::Latency;
         }
         break;
     default:
-        comparisonField = m_benchmark->comprasionField;
+        comparisonUnit = settings.getComparisonUnit();
         break;
     }
 
     QLocale locale = QLocale();
 
-    switch (comparisonField) {
-    case Benchmark::MBPerSec:
+    switch (comparisonUnit) {
+    case Global::ComparisonUnit::MBPerSec:
         progressBar->setFormat(score >= 1000000.0 ? locale.toString((int)score) : locale.toString(score, 'f', progressBar->property("Demo").toBool() ? 1 : 2));
         break;
-    case Benchmark::GBPerSec:
-        value = progressBar->property(metaEnum.valueToKey(Benchmark::GBPerSec)).toFloat();
+    case Global::ComparisonUnit::GBPerSec:
+        value = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec)).toFloat();
         progressBar->setFormat(locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 1 : 3));
         break;
-    case Benchmark::IOPS:
-        value = progressBar->property(metaEnum.valueToKey(Benchmark::IOPS)).toFloat();
+    case Global::ComparisonUnit::IOPS:
+        value = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::IOPS)).toFloat();
         progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 0 : 2));
         break;
-    case Benchmark::Latency:
-        value = progressBar->property(metaEnum.valueToKey(Benchmark::Latency)).toFloat();
+    case Global::ComparisonUnit::Latency:
+        value = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::Latency)).toFloat();
         progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 1 : 2));
         break;
     }
 
     if (!progressBar->property("Demo").toBool()) {
-        if (comparisonField == Benchmark::Latency) {
+        if (comparisonUnit == Global::ComparisonUnit::Latency) {
             progressBar->setValue(value <= 0.0000000001 ? 0 : 100 - 16.666666666666 * log10(value));
         }
         else {

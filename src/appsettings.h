@@ -36,6 +36,14 @@ public:
     void setBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkParams params);
     static Global::BenchmarkParams defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkPreset preset);
 
+    Global::BenchmarkMode getBenchmarkMode() const;
+    void setBenchmarkMode(Global::BenchmarkMode benchmarkMode);
+    static Global::BenchmarkMode defaultBenchmarkMode();
+
+    Global::BenchmarkTestData getBenchmarkTestData() const;
+    void setBenchmarkTestData(Global::BenchmarkTestData benchmarkTestData);
+    static Global::BenchmarkTestData defaultBenchmarkTestData();
+
     int getLoopsCount() const;
     void setLoopsCount(int loopsCount);
     static int defaultLoopsCount();
@@ -59,6 +67,10 @@ public:
     bool getFlusingCacheState() const;
     void setFlushingCacheState(bool flushingCacheState);
     static bool defaultFlushingCacheState();
+
+    Global::ComparisonUnit getComparisonUnit() const;
+    void setComparisonUnit(Global::ComparisonUnit comparisonUnit);
+    static Global::ComparisonUnit defaultComparisonUnit();
 
 private:
     static QTranslator s_appTranslator;

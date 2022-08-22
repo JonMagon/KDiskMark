@@ -97,7 +97,7 @@ if (!interface)
                                                       settings.getMeasuringTime(),
                                                       settings.getFileSize(),
                                                       settings.getRandomReadPercentage(),
-                                                      this->benchmarkTestData == BenchmarkTestData::Zeros,
+                                                      settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
                                                       blockSize, queueDepth, threads, rw);
         QEventLoop loop;
 
@@ -239,14 +239,16 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 {
     setRunning(true);
 
+    const AppSettings settings;
+
     QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>> item;
 
     QMutableListIterator<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> iter(tests);
     // Set to 0 all the progressbars for current tests
     while (iter.hasNext()) {
         item = iter.next();
-        if (item.first.second == Global::BenchmarkIOReadWrite::Read && this->benchmarkMode == BenchmarkMode::WriteMix) { iter.remove(); continue; }
-        if (item.first.second == Global::BenchmarkIOReadWrite::Write && this->benchmarkMode == BenchmarkMode::ReadMix) { iter.remove(); continue; }
+        if (item.first.second == Global::BenchmarkIOReadWrite::Read && settings.getBenchmarkMode() == Global::BenchmarkMode::WriteMix) { iter.remove(); continue; }
+        if (item.first.second == Global::BenchmarkIOReadWrite::Write && settings.getBenchmarkMode() == Global::BenchmarkMode::ReadMix) { iter.remove(); continue; }
         auto progressBars = item.second;
         for (auto obj : progressBars) {
             emit resultReady(obj, PerformanceResult());
@@ -254,8 +256,6 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     }
 
     iter.toFront();
-
-    const AppSettings settings;
 
     while (iter.hasNext() && m_running) {
         item = iter.next();
@@ -476,7 +476,7 @@ if (!interface)
 
     bool flushed = true;
 
-    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, this->benchmarkTestData == BenchmarkTestData::Zeros, rw);
+    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros, rw);
 
     QEventLoop loop;
 
