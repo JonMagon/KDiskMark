@@ -4,10 +4,11 @@
 #include <QTranslator>
 #include <QMessageBox>
 #include <QLibraryInfo>
-#include <QStyleFactory>
 #include <QStandardPaths>
 
 #include "cmake.h"
+
+#include <KAuth>
 
 int main(int argc, char *argv[])
 {
@@ -18,35 +19,17 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
 
-    a.setStyle(QStyleFactory::create("Fusion"));
+    AppSettings().setupLocalization();
 
-    qRegisterMetaType<Benchmark::Type>("Benchmark::Type");
-    qRegisterMetaType<Benchmark::PerformanceResult>("Benchmark::PerfomanceResult");
-    qRegisterMetaType<QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>>("QList<QPair<Benchmark::Type,QVector<QProgressBar*>>>");
-
-    AppSettings settings;
-    settings.setupLocalization();
-    Benchmark benchmark(&settings);
-
-    if (benchmark.isFIODetected()) {
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-        if (!settings.isRunningAsRoot()) {
-            QMessageBox::information(0, "KDiskMark",
-                                     QObject::tr("KDiskMark is not running as root.\nClearing the I/O cache will not be performed.\n" \
-                                                 "Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.\n" \
-                                                 "This is especially important if you are going to benchmark external devices."));
-        }
-#endif
-
-        MainWindow w(&settings, &benchmark);
-        w.setFixedSize(w.size());
-        w.show();
-
-        return a.exec();
-    }
-    else {
+    if (!Benchmark().isFIODetected()) {
         QMessageBox::critical(0, "KDiskMark",
                               QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
-        return -1;
+        return EXIT_FAILURE;
     }
+
+    MainWindow w;
+    w.setFixedSize(w.size());
+    w.show();
+
+    return a.exec();
 }

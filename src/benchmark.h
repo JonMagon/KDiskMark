@@ -6,40 +6,50 @@
 #include <QString>
 #include <QProgressBar>
 #include <QObject>
+#include <QThread>
 
 #include <memory>
 
-class AppSettings;
+#include "appsettings.h"
+
+class QDBusPendingCall;
+class DevJonmagonKdiskmarkHelperInterface;
+
+struct HelperPrivate;
+
+class DBusThread : public QThread
+{
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "dev.jonmagon.kdiskmark.applicationinterface")
+
+    void run() override;
+};
 
 class Benchmark : public QObject
 {
     Q_OBJECT
-
-    AppSettings *m_settings;
-    std::vector<std::shared_ptr<QProcess>> m_processes;
-    bool m_running;
-    QString m_FIOVersion;
-    QVector<QProgressBar*> m_progressBars;
+    Q_DISABLE_COPY(Benchmark)
 
 public:
-    Benchmark(AppSettings *settings);
+    Benchmark();
+    ~Benchmark();
+
     QString getFIOVersion();
     bool isFIODetected();
 
-    enum Type {
-        SEQ_1_Read,
-        SEQ_1_Write,
-        SEQ_1_Mix,
-        SEQ_2_Read,
-        SEQ_2_Write,
-        SEQ_2_Mix,
-        RND_1_Read,
-        RND_1_Write,
-        RND_1_Mix,
-        RND_2_Read,
-        RND_2_Write,
-        RND_2_Mix
-    };
+    void setDir(const QString &dir);
+    QString getBenchmarkFile();
+
+    void setRunning(bool state);
+    bool isRunning();
+
+    // KAuth
+    bool startHelper();
+    void stopHelper();
+
+    bool listStorages();
+
+    void runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> tests);
 
     struct PerformanceResult
     {
@@ -85,24 +95,39 @@ public:
         PerformanceResult read, write;
     };
 
+    struct Storage
+    {
+        QString path;
+        qlonglong bytesTotal;
+        qlonglong bytesOccupied;
+    };
+
 private:
-    void startFIO(int block_size, int queue_depth, int threads, const QString &rw, const QString &statusMessage);
-    Benchmark::ParsedJob parseResult(const std::shared_ptr<QProcess> process);
+    bool m_running;
+    QString m_FIOVersion;
+    QVector<QProgressBar*> m_progressBars;
+    QString m_dir;
+
+    DevJonmagonKdiskmarkHelperInterface* helperInterface();
+    DBusThread *m_thread;
+
+private:
+    void startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage);
+    Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
-public slots:
-    void runBenchmark(QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> tests);
-    void setRunning(bool state);
+    bool prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw);
+    bool flushPageCache();
+
+    void dbusWaitForFinish(QDBusPendingCall pcall);
 
 signals:
+    void mountPointsListReady(const QVector<Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void failed(const QString &error);
     void finished();
     void runningStateChanged(bool state);
 };
-
-Q_DECLARE_METATYPE(Benchmark::Type)
-Q_DECLARE_METATYPE(Benchmark::PerformanceResult)
 
 #endif // BENCHMARK_H

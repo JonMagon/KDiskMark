@@ -17,28 +17,28 @@
 
 ## Report Example
 ```
-                     KDiskMark (2.3.0): https://github.com/JonMagon/KDiskMark
-                 Flexible I/O Tester (fio-3.28): https://github.com/axboe/fio
------------------------------------------------------------------------------
+                        KDiskMark (3.0.0): https://github.com/JonMagon/KDiskMark
+                    Flexible I/O Tester (fio-3.16): https://github.com/axboe/fio
+--------------------------------------------------------------------------------
 * MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]
 * KB = 1000 bytes, KiB = 1024 bytes
 
 [Read]
-Sequential 1 MiB (Q= 8, T= 1):   550.145 MB/s [    537.3 IOPS] < 14840.12 us>
-Sequential 1 MiB (Q= 1, T= 1):   456.261 MB/s [    445.6 IOPS] <  2233.53 us>
-    Random 4 KiB (Q=32, T= 1):   339.953 MB/s [  84988.3 IOPS] <   377.48 us>
-    Random 4 KiB (Q= 1, T= 1):    43.042 MB/s [  10760.6 IOPS] <    90.69 us>
+Sequential   1 MiB (Q=  8, T= 1):   508.897 MB/s [    497.0 IOPS] < 13840.05 us>
+Sequential   1 MiB (Q=  1, T= 1):   438.278 MB/s [    428.0 IOPS] <  2280.14 us>
+    Random   4 KiB (Q= 32, T= 1):   354.657 MB/s [  88664.6 IOPS] <   352.37 us>
+    Random   4 KiB (Q=  1, T= 1):    44.166 MB/s [  11041.6 IOPS] <    88.48 us>
 
 [Write]
-Sequential 1 MiB (Q= 8, T= 1):   522.410 MB/s [    510.2 IOPS] < 15210.65 us>
-Sequential 1 MiB (Q= 1, T= 1):   371.278 MB/s [    362.6 IOPS] <  2248.00 us>
-    Random 4 KiB (Q=32, T= 1):   330.205 MB/s [  82551.5 IOPS] <   387.88 us>
-    Random 4 KiB (Q= 1, T= 1):   100.602 MB/s [  25150.7 IOPS] <    36.40 us>
+Sequential   1 MiB (Q=  8, T= 1):   460.312 MB/s [    449.5 IOPS] < 15153.11 us>
+Sequential   1 MiB (Q=  1, T= 1):   333.085 MB/s [    325.3 IOPS] <  2349.82 us>
+    Random   4 KiB (Q= 32, T= 1):   315.170 MB/s [  78792.5 IOPS] <   383.86 us>
+    Random   4 KiB (Q=  1, T= 1):    91.040 MB/s [  22760.3 IOPS] <    39.80 us>
 
 Profile: Default
-   Test: 1 GiB (x5) [Interval: 5 sec]
-   Date: 2021-11-02 13:17:41
-     OS: opensuse-tumbleweed 20211031 [linux 5.14.14-1-default]
+   Test: 1 GiB (x5) [Measure: 5 sec / Interval: 5 sec]
+   Date: 2022-08-24 16:10:33
+     OS: opensuse-tumbleweed 20220821 [linux 5.19.2-1-default]
 ```
 
 ## Dependencies
@@ -46,22 +46,16 @@ Profile: Default
 * GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
-* [KAuth](https://github.com/KDE/kauth) (optional)
-* Qt with Widgets >= 5.9
+* [KAuth](https://github.com/KDE/kauth)
+* Qt with Widgets and DBus >= 5.9
 ### Runtime
-* Qt with Widgets >= 5.9
+* Qt with Widgets and DBus >= 5.9
 * [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
     * If you build FIO from source, install `libaio-dev` package.
 * KAuth Library
 
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
-
-### Install from the Snap Store
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/kdiskmark)
-```bash
-sudo snap install kdiskmark
-````
 
 ### Ubuntu based distros
 ```bash
@@ -107,13 +101,6 @@ cmake -D CMAKE_BUILD_TYPE=Release ..
 cpack -G DEB # Or RPM, ZIP etc.
 ```
 
-### Build parameters
-* `PAGECACHE_FLUSH` enables pagecache clearing functionality (default is ON). If disabled, the application will not be able to clear the pagecache in any way.
-* `KF5AUTH_USING` determines whether a helper will be built (default is ON). If the KF5Auth helper is not built, the application will be able to clear the pagecache if it is run as root.
-
-Build parameters are passed at configuration stage:  
-`cmake -D KF5AUTH_USING=OFF ..`
-
 ## Localization [![Crowdin](https://badges.crowdin.net/kdiskmark/localized.svg)](https://crowdin.com/project/kdiskmark)
 To help with localization you can use [Crowdin](https://crowdin.com/project/kdiskmark) or translate files in `data/translations` with [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html) directly. To add a new language, copy `data/translations/kdiskmark.ts` to `data/translations/kdiskmark_<ISO 639-1 language code>_<ISO 3166-1 alpha-2 language code>.ts`, translate it, then add the file to the TS_FILES variable in CMakeLists.txt, and create a pull request. It is also possible to add localized Comment and Keywords sections into `data/kdiskmark.desktop`.
 
@@ -135,8 +122,7 @@ Languages currently available:
 * Ukrainian
 
 ## TODO
-- [ ] CLI
-- [ ] Windows compatibility
+- [ ] Text-based user interface
 - [x] Performance profiles (mix, peak, real-world)
 
 ## Special Thanks

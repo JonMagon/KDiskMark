@@ -4,7 +4,6 @@
 #include "cmake.h"
 #include "global.h"
 
-#include <QAbstractButton>
 #include <QIcon>
 
 About::About(const QString &FIOVersion, QWidget *parent) :
@@ -12,8 +11,6 @@ About::About(const QString &FIOVersion, QWidget *parent) :
     ui(new Ui::About)
 {
     ui->setupUi(this);
-
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
     ui->label_Version->setText(qApp->applicationVersion());
     ui->label_FIO->setText(FIOVersion);

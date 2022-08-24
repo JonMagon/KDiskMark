@@ -2,187 +2,297 @@
 
 #include "cmake.h"
 
-#include <QApplication>
 #include <QCoreApplication>
 #include <QTranslator>
 #include <QStandardPaths>
 #include <QLibraryInfo>
+#include <QSettings>
+#include <QMetaEnum>
 
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
-AppSettings::AppSettings()
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-{
-    m_runningAsRoot = getuid() == 0;
-}
-#else
+AppSettings::AppSettings(QObject *parent)
+    : QObject(parent)
+    , m_settings(new QSettings(this))
 {
 }
-#endif
 
 void AppSettings::setupLocalization()
 {
-    setLocale(QLocale());
+    applyLocale(locale());
     QCoreApplication::installTranslator(&s_appTranslator);
     QCoreApplication::installTranslator(&s_qtTranslator);
 }
 
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-bool AppSettings::isRunningAsRoot()
+QLocale AppSettings::locale() const
 {
-    return m_runningAsRoot;
+    return m_settings->value(QStringLiteral("Locale"), defaultLocale()).value<QLocale>();
 }
-#endif
 
-void AppSettings::setLocale(const QLocale locale)
+void AppSettings::setLocale(const QLocale &locale)
 {
-    if (locale == QLocale::AnyLanguage)
-        QLocale::setDefault(QLocale::system());
-    else
-        QLocale::setDefault(QLocale(locale));
+    if (locale != this->locale()) {
+        m_settings->setValue(QStringLiteral("Locale"), locale);
+        applyLocale(locale);
+    }
+}
 
-    s_appTranslator.load(QLocale(), qAppName(), QStringLiteral("_"),
-                         QStandardPaths::locate(QStandardPaths::AppDataLocation,
-                                                QStringLiteral("translations"),
-                                                QStandardPaths::LocateDirectory));
-    s_qtTranslator.load(QLocale(), QStringLiteral("qt"), QStringLiteral("_"),
-                        QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+void AppSettings::applyLocale(const QLocale &locale)
+{
+    const QLocale newLocale = locale == defaultLocale() ? QLocale::system() : locale;
+    QLocale::setDefault(newLocale);
+    s_appTranslator.load(newLocale, QStringLiteral(PROJECT_NAME), QStringLiteral("_"), QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("translations"), QStandardPaths::LocateDirectory));
+    s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 }
 
 QLocale AppSettings::defaultLocale()
 {
-    return QLocale::AnyLanguage;
+    return QLocale::c();
 }
 
-void AppSettings::setLoopsCount(int loops)
+Global::PerformanceProfile AppSettings::getPerformanceProfile() const
 {
-    m_loopsCount = loops;
+    return (Global::PerformanceProfile)m_settings->value(QStringLiteral("Benchmark/PerformanceProfile"), defaultPerformanceProfile()).toInt();
 }
 
-int AppSettings::getLoopsCount()
+void AppSettings::setPerformanceProfile(Global::PerformanceProfile performanceProfile)
 {
-    return m_loopsCount;
+    m_settings->setValue(QStringLiteral("Benchmark/PerformanceProfile"), performanceProfile);
 }
 
-void AppSettings::setFileSize(int size)
+Global::PerformanceProfile AppSettings::defaultPerformanceProfile()
 {
-    m_fileSize = size;
+    return Global::PerformanceProfile::Default;
 }
 
-int AppSettings::getFileSize()
+bool AppSettings::getMixedState() const
 {
-    return m_fileSize;
+    return m_settings->value(QStringLiteral("Benchmark/Mixed"), defaultMixedState()).toBool();
+}
+
+void AppSettings::setMixedState(bool state)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/Mixed"), state);
+}
+
+bool AppSettings::defaultMixedState()
+{
+    return false;
+}
+
+Global::BenchmarkMode AppSettings::getBenchmarkMode() const
+{
+    return (Global::BenchmarkMode)m_settings->value(QStringLiteral("Benchmark/Mode"), defaultBenchmarkMode()).toInt();
+}
+
+void AppSettings::setBenchmarkMode(Global::BenchmarkMode benchmarkMode)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/Mode"), benchmarkMode);
+}
+
+Global::BenchmarkMode AppSettings::defaultBenchmarkMode()
+{
+    return Global::BenchmarkMode::ReadWriteMix;
+}
+
+Global::BenchmarkTestData AppSettings::getBenchmarkTestData() const
+{
+    return (Global::BenchmarkTestData)m_settings->value(QStringLiteral("Benchmark/TestData"), defaultBenchmarkTestData()).toInt();
+}
+
+void AppSettings::setBenchmarkTestData(Global::BenchmarkTestData benchmarkTestData)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/TestData"), benchmarkTestData);
+}
+
+Global::BenchmarkTestData AppSettings::defaultBenchmarkTestData()
+{
+    return Global::BenchmarkTestData::Random;
+}
+
+int AppSettings::getLoopsCount() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/LoopsCount"), defaultLoopsCount()).toInt();
+}
+
+void AppSettings::setLoopsCount(int loopsCount)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/LoopsCount"), loopsCount);
+}
+
+int AppSettings::defaultLoopsCount()
+{
+    return 5;
+}
+
+int AppSettings::getFileSize() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/FileSize"), defaultFileSize()).toInt();
+}
+
+void AppSettings::setFileSize(int fileSize)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/FileSize"), fileSize);
+}
+
+int AppSettings::defaultFileSize()
+{
+    return 1024;
+}
+
+int AppSettings::getMeasuringTime() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/MeasuringTime"), defaultMeasuringTime()).toInt();
 }
 
 void AppSettings::setMeasuringTime(int measuringTime)
 {
-    m_measuringTime = measuringTime;
+    m_settings->setValue(QStringLiteral("Benchmark/MeasuringTime"), measuringTime);
 }
 
-int AppSettings::getMeasuringTime()
+int AppSettings::defaultMeasuringTime()
 {
-    return m_measuringTime;
+    return 5;
+}
+
+int AppSettings::getIntervalTime() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/IntervalTime"), defaultIntervalTime()).toInt();
 }
 
 void AppSettings::setIntervalTime(int intervalTime)
 {
-    m_intervalTime = intervalTime;
+    m_settings->setValue(QStringLiteral("Benchmark/IntervalTime"), intervalTime);
 }
 
-int AppSettings::getIntervalTime()
+int AppSettings::defaultIntervalTime()
 {
-    return m_intervalTime;
+    return 5;
 }
 
-void AppSettings::setDir(const QString &dir)
+int AppSettings::getRandomReadPercentage() const
 {
-    m_dir = dir;
+    return m_settings->value(QStringLiteral("Benchmark/RandomReadPercentage"), defaultRandomReadPercentage()).toInt();
 }
 
-void AppSettings::setRandomReadPercentage(float percentage)
+void AppSettings::setRandomReadPercentage(int randomReadPercentage)
 {
-    m_percentage = percentage;
+    m_settings->setValue(QStringLiteral("Benchmark/RandomReadPercentage"), randomReadPercentage);
 }
 
-int AppSettings::getRandomReadPercentage()
+int AppSettings::defaultRandomReadPercentage()
 {
-    return m_percentage;
+    return 70;
 }
 
-QString AppSettings::getBenchmarkFile()
+bool AppSettings::getFlusingCacheState() const
 {
-    if (m_dir.isNull())
-        return QString();
-
-    if (m_dir.endsWith("/")) {
-        return m_dir + ".kdiskmark.tmp";
-    }
-    else {
-        return m_dir + "/.kdiskmark.tmp";
-    }
-}
-
-bool AppSettings::isMixed()
-{
-    return m_mixedState;
-}
-
-void AppSettings::setMixed(bool state)
-{
-    m_mixedState = state;
+    return m_settings->value(QStringLiteral("Benchmark/FlushingCache"), defaultFlushingCacheState()).toBool();
 }
 
 void AppSettings::setFlushingCacheState(bool state)
 {
-    m_shouldFlushCache = state;
+    m_settings->setValue(QStringLiteral("Benchmark/FlushingCache"), state);
 }
 
-bool AppSettings::shouldFlushCache()
+bool AppSettings::defaultFlushingCacheState()
 {
-    return m_shouldFlushCache;
+    return true;
 }
 
-void AppSettings::restoreDefaultBenchmarkParams()
+Global::ComparisonUnit AppSettings::getComparisonUnit() const
 {
-    m_SEQ_1 = m_default_SEQ_1;
-    m_SEQ_2 = m_default_SEQ_2;
-    m_RND_1 = m_default_RND_1;
-    m_RND_2 = m_default_RND_2;
-    m_intervalTime = m_default_intervalTime;
+    return (Global::ComparisonUnit)m_settings->value(QStringLiteral("Interface/ComparisonUnit"), defaultComparisonUnit()).toInt();
 }
 
-AppSettings::BenchmarkParams AppSettings::getBenchmarkParams(BenchmarkTest test)
+void AppSettings::setComparisonUnit(Global::ComparisonUnit comparisonUnit)
 {
-    switch (test)
+    m_settings->setValue(QStringLiteral("Interface/ComparisonUnit"), comparisonUnit);
+}
+
+Global::ComparisonUnit AppSettings::defaultComparisonUnit()
+{
+    return Global::ComparisonUnit::MBPerSec;
+}
+
+Global::BenchmarkParams AppSettings::getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile) const
+{
+    Global::BenchmarkParams defaultSet = defaultBenchmarkParams(test, profile, Global::BenchmarkPreset::Standard);
+    if (profile == Global::PerformanceProfile::RealWorld) return defaultSet;
+
+    QString settingKey = QStringLiteral("Benchmark/Params/%1/%2/%3")
+            .arg(QMetaEnum::fromType<Global::PerformanceProfile>().valueToKey(profile))
+            .arg(QMetaEnum::fromType<Global::BenchmarkTest>().valueToKey(test));
+
+    return {
+        (Global::BenchmarkIOPattern)m_settings->value(settingKey.arg("Pattern"), defaultSet.Pattern).toInt(),
+        m_settings->value(settingKey.arg("BlockSize"), defaultSet.BlockSize).toInt(),
+        m_settings->value(settingKey.arg("Queues"), defaultSet.Queues).toInt(),
+        m_settings->value(settingKey.arg("Threads"), defaultSet.Threads).toInt()
+    };
+}
+
+void AppSettings::setBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkParams params)
+{
+    QString settingKey = QStringLiteral("Benchmark/Params/%1/%2/%3")
+            .arg(QMetaEnum::fromType<Global::PerformanceProfile>().valueToKey(profile))
+            .arg(QMetaEnum::fromType<Global::BenchmarkTest>().valueToKey(test));
+
+    m_settings->setValue(settingKey.arg("Pattern"), params.Pattern);
+    m_settings->setValue(settingKey.arg("BlockSize"), params.BlockSize);
+    m_settings->setValue(settingKey.arg("Queues"), params.Queues);
+    m_settings->setValue(settingKey.arg("Threads"), params.Threads);
+}
+
+Global::BenchmarkParams AppSettings::defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkPreset preset)
+{
+    switch (profile)
     {
-    case SEQ_1:
-        return performanceProfile != PerformanceProfile::RealWorld ? m_SEQ_1 : m_RealWorld_SEQ;
-    case SEQ_2:
-        return m_SEQ_2;
-    case RND_1:
-        return performanceProfile != PerformanceProfile::RealWorld ? m_RND_1 : m_RealWorld_RND;
-    case RND_2:
-        return m_RND_2;
+        case Global::PerformanceProfile::Default:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
+            case Global::BenchmarkTest::Test_2:
+                if (preset == Global::BenchmarkPreset::Standard)
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  1,  1 };
+                else
+                return { Global::BenchmarkIOPattern::SEQ,  128, 32,  1 };
+            case Global::BenchmarkTest::Test_3:
+                if (preset == Global::BenchmarkPreset::Standard)
+                return { Global::BenchmarkIOPattern::RND,    4, 32,  1 };
+                else
+                return { Global::BenchmarkIOPattern::RND,    4, 32, 16 };
+            case Global::BenchmarkTest::Test_4:
+                return { Global::BenchmarkIOPattern::RND,    4,  1,  1 };
+            }
+            break;
+        case Global::PerformanceProfile::Peak:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
+            case Global::BenchmarkTest::Test_2:
+                if (preset == Global::BenchmarkPreset::Standard)
+                return { Global::BenchmarkIOPattern::RND,    4, 32,  1 };
+                else
+                return { Global::BenchmarkIOPattern::RND,    4, 32, 16 };
+            }
+        case Global::PerformanceProfile::RealWorld:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  1,  1 };
+            case Global::BenchmarkTest::Test_2:
+                return { Global::BenchmarkIOPattern::RND,    4,  1,  1 };
+            }
+        case Global::PerformanceProfile::Demo:
+            switch (test)
+            {
+            case Global::BenchmarkTest::Test_1:
+                return { Global::BenchmarkIOPattern::SEQ, 1024,  8,  1 };
+            }
     }
     Q_UNREACHABLE();
-}
-
-void AppSettings::setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads)
-{
-    switch (test)
-    {
-    case SEQ_1:
-        m_SEQ_1 = { blockSize, queues, threads };
-        break;
-    case SEQ_2:
-        m_SEQ_2 = { blockSize, queues, threads };
-        break;
-    case RND_1:
-        m_RND_1 = { blockSize, queues, threads };
-        break;
-    case RND_2:
-        m_RND_2 = { blockSize, queues, threads };
-        break;
-    }
 }

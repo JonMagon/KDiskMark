@@ -1,19 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QProcess>
-#include <QToolTip>
 #include <QMessageBox>
-#include <QThread>
 #include <QStorageInfo>
-#include <QStandardItemModel>
-#include <QLineEdit>
 #include <QMetaEnum>
 #include <QClipboard>
 #include <QDate>
 #include <QFileDialog>
 #include <QTextStream>
-#include <QInputDialog>
+#include <QAbstractItemView>
+#include <QStyleFactory>
+#include <QTimer>
 
 #include "math.h"
 #include "about.h"
@@ -21,9 +18,10 @@
 #include "diskdriveinfo.h"
 #include "global.h"
 
-MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_benchmark(new Benchmark)
 {
     ui->setupUi(this);
 
@@ -31,10 +29,10 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
-                                 QLocale::French, QLocale::Italian, QLocale::Polish,
-                                 QLocale(QLocale::Portuguese, QLocale::Brazil),
-                                 QLocale::Slovak, QLocale::Russian, QLocale::Ukrainian,
-                                 QLocale::Chinese, QLocale::Hindi };
+                                 QLocale::French, QLocale::Italian, QLocale::Hungarian,
+                                 QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil),
+                                 QLocale::Slovak, QLocale::Turkish, QLocale::Russian,
+                                 QLocale::Ukrainian, QLocale::Chinese, QLocale::Hindi };
 
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
@@ -58,132 +56,109 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
 
-    m_settings = settings;
-
-#ifndef PAGECACHE_FLUSH
-    ui->actionFlush_Pagecache->setVisible(false);
-#elif !defined(KF5AUTH_USING)
-    ui->actionFlush_Pagecache->setChecked(m_settings->isRunningAsRoot());
-        if (!m_settings->isRunningAsRoot()) {
-            ui->actionFlush_Pagecache->setEnabled(false);
-        }
-#endif
-
-    // Default values
-    ui->loopsCount->setValue(m_settings->getLoopsCount());
-
-    on_comboBox_ComparisonField_currentIndexChanged(0);
-
-    ui->actionDefault->setProperty("profile", AppSettings::PerformanceProfile::Default);
+    ui->actionDefault->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault->setProperty("mixed", false);
-    ui->actionPeak_Performance->setProperty("profile", AppSettings::PerformanceProfile::Peak);
+    ui->actionPeak_Performance->setProperty("profile", Global::PerformanceProfile::Peak);
     ui->actionPeak_Performance->setProperty("mixed", false);
-    ui->actionReal_World_Performance->setProperty("profile", AppSettings::PerformanceProfile::RealWorld);
+    ui->actionReal_World_Performance->setProperty("profile", Global::PerformanceProfile::RealWorld);
     ui->actionReal_World_Performance->setProperty("mixed", false);
-    ui->actionDefault_Mix->setProperty("profile", AppSettings::PerformanceProfile::Default);
+    ui->actionDemo->setProperty("profile", Global::PerformanceProfile::Demo);
+    ui->actionDemo->setProperty("mixed", false);
+    ui->actionDefault_Mix->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault_Mix->setProperty("mixed", true);
-    ui->actionPeak_Performance_Mix->setProperty("profile", AppSettings::PerformanceProfile::Peak);
+    ui->actionPeak_Performance_Mix->setProperty("profile", Global::PerformanceProfile::Peak);
     ui->actionPeak_Performance_Mix->setProperty("mixed", true);
-    ui->actionReal_World_Performance_Mix->setProperty("profile", AppSettings::PerformanceProfile::RealWorld);
+    ui->actionReal_World_Performance_Mix->setProperty("profile", Global::PerformanceProfile::RealWorld);
     ui->actionReal_World_Performance_Mix->setProperty("mixed", true);
 
     QActionGroup *profilesGroup = new QActionGroup(this);
     ui->actionDefault->setActionGroup(profilesGroup);
     ui->actionPeak_Performance->setActionGroup(profilesGroup);
     ui->actionReal_World_Performance->setActionGroup(profilesGroup);
+    ui->actionDemo->setActionGroup(profilesGroup);
     ui->actionDefault_Mix->setActionGroup(profilesGroup);
     ui->actionPeak_Performance_Mix->setActionGroup(profilesGroup);
     ui->actionReal_World_Performance_Mix->setActionGroup(profilesGroup);
-
     connect(profilesGroup, SIGNAL(triggered(QAction*)), this, SLOT(profileSelected(QAction*)));
 
-    profileSelected(ui->actionDefault);
+    ui->actionRead_Write_Mix->setProperty("mode", Global::BenchmarkMode::ReadWriteMix);
+    ui->actionRead_Mix->setProperty("mode", Global::BenchmarkMode::ReadMix);
+    ui->actionWrite_Mix->setProperty("mode", Global::BenchmarkMode::WriteMix);
 
-    updateFileSizeList();
+    QActionGroup *modesGroup = new QActionGroup(this);
+    ui->actionRead_Write_Mix->setActionGroup(modesGroup);
+    ui->actionRead_Mix->setActionGroup(modesGroup);
+    ui->actionWrite_Mix->setActionGroup(modesGroup);
+    connect(modesGroup, SIGNAL(triggered(QAction*)), this, SLOT(modeSelected(QAction*)));
 
-    int indexMixRatio = m_settings->getRandomReadPercentage() / 10 - 1;
+    ui->actionTestData_Random->setProperty("data", Global::BenchmarkTestData::Random);
+    ui->actionTestData_Zeros->setProperty("data", Global::BenchmarkTestData::Zeros);
+
+    QActionGroup *testDataGroup = new QActionGroup(this);
+    ui->actionTestData_Random->setActionGroup(testDataGroup);
+    ui->actionTestData_Zeros->setActionGroup(testDataGroup);
+    connect(testDataGroup, SIGNAL(triggered(QAction*)), this, SLOT(testDataSelected(QAction*)));
+
+    ui->actionPreset_Standard->setProperty("preset", Global::BenchmarkPreset::Standard);
+    ui->actionPreset_NVMe_SSD->setProperty("preset", Global::BenchmarkPreset::NVMe_SSD);
+
+    QActionGroup *presetsGroup = new QActionGroup(this);
+    ui->actionPreset_Standard->setActionGroup(presetsGroup);
+    ui->actionPreset_NVMe_SSD->setActionGroup(presetsGroup);
+    connect(presetsGroup, SIGNAL(triggered(QAction*)), this, SLOT(presetSelected(QAction*)));
+
+    m_progressBars << ui->readBar_1 << ui->writeBar_1 << ui->mixBar_1
+                   << ui->readBar_2 << ui->writeBar_2 << ui->mixBar_2
+                   << ui->readBar_3 << ui->writeBar_3 << ui->mixBar_3
+                   << ui->readBar_4 << ui->writeBar_4 << ui->mixBar_4
+                   << ui->readBar_Demo << ui->writeBar_Demo;
+
+    QStyle *progressBarStyle = QStyleFactory::create("Fusion");
+    for (auto const& progressBar: m_progressBars) {
+        progressBar->setStyle(progressBarStyle);
+    }
+
+    refreshProgressBars();
+
+    // Load settings
+    const AppSettings settings;
+
+    for (QAction *action : { ui->actionDefault, ui->actionPeak_Performance, ui->actionReal_World_Performance, ui->actionDemo,
+                             ui->actionDefault_Mix, ui->actionPeak_Performance_Mix, ui->actionReal_World_Performance_Mix }) {
+        if (action->property("profile").toInt() == settings.getPerformanceProfile() && action->property("mixed").toBool() == settings.getMixedState()) {
+            action->setChecked(true);
+            profileSelected(action);
+            break;
+        }
+    }
+
+    int indexMixRatio = settings.getRandomReadPercentage() / 10 - 1;
 
     for (int i = 1; i <= 9; i++) {
         ui->comboBox_MixRatio->addItem(QStringLiteral("R%1%/W%2%").arg(i * 10).arg((10 - i) * 10));
     }
 
+    ui->comboBox_ComparisonUnit->setCurrentIndex(settings.getComparisonUnit());
     ui->comboBox_MixRatio->setCurrentIndex(indexMixRatio);
 
-    m_progressBars << ui->readBar_1 << ui->writeBar_1 << ui->mixBar_1
-                   << ui->readBar_2 << ui->writeBar_2 << ui->mixBar_2
-                   << ui->readBar_3 << ui->writeBar_3 << ui->mixBar_3
-                   << ui->readBar_4 << ui->writeBar_4 << ui->mixBar_4;
+    ui->actionTestData_Zeros->setChecked(settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
+    ui->actionRead_Mix->setChecked(settings.getBenchmarkMode() == Global::BenchmarkMode::ReadMix);
+    ui->actionWrite_Mix->setChecked(settings.getBenchmarkMode() == Global::BenchmarkMode::WriteMix);
 
-    refreshProgressBars();
+    ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
+    ui->loopsCount->setValue(settings.getLoopsCount());
 
+    updatePresetsSelection();
     updateBenchmarkButtonsContent();
 
-    bool isSomeDeviceMountAsHome = false;
-    bool isThereAWritableDir = false;
+    updateFileSizeList();
 
-    // Add each device and its mount point if is writable
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-        if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
-            if (storage.device().indexOf("/dev") != -1) {
-
-                if (storage.rootPath() == QDir::homePath())
-                    isSomeDeviceMountAsHome = true;
-
-                addDirectory(storage.rootPath());
-
-                if (!disableDirItemIfIsNotWritable(ui->comboBox_Dirs->count() - 1)
-                        && isThereAWritableDir == false) {
-                    isThereAWritableDir = true;
-                }
-            }
-        }
-    }
-
-    // Add home dir
-    if (!isSomeDeviceMountAsHome) {
-        QString path = QDir::homePath();
-
-        QStorageInfo storage(path);
-
-        quint64 total = storage.bytesTotal();
-        quint64 available = storage.bytesAvailable();
-
-        QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
-
-        ui->comboBox_Dirs->insertItem(1,
-                    QStringLiteral("%1 %2% (%3)").arg(path)
-                    .arg(storage.bytesAvailable() * 100 / total)
-                    .arg(formatSize(available, total)),
-                    QVariant::fromValue(volumeInfo)
-                    );
-
-        if (!disableDirItemIfIsNotWritable(1)
-                && isThereAWritableDir == false) {
-            isThereAWritableDir = true;
-        }
-    }
-
-    if (isThereAWritableDir) {
-        ui->comboBox_Dirs->setCurrentIndex(1);
-    }
-    else {
-        ui->comboBox_Dirs->setCurrentIndex(-1);
-        ui->pushButton_All->setEnabled(false);
-        ui->pushButton_Test_1->setEnabled(false);
-        ui->pushButton_Test_2->setEnabled(false);
-        ui->pushButton_Test_3->setEnabled(false);
-        ui->pushButton_Test_4->setEnabled(false);
-    }
-
-    // Move Benchmark to another thread and set callbacks
-    m_benchmark = benchmark;
-    benchmark->moveToThread(&m_benchmarkThread);
-    connect(this, &MainWindow::runBenchmark, m_benchmark, &Benchmark::runBenchmark);
+    // Set callbacks
+    connect(m_benchmark, &Benchmark::mountPointsListReady, this, &MainWindow::mountPointsListReady);
     connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
-    connect(m_benchmark, &Benchmark::finished, &m_benchmarkThread, &QThread::quit);
 
     // About button
     connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
@@ -193,26 +168,46 @@ MainWindow::MainWindow(AppSettings *settings, Benchmark *benchmark, QWidget *par
 
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveBenchmarkResult);
+
+    this->setEnabled(false);
+
+    QTimer::singleShot(0, [&] {
+        if (m_benchmark->startHelper()) {
+            m_benchmark->listStorages();
+
+            this->setEnabled(true);
+        }
+        else {
+            QMessageBox::critical(this, "KDiskMark Helper",
+                                  QObject::tr("Could not obtain administrator privileges.\nThe application will be closed."));
+            qApp->quit();
+        }
+    });
 }
 
 MainWindow::~MainWindow()
 {
-    m_benchmarkThread.quit();
-    m_benchmarkThread.wait();
     delete ui;
 }
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
-    m_benchmark->setRunning(false);
+    auto stopHelper = [&] () { m_benchmark->stopHelper(); };
+    if (m_benchmark->isRunning()) {
+        connect(m_benchmark, &Benchmark::finished, this, stopHelper);
+        m_benchmark->setRunning(false);
+    }
+    else {
+        stopHelper();
+    }
 }
 
 void MainWindow::changeEvent(QEvent *event)
 {
     switch (event->type()) {
     case QEvent::LocaleChange: {
-        if (QLocale() == QLocale::AnyLanguage)
-            m_settings->setLocale(QLocale::AnyLanguage);
+        if (const QLocale locale = AppSettings().locale(); locale == AppSettings::defaultLocale())
+            AppSettings::applyLocale(locale);
         break;
     }
     case QEvent::LanguageChange: {
@@ -221,17 +216,18 @@ void MainWindow::changeEvent(QEvent *event)
         updateBenchmarkButtonsContent();
         updateLabels();
 
-        QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+        QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
         QLocale locale = QLocale();
 
         for (auto const& progressBar: m_progressBars) {
-            progressBar->setToolTip(
-                Global::getToolTipTemplate().arg(
-                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3),
-                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::GBPerSec)).toFloat(), 'f', 3),
-                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 3),
-                    locale.toString(progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 3)));
+            if (!progressBar->property("Demo").toBool())
+                progressBar->setToolTip(
+                    Global::getToolTipTemplate().arg(
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::IOPS)).toFloat(), 'f', 3),
+                        locale.toString(progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::Latency)).toFloat(), 'f', 3)));
             updateProgressBar(progressBar);
         }
 
@@ -242,13 +238,48 @@ void MainWindow::changeEvent(QEvent *event)
     }
 }
 
+void MainWindow::on_refreshStoragesButton_clicked()
+{
+    if (!m_benchmark->listStorages()) {
+        QMessageBox::critical(this, tr("Access Denied"), tr("Failed to retrieve storage list."));
+    }
+}
+
+void MainWindow::mountPointsListReady(const QVector<Benchmark::Storage> &storages)
+{
+    QString temp;
+
+    QVariant variant = ui->comboBox_Storages->currentData();
+    if (variant.canConvert<QStringList>())
+        temp = variant.value<QStringList>()[0];
+
+    ui->comboBox_Storages->clear();
+
+    for (Benchmark::Storage storage : storages) {
+        QStringList volumeInfo = { storage.path, DiskDriveInfo::Instance().getModelName(QStorageInfo(storage.path).device()) };
+
+        ui->comboBox_Storages->addItem(
+                    QStringLiteral("%1 %2% (%3)").arg(storage.path)
+                    .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
+                    .arg(formatSize(storage.bytesOccupied, storage.bytesTotal)),
+                    QVariant::fromValue(volumeInfo)
+                    );
+    }
+
+    if (!temp.isEmpty()) {
+        int foundIndex = ui->comboBox_Storages->findText(temp, Qt::MatchContains);
+        if (foundIndex != -1) ui->comboBox_Storages->setCurrentIndex(foundIndex);
+    }
+
+    // Resize items popup
+    resizeComboBoxItemsPopup(ui->comboBox_Storages);
+}
+
 void MainWindow::updateFileSizeList()
 {
-    int index = ui->comboBox_fileSize->currentIndex();
+    const AppSettings settings;
 
-    if (index == -1) {
-        index = ui->comboBox_fileSize->findData(m_settings->getFileSize());
-    }
+    int fileSize = settings.getFileSize();
 
     ui->comboBox_fileSize->clear();
 
@@ -260,118 +291,153 @@ void MainWindow::updateFileSizeList()
         ui->comboBox_fileSize->addItem(QStringLiteral("%1 %2").arg(i).arg(tr("GiB")), i * 1024);
     }
 
-    ui->comboBox_fileSize->setCurrentIndex(index);
+    ui->comboBox_fileSize->setCurrentIndex(ui->comboBox_fileSize->findData(fileSize));
 
+    resizeComboBoxItemsPopup(ui->comboBox_fileSize);
 }
 
-void MainWindow::addDirectory(const QString &path)
+void MainWindow::on_comboBox_fileSize_currentIndexChanged(int index)
 {
-    if (ui->comboBox_Dirs->findText(path, Qt::MatchContains) != -1)
-        return;
+    if (index != -1) {
+        AppSettings settings;
+        settings.setFileSize(ui->comboBox_fileSize->currentData().toInt());
+    }
+}
 
-    QStorageInfo storage(path);
+void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
+{
+    int maxWidth = 0;
+    QFontMetrics fontMetrics(combobox->font());
+    for (int i = 0; i < combobox->count(); i++)
+    {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+        int width = fontMetrics.horizontalAdvance(combobox->itemText(i));
+#else
+        int width = fontMetrics.width(combobox->itemText(i));
+#endif
+        if (width > maxWidth)
+            maxWidth = width;
+    }
 
-    quint64 total = storage.bytesTotal();
-    quint64 available = storage.bytesAvailable();
+    QAbstractItemView *view = combobox->view();
+    if (view->minimumWidth() < maxWidth)
+        view->setMinimumWidth(maxWidth + view->autoScrollMargin() + combobox->style()->pixelMetric(QStyle::PM_ScrollBarExtent));
+}
 
-    QStringList volumeInfo = { path, DiskDriveInfo::Instance().getModelName(storage.device()) };
-
-    ui->comboBox_Dirs->addItem(
-                QStringLiteral("%1 %2% (%3)").arg(path)
-                .arg(available * 100 / total)
-                .arg(formatSize(available, total)),
-                QVariant::fromValue(volumeInfo)
-                );
+void MainWindow::on_actionFlush_Pagecache_triggered(bool checked)
+{
+    AppSettings settings;
+    settings.setFlushingCacheState(checked);
 }
 
 void MainWindow::updateBenchmarkButtonsContent()
 {
-    AppSettings::BenchmarkParams params;
+    const AppSettings settings;
 
-    params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1);
-    ui->pushButton_Test_1->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
-                                  .arg(params.Queues).arg(params.Threads));
+    Global::BenchmarkParams params;
 
-    switch (m_settings->performanceProfile)
+    params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile());
+    ui->pushButton_Test_1->setText(Global::getBenchmarkButtonText(params));
+
+    switch (settings.getPerformanceProfile())
     {
-    case AppSettings::PerformanceProfile::Default:
-        ui->pushButton_Test_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
-                                          .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
+    case Global::PerformanceProfile::Default:
+        ui->pushButton_Test_1->setToolTip(Global::getBenchmarkButtonToolTip(params));
 
-        params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2);
-        ui->pushButton_Test_2->setText(QStringLiteral("SEQ%1M\nQ%2T%3").arg(params.BlockSize / 1024)
-                                      .arg(params.Queues).arg(params.Threads));
-        ui->pushButton_Test_2->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3</h2>")
-                                         .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads));
+        params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_2);
+        ui->pushButton_Test_2->setText(Global::getBenchmarkButtonText(params));
+        ui->pushButton_Test_2->setToolTip(Global::getBenchmarkButtonToolTip(params));
 
-        params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-        ui->pushButton_Test_3->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
-                                      .arg(params.Queues).arg(params.Threads));
-        ui->pushButton_Test_3->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
-                                         .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
+        params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_3);
+        ui->pushButton_Test_3->setText(Global::getBenchmarkButtonText(params));
+        ui->pushButton_Test_3->setToolTip(Global::getBenchmarkButtonToolTip(params));
 
-        params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2);
-        ui->pushButton_Test_4->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
-                                      .arg(params.Queues).arg(params.Threads));
-        ui->pushButton_Test_4->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3</h2>")
-                                         .arg(params.BlockSize).arg(params.Queues).arg(params.Threads));
+        params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_4);
+        ui->pushButton_Test_4->setText(Global::getBenchmarkButtonText(params));
+        ui->pushButton_Test_4->setToolTip(Global::getBenchmarkButtonToolTip(params));
         break;
-    case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::RealWorld:
-        ui->pushButton_Test_1->setToolTip(tr("<h2>Sequential %1 MiB<br/>Queues=%2<br/>Threads=%3<br/>(%4)</h2>")
-                                          .arg(params.BlockSize / 1024).arg(params.Queues).arg(params.Threads).arg(tr("MB/s")));
+    case Global::PerformanceProfile::Peak:
+    case Global::PerformanceProfile::RealWorld:
+        ui->pushButton_Test_1->setToolTip(Global::getBenchmarkButtonToolTip(params, true).arg(tr("MB/s")));
 
-        params = m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1);
-        ui->pushButton_Test_2->setText(QStringLiteral("RND%1K\nQ%2T%3").arg(params.BlockSize)
-                                      .arg(params.Queues).arg(params.Threads));
-        ui->pushButton_Test_2->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3<br/>(%4)</h2>")
-                                         .arg(params.BlockSize).arg(params.Queues).arg(params.Threads).arg(tr("MB/s")));
+        params = settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile());
+        ui->pushButton_Test_2->setText(Global::getBenchmarkButtonText(params));
+        ui->pushButton_Test_2->setToolTip(Global::getBenchmarkButtonToolTip(params, true).arg(tr("MB/s")));
 
-        ui->pushButton_Test_3->setText(QStringLiteral("RND%1K\n(IOPS)").arg(params.BlockSize));
-        ui->pushButton_Test_3->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3<br/>(%4)</h2>")
-                                         .arg(params.BlockSize).arg(params.Queues).arg(params.Threads).arg(tr("IOPS")));
+        ui->pushButton_Test_3->setText(Global::getBenchmarkButtonText(params, tr("IOPS")));
+        ui->pushButton_Test_3->setToolTip(Global::getBenchmarkButtonToolTip(params, true).arg(tr("IOPS")));
 
-        ui->pushButton_Test_4->setText(QStringLiteral("RND%1K\n(μs)").arg(params.BlockSize));
-        ui->pushButton_Test_4->setToolTip(tr("<h2>Random %1 KiB<br/>Queues=%2<br/>Threads=%3<br/>(%4)</h2>")
-                                         .arg(params.BlockSize).arg(params.Queues).arg(params.Threads).arg(tr("μs")));
+        ui->pushButton_Test_4->setText(Global::getBenchmarkButtonText(params, tr("μs")));
+        ui->pushButton_Test_4->setToolTip(Global::getBenchmarkButtonToolTip(params, true).arg(tr("μs")));
         break;
+    case Global::PerformanceProfile::Demo:
+        ui->label_Demo->setText(QStringLiteral("%1 %2 %3, Q=%4, T=%5")
+                                .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? QStringLiteral("SEQ") : QStringLiteral("RND"))
+                                .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
+                                .arg(params.BlockSize >= 1024 ? tr("MiB") : tr("KiB"))
+                                .arg(params.Queues).arg(params.Threads));
+        break;
+    }
+}
+
+void MainWindow::updatePresetsSelection()
+{
+    const AppSettings settings;
+
+    auto testFunc = [&] (Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkPreset preset) {
+        return settings.getBenchmarkParams(test, profile) == settings.defaultBenchmarkParams(test, profile, preset);
+    };
+
+    Global::BenchmarkPreset preset = Global::BenchmarkPreset::Standard;
+    bool testStandardPreset =
+            testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default, preset) &&
+            testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak, preset) &&
+            testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak, preset) &&
+            testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo, preset);
+
+    ui->actionPreset_Standard->setChecked(testStandardPreset);
+
+    if (!testStandardPreset) {
+        Global::BenchmarkPreset preset = Global::BenchmarkPreset::NVMe_SSD;
+        bool testNVMeSSDPreset =
+                testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default, preset) &&
+                testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak, preset) &&
+                testFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak, preset) &&
+                testFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo, preset);
+
+        ui->actionPreset_NVMe_SSD->setChecked(testNVMeSSDPreset);
     }
 }
 
 void MainWindow::refreshProgressBars()
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
     QLocale locale = QLocale();
 
     for (auto const& progressBar: m_progressBars) {
-        progressBar->setProperty(metaEnum.valueToKey(AppSettings::MBPerSec), 0);
-        progressBar->setProperty(metaEnum.valueToKey(AppSettings::GBPerSec), 0);
-        progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), 0);
-        progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::IOPS), 0);
+        progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::Latency), 0);
         progressBar->setValue(0);
-        progressBar->setFormat(locale.toString(0., 'f', 2));
-        progressBar->setToolTip(Global::getToolTipTemplate().arg(locale.toString(0., 'f', 3), locale.toString(0., 'f', 3), locale.toString(0., 'f', 3), locale.toString(0., 'f', 3)));
+        progressBar->setFormat(locale.toString(0., 'f', progressBar->property("Demo").toBool() ? 1 : 2));
+        if (!progressBar->property("Demo").toBool())
+        progressBar->setToolTip(
+                    Global::getToolTipTemplate().arg(
+                        locale.toString(0., 'f', 3),
+                        locale.toString(0., 'f', 3),
+                        locale.toString(0., 'f', 3),
+                        locale.toString(0., 'f', 3)
+                        )
+                    );
     }
-}
-
-bool MainWindow::disableDirItemIfIsNotWritable(int index)
-{
-    QVariant variant = ui->comboBox_Dirs->itemData(index);
-    if (variant.canConvert<QStringList>()) {
-        QStringList volumeInfo = variant.value<QStringList>();
-
-        if (!QFileInfo(volumeInfo[0]).isWritable()) {
-            const QStandardItemModel* model =
-                    dynamic_cast<QStandardItemModel*>(ui->comboBox_Dirs->model());
-            QStandardItem* item = model->item(index);
-            item->setEnabled(false);
-
-            return true;
-        }
-        else return false;
-    }
-    else return false;
 }
 
 QString MainWindow::formatSize(quint64 available, quint64 total)
@@ -389,9 +455,9 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
             .arg(outputTotal, 0, 'f', 2).arg(units[i]);
 }
 
-void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
+void MainWindow::on_comboBox_ComparisonUnit_currentIndexChanged(int index)
 {
-    m_settings->comprasionField = AppSettings::ComparisonField(index);
+    AppSettings().setComparisonUnit(Global::ComparisonUnit(index));
     updateLabels();
 
     for (auto const& progressBar: m_progressBars) {
@@ -402,40 +468,44 @@ void MainWindow::on_comboBox_ComparisonField_currentIndexChanged(int index)
 void MainWindow::updateLabels()
 {
     ui->label_Read->setText(Global::getComparisonLabelTemplate()
-                            .arg(tr("Read"), ui->comboBox_ComparisonField->currentText()));
+                            .arg(tr("Read"), ui->comboBox_ComparisonUnit->currentText()));
 
     ui->label_Write->setText(Global::getComparisonLabelTemplate()
-                             .arg(tr("Write"), ui->comboBox_ComparisonField->currentText()));
+                             .arg(tr("Write"), ui->comboBox_ComparisonUnit->currentText()));
 
     ui->label_Mix->setText(Global::getComparisonLabelTemplate()
-                             .arg(tr("Mix"), ui->comboBox_ComparisonField->currentText()));
+                             .arg(tr("Mix"), ui->comboBox_ComparisonUnit->currentText()));
+
+    ui->label_Unit_Read_Demo->setText(ui->comboBox_ComparisonUnit->currentText());
+    ui->label_Unit_Write_Demo->setText(ui->comboBox_ComparisonUnit->currentText());
 }
 
-QString MainWindow::combineOutputTestResult(const QString &name, const QProgressBar *progressBar,
-                                         const AppSettings::BenchmarkParams &params)
+QString MainWindow::combineOutputTestResult(const QProgressBar *progressBar, const Global::BenchmarkParams &params)
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
     return QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
-           .arg(name)
-           .arg(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize)
+           .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? "Sequential" : "Random")
+           .arg(QString::number(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize).rightJustified(3, ' '))
            .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
-           .arg(QString::number(params.Queues).rightJustified(2, ' '))
+           .arg(QString::number(params.Queues).rightJustified(3, ' '))
            .arg(QString::number(params.Threads).rightJustified(2, ' '))
            .arg(QString::number(
-                    progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat(), 'f', 3)
+                    progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec)).toFloat(), 'f', 3)
                 .rightJustified(9, ' '))
            .arg(QString::number(
-                    progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat(), 'f', 1)
+                    progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::IOPS)).toFloat(), 'f', 1)
                 .rightJustified(8, ' '))
            .arg(QString::number(
-                    progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat(), 'f', 2)
+                    progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::Latency)).toFloat(), 'f', 2)
                 .rightJustified(8, ' '))
            .rightJustified(Global::getOutputColumnsCount(), ' ');
 }
 
 QString MainWindow::getTextBenchmarkResult()
 {
+    const AppSettings settings;
+
     QStringList output;
 
     output << QString("KDiskMark (%1): https://github.com/JonMagon/KDiskMark")
@@ -449,60 +519,60 @@ QString MainWindow::getTextBenchmarkResult()
            << "* KB = 1000 bytes, KiB = 1024 bytes";
 
     output << QString()
-           << "[Read]"
-           << combineOutputTestResult("Sequential", ui->readBar_1,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
-    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
-    output << combineOutputTestResult("Sequential", ui->readBar_2,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
-    output << combineOutputTestResult("Random", ui->readBar_3,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
-    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
-    output << combineOutputTestResult("Random", ui->readBar_4,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
-
-    output << QString()
-           << "[Write]"
-           << combineOutputTestResult("Sequential", ui->writeBar_1,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
-    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
-    output << combineOutputTestResult("Sequential", ui->writeBar_2,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
-    output << combineOutputTestResult("Random", ui->writeBar_3,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
-    if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
-    output << combineOutputTestResult("Random", ui->writeBar_4,
-                                      m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
-
-    if (m_settings->isMixed()) {
-         output << QString()
-                << QString("[Mix] Read %1%/Write %2%")
-                   .arg(m_settings->getRandomReadPercentage())
-                   .arg(100 - m_settings->getRandomReadPercentage())
-                << combineOutputTestResult("Sequential", ui->mixBar_1,
-                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_1));
-         if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
-         output << combineOutputTestResult("Sequential", ui->mixBar_2,
-                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::SEQ_2));
-         output << combineOutputTestResult("Random", ui->mixBar_3,
-                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_1));
-         if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default)
-         output << combineOutputTestResult("Random", ui->mixBar_4,
-                                           m_settings->getBenchmarkParams(AppSettings::BenchmarkTest::RND_2));
+           << "[Read]";
+    if (settings.getPerformanceProfile() == Global::PerformanceProfile::Demo) {
+        output << combineOutputTestResult(ui->readBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
+    }
+    else {
+        output << combineOutputTestResult(ui->readBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
+        output << combineOutputTestResult(ui->readBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile()));
+        if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
+            output << combineOutputTestResult(ui->readBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, settings.getPerformanceProfile()));
+            output << combineOutputTestResult(ui->readBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, settings.getPerformanceProfile()));
+        }
     }
 
-    QString profiles[] = { "Default", "Peak Performance", "Real World Performance" };
+    output << QString()
+           << "[Write]";
+    if (settings.getPerformanceProfile() == Global::PerformanceProfile::Demo) {
+        output << combineOutputTestResult(ui->writeBar_Demo, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
+    }
+    else {
+        output << combineOutputTestResult(ui->writeBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()));
+        output << combineOutputTestResult(ui->writeBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile()));
+        if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
+            output << combineOutputTestResult(ui->writeBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, settings.getPerformanceProfile()));
+            output << combineOutputTestResult(ui->writeBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, settings.getPerformanceProfile()));
+        }
+    }
+
+    if (settings.getMixedState() && settings.getPerformanceProfile() != Global::PerformanceProfile::Demo) {
+         output << QString()
+                << QString("[Mix] Read %1%/Write %2%")
+                   .arg(settings.getRandomReadPercentage())
+                   .arg(100 - settings.getRandomReadPercentage())
+                << combineOutputTestResult(ui->mixBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()))
+                << combineOutputTestResult(ui->mixBar_2, settings.getBenchmarkParams(Global::BenchmarkTest::Test_2, settings.getPerformanceProfile()));
+             if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
+                 output << combineOutputTestResult(ui->mixBar_3, settings.getBenchmarkParams(Global::BenchmarkTest::Test_3, settings.getPerformanceProfile()));
+                 output << combineOutputTestResult(ui->mixBar_4, settings.getBenchmarkParams(Global::BenchmarkTest::Test_4, settings.getPerformanceProfile()));
+             }
+    }
+
+    QString profiles[] = { "Default", "Peak Performance", "Real World Performance", "Demo" };
 
     output << QString()
            << QString("Profile: %1%2")
-              .arg(profiles[(int)m_settings->performanceProfile]).arg(m_settings->isMixed() ? " [+Mix]" : QString())
+              .arg(profiles[(int)settings.getPerformanceProfile()]).arg(settings.getMixedState() ? " [+Mix]" : QString())
            << QString("   Test: %1")
-              .arg("%1 %2 (x%3) [Interval: %4 %5]")
-              .arg(m_settings->getFileSize() >= 1024 ? m_settings->getFileSize() / 1024 : m_settings->getFileSize())
-              .arg(m_settings->getFileSize() >= 1024 ? "GiB" : "MiB")
-              .arg(m_settings->getLoopsCount())
-              .arg(m_settings->getIntervalTime() >= 60 ? m_settings->getIntervalTime() / 60 : m_settings->getIntervalTime())
-              .arg(m_settings->getIntervalTime() >= 60 ? "min" : "sec")
+              .arg("%1 %2 (x%3) [Measure: %4 %5 / Interval: %6 %7]")
+              .arg(settings.getFileSize() >= 1024 ? settings.getFileSize() / 1024 : settings.getFileSize())
+              .arg(settings.getFileSize() >= 1024 ? "GiB" : "MiB")
+              .arg(settings.getLoopsCount())
+              .arg(settings.getMeasuringTime() >= 60 ? settings.getMeasuringTime() / 60 : settings.getMeasuringTime())
+              .arg(settings.getMeasuringTime() >= 60 ? "min" : "sec")
+              .arg(settings.getIntervalTime() >= 60 ? settings.getIntervalTime() / 60 : settings.getIntervalTime())
+              .arg(settings.getIntervalTime() >= 60 ? "min" : "sec")
            << QString("   Date: %1 %2")
               .arg(QDate::currentDate().toString("yyyy-MM-dd"))
               .arg(QTime::currentTime().toString("hh:mm:ss"))
@@ -536,92 +606,76 @@ void MainWindow::saveBenchmarkResult()
 
 void MainWindow::on_loopsCount_valueChanged(int arg1)
 {
-    m_settings->setLoopsCount(arg1);
+    AppSettings settings;
+    settings.setLoopsCount(arg1);
 }
 
 void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 {
-    m_settings->setRandomReadPercentage((index + 1) * 10.f);
+    AppSettings settings;
+    settings.setRandomReadPercentage((index + 1) * 10.f);
 }
 
-void MainWindow::on_comboBox_Dirs_currentIndexChanged(int index)
+void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
 {
-    if (index == 0) {
-        QString dir = QFileDialog::getExistingDirectory(this, QString(), QDir::homePath(),
-                                                        QFileDialog::ShowDirsOnly
-                                                        | QFileDialog::DontResolveSymlinks
-                                                        | QFileDialog::DontUseNativeDialog);
-        if (!dir.isNull()) {
-            if (QFileInfo(dir).isWritable()) {
-                int foundIndex = ui->comboBox_Dirs->findText(dir, Qt::MatchContains);
-
-                if (foundIndex == -1) {
-                    addDirectory(dir);
-                    ui->comboBox_Dirs->setCurrentIndex(ui->comboBox_Dirs->count() - 1);
-                }
-                else {
-                    ui->comboBox_Dirs->setCurrentIndex(foundIndex);
-                }
-
-                return;
-            }
-            else {
-                QMessageBox::critical(this, tr("Bad Directory"), tr("The directory is not writable."));
-            }
-        }
-
-        ui->comboBox_Dirs->setCurrentIndex(1);
-    }
-    else {
-        QVariant variant = ui->comboBox_Dirs->itemData(index);
-        if (variant.canConvert<QStringList>()) {
-            QStringList volumeInfo = variant.value<QStringList>();
-            m_settings->setDir(volumeInfo[0]);
-            ui->deviceModel->setText(volumeInfo[1]);
-            ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
-        }
+    QVariant variant = ui->comboBox_Storages->itemData(index);
+    if (variant.canConvert<QStringList>()) {
+        QStringList volumeInfo = variant.value<QStringList>();
+        m_benchmark->setDir(volumeInfo[0]);
+        ui->deviceModel->setText(volumeInfo[1]);
+        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
     }
 }
 
 void MainWindow::localeSelected(QAction* act)
 {
+    AppSettings settings;
+
     if (!act->data().canConvert<QLocale>()) return;
 
-    m_settings->setLocale(act->data().toLocale());
+    settings.setLocale(act->data().toLocale());
 }
 
 void MainWindow::profileSelected(QAction* act)
 {
+    AppSettings settings;
+
     bool isMixed = act->property("mixed").toBool();
 
-    m_settings->setMixed(isMixed);
+    settings.setMixedState(isMixed);
 
     ui->mixWidget->setVisible(isMixed);
     ui->comboBox_MixRatio->setVisible(isMixed);
 
     switch (act->property("profile").toInt())
     {
-    case AppSettings::PerformanceProfile::Default:
+    case Global::PerformanceProfile::Default:
         m_windowTitle = "KDiskMark";
-        ui->comboBox_ComparisonField->setVisible(true);
+        ui->comboBox_ComparisonUnit->setVisible(true);
         break;
-    case AppSettings::PerformanceProfile::Peak:
+    case Global::PerformanceProfile::Peak:
         m_windowTitle = "KDiskMark <PEAK>";
-        ui->comboBox_ComparisonField->setCurrentIndex(0);
-        ui->comboBox_ComparisonField->setVisible(false);
+        ui->comboBox_ComparisonUnit->setCurrentIndex(0);
+        ui->comboBox_ComparisonUnit->setVisible(false);
         break;
-    case AppSettings::PerformanceProfile::RealWorld:
+    case Global::PerformanceProfile::RealWorld:
         m_windowTitle = "KDiskMark <REAL>";
-        ui->comboBox_ComparisonField->setCurrentIndex(0);
-        ui->comboBox_ComparisonField->setVisible(false);
+        ui->comboBox_ComparisonUnit->setCurrentIndex(0);
+        ui->comboBox_ComparisonUnit->setVisible(false);
+        break;
+    case Global::PerformanceProfile::Demo:
+        m_windowTitle = "KDiskMark <DEMO>";
+        ui->comboBox_ComparisonUnit->setVisible(true);
         break;
     }
 
     setWindowTitle(m_windowTitle);
 
-    m_settings->performanceProfile = (AppSettings::PerformanceProfile)act->property("profile").toInt();
+    settings.setPerformanceProfile((Global::PerformanceProfile)act->property("profile").toInt());
 
-    int right = isMixed ? ui->mixWidget->geometry().right() : ui->writeWidget->geometry().right();
+    ui->stackedWidget->setCurrentIndex(settings.getPerformanceProfile() == Global::PerformanceProfile::Demo ? 1 : 0);
+
+    int right = (isMixed ? ui->mixWidget->geometry().right() : ui->writeWidget->geometry().right()) + ui->stackedWidget->geometry().x();
 
     ui->targetLayoutWidget->resize(right - ui->targetLayoutWidget->geometry().left(),
                                    ui->targetLayoutWidget->geometry().height());
@@ -634,14 +688,48 @@ void MainWindow::profileSelected(QAction* act)
     updateBenchmarkButtonsContent();
 }
 
+void MainWindow::modeSelected(QAction* act)
+{
+    AppSettings().setBenchmarkMode((Global::BenchmarkMode)act->property("mode").toInt());
+}
+
+void MainWindow::testDataSelected(QAction* act)
+{
+    AppSettings().setBenchmarkTestData((Global::BenchmarkTestData)act->property("data").toInt());
+}
+
+void MainWindow::presetSelected(QAction* act)
+{
+    AppSettings settings;
+
+    Global::BenchmarkPreset preset = (Global::BenchmarkPreset)act->property("preset").toInt();
+
+    auto updateFunc = [&] (Global::BenchmarkTest test, Global::PerformanceProfile profile) {
+        settings.setBenchmarkParams(test, profile, settings.defaultBenchmarkParams(test, profile, preset));
+    };
+
+    updateFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Default);
+    updateFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Default);
+    updateFunc(Global::BenchmarkTest::Test_3, Global::PerformanceProfile::Default);
+    updateFunc(Global::BenchmarkTest::Test_4, Global::PerformanceProfile::Default);
+
+    updateFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Peak);
+    updateFunc(Global::BenchmarkTest::Test_2, Global::PerformanceProfile::Peak);
+
+    updateFunc(Global::BenchmarkTest::Test_1, Global::PerformanceProfile::Demo);
+
+    updateBenchmarkButtonsContent();
+}
+
 void MainWindow::benchmarkStateChanged(bool state)
 {
     if (state) {
         ui->menubar->setEnabled(false);
         ui->loopsCount->setEnabled(false);
         ui->comboBox_fileSize->setEnabled(false);
-        ui->comboBox_Dirs->setEnabled(false);
-        ui->comboBox_ComparisonField->setEnabled(false);
+        ui->comboBox_Storages->setEnabled(false);
+        ui->refreshStoragesButton->setEnabled(false);
+        ui->comboBox_ComparisonUnit->setEnabled(false);
         ui->comboBox_MixRatio->setEnabled(false);
         ui->pushButton_All->setText(tr("Stop"));
         ui->pushButton_Test_1->setText(tr("Stop"));
@@ -651,11 +739,17 @@ void MainWindow::benchmarkStateChanged(bool state)
     }
     else {
         setWindowTitle(m_windowTitle);
+        ui->pushButton_All->setEnabled(true);
+        ui->pushButton_Test_1->setEnabled(true);
+        ui->pushButton_Test_2->setEnabled(true);
+        ui->pushButton_Test_3->setEnabled(true);
+        ui->pushButton_Test_4->setEnabled(true);
         ui->menubar->setEnabled(true);
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
-        ui->comboBox_Dirs->setEnabled(true);
-        ui->comboBox_ComparisonField->setEnabled(true);
+        ui->comboBox_Storages->setEnabled(true);
+        ui->refreshStoragesButton->setEnabled(true);
+        ui->comboBox_ComparisonUnit->setEnabled(true);
         ui->comboBox_MixRatio->setEnabled(true);
         ui->pushButton_All->setEnabled(true);
         ui->pushButton_Test_1->setEnabled(true);
@@ -665,8 +759,6 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->pushButton_All->setText(tr("All"));
         updateBenchmarkButtonsContent();
     }
-
-    m_isBenchmarkThreadRunning = state;
 }
 
 void MainWindow::showAbout()
@@ -678,33 +770,38 @@ void MainWindow::showAbout()
 
 void MainWindow::showSettings()
 {
-    Settings settings(m_settings);
+    Settings settings;
     settings.setFixedSize(settings.size());
     settings.exec();
 
+    updatePresetsSelection();
     updateBenchmarkButtonsContent();
 }
 
-void MainWindow::inverseBenchmarkThreadRunningState()
+void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
 {
-    if (m_isBenchmarkThreadRunning) {
-        m_benchmark->setRunning(false);
+    AppSettings settings;
+
+    if (m_benchmark->isRunning()) {
         benchmarkStatusUpdate(tr("Stopping..."));
+        ui->pushButton_All->setEnabled(false);
+        ui->pushButton_Test_1->setEnabled(false);
+        ui->pushButton_Test_2->setEnabled(false);
+        ui->pushButton_Test_3->setEnabled(false);
+        ui->pushButton_Test_4->setEnabled(false);
+        m_benchmark->setRunning(false);
     }
     else {
-        if (m_settings->getBenchmarkFile().isNull()) {
+        if (m_benchmark->getBenchmarkFile().isNull()) {
             QMessageBox::critical(this, tr("Not available"), tr("Directory is not specified."));
         }
         else if (QMessageBox::Yes ==
                 QMessageBox::warning(this, tr("Confirmation"),
                                      tr("This action destroys the data in %1\nDo you want to continue?")
-                                     .arg(m_settings->getBenchmarkFile()
+                                     .arg(m_benchmark->getBenchmarkFile()
                                           .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
-            m_settings->setFileSize(ui->comboBox_fileSize->currentData().toInt());
-            m_settings->setFlushingCacheState(ui->actionFlush_Pagecache->isChecked());
-            m_benchmark->setRunning(true);
-            m_benchmarkThread.start();
+            bodyFunc();
         }
     }
 }
@@ -716,100 +813,107 @@ void MainWindow::benchmarkFailed(const QString &error)
 
 void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
-    if (m_isBenchmarkThreadRunning)
-        setWindowTitle(QString("%1 - %2").arg(m_windowTitle, name));
+    setWindowTitle(QString("%1 - %2").arg(m_windowTitle, name));
 }
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
-    progressBar->setProperty(metaEnum.valueToKey(AppSettings::MBPerSec), result.Bandwidth);
-    progressBar->setProperty(metaEnum.valueToKey(AppSettings::GBPerSec), result.Bandwidth / 1000);
-    progressBar->setProperty(metaEnum.valueToKey(AppSettings::IOPS), result.IOPS);
-    progressBar->setProperty(metaEnum.valueToKey(AppSettings::Latency), result.Latency);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec), result.Bandwidth);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec), result.Bandwidth / 1000);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::IOPS), result.IOPS);
+    progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::Latency), result.Latency);
 
-    QLocale locale = QLocale();
+    if (!progressBar->property("Demo").toBool()) {
+        QLocale locale = QLocale();
 
-    progressBar->setToolTip(
-                Global::getToolTipTemplate().arg(
-                    locale.toString(result.Bandwidth, 'f', 3),
-                    locale.toString(result.Bandwidth / 1000, 'f', 3),
-                    locale.toString(result.IOPS, 'f', 3),
-                    locale.toString(result.Latency, 'f', 3)
-                    )
-                );
+        progressBar->setToolTip(
+                    Global::getToolTipTemplate().arg(
+                        locale.toString(result.Bandwidth, 'f', 3),
+                        locale.toString(result.Bandwidth / 1000, 'f', 3),
+                        locale.toString(result.IOPS, 'f', 3),
+                        locale.toString(result.Latency, 'f', 3)
+                        )
+                    );
+    }
 
     updateProgressBar(progressBar);
 }
 
 void MainWindow::updateProgressBar(QProgressBar *progressBar)
 {
-    QMetaEnum metaEnum = QMetaEnum::fromType<AppSettings::ComparisonField>();
+    const AppSettings settings;
 
-    float score = progressBar->property(metaEnum.valueToKey(AppSettings::MBPerSec)).toFloat();
+    QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
+
+    float score = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec)).toFloat();
 
     float value;
 
-    AppSettings::ComparisonField comparisonField = AppSettings::MBPerSec;
+    Global::ComparisonUnit comparisonUnit = Global::ComparisonUnit::MBPerSec;
 
-    switch (m_settings->performanceProfile) {
-    case AppSettings::PerformanceProfile::Peak:
-    case AppSettings::PerformanceProfile::RealWorld:
+    switch (settings.getPerformanceProfile()) {
+    case Global::PerformanceProfile::Peak:
+    case Global::PerformanceProfile::RealWorld:
         if (progressBar == ui->readBar_3 || progressBar == ui->writeBar_3 || progressBar == ui->mixBar_3) {
-            comparisonField = AppSettings::IOPS;
+            comparisonUnit = Global::ComparisonUnit::IOPS;
         }
         else if (progressBar == ui->readBar_4 || progressBar == ui->writeBar_4 || progressBar == ui->mixBar_4) {
-            comparisonField = AppSettings::Latency;
+            comparisonUnit = Global::ComparisonUnit::Latency;
         }
         break;
     default:
-        comparisonField = m_settings->comprasionField;
+        comparisonUnit = settings.getComparisonUnit();
         break;
     }
 
     QLocale locale = QLocale();
 
-    switch (comparisonField) {
-    case AppSettings::MBPerSec:
-        progressBar->setFormat(score >= 1000000.0 ? locale.toString((int)score) : locale.toString(score, 'f', 2));
+    switch (comparisonUnit) {
+    case Global::ComparisonUnit::MBPerSec:
+        progressBar->setFormat(score >= 1000000.0 ? locale.toString((int)score) : locale.toString(score, 'f', progressBar->property("Demo").toBool() ? 1 : 2));
         break;
-    case AppSettings::GBPerSec:
-        value = progressBar->property(metaEnum.valueToKey(AppSettings::GBPerSec)).toFloat();
-        progressBar->setFormat(locale.toString(value, 'f', 3));
+    case Global::ComparisonUnit::GBPerSec:
+        value = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::GBPerSec)).toFloat();
+        progressBar->setFormat(locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 1 : 3));
         break;
-    case AppSettings::IOPS:
-        value = progressBar->property(metaEnum.valueToKey(AppSettings::IOPS)).toFloat();
-        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', 2));
+    case Global::ComparisonUnit::IOPS:
+        value = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::IOPS)).toFloat();
+        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 0 : 2));
         break;
-    case AppSettings::Latency:
-        value = progressBar->property(metaEnum.valueToKey(AppSettings::Latency)).toFloat();
-        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', 2));
+    case Global::ComparisonUnit::Latency:
+        value = progressBar->property(metaEnum.valueToKey(Global::ComparisonUnit::Latency)).toFloat();
+        progressBar->setFormat(value >= 1000000.0 ? locale.toString((int)value) : locale.toString(value, 'f', progressBar->property("Demo").toBool() ? 1 : 2));
         break;
     }
 
-    if (comparisonField == AppSettings::Latency) {
-        progressBar->setValue(value <= 0.0000000001 ? 0 : 100 - 16.666666666666 * log10(value));
-    }
-    else {
-        progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
+    if (!progressBar->property("Demo").toBool()) {
+        if (comparisonUnit == Global::ComparisonUnit::Latency) {
+            progressBar->setValue(value <= 0.0000000001 ? 0 : 100 - 16.666666666666 * log10(value));
+        }
+        else {
+            progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
+        }
     }
 }
 
 bool MainWindow::runCombinedRandomTest()
 {
-    if (m_settings->performanceProfile != AppSettings::PerformanceProfile::Default) {
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
-            { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
-            { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
+    const AppSettings settings;
+
+    if (settings.getPerformanceProfile() == Global::PerformanceProfile::Peak || settings.getPerformanceProfile() == Global::PerformanceProfile::RealWorld) {
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+            { { Global::Test_2, Global::Read  }, { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
+            { { Global::Test_2, Global::Write }, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
         };
 
-        if (m_settings->isMixed()) {
-            set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-            { Benchmark::RND_1_Mix,   {  ui->mixBar_2,  ui->mixBar_3,   ui->mixBar_4   } };
+        if (settings.getMixedState()) {
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            { { Global::Test_2, Global::Mix   }, {  ui->mixBar_2,  ui->mixBar_3,   ui->mixBar_4   } };
         }
 
-        runBenchmark(set);
+        m_benchmark->runBenchmark(set);
 
         return true;
     }
@@ -819,130 +923,128 @@ bool MainWindow::runCombinedRandomTest()
 
 void MainWindow::on_pushButton_Test_1_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
-            { Benchmark::SEQ_1_Read,  { ui->readBar_1  } },
-            { Benchmark::SEQ_1_Write, { ui->writeBar_1 } }
+    defineBenchmark([&]() {
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+            { { Global::Test_1, Global::Read  }, { ui->readBar_1  } },
+            { { Global::Test_1, Global::Write }, { ui->writeBar_1 } }
         };
 
-        if (m_settings->isMixed()) {
-            set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-            { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } };
+        if (AppSettings().getMixedState()) {
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_Test_2_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
-            { Benchmark::SEQ_2_Read,  { ui->readBar_2  } },
-            { Benchmark::SEQ_2_Write, { ui->writeBar_2 } }
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+            { { Global::Test_2, Global::Read  }, { ui->readBar_2  } },
+            { { Global::Test_2, Global::Write }, { ui->writeBar_2 } }
         };
 
-        if (m_settings->isMixed()) {
-            set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-            { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } };
+        if (AppSettings().getMixedState()) {
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            { { Global::Test_2, Global::Mix   }, { ui->mixBar_2   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_Test_3_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
-            { Benchmark::RND_1_Read,  { ui->readBar_3  } },
-            { Benchmark::RND_1_Write, { ui->writeBar_3 } }
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+            { { Global::Test_3, Global::Read  }, { ui->readBar_3  } },
+            { { Global::Test_3, Global::Write }, { ui->writeBar_3 } }
         };
 
-        if (m_settings->isMixed()) {
-            set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-            { Benchmark::RND_1_Mix,   { ui->mixBar_3   } };
+        if (AppSettings().getMixedState()) {
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            { { Global::Test_3, Global::Mix   }, { ui->mixBar_3   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_Test_4_clicked()
 {
-    inverseBenchmarkThreadRunningState();
-
-    if (m_isBenchmarkThreadRunning) {
+    defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set {
-            { Benchmark::RND_2_Read,  { ui->readBar_4  } },
-            { Benchmark::RND_2_Write, { ui->writeBar_4 } }
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+            { { Global::Test_4, Global::Read  }, { ui->readBar_4  } },
+            { { Global::Test_4, Global::Write }, { ui->writeBar_4 } }
         };
 
-        if (m_settings->isMixed()) {
-            set << QPair<Benchmark::Type, QVector<QProgressBar*>>
-            { Benchmark::RND_2_Mix,   { ui->mixBar_4   } };
+        if (AppSettings().getMixedState()) {
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            { { Global::Test_4, Global::Mix   }, { ui->mixBar_4   } };
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }
 
 void MainWindow::on_pushButton_All_clicked()
 {
-    inverseBenchmarkThreadRunningState();
+    defineBenchmark([&]() {
+        const AppSettings settings;
 
-    if (m_isBenchmarkThreadRunning) {
-        QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> set;
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set;
 
-        if (m_settings->performanceProfile == AppSettings::PerformanceProfile::Default) {
-            set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-                { Benchmark::SEQ_1_Read,  { ui->readBar_1  } },
-                { Benchmark::SEQ_2_Read,  { ui->readBar_2  } },
-                { Benchmark::RND_1_Read,  { ui->readBar_3  } },
-                { Benchmark::RND_2_Read,  { ui->readBar_4  } },
-                { Benchmark::SEQ_1_Write, { ui->writeBar_1 } },
-                { Benchmark::SEQ_2_Write, { ui->writeBar_2 } },
-                { Benchmark::RND_1_Write, { ui->writeBar_3 } },
-                { Benchmark::RND_2_Write, { ui->writeBar_4 } }
+        if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
+            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                { { Global::Test_1, Global::Read  }, { ui->readBar_1  } },
+                { { Global::Test_2, Global::Read  }, { ui->readBar_2  } },
+                { { Global::Test_3, Global::Read  }, { ui->readBar_3  } },
+                { { Global::Test_4, Global::Read  }, { ui->readBar_4  } },
+                { { Global::Test_1, Global::Write }, { ui->writeBar_1 } },
+                { { Global::Test_2, Global::Write }, { ui->writeBar_2 } },
+                { { Global::Test_3, Global::Write }, { ui->writeBar_3 } },
+                { { Global::Test_4, Global::Write }, { ui->writeBar_4 } }
             };
 
-            if (m_settings->isMixed()) {
-                set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-                { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
-                { Benchmark::SEQ_2_Mix,   { ui->mixBar_2   } },
-                { Benchmark::RND_1_Mix,   { ui->mixBar_3   } },
-                { Benchmark::RND_2_Mix,   { ui->mixBar_4   } }
+            if (settings.getMixedState()) {
+                set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } },
+                { { Global::Test_2, Global::Mix   }, { ui->mixBar_2   } },
+                { { Global::Test_3, Global::Mix   }, { ui->mixBar_3   } },
+                { { Global::Test_4, Global::Mix   }, { ui->mixBar_4   } }
             };
             }
+        }
+        else if (settings.getPerformanceProfile() == Global::PerformanceProfile::Demo) {
+            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                { { Global::Test_1, Global::Read  }, { ui->readBar_Demo  } },
+                { { Global::Test_1, Global::Write }, { ui->writeBar_Demo } }
+            };
         }
         else {
-            set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-                { Benchmark::SEQ_1_Read,  { ui->readBar_1  } },
-                { Benchmark::RND_1_Read,  { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
-                { Benchmark::SEQ_1_Write, { ui->writeBar_1 } },
-                { Benchmark::RND_1_Write, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
+            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                { { Global::Test_1, Global::Read  }, { ui->readBar_1  } },
+                { { Global::Test_2, Global::Read  }, { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
+                { { Global::Test_1, Global::Write }, { ui->writeBar_1 } },
+                { { Global::Test_2, Global::Write }, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
             };
 
-            if (m_settings->isMixed()) {
-                set << QList<QPair<Benchmark::Type, QVector<QProgressBar*>>> {
-                { Benchmark::SEQ_1_Mix,   { ui->mixBar_1   } },
-                { Benchmark::RND_1_Mix,   {  ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4  } }
+            if (settings.getMixedState()) {
+                set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } },
+                { { Global::Test_2, Global::Mix   }, { ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4   } }
             };
             }
         }
 
-        runBenchmark(set);
-    }
+        m_benchmark->runBenchmark(set);
+    });
 }

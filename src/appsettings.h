@@ -3,110 +3,79 @@
 
 #include <QObject>
 #include <QLocale>
-#include <QString>
 
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-#include <unistd.h>
-#endif
+#include "global.h"
 
 class QTranslator;
+class QSettings;
 
 class AppSettings : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(AppSettings)
 
 public:
-    enum BenchmarkTest {
-        SEQ_1,
-        SEQ_2,
-        RND_1,
-        RND_2
-    };
-
-    struct BenchmarkParams {
-        int BlockSize; // KiB
-        int Queues;
-        int Threads;
-    };
-
-    enum ComparisonField {
-        MBPerSec,
-        GBPerSec,
-        IOPS,
-        Latency,
-    } comprasionField = MBPerSec;
-
-    Q_ENUM(ComparisonField)
-
-    enum PerformanceProfile {
-        Default,
-        Peak,
-        RealWorld
-    } performanceProfile = Default;
-
-    AppSettings();
+    AppSettings(QObject *parent = nullptr);
 
     void setupLocalization();
-    QLocale getLocale();
-    void setLocale(const QLocale locale);
+    QLocale locale() const;
+    void setLocale(const QLocale &locale);
+    static void applyLocale(const QLocale &locale);
     static QLocale defaultLocale();
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-    bool isRunningAsRoot();
-#endif
 
-    BenchmarkParams getBenchmarkParams(BenchmarkTest test);
-    void setBenchmarkParams(BenchmarkTest test, int blockSize, int queues, int threads);
-    void restoreDefaultBenchmarkParams();
-    void setLoopsCount(int loops);
-    int getLoopsCount();
-    void setFileSize(int size);
-    int getFileSize();
+    Global::PerformanceProfile getPerformanceProfile() const;
+    void setPerformanceProfile(Global::PerformanceProfile performanceProfile);
+    static Global::PerformanceProfile defaultPerformanceProfile();
+
+    bool getMixedState() const;
+    void setMixedState(bool mixedState);
+    static bool defaultMixedState();
+
+    Global::BenchmarkParams getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile = Global::PerformanceProfile::Default) const;
+    void setBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkParams params);
+    static Global::BenchmarkParams defaultBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile, Global::BenchmarkPreset preset);
+
+    Global::BenchmarkMode getBenchmarkMode() const;
+    void setBenchmarkMode(Global::BenchmarkMode benchmarkMode);
+    static Global::BenchmarkMode defaultBenchmarkMode();
+
+    Global::BenchmarkTestData getBenchmarkTestData() const;
+    void setBenchmarkTestData(Global::BenchmarkTestData benchmarkTestData);
+    static Global::BenchmarkTestData defaultBenchmarkTestData();
+
+    int getLoopsCount() const;
+    void setLoopsCount(int loopsCount);
+    static int defaultLoopsCount();
+
+    int getFileSize() const;
+    void setFileSize(int fileSize);
+    static int defaultFileSize();
+
+    int getMeasuringTime() const;
     void setMeasuringTime(int measuringTime);
-    int getMeasuringTime();
+    static int defaultMeasuringTime();
+
+    int getIntervalTime() const;
     void setIntervalTime(int intervalTime);
-    int getIntervalTime();
-    void setDir(const QString &dir);
-    void setRandomReadPercentage(float percentage);
-    int getRandomReadPercentage();
-    QString getBenchmarkFile();
-    void setMixed(bool state);
-    bool isMixed();
-    void setFlushingCacheState(bool state);
-    bool shouldFlushCache();
+    static int defaultIntervalTime();
+
+    int getRandomReadPercentage() const;
+    void setRandomReadPercentage(int randomReadPercentage);
+    static int defaultRandomReadPercentage();
+
+    bool getFlusingCacheState() const;
+    void setFlushingCacheState(bool flushingCacheState);
+    static bool defaultFlushingCacheState();
+
+    Global::ComparisonUnit getComparisonUnit() const;
+    void setComparisonUnit(Global::ComparisonUnit comparisonUnit);
+    static Global::ComparisonUnit defaultComparisonUnit();
 
 private:
-    int m_loopsCount = 5;
-    int m_fileSize = 1024;
-    int m_percentage = 70;
-    QString m_dir;
-    bool m_mixedState = false;
-    bool m_shouldFlushCache = false;
-
-    const BenchmarkParams m_default_SEQ_1 { 1024,  8,  1 };
-    const BenchmarkParams m_default_SEQ_2 { 1024,  1,  1 };
-    const BenchmarkParams m_default_RND_1 {    4, 32,  1 };
-    const BenchmarkParams m_default_RND_2 {    4,  1,  1 };
-
-    const BenchmarkParams m_RealWorld_SEQ { 1024,  1,  1 };
-    const BenchmarkParams m_RealWorld_RND {    4,  1,  1 };
-
-    BenchmarkParams m_SEQ_1 = m_default_SEQ_1;
-    BenchmarkParams m_SEQ_2 = m_default_SEQ_2;
-    BenchmarkParams m_RND_1 = m_default_RND_1;
-    BenchmarkParams m_RND_2 = m_default_RND_2;
-
-    const int m_default_intervalTime = 5;
-    int m_intervalTime = m_default_intervalTime;
-
-    const int m_default_measuringTime = 5;
-    int m_measuringTime = m_default_measuringTime;
-
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;
 
-#if defined(PAGECACHE_FLUSH) && !defined(KF5AUTH_USING)
-    bool m_runningAsRoot;
-#endif
+    QSettings *m_settings;
 };
 
 #endif // APPSETTINGS_H

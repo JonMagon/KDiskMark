@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(kdiskmark VERSION 2.3.0 LANGUAGES CXX)
+project(kdiskmark VERSION 3.0.0 LANGUAGES CXX)
 
 set(CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/JonMagon/KDiskMark")
 set(CMAKE_PROJECT_DESCRIPTION "A simple open source disk benchmark tool for Linux distros")
@@ -36,10 +36,7 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
-option(PAGECACHE_FLUSH "Cache clearing functionality" ON)
-option(KF5AUTH_USING "Determines whether a helper will be built" ON)
-
-find_package(Qt5 COMPONENTS Widgets LinguistTools REQUIRED)
+find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -49,12 +46,33 @@ include(GNUInstallDirs)
 include(ECMInstallIcons)
 include(KDEInstallDirs)
 
+find_package(KF5Auth REQUIRED NO_MODULE)
+
+set(application_interface_xml dev.jonmagon.kdiskmark.applicationinterface.xml)
+set(helper_interface_xml dev.jonmagon.kdiskmark.helperinterface.xml)
+
+qt5_generate_dbus_interface(
+    src/benchmark.h
+    ${application_interface_xml}
+    OPTIONS -a
+)
+
+qt5_generate_dbus_interface(
+    src/helper.h
+    ${helper_interface_xml}
+    OPTIONS -a
+)
+
+qt5_add_dbus_interface(ApplicationInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${application_interface_xml} app_interface)
+qt5_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
+
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
     data/translations/${PROJECT_NAME}_de_DE.ts
     data/translations/${PROJECT_NAME}_es_MX.ts
     data/translations/${PROJECT_NAME}_fr_FR.ts
     data/translations/${PROJECT_NAME}_hi_IN.ts
+    data/translations/${PROJECT_NAME}_hu_HU.ts
     data/translations/${PROJECT_NAME}_it_IT.ts
     data/translations/${PROJECT_NAME}_pl_PL.ts
     data/translations/${PROJECT_NAME}_pt_BR.ts
@@ -70,6 +88,7 @@ qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 add_executable(${PROJECT_NAME}
     ${QM_FILES}
     data/icons/flags/flags.qrc
+    ${HelperInterface_SRCS}
     src/main.cpp
     src/mainwindow.cpp
     src/mainwindow.h
@@ -90,16 +109,11 @@ add_executable(${PROJECT_NAME}
     src/diskdriveinfo.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
-
-if(PAGECACHE_FLUSH)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE PAGECACHE_FLUSH)
-    if(KF5AUTH_USING)
-        target_compile_definitions(${PROJECT_NAME} PRIVATE KF5AUTH_USING)
-        find_package(KF5Auth REQUIRED NO_MODULE)
-        target_link_libraries(${PROJECT_NAME} PRIVATE KF5::Auth)
-    endif()
-endif()
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt5::Widgets
+    Qt5::DBus
+    KF5::Auth
+)
 
 set(APP_ICONS
     data/icons/16-apps-kdiskmark.png
@@ -119,16 +133,17 @@ install(FILES data/${DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/appl
 ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)
 
 # Helper
+add_executable(${PROJECT_NAME}_helper
+    ${ApplicationInterface_SRCS}
+    src/helper.cpp
+    src/helper.h
+)
 
-if(PAGECACHE_FLUSH AND KF5AUTH_USING)
-    add_executable(${PROJECT_NAME}_helper
-        src/helper.cpp
-        src/helper.h
-    )
+target_link_libraries(${PROJECT_NAME}_helper Qt5::DBus KF5::Auth)
 
-    target_link_libraries(${PROJECT_NAME}_helper KF5::Auth)
+install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
+install(FILES data/dev.jonmagon.kdiskmark.applicationinterface.conf DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
+install(FILES data/dev.jonmagon.kdiskmark.helperinterface.conf DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
 
-    install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-    kauth_install_helper_files(${PROJECT_NAME}_helper org.jonmagon.kdiskmark root)
-    kauth_install_actions(org.jonmagon.kdiskmark data/kdiskmark.actions)
-endif()
+kauth_install_helper_files(${PROJECT_NAME}_helper dev.jonmagon.kdiskmark.helper root)
+kauth_install_actions(dev.jonmagon.kdiskmark.helper data/dev.jonmagon.kdiskmark.helper.actions)
