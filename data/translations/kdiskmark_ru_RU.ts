@@ -481,7 +481,7 @@ The application will be closed.</source>
         <location filename="../../src/settings.ui" line="335"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="243"/>
         <source>Profile: Peak Performance</source>
-        <translation>Профиль: Peak Performance</translation>
+        <translation>Профиль: Пиковая производительность</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="446"/>

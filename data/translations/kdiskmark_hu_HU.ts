@@ -248,7 +248,7 @@ mérés</translation>
         <location filename="../../src/mainwindow.ui" line="1133"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="610"/>
         <source>Peak Performance [+Mix]</source>
-        <translation>Peak Performance [+Mix]</translation>
+        <translation>Csúcsteljesítmény [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1141"/>
