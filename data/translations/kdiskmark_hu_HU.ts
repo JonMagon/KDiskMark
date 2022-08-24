@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="hu" sourcelanguage="en">
+<TS version="2.1" language="hu_HU" sourcelanguage="en">
 <context>
     <name>About</name>
     <message>
@@ -49,42 +49,42 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="73"/>
+        <location filename="../../src/benchmark.cpp" line="54"/>
         <source>Preparing...</source>
         <translation>Felkészülés...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="278"/>
+        <location filename="../../src/benchmark.cpp" line="252"/>
         <source>Sequential Read %1/%2</source>
         <translation>Folyamatos olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="288"/>
+        <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Sequential Write %1/%2</source>
         <translation>Folyamatos írás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="298"/>
+        <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Folyamatos írás és olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="282"/>
+        <location filename="../../src/benchmark.cpp" line="256"/>
         <source>Random Read %1/%2</source>
         <translation>Véletlenszerű olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="292"/>
+        <location filename="../../src/benchmark.cpp" line="266"/>
         <source>Random Write %1/%2</source>
         <translation>Véletlenszerű írás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="302"/>
+        <location filename="../../src/benchmark.cpp" line="276"/>
         <source>Random Mix %1/%2</source>
         <translation>Véletlenszerű írás és olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="309"/>
+        <location filename="../../src/benchmark.cpp" line="283"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Szünet %1/%2 mp</translation>
     </message>
@@ -93,296 +93,310 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="565"/>
-        <location filename="../../src/mainwindow.cpp" line="643"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="622"/>
+        <location filename="../../src/mainwindow.cpp" line="759"/>
         <source>All</source>
         <translation>Átfogó
 mérés</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="346"/>
-        <location filename="../../src/mainwindow.ui" line="919"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="573"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="576"/>
-        <location filename="../../src/mainwindow.cpp" line="390"/>
+        <location filename="../../src/mainwindow.ui" line="352"/>
+        <location filename="../../src/mainwindow.ui" line="925"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="631"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="634"/>
+        <location filename="../../src/mainwindow.cpp" line="471"/>
         <source>Read</source>
         <translation>Olvasás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="509"/>
-        <location filename="../../src/mainwindow.ui" line="938"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="574"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="577"/>
-        <location filename="../../src/mainwindow.cpp" line="393"/>
+        <location filename="../../src/mainwindow.ui" line="515"/>
+        <location filename="../../src/mainwindow.ui" line="944"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="632"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="635"/>
+        <location filename="../../src/mainwindow.cpp" line="474"/>
         <source>Write</source>
         <translation>Írás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="672"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="575"/>
-        <location filename="../../src/mainwindow.cpp" line="396"/>
+        <location filename="../../src/mainwindow.ui" line="678"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="633"/>
+        <location filename="../../src/mainwindow.cpp" line="477"/>
         <source>Mix</source>
         <translation>Vegyes</translation>
     </message>
     <message>
-        <source>Add a directory</source>
-        <translation type="vanished">Elérési útvonal kiválasztása</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="215"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="568"/>
-        <location filename="../../src/mainwindow.cpp" line="315"/>
-        <location filename="../../src/mainwindow.cpp" line="319"/>
+        <location filename="../../src/mainwindow.ui" line="221"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="625"/>
+        <location filename="../../src/mainwindow.cpp" line="361"/>
+        <location filename="../../src/mainwindow.cpp" line="365"/>
         <source>MB/s</source>
         <translation>MB/mp</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="220"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="569"/>
+        <location filename="../../src/mainwindow.ui" line="226"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="626"/>
         <source>GB/s</source>
         <translation>GB/mp</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="225"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="570"/>
-        <location filename="../../src/mainwindow.cpp" line="321"/>
-        <location filename="../../src/mainwindow.cpp" line="322"/>
+        <location filename="../../src/mainwindow.ui" line="231"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="627"/>
+        <location filename="../../src/mainwindow.cpp" line="367"/>
+        <location filename="../../src/mainwindow.cpp" line="368"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="230"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="571"/>
-        <location filename="../../src/mainwindow.cpp" line="324"/>
-        <location filename="../../src/mainwindow.cpp" line="325"/>
+        <location filename="../../src/mainwindow.ui" line="236"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="628"/>
+        <location filename="../../src/mainwindow.cpp" line="370"/>
+        <location filename="../../src/mainwindow.cpp" line="371"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="957"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="578"/>
-        <source>Write Unit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="1003"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="579"/>
+        <location filename="../../src/mainwindow.ui" line="1009"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="637"/>
         <source>File</source>
         <translation>Fájl</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1011"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="580"/>
+        <location filename="../../src/mainwindow.ui" line="1017"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="638"/>
         <source>Settings</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1018"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="581"/>
+        <location filename="../../src/mainwindow.ui" line="1021"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="639"/>
+        <source>Test Data</source>
+        <translation>Tesztadatok</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1036"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="640"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1030"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="582"/>
+        <location filename="../../src/mainwindow.ui" line="1052"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="641"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1034"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="583"/>
+        <location filename="../../src/mainwindow.ui" line="1056"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="642"/>
         <source>Language</source>
         <translation>Nyelv</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1048"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="552"/>
+        <location filename="../../src/mainwindow.ui" line="1070"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="601"/>
         <source>About KDiskMark</source>
         <translation>Névjegy</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1053"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="553"/>
+        <location filename="../../src/mainwindow.ui" line="1075"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="602"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>Sorozatok és szálak</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1058"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="554"/>
+        <location filename="../../src/mainwindow.ui" line="1080"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="603"/>
         <source>Copy</source>
         <translation>Másolás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1063"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="555"/>
+        <location filename="../../src/mainwindow.ui" line="1085"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="604"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1068"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="556"/>
+        <location filename="../../src/mainwindow.ui" line="1090"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="605"/>
         <source>Exit</source>
         <translation>Kilépés</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1079"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="557"/>
+        <location filename="../../src/mainwindow.ui" line="1101"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="606"/>
         <source>Default</source>
         <translation>Alapértelmezett</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1087"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="558"/>
+        <location filename="../../src/mainwindow.ui" line="1109"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="607"/>
         <source>Peak Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Csúcsteljesítmény</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1095"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="559"/>
+        <location filename="../../src/mainwindow.ui" line="1117"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="608"/>
         <source>Real World Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Valódi teljesítmény</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1103"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="560"/>
+        <location filename="../../src/mainwindow.ui" line="1125"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="609"/>
         <source>Default [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Alapértelmezett [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1111"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="561"/>
+        <location filename="../../src/mainwindow.ui" line="1133"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="610"/>
         <source>Peak Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Peak Performance [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1119"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="562"/>
+        <location filename="../../src/mainwindow.ui" line="1141"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="611"/>
         <source>Real World Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>Valódi teljesítmény [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1130"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="563"/>
+        <location filename="../../src/mainwindow.ui" line="1152"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="612"/>
         <source>Flush Pagecache</source>
-        <translation type="unfinished"></translation>
+        <translation>Oldal gyorsítótár ürítése</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1138"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="564"/>
+        <location filename="../../src/mainwindow.ui" line="1160"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="613"/>
         <source>Demo</source>
-        <translation type="unfinished"></translation>
+        <translation>Demo</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="61"/>
+        <location filename="../../src/mainwindow.ui" line="1171"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="615"/>
+        <source>Read and Write [+Mix]</source>
+        <translation>Olvasás és írás [+Mix]</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1179"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="616"/>
+        <source>Read [+Mix]</source>
+        <translation>Olvasás [+Mix]</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1187"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="617"/>
+        <source>Write [+Mix]</source>
+        <translation>Írás [+Mix]</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1198"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="618"/>
+        <source>Random</source>
+        <translation>Véletlenszerű</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1206"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="619"/>
+        <source>Fill with zeros</source>
+        <translation>Töltsd ki nullákkal</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1217"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="620"/>
+        <source>Standard Preset</source>
+        <translation>Szabványos előbeállítás</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1225"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="621"/>
+        <source>NVMe SSD</source>
+        <translation>NVMe SSD</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="52"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation>A kötet titkosított. A mérés némileg pontatlan lehet.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="200"/>
+        <location filename="../../src/mainwindow.cpp" line="244"/>
         <source>Access Denied</source>
-        <translation type="unfinished"></translation>
+        <translation>Hozzáférés megtagadva</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="200"/>
+        <location filename="../../src/mainwindow.cpp" line="244"/>
         <source>Failed to retrieve storage list.</source>
-        <translation type="unfinished"></translation>
+        <translation>A tárolási lista lekérdezése sikertelen.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="241"/>
-        <location filename="../../src/mainwindow.cpp" line="331"/>
-        <location filename="../../src/mainwindow.cpp" line="364"/>
+        <location filename="../../src/mainwindow.cpp" line="287"/>
+        <location filename="../../src/mainwindow.cpp" line="377"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="245"/>
-        <location filename="../../src/mainwindow.cpp" line="364"/>
+        <location filename="../../src/mainwindow.cpp" line="291"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation type="vanished">&lt;h2&gt;Folyamatos %1 MiB&lt;br/&gt;Sorozatok=%2&lt;br/&gt;Szálak=%3&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation type="vanished">&lt;h2&gt;Véletlenszerű %1 KiB&lt;br/&gt;Sorozatok=%2&lt;br/&gt;Szálak=%3&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
-        <translation type="vanished">&lt;h2&gt;Folyamatos %1 MiB&lt;br/&gt;Sorozatok=%2&lt;br/&gt;Szálak=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
-        <translation type="vanished">&lt;h2&gt;Véletlenszerű %1 KiB&lt;br/&gt;Sorozatok=%2&lt;br/&gt;Szálak=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="364"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>Bytes</source>
         <translation>bájt</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="331"/>
-        <location filename="../../src/mainwindow.cpp" line="364"/>
+        <location filename="../../src/mainwindow.cpp" line="377"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="364"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="364"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <source>Bad Directory</source>
-        <translation type="vanished">Nem megfelelő könyvtár</translation>
-    </message>
-    <message>
-        <source>The directory is not writable.</source>
-        <translation type="vanished">A könyvtár tartalma nem írható.</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="618"/>
-        <location filename="../../src/mainwindow.cpp" line="619"/>
-        <location filename="../../src/mainwindow.cpp" line="620"/>
-        <location filename="../../src/mainwindow.cpp" line="621"/>
-        <location filename="../../src/mainwindow.cpp" line="622"/>
+        <location filename="../../src/mainwindow.cpp" line="734"/>
+        <location filename="../../src/mainwindow.cpp" line="735"/>
+        <location filename="../../src/mainwindow.cpp" line="736"/>
+        <location filename="../../src/mainwindow.cpp" line="737"/>
+        <location filename="../../src/mainwindow.cpp" line="738"/>
         <source>Stop</source>
         <translation>Megszakítás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="669"/>
+        <location filename="../../src/mainwindow.cpp" line="786"/>
         <source>Stopping...</source>
         <translation>Megszakítás...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="679"/>
+        <location filename="../../src/mainwindow.cpp" line="796"/>
         <source>Not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Nem lehet hozzáférni</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="679"/>
+        <location filename="../../src/mainwindow.cpp" line="796"/>
         <source>Directory is not specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>A könyvtár nincs megadva.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="682"/>
+        <location filename="../../src/mainwindow.cpp" line="799"/>
         <source>Confirmation</source>
         <translation>Jóváhagyás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="683"/>
+        <location filename="../../src/mainwindow.cpp" line="800"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>A művelet adathalmazt fog létrehozni a(z) %1 fájlban.
 Folytatod?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="694"/>
+        <location filename="../../src/mainwindow.cpp" line="811"/>
         <source>Benchmark Failed</source>
         <translation>Mérés sikertelen</translation>
     </message>
@@ -392,27 +406,27 @@ Folytatod?</translation>
     <message>
         <location filename="../../src/global.cpp" line="25"/>
         <source>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Queues=%4&lt;br/&gt;Threads=%5%6&lt;/h2&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Sorozatok=%4&lt;br/&gt;Szálak=%5%6&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Sequential</source>
-        <translation type="unfinished"></translation>
+        <translation>Folyamatos</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>Véletlenszerű</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="28"/>
         <source>MiB</source>
-        <translation type="unfinished">MiB</translation>
+        <translation>MiB</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="28"/>
         <source>KiB</source>
-        <translation type="unfinished">KiB</translation>
+        <translation>KiB</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="34"/>
@@ -420,18 +434,16 @@ Folytatod?</translation>
         <translation>&lt;h1&gt;%1 MB/mp&lt;br/&gt;%2 GB/mp&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <source>KDiskMark is not running as root.
-Clearing the I/O cache will not be performed.
-Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.
-This is especially important if you are going to benchmark external devices.</source>
-        <translation type="vanished">A KDiskMark nem rendszergazdaként fut.
-A műveleti gyorsítótár így nem törölhető.
-A műveleti gyorsítótár megtartása pontatlan mérést eredményezhet.
-Ez különösen előnytelen lehet, ha a mérni kívánt lemez külső lemez.</translation>
+        <location filename="../../src/main.cpp" line="26"/>
+        <source>No FIO was found. Please install FIO before using KDiskMark.</source>
+        <translation>Nincs telepítve FIO csomag a rendszerben. Kérlek, telepítsd a KDiskMark használata előtt.</translation>
     </message>
     <message>
-        <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation type="vanished">Nincs telepítve FIO csomag a rendszerben. Kérlek, telepítsd a KDiskMark használata előtt!</translation>
+        <location filename="../../src/mainwindow.cpp" line="182"/>
+        <source>Could not obtain administrator privileges.
+The application will be closed.</source>
+        <translation>Nem sikerült rendszergazdai jogosultságokat szerezni.
+Az alkalmazás bezárásra kerül.</translation>
     </message>
 </context>
 <context>
@@ -441,22 +453,6 @@ Ez különösen előnytelen lehet, ha a mérni kívánt lemez külső lemez.</tr
         <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="237"/>
         <source>Settings</source>
         <translation>Beállítások</translation>
-    </message>
-    <message>
-        <source>Sequential (1)</source>
-        <translation type="vanished">Folyamatos (1)</translation>
-    </message>
-    <message>
-        <source>Sequential (2)</source>
-        <translation type="vanished">Folyamatos (2)</translation>
-    </message>
-    <message>
-        <source>Random (1)</source>
-        <translation type="vanished">Véletlenszerű (1)</translation>
-    </message>
-    <message>
-        <source>Random (2)</source>
-        <translation type="vanished">Véletlenszerű (2)</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="149"/>
@@ -480,25 +476,25 @@ Ez különösen előnytelen lehet, ha a mérni kívánt lemez külső lemez.</tr
         <location filename="../../src/settings.ui" line="257"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="241"/>
         <source>Profile: Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil: Alapértelmezett</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="280"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="242"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Típus</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="335"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="243"/>
         <source>Profile: Peak Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil: Csúcsteljesítmény</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="446"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="244"/>
         <source>Profile: Demo</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil: Demo</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="508"/>
@@ -513,51 +509,38 @@ Ez különösen előnytelen lehet, ha a mérni kívánt lemez külső lemez.</tr
         <translation>Szünet hossza</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="17"/>
-        <location filename="../../src/settings.cpp" line="22"/>
+        <location filename="../../src/settings.cpp" line="18"/>
+        <location filename="../../src/settings.cpp" line="23"/>
         <source>sec</source>
         <translation>mp</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="18"/>
-        <location filename="../../src/settings.cpp" line="23"/>
+        <location filename="../../src/settings.cpp" line="19"/>
+        <location filename="../../src/settings.cpp" line="24"/>
         <source>min</source>
         <translation>p</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="70"/>
         <location filename="../../src/settings.cpp" line="71"/>
         <location filename="../../src/settings.cpp" line="72"/>
         <location filename="../../src/settings.cpp" line="73"/>
-        <location filename="../../src/settings.cpp" line="75"/>
+        <location filename="../../src/settings.cpp" line="74"/>
         <location filename="../../src/settings.cpp" line="76"/>
-        <location filename="../../src/settings.cpp" line="78"/>
+        <location filename="../../src/settings.cpp" line="77"/>
+        <location filename="../../src/settings.cpp" line="79"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="58"/>
         <location filename="../../src/settings.cpp" line="59"/>
         <location filename="../../src/settings.cpp" line="60"/>
         <location filename="../../src/settings.cpp" line="61"/>
-        <location filename="../../src/settings.cpp" line="63"/>
+        <location filename="../../src/settings.cpp" line="62"/>
         <location filename="../../src/settings.cpp" line="64"/>
-        <location filename="../../src/settings.cpp" line="66"/>
+        <location filename="../../src/settings.cpp" line="65"/>
+        <location filename="../../src/settings.cpp" line="67"/>
         <source>KiB</source>
         <translation>KiB</translation>
-    </message>
-</context>
-<context>
-    <name>Tui</name>
-    <message>
-        <location filename="../../src/tui.cpp" line="20"/>
-        <source>Run text-based user interface.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/tui.cpp" line="23"/>
-        <source>A simple open-source disk benchmark tool for Linux distros </source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

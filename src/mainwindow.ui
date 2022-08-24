@@ -960,7 +960,7 @@
        </size>
       </property>
       <property name="text">
-       <string>Write Unit</string>
+       <string notr="true">Write Unit</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1158,11 +1158,6 @@
    </property>
    <property name="text">
     <string>Demo</string>
-   </property>
-  </action>
-  <action name="actiongfdg">
-   <property name="text">
-    <string>Read &amp; Write [+Mix]</string>
    </property>
   </action>
   <action name="actionRead_Write_Mix">

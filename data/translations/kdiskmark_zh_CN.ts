@@ -5,36 +5,43 @@
     <name>About</name>
     <message>
         <location filename="../../src/about.ui" line="17"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="133"/>
         <source>About KDiskMark</source>
         <translation>关于 KDiskMark</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="62"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="135"/>
         <source>Version:</source>
         <translation>版本：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="88"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="136"/>
         <source>License:</source>
         <translation>开源协议：</translation>
     </message>
     <message>
-        <location filename="../../src/about.ui" line="140"/>
+        <location filename="../../src/about.ui" line="114"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="137"/>
         <source>Author:</source>
         <translation>作者：</translation>
     </message>
     <message>
-        <location filename="../../src/about.ui" line="172"/>
+        <location filename="../../src/about.ui" line="146"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="138"/>
         <source>E-mail:</source>
         <translation>E-mail:</translation>
     </message>
     <message>
-        <location filename="../../src/about.ui" line="204"/>
+        <location filename="../../src/about.ui" line="178"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="139"/>
         <source>Flexible I/O Tester:</source>
         <translation>Flexible I/O Tester：</translation>
     </message>
     <message>
-        <location filename="../../src/about.ui" line="230"/>
+        <location filename="../../src/about.ui" line="204"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="140"/>
         <source>Application Icon:</source>
         <translation>应用图标：</translation>
     </message>
@@ -42,48 +49,42 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="46"/>
+        <location filename="../../src/benchmark.cpp" line="54"/>
         <source>Preparing...</source>
         <translation>准备中...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="287"/>
-        <location filename="../../src/benchmark.cpp" line="302"/>
+        <location filename="../../src/benchmark.cpp" line="252"/>
         <source>Sequential Read %1/%2</source>
         <translation>顺序读取 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="292"/>
-        <location filename="../../src/benchmark.cpp" line="307"/>
+        <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Sequential Write %1/%2</source>
         <translation>顺序写入 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="297"/>
-        <location filename="../../src/benchmark.cpp" line="312"/>
+        <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Sequential Mix %1/%2</source>
         <translation>顺序混合 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="317"/>
-        <location filename="../../src/benchmark.cpp" line="332"/>
+        <location filename="../../src/benchmark.cpp" line="256"/>
         <source>Random Read %1/%2</source>
         <translation>随机读取 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="322"/>
-        <location filename="../../src/benchmark.cpp" line="337"/>
+        <location filename="../../src/benchmark.cpp" line="266"/>
         <source>Random Write %1/%2</source>
         <translation>随机写入 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="327"/>
-        <location filename="../../src/benchmark.cpp" line="342"/>
+        <location filename="../../src/benchmark.cpp" line="276"/>
         <source>Random Mix %1/%2</source>
         <translation>随机混合 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="348"/>
+        <location filename="../../src/benchmark.cpp" line="283"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>间隔时间 %1/%2 秒</translation>
     </message>
@@ -92,251 +93,309 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="658"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="622"/>
+        <location filename="../../src/mainwindow.cpp" line="759"/>
         <source>All</source>
         <translation>全部</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="177"/>
-        <location filename="../../src/mainwindow.cpp" line="400"/>
+        <location filename="../../src/mainwindow.ui" line="352"/>
+        <location filename="../../src/mainwindow.ui" line="925"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="631"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="634"/>
+        <location filename="../../src/mainwindow.cpp" line="471"/>
         <source>Read</source>
         <translation>读取</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="340"/>
-        <location filename="../../src/mainwindow.cpp" line="403"/>
+        <location filename="../../src/mainwindow.ui" line="515"/>
+        <location filename="../../src/mainwindow.ui" line="944"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="632"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="635"/>
+        <location filename="../../src/mainwindow.cpp" line="474"/>
         <source>Write</source>
         <translation>写入</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="503"/>
-        <location filename="../../src/mainwindow.cpp" line="406"/>
+        <location filename="../../src/mainwindow.ui" line="678"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="633"/>
+        <location filename="../../src/mainwindow.cpp" line="477"/>
         <source>Mix</source>
         <translation>混合</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="711"/>
-        <source>Add a directory</source>
-        <translation>添加文件夹</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="735"/>
-        <location filename="../../src/mainwindow.cpp" line="319"/>
-        <location filename="../../src/mainwindow.cpp" line="325"/>
+        <location filename="../../src/mainwindow.ui" line="221"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="625"/>
+        <location filename="../../src/mainwindow.cpp" line="361"/>
+        <location filename="../../src/mainwindow.cpp" line="365"/>
         <source>MB/s</source>
         <translation>MB/s</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="740"/>
+        <location filename="../../src/mainwindow.ui" line="226"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="626"/>
         <source>GB/s</source>
         <translation>GB/s</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="745"/>
-        <location filename="../../src/mainwindow.cpp" line="329"/>
+        <location filename="../../src/mainwindow.ui" line="231"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="627"/>
+        <location filename="../../src/mainwindow.cpp" line="367"/>
+        <location filename="../../src/mainwindow.cpp" line="368"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="750"/>
-        <location filename="../../src/mainwindow.cpp" line="333"/>
+        <location filename="../../src/mainwindow.ui" line="236"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="628"/>
+        <location filename="../../src/mainwindow.cpp" line="370"/>
+        <location filename="../../src/mainwindow.cpp" line="371"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="779"/>
+        <location filename="../../src/mainwindow.ui" line="1009"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="637"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="787"/>
+        <location filename="../../src/mainwindow.ui" line="1017"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="638"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="794"/>
+        <location filename="../../src/mainwindow.ui" line="1021"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="639"/>
+        <source>Test Data</source>
+        <translation>测试数据</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1036"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="640"/>
         <source>Profile</source>
         <translation>配置方案</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="805"/>
+        <location filename="../../src/mainwindow.ui" line="1052"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="641"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="809"/>
+        <location filename="../../src/mainwindow.ui" line="1056"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="642"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="823"/>
+        <location filename="../../src/mainwindow.ui" line="1070"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="601"/>
         <source>About KDiskMark</source>
         <translation>关于 KDiskMark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="828"/>
+        <location filename="../../src/mainwindow.ui" line="1075"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="602"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>队列和线程</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="833"/>
+        <location filename="../../src/mainwindow.ui" line="1080"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="603"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="838"/>
+        <location filename="../../src/mainwindow.ui" line="1085"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="604"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="843"/>
+        <location filename="../../src/mainwindow.ui" line="1090"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="605"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="854"/>
+        <location filename="../../src/mainwindow.ui" line="1101"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="606"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="862"/>
+        <location filename="../../src/mainwindow.ui" line="1109"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="607"/>
         <source>Peak Performance</source>
         <translation>峰值性能</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="870"/>
+        <location filename="../../src/mainwindow.ui" line="1117"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="608"/>
         <source>Real World Performance</source>
         <translation>实际性能</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="878"/>
+        <location filename="../../src/mainwindow.ui" line="1125"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="609"/>
         <source>Default [+Mix]</source>
         <translation>默认 [+混合]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="886"/>
+        <location filename="../../src/mainwindow.ui" line="1133"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="610"/>
         <source>Peak Performance [+Mix]</source>
         <translation>峰值性能 [+混合]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="894"/>
+        <location filename="../../src/mainwindow.ui" line="1141"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="611"/>
         <source>Real World Performance [+Mix]</source>
         <translation>实际性能 [+混合]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="905"/>
+        <location filename="../../src/mainwindow.ui" line="1152"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="612"/>
         <source>Flush Pagecache</source>
         <translation>清除页缓存</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="54"/>
+        <location filename="../../src/mainwindow.ui" line="1160"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="613"/>
+        <source>Demo</source>
+        <translation>演示</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1171"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="615"/>
+        <source>Read and Write [+Mix]</source>
+        <translation>读取和写入 [+混合]</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1179"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="616"/>
+        <source>Read [+Mix]</source>
+        <translation>读取 [+混合]</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1187"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="617"/>
+        <source>Write [+Mix]</source>
+        <translation>写入 [+混合]</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1198"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="618"/>
+        <source>Random</source>
+        <translation>随机</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1206"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="619"/>
+        <source>Fill with zeros</source>
+        <translation>填充零</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1217"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="620"/>
+        <source>Standard Preset</source>
+        <translation>默认预设</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1225"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="621"/>
+        <source>NVMe SSD</source>
+        <translation>NVMe SSD</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="52"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation>设备是经过加密的。这可能降低性能。</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="253"/>
-        <location filename="../../src/mainwindow.cpp" line="374"/>
+        <location filename="../../src/mainwindow.cpp" line="244"/>
+        <source>Access Denied</source>
+        <translation>拒绝访问</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="244"/>
+        <source>Failed to retrieve storage list.</source>
+        <translation>检索存储列表失败。</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="287"/>
+        <location filename="../../src/mainwindow.cpp" line="377"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="257"/>
-        <location filename="../../src/mainwindow.cpp" line="374"/>
+        <location filename="../../src/mainwindow.cpp" line="291"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="295"/>
-        <location filename="../../src/mainwindow.cpp" line="301"/>
-        <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;顺序 %1 MiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="307"/>
-        <location filename="../../src/mainwindow.cpp" line="313"/>
-        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;随机 %1 KiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="318"/>
-        <source>&lt;h2&gt;Sequential %1 MiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;顺序 %1 MiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="324"/>
-        <location filename="../../src/mainwindow.cpp" line="328"/>
-        <location filename="../../src/mainwindow.cpp" line="332"/>
-        <source>&lt;h2&gt;Random %1 KiB&lt;br/&gt;Queues=%2&lt;br/&gt;Threads=%3&lt;br/&gt;(%4)&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;随机 %1 KiB&lt;br/&gt;队列=%2&lt;br/&gt;线程=%3&lt;br/&gt;(%4)&lt;/h2&gt;</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="374"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>Bytes</source>
         <translation>Bytes</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="374"/>
+        <location filename="../../src/mainwindow.cpp" line="377"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="374"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="374"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="564"/>
-        <source>Bad Directory</source>
-        <translation>错误的文件夹</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="564"/>
-        <source>The directory is not writable.</source>
-        <translation>文件夹不可写入。</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="639"/>
-        <location filename="../../src/mainwindow.cpp" line="640"/>
-        <location filename="../../src/mainwindow.cpp" line="641"/>
-        <location filename="../../src/mainwindow.cpp" line="642"/>
-        <location filename="../../src/mainwindow.cpp" line="643"/>
+        <location filename="../../src/mainwindow.cpp" line="734"/>
+        <location filename="../../src/mainwindow.cpp" line="735"/>
+        <location filename="../../src/mainwindow.cpp" line="736"/>
+        <location filename="../../src/mainwindow.cpp" line="737"/>
+        <location filename="../../src/mainwindow.cpp" line="738"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="685"/>
+        <location filename="../../src/mainwindow.cpp" line="786"/>
         <source>Stopping...</source>
         <translation>停止...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="689"/>
+        <location filename="../../src/mainwindow.cpp" line="796"/>
         <source>Not available</source>
         <translation>不可获取</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="689"/>
+        <location filename="../../src/mainwindow.cpp" line="796"/>
         <source>Directory is not specified.</source>
         <translation>未指定文件夹。</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="692"/>
+        <location filename="../../src/mainwindow.cpp" line="799"/>
         <source>Confirmation</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="693"/>
+        <location filename="../../src/mainwindow.cpp" line="800"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>这个动作将会摧毁 %1 中的数据
 是否确认继续？</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="707"/>
+        <location filename="../../src/mainwindow.cpp" line="811"/>
         <source>Benchmark Failed</source>
         <translation>基准测试失败</translation>
     </message>
@@ -344,100 +403,141 @@ Do you want to continue?</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/global.cpp" line="13"/>
+        <location filename="../../src/global.cpp" line="25"/>
+        <source>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Queues=%4&lt;br/&gt;Threads=%5%6&lt;/h2&gt;</source>
+        <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;队列=%4&lt;br/&gt;线程=%5%6&lt;/h2&gt;</translation>
+    </message>
+    <message>
+        <location filename="../../src/global.cpp" line="26"/>
+        <source>Sequential</source>
+        <translation>顺序</translation>
+    </message>
+    <message>
+        <location filename="../../src/global.cpp" line="26"/>
+        <source>Random</source>
+        <translation>随机</translation>
+    </message>
+    <message>
+        <location filename="../../src/global.cpp" line="28"/>
+        <source>MiB</source>
+        <translation>MiB</translation>
+    </message>
+    <message>
+        <location filename="../../src/global.cpp" line="28"/>
+        <source>KiB</source>
+        <translation>KiB</translation>
+    </message>
+    <message>
+        <location filename="../../src/global.cpp" line="34"/>
         <source>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/main.cpp" line="35"/>
-        <source>KDiskMark is not running as root.
-Clearing the I/O cache will not be performed.
-Not clearing the cache may cause incorrect performance measurement, namely unreal high speed, while reading.
-This is especially important if you are going to benchmark external devices.</source>
-        <translation>KDiskMark 没有以 root 身份运行。
-因此「清除 I/O 缓存」将不会执行。
-不清理缓存可能会导致不正确的性能测量，也就是说，在读取时产生不真实的高速结果。
-如果您要对外部设备进行基准测定，这很重要。</translation>
-    </message>
-    <message>
-        <location filename="../../src/main.cpp" line="49"/>
+        <location filename="../../src/main.cpp" line="26"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>未找到 FIO 可执行程序。请在使用 KDiskMark 前确认已安装 FIO 。</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="182"/>
+        <source>Could not obtain administrator privileges.
+The application will be closed.</source>
+        <translation>无法获得管理员权限。
+该应用程序将被关闭。</translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
         <location filename="../../src/settings.ui" line="14"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="237"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../src/settings.ui" line="29"/>
-        <source>Sequential (1)</source>
-        <translation>顺序 (1)</translation>
-    </message>
-    <message>
-        <location filename="../../src/settings.ui" line="85"/>
-        <source>Sequential (2)</source>
-        <translation>顺序 (2)</translation>
-    </message>
-    <message>
-        <location filename="../../src/settings.ui" line="151"/>
-        <source>Random (1)</source>
-        <translation>随机 (1)</translation>
-    </message>
-    <message>
-        <location filename="../../src/settings.ui" line="167"/>
-        <source>Random (2)</source>
-        <translation>随机 (2)</translation>
-    </message>
-    <message>
-        <location filename="../../src/settings.ui" line="213"/>
+        <location filename="../../src/settings.ui" line="149"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="238"/>
         <source>Block Size</source>
         <translation>块大小</translation>
     </message>
     <message>
-        <location filename="../../src/settings.ui" line="229"/>
+        <location filename="../../src/settings.ui" line="165"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="239"/>
         <source>Queues</source>
         <translation>队列</translation>
     </message>
     <message>
-        <location filename="../../src/settings.ui" line="245"/>
+        <location filename="../../src/settings.ui" line="181"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="240"/>
         <source>Threads</source>
         <translation>线程</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="280"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="242"/>
+        <source>Type</source>
+        <translation>类型</translation>
+    </message>
+    <message>
+        <location filename="../../src/settings.ui" line="335"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="243"/>
+        <source>Profile: Peak Performance</source>
+        <translation>配置方案: 峰值性能</translation>
+    </message>
+    <message>
+        <location filename="../../src/settings.ui" line="446"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="244"/>
+        <source>Profile: Demo</source>
+        <translation>配置方案: 演示</translation>
+    </message>
+    <message>
+        <location filename="../../src/settings.ui" line="508"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="245"/>
         <source>Measuring time</source>
         <translation>测量时间</translation>
     </message>
     <message>
-        <location filename="../../src/settings.ui" line="306"/>
+        <location filename="../../src/settings.ui" line="530"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="246"/>
         <source>Interval time</source>
         <translation>间隔时间</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="21"/>
-        <location filename="../../src/settings.cpp" line="26"/>
+        <location filename="../../src/settings.ui" line="257"/>
+        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="241"/>
+        <source>Profile: Default</source>
+        <translation>配置方案: 默认</translation>
+    </message>
+    <message>
+        <location filename="../../src/settings.cpp" line="18"/>
+        <location filename="../../src/settings.cpp" line="23"/>
         <source>sec</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="22"/>
-        <location filename="../../src/settings.cpp" line="27"/>
+        <location filename="../../src/settings.cpp" line="19"/>
+        <location filename="../../src/settings.cpp" line="24"/>
         <source>min</source>
         <translation>分钟</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="37"/>
-        <location filename="../../src/settings.cpp" line="38"/>
+        <location filename="../../src/settings.cpp" line="71"/>
+        <location filename="../../src/settings.cpp" line="72"/>
+        <location filename="../../src/settings.cpp" line="73"/>
+        <location filename="../../src/settings.cpp" line="74"/>
+        <location filename="../../src/settings.cpp" line="76"/>
+        <location filename="../../src/settings.cpp" line="77"/>
+        <location filename="../../src/settings.cpp" line="79"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="51"/>
-        <location filename="../../src/settings.cpp" line="52"/>
+        <location filename="../../src/settings.cpp" line="59"/>
+        <location filename="../../src/settings.cpp" line="60"/>
+        <location filename="../../src/settings.cpp" line="61"/>
+        <location filename="../../src/settings.cpp" line="62"/>
+        <location filename="../../src/settings.cpp" line="64"/>
+        <location filename="../../src/settings.cpp" line="65"/>
+        <location filename="../../src/settings.cpp" line="67"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
