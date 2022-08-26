@@ -107,16 +107,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionPreset_NVMe_SSD->setActionGroup(presetsGroup);
     connect(presetsGroup, SIGNAL(triggered(QAction*)), this, SLOT(presetSelected(QAction*)));
 
+    ui->actionTheme_Use_Fusion->setProperty("theme", Global::Theme::UseFusion);
+    ui->actionTheme_Stylesheet_Light->setProperty("theme", Global::Theme::StyleSheetLight);
+    ui->actionTheme_Stylesheet_Dark->setProperty("theme", Global::Theme::StyleSheetDark);
+    ui->actionTheme_Do_not_apply->setProperty("theme", Global::Theme::DoNotApply);
+
+    QActionGroup *themeGroup = new QActionGroup(this);
+    ui->actionTheme_Use_Fusion->setActionGroup(themeGroup);
+    ui->actionTheme_Stylesheet_Light->setActionGroup(themeGroup);
+    ui->actionTheme_Stylesheet_Dark->setActionGroup(themeGroup);
+    ui->actionTheme_Do_not_apply->setActionGroup(themeGroup);
+    connect(themeGroup, SIGNAL(triggered(QAction*)), this, SLOT(themeSelected(QAction*)));
+
     m_progressBars << ui->readBar_1 << ui->writeBar_1 << ui->mixBar_1
                    << ui->readBar_2 << ui->writeBar_2 << ui->mixBar_2
                    << ui->readBar_3 << ui->writeBar_3 << ui->mixBar_3
                    << ui->readBar_4 << ui->writeBar_4 << ui->mixBar_4
                    << ui->readBar_Demo << ui->writeBar_Demo;
-
-    QStyle *progressBarStyle = QStyleFactory::create("Fusion");
-    for (auto const& progressBar: m_progressBars) {
-        progressBar->setStyle(progressBarStyle);
-    }
 
     refreshProgressBars();
 
@@ -148,6 +155,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
     ui->loopsCount->setValue(settings.getLoopsCount());
 
+    ui->actionTheme_Stylesheet_Light->setChecked(settings.getTheme() == Global::Theme::StyleSheetLight);
+    ui->actionTheme_Stylesheet_Dark->setChecked(settings.getTheme() ==Global::Theme::StyleSheetDark);
+    ui->actionTheme_Do_not_apply->setChecked(settings.getTheme() == Global::Theme::DoNotApply);
+
+    updateProgressBarsStyle();
+
     updatePresetsSelection();
     updateBenchmarkButtonsContent();
 
@@ -172,6 +185,12 @@ MainWindow::MainWindow(QWidget *parent)
     this->setEnabled(false);
 
     QTimer::singleShot(0, [&] {
+        if (!m_benchmark->isFIODetected()) {
+            QMessageBox::critical(0, "KDiskMark",
+                                  QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
+            qApp->quit();
+        }
+
         if (m_benchmark->startHelper()) {
             m_benchmark->listStorages();
 
@@ -720,6 +739,44 @@ void MainWindow::presetSelected(QAction* act)
 
     updateBenchmarkButtonsContent();
 }
+
+
+void MainWindow::updateProgressBarsStyle()
+{
+    QStyle *progressBarStyleFusion = QStyleFactory::create(QStringLiteral("Fusion"));
+    QStyle *progressBarStyleDefault = QStyleFactory::create(QStringLiteral());
+
+    Global::Theme theme = AppSettings().getTheme();
+
+    for (auto const& progressBar: m_progressBars) {
+        switch (theme) {
+        case Global::Theme::UseFusion:
+            progressBar->setStyle(progressBarStyleFusion);
+            progressBar->setStyleSheet(QStringLiteral());
+            break;
+        case Global::Theme::StyleSheetLight:
+            progressBar->setStyle(progressBarStyleDefault);
+            progressBar->setStyleSheet(QStringLiteral("QProgressBar{color:black;text-align:center}QProgressBar::chunk{background:rgba(0,0,0,0)}"));
+            break;
+        case Global::Theme::StyleSheetDark:
+            progressBar->setStyle(progressBarStyleDefault);
+            progressBar->setStyleSheet(QStringLiteral("QProgressBar{color:white;text-align:center}QProgressBar::chunk{background:rgba(0,0,0,0)}"));
+            break;
+        case Global::Theme::DoNotApply:
+            progressBar->setStyle(progressBarStyleDefault);
+            progressBar->setStyleSheet(QStringLiteral());
+            break;
+        }
+    }
+}
+
+void MainWindow::themeSelected(QAction* act)
+{
+    AppSettings().setTheme((Global::Theme)act->property("theme").toInt());
+
+    updateProgressBarsStyle();
+}
+
 
 void MainWindow::benchmarkStateChanged(bool state)
 {

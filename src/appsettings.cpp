@@ -216,6 +216,21 @@ Global::ComparisonUnit AppSettings::defaultComparisonUnit()
     return Global::ComparisonUnit::MBPerSec;
 }
 
+Global::Theme AppSettings::getTheme() const
+{
+    return (Global::Theme)m_settings->value(QStringLiteral("Interface/Theme"), defaultTheme()).toInt();
+}
+
+void AppSettings::setTheme(Global::Theme theme)
+{
+    m_settings->setValue(QStringLiteral("Interface/Theme"), theme);
+}
+
+Global::Theme AppSettings::defaultTheme()
+{
+    return Global::Theme::UseFusion;
+}
+
 Global::BenchmarkParams AppSettings::getBenchmarkParams(Global::BenchmarkTest test, Global::PerformanceProfile profile) const
 {
     Global::BenchmarkParams defaultSet = defaultBenchmarkParams(test, profile, Global::BenchmarkPreset::Standard);

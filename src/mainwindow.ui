@@ -375,6 +375,9 @@
            <pointsize>28</pointsize>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="maximum">
           <number>100</number>
          </property>
@@ -404,6 +407,9 @@
           <font>
            <pointsize>28</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="maximum">
           <number>100</number>
@@ -567,6 +573,9 @@
           <font>
            <pointsize>28</pointsize>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="maximum">
           <number>100</number>
@@ -1059,9 +1068,19 @@
     <addaction name="actionAbout"/>
     <addaction name="menuLanguage"/>
    </widget>
+   <widget class="QMenu" name="menuTheme">
+    <property name="title">
+     <string>Theme</string>
+    </property>
+    <addaction name="actionTheme_Use_Fusion"/>
+    <addaction name="actionTheme_Stylesheet_Light"/>
+    <addaction name="actionTheme_Stylesheet_Dark"/>
+    <addaction name="actionTheme_Do_not_apply"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSettings"/>
    <addaction name="menuProfile"/>
+   <addaction name="menuTheme"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -1223,6 +1242,41 @@
    </property>
    <property name="text">
     <string>NVMe SSD</string>
+   </property>
+  </action>
+  <action name="actionTheme_Use_Fusion">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use Fusion</string>
+   </property>
+  </action>
+  <action name="actionTheme_Stylesheet_Light">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Stylesheet Light</string>
+   </property>
+  </action>
+  <action name="actionTheme_Stylesheet_Dark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Stylesheet Dark</string>
+   </property>
+  </action>
+  <action name="actionTheme_Do_not_apply">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Do not apply</string>
    </property>
   </action>
  </widget>
