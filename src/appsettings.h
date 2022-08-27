@@ -71,6 +71,10 @@ public:
     void setComparisonUnit(Global::ComparisonUnit comparisonUnit);
     static Global::ComparisonUnit defaultComparisonUnit();
 
+    Global::Theme getTheme() const;
+    void setTheme(Global::Theme theme);
+    static Global::Theme defaultTheme();
+
 private:
     static QTranslator s_appTranslator;
     static QTranslator s_qtTranslator;

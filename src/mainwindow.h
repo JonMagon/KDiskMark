@@ -75,6 +75,7 @@ private:
     bool runCombinedRandomTest();
     QString combineOutputTestResult(const QProgressBar *progressBar, const Global::BenchmarkParams &params);
     void resizeComboBoxItemsPopup(QComboBox *combobox);
+    void updateProgressBarsStyle();
 
 public slots:
     void mountPointsListReady(const QVector<Benchmark::Storage> &storages);
@@ -86,6 +87,7 @@ public slots:
     void modeSelected(QAction* act);
     void testDataSelected(QAction* act);
     void presetSelected(QAction* act);
+    void themeSelected(QAction* act);
     void benchmarkStateChanged(bool state);
 
 protected slots:

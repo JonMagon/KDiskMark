@@ -18,7 +18,7 @@
 ## Report Example
 ```
                         KDiskMark (3.0.0): https://github.com/JonMagon/KDiskMark
-                    Flexible I/O Tester (fio-3.16): https://github.com/axboe/fio
+                    Flexible I/O Tester (fio-3.30): https://github.com/axboe/fio
 --------------------------------------------------------------------------------
 * MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]
 * KB = 1000 bytes, KiB = 1024 bytes

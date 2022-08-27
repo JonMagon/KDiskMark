@@ -73,6 +73,13 @@ namespace Global
     };
     Q_ENUM_NS(ComparisonUnit)
 
+    enum Theme {
+        UseFusion,
+        StyleSheetLight,
+        StyleSheetDark,
+        DoNotApply,
+    };
+
     int getOutputColumnsCount();
     QString getBenchmarkButtonText(BenchmarkParams params, QString paramsLine = QStringLiteral());
     QString getBenchmarkButtonToolTip(BenchmarkParams params, bool extraField = false);
