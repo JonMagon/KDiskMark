@@ -12,10 +12,12 @@ About::About(const QString &FIOVersion, QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
     ui->label_Version->setText(qApp->applicationVersion());
     ui->label_FIO->setText(FIOVersion);
 
-    ui->label_Icon->setPixmap(QIcon::fromTheme(QStringLiteral("kdiskmark")).pixmap(128, 128));
+    ui->label_Icon->setPixmap(QPixmap(":/icons/app/128-apps-kdiskmark.png"));
 }
 
 About::~About()

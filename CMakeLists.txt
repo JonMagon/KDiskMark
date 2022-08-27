@@ -46,26 +46,6 @@ include(GNUInstallDirs)
 include(ECMInstallIcons)
 include(KDEInstallDirs)
 
-find_package(KF5Auth REQUIRED NO_MODULE)
-
-set(application_interface_xml dev.jonmagon.kdiskmark.applicationinterface.xml)
-set(helper_interface_xml dev.jonmagon.kdiskmark.helperinterface.xml)
-
-qt5_generate_dbus_interface(
-    src/benchmark.h
-    ${application_interface_xml}
-    OPTIONS -a
-)
-
-qt5_generate_dbus_interface(
-    src/helper.h
-    ${helper_interface_xml}
-    OPTIONS -a
-)
-
-qt5_add_dbus_interface(ApplicationInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${application_interface_xml} app_interface)
-qt5_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
-
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
     data/translations/${PROJECT_NAME}_de_DE.ts
@@ -87,8 +67,8 @@ qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 add_executable(${PROJECT_NAME}
     ${QM_FILES}
+    data/icons/app.qrc
     data/icons/flags/flags.qrc
-    ${HelperInterface_SRCS}
     src/main.cpp
     src/mainwindow.cpp
     src/mainwindow.h
@@ -109,11 +89,7 @@ add_executable(${PROJECT_NAME}
     src/diskdriveinfo.h
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    Qt5::Widgets
-    Qt5::DBus
-    KF5::Auth
-)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 
 set(APP_ICONS
     data/icons/16-apps-kdiskmark.png
@@ -131,19 +107,3 @@ install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAM
 install(FILES data/${DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 
 ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)
-
-# Helper
-add_executable(${PROJECT_NAME}_helper
-    ${ApplicationInterface_SRCS}
-    src/helper.cpp
-    src/helper.h
-)
-
-target_link_libraries(${PROJECT_NAME}_helper Qt5::DBus KF5::Auth)
-
-install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-install(FILES data/dev.jonmagon.kdiskmark.applicationinterface.conf DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
-install(FILES data/dev.jonmagon.kdiskmark.helperinterface.conf DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
-
-kauth_install_helper_files(${PROJECT_NAME}_helper dev.jonmagon.kdiskmark.helper root)
-kauth_install_actions(dev.jonmagon.kdiskmark.helper data/dev.jonmagon.kdiskmark.helper.actions)

@@ -6,24 +6,12 @@
 #include <QString>
 #include <QProgressBar>
 #include <QObject>
-#include <QThread>
 
 #include <memory>
 
 #include "appsettings.h"
 
-class QDBusPendingCall;
-class DevJonmagonKdiskmarkHelperInterface;
-
 struct HelperPrivate;
-
-class DBusThread : public QThread
-{
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "dev.jonmagon.kdiskmark.applicationinterface")
-
-    void run() override;
-};
 
 class Benchmark : public QObject
 {
@@ -42,10 +30,6 @@ public:
 
     void setRunning(bool state);
     bool isRunning();
-
-    // KAuth
-    bool startHelper();
-    void stopHelper();
 
     bool listStorages();
 
@@ -108,8 +92,7 @@ private:
     QVector<QProgressBar*> m_progressBars;
     QString m_dir;
 
-    DevJonmagonKdiskmarkHelperInterface* helperInterface();
-    DBusThread *m_thread;
+    QProcess *m_process;
 
 private:
     void startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage);
@@ -118,8 +101,6 @@ private:
 
     bool prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw);
     bool flushPageCache();
-
-    void dbusWaitForFinish(QDBusPendingCall pcall);
 
 signals:
     void mountPointsListReady(const QVector<Storage> &storages);

@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(localesGroup, SIGNAL(triggered(QAction*)), this, SLOT(localeSelected(QAction*)));
 
+    ui->refreshStoragesButton->setIcon(style()->standardIcon(QStyle::SP_BrowserReload).pixmap(QSize(16, 16)));
+
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
     ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
     ui->extraIcon->setVisible(false);
@@ -182,8 +184,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveBenchmarkResult);
 
-    this->setEnabled(false);
-
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
             QMessageBox::critical(0, "KDiskMark",
@@ -191,16 +191,7 @@ MainWindow::MainWindow(QWidget *parent)
             qApp->quit();
         }
 
-        if (m_benchmark->startHelper()) {
-            m_benchmark->listStorages();
-
-            this->setEnabled(true);
-        }
-        else {
-            QMessageBox::critical(this, "KDiskMark Helper",
-                                  QObject::tr("Could not obtain administrator privileges.\nThe application will be closed."));
-            qApp->quit();
-        }
+        m_benchmark->listStorages();
     });
 }
 
@@ -211,14 +202,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
-    auto stopHelper = [&] () { m_benchmark->stopHelper(); };
-    if (m_benchmark->isRunning()) {
-        connect(m_benchmark, &Benchmark::finished, this, stopHelper);
-        m_benchmark->setRunning(false);
-    }
-    else {
-        stopHelper();
-    }
+    m_benchmark->setRunning(false);
 }
 
 void MainWindow::changeEvent(QEvent *event)

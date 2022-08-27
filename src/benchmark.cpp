@@ -1,10 +1,14 @@
 #include "benchmark.h"
 
-#include <KAuth>
+#include <QFile>
+#include <QEventLoop>
+#include <QTimer>
+#include <QStorageInfo>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 #include "global.h"
-
-#include "helper_interface.h"
 
 Benchmark::Benchmark()
 {
@@ -74,19 +78,25 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
             return;
         }
 
-        auto interface = helperInterface();
-        if (!interface) {
-            setRunning(false);
-            emit failed("Inteface is null");
-            return;
-        }
+        m_process = new QProcess();
+        m_process->start("fio", QStringList()
+                         << "--output-format=json"
+                         << "--ioengine=libaio"
+                         << "--direct=1"
+                         << "--randrepeat=0"
+                         << "--refill_buffers"
+                         << "--end_fsync=1"
+                         << QStringLiteral("--rwmixread=%1").arg(settings.getRandomReadPercentage())
+                         << QStringLiteral("--filename=%1").arg(getBenchmarkFile())
+                         << QStringLiteral("--name=%1").arg(rw)
+                         << QStringLiteral("--size=%1m").arg(settings.getFileSize())
+                         << QStringLiteral("--zero_buffers=%1").arg(settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
+                         << QStringLiteral("--bs=%1k").arg(blockSize)
+                         << QStringLiteral("--runtime=%1").arg(settings.getMeasuringTime())
+                         << QStringLiteral("--rw=%1").arg(rw)
+                         << QStringLiteral("--iodepth=%1").arg(queueDepth)
+                         << QStringLiteral("--numjobs=%1").arg(threads));
 
-        QDBusPendingCall pcall = interface->startTest(getBenchmarkFile(),
-                                                      settings.getMeasuringTime(),
-                                                      settings.getFileSize(),
-                                                      settings.getRandomReadPercentage(),
-                                                      settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
-                                                      blockSize, queueDepth, threads, rw);
         QEventLoop loop;
 
         auto exitLoop = [&] (bool success, QString output, QString errorOutput) {
@@ -128,7 +138,9 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
             }
         };
 
-        auto conn = QObject::connect(interface, &DevJonmagonKdiskmarkHelperInterface::taskFinished, exitLoop);
+        auto conn = QObject::connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=] (int exitCode, QProcess::ExitStatus exitStatus) {
+            exitLoop(exitStatus == QProcess::NormalExit, QString(m_process->readAllStandardOutput()), QString(m_process->readAllStandardError()));
+        });
 
         loop.exec();
 
@@ -202,9 +214,14 @@ void Benchmark::setRunning(bool state)
     m_running = state;
 
     if (!m_running) {
-        auto interface = helperInterface();
-        if (interface)
-            dbusWaitForFinish(interface->stopCurrentTask());
+        if (!m_process) return;
+
+        if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
+            m_process->terminate();
+            m_process->waitForFinished(-1);
+        }
+
+        delete m_process;
     }
 
     emit runningStateChanged(state);
@@ -288,148 +305,57 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         }
     }
 
-    auto interface = helperInterface();
-    if (interface)
-        dbusWaitForFinish(interface->removeFile(getBenchmarkFile()));
+    QFile(getBenchmarkFile()).remove();
 
     setRunning(false);
     emit finished();
 }
 
-DevJonmagonKdiskmarkHelperInterface* Benchmark::helperInterface()
-{
-    if (!QDBusConnection::systemBus().isConnected()) {
-        qCritical() << QDBusConnection::systemBus().lastError().message();
-        return nullptr;
-    }
-
-    auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helper"),
-                QStringLiteral("/Helper"), QDBusConnection::systemBus(), this);
-    interface->setTimeout(10 * 24 * 3600 * 1000); // 10 days
-
-    return interface;
-}
-
-bool Benchmark::startHelper()
-{
-    if (!QDBusConnection::systemBus().isConnected()) {
-        qWarning() << QDBusConnection::systemBus().lastError().message();
-        return false;
-    }
-
-    QDBusInterface interface(QStringLiteral("dev.jonmagon.kdiskmark.helperinterface"), QStringLiteral("/Helper"), QStringLiteral("dev.jonmagon.kdiskmark.helper"), QDBusConnection::systemBus());
-    if (interface.isValid()) {
-        qWarning() << "Dbus interface is already in use.";
-        return false;
-    }
-
-    m_thread = new DBusThread;
-    m_thread->start();
-
-    KAuth::Action action = KAuth::Action(QStringLiteral("dev.jonmagon.kdiskmark.helper.init"));
-    action.setHelperId(QStringLiteral("dev.jonmagon.kdiskmark.helper"));
-    action.setTimeout(10 * 24 * 3600 * 1000); // 10 days
-
-    QVariantMap arguments;
-    action.setArguments(arguments);
-    KAuth::ExecuteJob *job = action.execute();
-    job->start();
-
-    QEventLoop loop;
-    auto exitLoop = [&] () { loop.exit(); };
-    auto conn = QObject::connect(job, &KAuth::ExecuteJob::newData, exitLoop);
-    QObject::connect(job, &KJob::finished, [=] () { if (job->error()) exitLoop(); } );
-    loop.exec();
-    QObject::disconnect(conn);
-
-    return !job->error();
-}
-
 bool Benchmark::listStorages()
 {
-    auto interface = helperInterface();
-    if (!interface) return false;
+    QVector<Storage> storages;
 
-    QDBusPendingCall pcall = interface->listStorages();
-
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
-    QEventLoop loop;
-
-    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
-        loop.exit();
-
-        if (watcher->isError())
-            qWarning() << watcher->error();
-        else {
-            QDBusPendingReply<QVariantMap> reply = *watcher;
-
-            QVariantMap replyContent = reply.value();
-
-            QVector<Storage> storages;
-
-            for (auto pathStorage : replyContent.keys()) {
-                QDBusVariant dbusVariant = qvariant_cast<QDBusVariant>(replyContent.value(pathStorage));
-                QVector<qlonglong> storageStats;
-                dbusVariant.variant().value<QDBusArgument>() >> storageStats;
-                storages.append({ pathStorage, storageStats[0], storageStats[0] - storageStats[1] });
+    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+        if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
+            if (storage.device().indexOf("/dev") != -1) {
+                storages.append({ storage.rootPath(), storage.bytesTotal(), storage.bytesTotal() - storage.bytesAvailable() });
             }
-
-            emit mountPointsListReady(storages);
         }
-    };
+    }
 
-    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
-    loop.exec();
+    emit mountPointsListReady(storages);
 
     return true;
 }
 
 bool Benchmark::flushPageCache()
 {
-    bool flushed = true;
+    QFile file("/proc/sys/vm/drop_caches");
 
-    auto interface = helperInterface();
-    if (!interface) return false;
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        file.write("1");
+        file.close();
+    }
+    else {
+        emit failed(file.errorString());
+        return false;
+    }
 
-    QDBusPendingCall pcall = interface->flushPageCache();
-
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
-    QEventLoop loop;
-
-    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
-        loop.exit();
-
-        if (watcher->isError())
-            qWarning() << watcher->error();
-        else {
-            QDBusPendingReply<QVariantMap> reply = *watcher;
-
-            QVariantMap replyContent = reply.value();
-            if (!replyContent[QStringLiteral("success")].toBool()) {
-                flushed = false;
-                QString error = replyContent[QStringLiteral("error")].toString();
-                if (!error.isEmpty()) {
-                    setRunning(false);
-                    emit failed(error);
-                }
-            }
-        }
-    };
-
-    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
-    loop.exec();
-
-    return flushed;
+    return true;
 }
 
 bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
 {
-    bool flushed = true;
+    bool prepared = true;
 
-    auto interface = helperInterface();
-    if (!interface) return false;
-
-    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
+    m_process = new QProcess();
+    m_process->start("fio", QStringList()
+                     << "--output-format=json"
+                     << "--create_only=1"
+                     << QStringLiteral("--filename=%1").arg(benchmarkFile)
+                     << QStringLiteral("--size=%1m").arg(fileSize)
+                     << QStringLiteral("--zero_buffers=%1").arg(AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
+                     << QStringLiteral("--name=prepare"));
 
     QEventLoop loop;
 
@@ -437,7 +363,7 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QS
         loop.exit();
 
         if (!success) {
-            flushed = false;
+            prepared = false;
             if (!errorOutput.isEmpty()) {
                 setRunning(false);
                 emit failed(errorOutput);
@@ -449,38 +375,13 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QS
         }
     };
 
-    auto conn = QObject::connect(interface, &DevJonmagonKdiskmarkHelperInterface::taskFinished, exitLoop);
+    auto conn = QObject::connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=] (int exitCode, QProcess::ExitStatus exitStatus) {
+        exitLoop(exitStatus == QProcess::NormalExit, QString(m_process->readAllStandardOutput()), QString(m_process->readAllStandardError()));
+    });
 
     loop.exec();
 
     QObject::disconnect(conn);
 
-    return flushed;
-}
-
-void Benchmark::dbusWaitForFinish(QDBusPendingCall pcall)
-{
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
-    QEventLoop loop;
-    connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) { loop.exit(); });
-    loop.exec();
-}
-
-void Benchmark::stopHelper()
-{
-    auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helper"),
-                                                           QStringLiteral("/Helper"), QDBusConnection::systemBus());
-    interface->exit();
-}
-
-void DBusThread::run()
-{
-    if (!QDBusConnection::systemBus().registerService(QStringLiteral("dev.jonmagon.kdiskmark.applicationinterface")) ||
-        !QDBusConnection::systemBus().registerObject(QStringLiteral("/Application"), this, QDBusConnection::ExportAllSlots)) {
-        qWarning() << QDBusConnection::systemBus().lastError().message();
-        return;
-    }
-
-    QEventLoop loop;
-    loop.exec();
+    return prepared;
 }
