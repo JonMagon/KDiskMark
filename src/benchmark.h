@@ -130,4 +130,6 @@ signals:
     void runningStateChanged(bool state);
 };
 
+Q_DECLARE_METATYPE(Benchmark::Storage)
+
 #endif // BENCHMARK_H

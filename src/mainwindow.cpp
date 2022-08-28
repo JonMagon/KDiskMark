@@ -250,6 +250,18 @@ void MainWindow::changeEvent(QEvent *event)
             updateProgressBar(progressBar);
         }
 
+        for (int i = 0; i < ui->comboBox_Storages->count(); i++) {
+            QVariant variant = ui->comboBox_Storages->itemData(i);
+            if (variant.canConvert<Benchmark::Storage>()) {
+                Benchmark::Storage storage = variant.value<Benchmark::Storage>();
+
+                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2% (%3)").arg(storage.path)
+                                                   .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
+                                                   .arg(formatSize(storage.bytesOccupied, storage.bytesTotal)));
+            }
+        }
+        resizeComboBoxItemsPopup(ui->comboBox_Storages);
+
         break;
     }
     default:
@@ -269,19 +281,17 @@ void MainWindow::mountPointsListReady(const QVector<Benchmark::Storage> &storage
     QString temp;
 
     QVariant variant = ui->comboBox_Storages->currentData();
-    if (variant.canConvert<QStringList>())
-        temp = variant.value<QStringList>()[0];
+    if (variant.canConvert<Benchmark::Storage>())
+        temp = variant.value<Benchmark::Storage>().path;
 
     ui->comboBox_Storages->clear();
 
     for (Benchmark::Storage storage : storages) {
-        QStringList volumeInfo = { storage.path, DiskDriveInfo::Instance().getModelName(QStorageInfo(storage.path).device()) };
-
         ui->comboBox_Storages->addItem(
                     QStringLiteral("%1 %2% (%3)").arg(storage.path)
                     .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
                     .arg(formatSize(storage.bytesOccupied, storage.bytesTotal)),
-                    QVariant::fromValue(volumeInfo)
+                    QVariant::fromValue(storage)
                     );
     }
 
@@ -470,8 +480,9 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
         outputAvailable = outputAvailable / 1024;
         outputTotal = outputTotal / 1024;
     }
-    return QString("%1/%2 %3").arg(outputAvailable, 0, 'f', 2)
-            .arg(outputTotal, 0, 'f', 2).arg(units[i]);
+    QLocale locale = QLocale();
+    return QString("%1/%2 %3").arg(locale.toString(outputAvailable, 'f', 2))
+            .arg(locale.toString(outputTotal, 'f', 2)).arg(units[i]);
 }
 
 void MainWindow::on_comboBox_ComparisonUnit_currentIndexChanged(int index)
@@ -638,11 +649,11 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
 {
     QVariant variant = ui->comboBox_Storages->itemData(index);
-    if (variant.canConvert<QStringList>()) {
-        QStringList volumeInfo = variant.value<QStringList>();
-        m_benchmark->setDir(volumeInfo[0]);
-        ui->deviceModel->setText(volumeInfo[1]);
-        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
+    if (variant.canConvert<Benchmark::Storage>()) {
+        Benchmark::Storage volumeInfo = variant.value<Benchmark::Storage>();
+        m_benchmark->setDir(volumeInfo.path);
+        ui->deviceModel->setText(DiskDriveInfo::Instance().getModelName(QStorageInfo(volumeInfo.path).device()));
+        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo.path).device()));
     }
 }
 
