@@ -26,6 +26,8 @@ jobs:
     steps:
     - name: Clone repo
       uses: actions/checkout@v2.2.0
+      with:
+        submodules: recursive
 
     - name: Install dependent apt packages
       if: runner.os == 'Linux'

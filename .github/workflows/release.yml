@@ -3,11 +3,32 @@ on:
   release:
     types: created
 jobs:
-  Release:
+  pack:
+    name: Pack source tarball
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - name: Create source tarball
+        run: |
+          SOURCE_NAME=$(awk -F/ '{print $NF}' <<<"${{ github.repository }}")-$(awk -F/ '{print $NF}' <<<"${{ github.ref }}")
+          git ls-files --recurse-submodules | \
+          tar --exclude-vcs --transform "s|^|$SOURCE_NAME/|S" -ca -T - -f ../$SOURCE_NAME-source.tar.gz
+      - name: Upload source tarball
+        uses: AButler/upload-release-assets@v2.0
+        with:
+          files: '../*.tar.gz'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-18.04]
+        arch: [amd64, aarch64]
         include:
           - os: ubuntu-18.04
             cmake-defines: '-D CPACK_GENERATOR="DEB;RPM;7Z" -D CMAKE_BUILD_TYPE=Release'
@@ -15,6 +36,8 @@ jobs:
     steps:
     - name: Clone repo
       uses: actions/checkout@v2.2.0
+      with:
+        submodules: recursive
 
     - name: Install dependent apt packages
       if: runner.os == 'Linux'

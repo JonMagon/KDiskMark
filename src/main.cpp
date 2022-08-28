@@ -2,6 +2,7 @@
 
 #include <QApplication>
 
+#include "singleapplication.h"
 #include "cmake.h"
 
 int main(int argc, char *argv[])
@@ -12,7 +13,7 @@ int main(int argc, char *argv[])
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QApplication a(argc, argv);
+    SingleApplication a(argc, argv);
 
     AppSettings().setupLocalization();
 

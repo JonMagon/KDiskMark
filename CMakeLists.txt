@@ -36,6 +36,9 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
+set(QAPPLICATION_CLASS QApplication)
+add_subdirectory(src/singleapplication)
+
 find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
@@ -110,6 +113,7 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    SingleApplication::SingleApplication
     Qt5::Widgets
     Qt5::DBus
     KF5::Auth
