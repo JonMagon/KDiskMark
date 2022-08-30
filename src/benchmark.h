@@ -95,13 +95,6 @@ public:
         PerformanceResult read, write;
     };
 
-    struct Storage
-    {
-        QString path;
-        qlonglong bytesTotal;
-        qlonglong bytesOccupied;
-    };
-
 private:
     bool m_running;
     QString m_FIOVersion;
@@ -122,14 +115,12 @@ private:
     void dbusWaitForFinish(QDBusPendingCall pcall);
 
 signals:
-    void mountPointsListReady(const QVector<Storage> &storages);
+    void mountPointsListReady(const QVector<Global::Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void failed(const QString &error);
     void finished();
     void runningStateChanged(bool state);
 };
-
-Q_DECLARE_METATYPE(Benchmark::Storage)
 
 #endif // BENCHMARK_H

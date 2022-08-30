@@ -365,7 +365,7 @@ bool Benchmark::listStorages()
 
             QVariantMap replyContent = reply.value();
 
-            QVector<Storage> storages;
+            QVector<Global::Storage> storages;
 
             for (auto pathStorage : replyContent.keys()) {
                 QDBusVariant dbusVariant = qvariant_cast<QDBusVariant>(replyContent.value(pathStorage));

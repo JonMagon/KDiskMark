@@ -93,23 +93,25 @@ add_executable(${PROJECT_NAME}
     data/icons/flags/flags.qrc
     ${HelperInterface_SRCS}
     src/main.cpp
-    src/mainwindow.cpp
     src/mainwindow.h
+    src/mainwindow.cpp
     src/mainwindow.ui
-    src/benchmark.cpp
+    src/storageitemdelegate.h
+    src/storageitemdelegate.cpp
     src/benchmark.h
-    src/about.cpp
+    src/benchmark.cpp
     src/about.h
+    src/about.cpp
     src/about.ui
     src/appsettings.h
     src/appsettings.cpp
-    src/settings.cpp
     src/settings.h
+    src/settings.cpp
     src/settings.ui
-    src/global.cpp
     src/global.h
-    src/diskdriveinfo.cpp
+    src/global.cpp
     src/diskdriveinfo.h
+    src/diskdriveinfo.cpp
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE

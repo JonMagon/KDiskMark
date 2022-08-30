@@ -16,6 +16,7 @@
 #include "about.h"
 #include "settings.h"
 #include "diskdriveinfo.h"
+#include "storageitemdelegate.h"
 #include "global.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -55,6 +56,8 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar()->hide();
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
+
+    ui->comboBox_Storages->setItemDelegate(new StorageItemDelegate());
 
     ui->actionDefault->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault->setProperty("mixed", false);
@@ -252,12 +255,16 @@ void MainWindow::changeEvent(QEvent *event)
 
         for (int i = 0; i < ui->comboBox_Storages->count(); i++) {
             QVariant variant = ui->comboBox_Storages->itemData(i);
-            if (variant.canConvert<Benchmark::Storage>()) {
-                Benchmark::Storage storage = variant.value<Benchmark::Storage>();
+            if (variant.canConvert<Global::Storage>()) {
+                Global::Storage storage = variant.value<Global::Storage>();
 
-                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2% (%3)").arg(storage.path)
+                storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
+
+                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2 (%3)").arg(storage.path)
                                                    .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
-                                                   .arg(formatSize(storage.bytesOccupied, storage.bytesTotal)));
+                                                   .arg(storage.formatedSize));
+
+                ui->comboBox_Storages->setItemData(i, QVariant::fromValue(storage));
             }
         }
         resizeComboBoxItemsPopup(ui->comboBox_Storages);
@@ -276,21 +283,22 @@ void MainWindow::on_refreshStoragesButton_clicked()
     }
 }
 
-void MainWindow::mountPointsListReady(const QVector<Benchmark::Storage> &storages)
+void MainWindow::mountPointsListReady(const QVector<Global::Storage> &storages)
 {
     QString temp;
 
     QVariant variant = ui->comboBox_Storages->currentData();
-    if (variant.canConvert<Benchmark::Storage>())
-        temp = variant.value<Benchmark::Storage>().path;
+    if (variant.canConvert<Global::Storage>())
+        temp = variant.value<Global::Storage>().path;
 
     ui->comboBox_Storages->clear();
 
-    for (Benchmark::Storage storage : storages) {
+    for (Global::Storage storage : storages) {
+        storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
         ui->comboBox_Storages->addItem(
                     QStringLiteral("%1 %2% (%3)").arg(storage.path)
                     .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
-                    .arg(formatSize(storage.bytesOccupied, storage.bytesTotal)),
+                    .arg(storage.formatedSize),
                     QVariant::fromValue(storage)
                     );
     }
@@ -649,8 +657,8 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
 {
     QVariant variant = ui->comboBox_Storages->itemData(index);
-    if (variant.canConvert<Benchmark::Storage>()) {
-        Benchmark::Storage volumeInfo = variant.value<Benchmark::Storage>();
+    if (variant.canConvert<Global::Storage>()) {
+        Global::Storage volumeInfo = variant.value<Global::Storage>();
         m_benchmark->setDir(volumeInfo.path);
         ui->deviceModel->setText(DiskDriveInfo::Instance().getModelName(QStorageInfo(volumeInfo.path).device()));
         ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo.path).device()));
