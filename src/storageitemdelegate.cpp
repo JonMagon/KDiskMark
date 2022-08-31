@@ -61,6 +61,13 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         progressBarOption.minimum = 0;
         progressBarOption.maximum = 100;
         progressBarOption.progress = percent;
+
+        if (percent >= 95) {
+            QPalette palette = progressBarOption.palette;
+            palette.setColor(QPalette::Highlight, QColor(218, 68, 83));
+            progressBarOption.palette = palette;
+        }
+
         style->drawControl(QStyle::CE_ProgressBar, &progressBarOption, painter);
 
         painter->drawText(progressBarRect, option.displayAlignment | Qt::AlignRight, QString::number(percent) + "%");
