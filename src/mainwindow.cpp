@@ -875,7 +875,8 @@ void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
                 QMessageBox::warning(this, tr("Confirmation"),
                                      tr("This action destroys the data in %1\nDo you want to continue?")
                                      .arg(m_benchmark->getBenchmarkFile()
-                                          .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
+                                          .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))
+                                          .replace("-", QChar(0x2060) + QString("-") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
             bodyFunc();
         }
