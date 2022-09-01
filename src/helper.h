@@ -50,7 +50,7 @@ public:
 
 private:
     bool isCallerAuthorized();
-    void testFilePath(const QString &benchmarkFile);
+    bool testFilePath(const QString &benchmarkFile);
 
 signals:
     void taskFinished(bool, QString, QString);

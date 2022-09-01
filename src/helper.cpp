@@ -67,16 +67,25 @@ Helper::Helper() : m_helperAdaptor(new HelperAdaptor(this))
     QObject::connect(this, &Helper::taskFinished, m_helperAdaptor, &HelperAdaptor::taskFinished);
 }
 
-void Helper::testFilePath(const QString &benchmarkFile)
+bool Helper::testFilePath(const QString &benchmarkFile)
 {
-    if (!benchmarkFile.endsWith("/.kdiskmark.tmp"))
-        qFatal("The path must end with /.kdiskmark.tmp");
+    if (QFileInfo(benchmarkFile).isSymbolicLink()) {
+        qWarning("The path should not be symbolic link.");
+        return false;
+    }
+
+    if (!benchmarkFile.endsWith("/.kdiskmark.tmp")) {
+        qWarning("The path must end with /.kdiskmark.tmp");
+        return false;
+    }
+
+    return true;
 }
 
 QVariantMap Helper::listStorages()
 {
     if (!isCallerAuthorized()) {
-        return QVariantMap();
+        return {};
     }
 
     QVariantMap reply;
@@ -98,7 +107,9 @@ void Helper::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZe
         return;
     }
 
-    testFilePath(benchmarkFile);
+    if (!testFilePath(benchmarkFile)) {
+        return;
+    }
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
@@ -122,7 +133,14 @@ void Helper::startTest(const QString &benchmarkFile, int measuringTime, int file
         return;
     }
 
-    testFilePath(benchmarkFile);
+    if (!testFilePath(benchmarkFile)) {
+        return;
+    }
+
+    if (!QFile(benchmarkFile).exists()) {
+        qWarning() << "The benchmark file was not pre-created.";
+        return;
+    }
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
@@ -176,6 +194,10 @@ QVariantMap Helper::flushPageCache()
 bool Helper::removeFile(const QString &benchmarkFile)
 {
     if (!isCallerAuthorized()) {
+        return false;
+    }
+
+    if (!testFilePath(benchmarkFile)) {
         return false;
     }
 
