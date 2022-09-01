@@ -33,7 +33,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install extra-cmake-modules qttools5-dev libkf5auth-dev
+        sudo apt-get install extra-cmake-modules qttools5-dev libpolkit-qt5-1-dev
 
     - name: Build
       run: |
