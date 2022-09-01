@@ -45,7 +45,7 @@ Profile: Default
 ### Build
 * GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.12
-* [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
+* [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules) >= 5.73
 * PolicyKit Library Qt Bindings
 * Qt with Widgets and DBus >= 5.9
 ### Runtime
