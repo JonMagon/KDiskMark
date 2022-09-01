@@ -69,7 +69,12 @@ Helper::Helper() : m_helperAdaptor(new HelperAdaptor(this))
 
 bool Helper::testFilePath(const QString &benchmarkFile)
 {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     if (QFileInfo(benchmarkFile).isSymbolicLink()) {
+#else
+    // detects *.lnk on Windows, but there's not Windows version, whatever
+    if (QFileInfo(benchmarkFile).isSymLink()) {
+#endif
         qWarning("The path should not be symbolic link.");
         return false;
     }
