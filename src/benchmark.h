@@ -6,7 +6,6 @@
 #include <QString>
 #include <QProgressBar>
 #include <QObject>
-#include <QThread>
 
 #include <memory>
 
@@ -14,16 +13,6 @@
 
 class QDBusPendingCall;
 class DevJonmagonKdiskmarkHelperInterface;
-
-struct HelperPrivate;
-
-class DBusThread : public QThread
-{
-    Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "dev.jonmagon.kdiskmark.applicationinterface")
-
-    void run() override;
-};
 
 class Benchmark : public QObject
 {
@@ -42,10 +31,6 @@ public:
 
     void setRunning(bool state);
     bool isRunning();
-
-    // KAuth
-    bool startHelper();
-    void stopHelper();
 
     bool listStorages();
 
@@ -102,7 +87,6 @@ private:
     QString m_dir;
 
     DevJonmagonKdiskmarkHelperInterface* helperInterface();
-    DBusThread *m_thread;
 
 private:
     void startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage);

@@ -189,14 +189,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
-            QMessageBox::critical(0, "KDiskMark",
+            QMessageBox::critical(this, "KDiskMark",
                                   QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
             qApp->quit();
         }
 
-        if (m_benchmark->startHelper()) {
-            m_benchmark->listStorages();
-
+        if (m_benchmark->listStorages()) {
             this->setEnabled(true);
         }
         else {
@@ -214,13 +212,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *)
 {
-    auto stopHelper = [&] () { m_benchmark->stopHelper(); };
     if (m_benchmark->isRunning()) {
-        connect(m_benchmark, &Benchmark::finished, this, stopHelper);
+        connect(m_benchmark, &Benchmark::finished, this, [this] () { qApp->exit(); });
         m_benchmark->setRunning(false);
-    }
-    else {
-        stopHelper();
     }
 }
 

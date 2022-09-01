@@ -46,13 +46,13 @@ Profile: Default
 * GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.5
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
-* [KAuth](https://github.com/KDE/kauth)
+* PolicyKit Library Qt Bindings
 * Qt with Widgets and DBus >= 5.9
 ### Runtime
 * Qt with Widgets and DBus >= 5.9
 * [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
     * If you build FIO from source, install `libaio-dev` package.
-* KAuth Library
+* PolicyKit Agent
 
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 

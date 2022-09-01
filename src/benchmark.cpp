@@ -1,7 +1,5 @@
 #include "benchmark.h"
 
-#include <KAuth>
-
 #include "global.h"
 
 #include "helper_interface.h"
@@ -133,6 +131,10 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
         loop.exec();
 
         QObject::disconnect(conn);
+
+        if (pcall.isError()) {
+            setRunning(false);
+        }
     }
 }
 
@@ -303,46 +305,11 @@ DevJonmagonKdiskmarkHelperInterface* Benchmark::helperInterface()
         return nullptr;
     }
 
-    auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helper"),
+    auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helperinterface"),
                 QStringLiteral("/Helper"), QDBusConnection::systemBus(), this);
     interface->setTimeout(10 * 24 * 3600 * 1000); // 10 days
 
     return interface;
-}
-
-bool Benchmark::startHelper()
-{
-    if (!QDBusConnection::systemBus().isConnected()) {
-        qWarning() << QDBusConnection::systemBus().lastError().message();
-        return false;
-    }
-
-    QDBusInterface interface(QStringLiteral("dev.jonmagon.kdiskmark.helperinterface"), QStringLiteral("/Helper"), QStringLiteral("dev.jonmagon.kdiskmark.helper"), QDBusConnection::systemBus());
-    if (interface.isValid()) {
-        qWarning() << "Dbus interface is already in use.";
-        return false;
-    }
-
-    m_thread = new DBusThread;
-    m_thread->start();
-
-    KAuth::Action action = KAuth::Action(QStringLiteral("dev.jonmagon.kdiskmark.helper.init"));
-    action.setHelperId(QStringLiteral("dev.jonmagon.kdiskmark.helper"));
-    action.setTimeout(10 * 24 * 3600 * 1000); // 10 days
-
-    QVariantMap arguments;
-    action.setArguments(arguments);
-    KAuth::ExecuteJob *job = action.execute();
-    job->start();
-
-    QEventLoop loop;
-    auto exitLoop = [&] () { loop.exit(); };
-    auto conn = QObject::connect(job, &KAuth::ExecuteJob::newData, exitLoop);
-    QObject::connect(job, &KJob::finished, [=] () { if (job->error()) exitLoop(); } );
-    loop.exec();
-    QObject::disconnect(conn);
-
-    return !job->error();
 }
 
 bool Benchmark::listStorages()
@@ -381,7 +348,7 @@ bool Benchmark::listStorages()
     connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
     loop.exec();
 
-    return true;
+    return !watcher->isError();
 }
 
 bool Benchmark::flushPageCache()
@@ -419,12 +386,12 @@ bool Benchmark::flushPageCache()
     connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
     loop.exec();
 
-    return flushed;
+    return flushed && !watcher->isError();;
 }
 
 bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
 {
-    bool flushed = true;
+    bool prepared = true;
 
     auto interface = helperInterface();
     if (!interface) return false;
@@ -437,7 +404,7 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QS
         loop.exit();
 
         if (!success) {
-            flushed = false;
+            prepared = false;
             if (!errorOutput.isEmpty()) {
                 setRunning(false);
                 emit failed(errorOutput);
@@ -455,7 +422,7 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QS
 
     QObject::disconnect(conn);
 
-    return flushed;
+    return prepared && !pcall.isError();
 }
 
 void Benchmark::dbusWaitForFinish(QDBusPendingCall pcall)
@@ -463,24 +430,5 @@ void Benchmark::dbusWaitForFinish(QDBusPendingCall pcall)
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
     QEventLoop loop;
     connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) { loop.exit(); });
-    loop.exec();
-}
-
-void Benchmark::stopHelper()
-{
-    auto *interface = new dev::jonmagon::kdiskmark::helper(QStringLiteral("dev.jonmagon.kdiskmark.helper"),
-                                                           QStringLiteral("/Helper"), QDBusConnection::systemBus());
-    interface->exit();
-}
-
-void DBusThread::run()
-{
-    if (!QDBusConnection::systemBus().registerService(QStringLiteral("dev.jonmagon.kdiskmark.applicationinterface")) ||
-        !QDBusConnection::systemBus().registerObject(QStringLiteral("/Application"), this, QDBusConnection::ExportAllSlots)) {
-        qWarning() << QDBusConnection::systemBus().lastError().message();
-        return;
-    }
-
-    QEventLoop loop;
     loop.exec();
 }

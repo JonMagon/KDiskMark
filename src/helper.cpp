@@ -3,6 +3,8 @@
 #include <QCoreApplication>
 #include <QtDBus>
 #include <QFile>
+#include <PolkitQt1/Authority>
+#include <PolkitQt1/Subject>
 
 #include <signal.h>
 
@@ -43,50 +45,40 @@ void HelperAdaptor::stopCurrentTask()
     m_parentHelper->stopCurrentTask();
 }
 
-void HelperAdaptor::exit()
+Helper::Helper() : m_helperAdaptor(new HelperAdaptor(this))
 {
-    m_parentHelper->exit();
-}
-
-ActionReply Helper::init(const QVariantMap& args)
-{
-    Q_UNUSED(args)
-
-    ActionReply reply;
-
     if (!QDBusConnection::systemBus().isConnected() || !QDBusConnection::systemBus().registerService(QStringLiteral("dev.jonmagon.kdiskmark.helperinterface")) ||
         !QDBusConnection::systemBus().registerObject(QStringLiteral("/Helper"), this)) {
         qWarning() << QDBusConnection::systemBus().lastError().message();
-        reply.addData(QStringLiteral("success"), false);
-
         qApp->quit();
-
-        return reply;
     }
 
-    m_loop = std::make_unique<QEventLoop>();
-    HelperSupport::progressStep(QVariantMap());
+    m_serviceWatcher = new QDBusServiceWatcher(this);
+    m_serviceWatcher->setConnection(QDBusConnection ::systemBus());
+    m_serviceWatcher->setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
 
-    auto serviceWatcher =
-            new QDBusServiceWatcher(QStringLiteral("dev.jonmagon.kdiskmark.applicationinterface"),
-                                    QDBusConnection::systemBus(),
-                                    QDBusServiceWatcher::WatchForUnregistration,
-                                    this);
-    connect(serviceWatcher, &QDBusServiceWatcher::serviceUnregistered,
-            [this]() {
-        m_loop->exit();
+    connect(m_serviceWatcher, &QDBusServiceWatcher::serviceUnregistered, qApp, [this](const QString &service) {
+        m_serviceWatcher->removeWatchedService(service);
+        if (m_serviceWatcher->watchedServices().isEmpty()) {
+            qApp->quit();
+        }
     });
 
-    m_loop->exec();
-    reply.addData(QStringLiteral("success"), true);
+    QObject::connect(this, &Helper::taskFinished, m_helperAdaptor, &HelperAdaptor::taskFinished);
+}
 
-    qApp->quit();
-
-    return reply;
+void Helper::testFilePath(const QString &benchmarkFile)
+{
+    if (!benchmarkFile.endsWith("/.kdiskmark.tmp"))
+        qFatal("The path must end with /.kdiskmark.tmp");
 }
 
 QVariantMap Helper::listStorages()
 {
+    if (!isCallerAuthorized()) {
+        return QVariantMap();
+    }
+
     QVariantMap reply;
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
         if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
@@ -102,6 +94,10 @@ QVariantMap Helper::listStorages()
 
 void Helper::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
 {
+    if (!isCallerAuthorized()) {
+        return;
+    }
+
     testFilePath(benchmarkFile);
 
     m_process = new QProcess();
@@ -122,6 +118,10 @@ void Helper::prepareFile(const QString &benchmarkFile, int fileSize, bool fillZe
 void Helper::startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
                        int blockSize, int queueDepth, int threads, const QString &rw)
 {
+    if (!isCallerAuthorized()) {
+        return;
+    }
+
     testFilePath(benchmarkFile);
 
     m_process = new QProcess();
@@ -154,6 +154,11 @@ QVariantMap Helper::flushPageCache()
     QVariantMap reply;
     reply[QStringLiteral("success")] = true;
 
+    if (!isCallerAuthorized()) {
+        reply[QStringLiteral("success")] = false;
+        return reply;
+    }
+
     QFile file("/proc/sys/vm/drop_caches");
 
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -168,19 +173,21 @@ QVariantMap Helper::flushPageCache()
     return reply;
 }
 
-void Helper::testFilePath(const QString &benchmarkFile)
-{
-    if (!benchmarkFile.endsWith("/.kdiskmark.tmp"))
-        qFatal("The path must end with /.kdiskmark.tmp");
-}
-
 bool Helper::removeFile(const QString &benchmarkFile)
 {
+    if (!isCallerAuthorized()) {
+        return false;
+    }
+
     return QFile(benchmarkFile).remove();
 }
 
 void Helper::stopCurrentTask()
 {
+    if (!isCallerAuthorized()) {
+        return;
+    }
+
     if (!m_process) return;
 
     if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
@@ -191,12 +198,55 @@ void Helper::stopCurrentTask()
     delete m_process;
 }
 
-void Helper::exit()
+bool Helper::isCallerAuthorized()
 {
-    m_loop->exit();
+    if (!calledFromDBus()) {
+        return false;
+    }
 
-    QDBusConnection::systemBus().unregisterObject(QStringLiteral("/Helper"));
-    QDBusConnection::systemBus().unregisterService(QStringLiteral("dev.jonmagon.kdiskmark.helperinterface"));
+    if (m_serviceWatcher->watchedServices().contains(message().service())) {
+        return true;
+    }
+
+    if (!m_serviceWatcher->watchedServices().isEmpty()) {
+        qDebug() << "There are already registered DBus connections.";
+        return false;
+    }
+
+    PolkitQt1::SystemBusNameSubject subject(message().service());
+    PolkitQt1::Authority *authority = PolkitQt1::Authority::instance();
+
+    PolkitQt1::Authority::Result result;
+    QEventLoop e;
+    connect(authority, &PolkitQt1::Authority::checkAuthorizationFinished, &e, [&e, &result](PolkitQt1::Authority::Result _result) {
+        result = _result;
+        e.quit();
+    });
+
+    authority->checkAuthorization(QStringLiteral("dev.jonmagon.kdiskmark.helper.init"), subject, PolkitQt1::Authority::AllowUserInteraction);
+    e.exec();
+
+    if (authority->hasError()) {
+        qDebug() << "Encountered error while checking authorization, error code: " << authority->lastError() << authority->errorDetails();
+        authority->clearError();
+    }
+
+    switch (result) {
+    case PolkitQt1::Authority::Yes:
+        // track who called into us so we can close when all callers have gone away
+        m_serviceWatcher->addWatchedService(message().service());
+        return true;
+    default:
+        sendErrorReply(QDBusError::AccessDenied);
+        if (m_serviceWatcher->watchedServices().isEmpty())
+            qApp->quit();
+        return false;
+    }
 }
 
-KAUTH_HELPER_MAIN("dev.jonmagon.kdiskmark.helper", Helper)
+int main(int argc, char *argv[])
+{
+    QCoreApplication a(argc, argv);
+    Helper helper;
+    a.exec();
+}

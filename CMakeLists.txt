@@ -47,18 +47,12 @@ list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 include(CPack)
 include(GNUInstallDirs)
 include(ECMInstallIcons)
+include(ECMConfiguredInstall)
 include(KDEInstallDirs)
 
-find_package(KF5Auth REQUIRED NO_MODULE)
+find_package(PolkitQt5-1 REQUIRED)
 
-set(application_interface_xml dev.jonmagon.kdiskmark.applicationinterface.xml)
 set(helper_interface_xml dev.jonmagon.kdiskmark.helperinterface.xml)
-
-qt5_generate_dbus_interface(
-    src/benchmark.h
-    ${application_interface_xml}
-    OPTIONS -a
-)
 
 qt5_generate_dbus_interface(
     src/helper.h
@@ -66,7 +60,6 @@ qt5_generate_dbus_interface(
     OPTIONS -a
 )
 
-qt5_add_dbus_interface(ApplicationInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${application_interface_xml} app_interface)
 qt5_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
 
 set(TS_FILES
@@ -118,7 +111,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     SingleApplication::SingleApplication
     Qt5::Widgets
     Qt5::DBus
-    KF5::Auth
 )
 
 set(APP_ICONS
@@ -140,16 +132,20 @@ ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/ic
 
 # Helper
 add_executable(${PROJECT_NAME}_helper
-    ${ApplicationInterface_SRCS}
     src/helper.cpp
     src/helper.h
 )
 
-target_link_libraries(${PROJECT_NAME}_helper Qt5::DBus KF5::Auth)
+target_link_libraries(${PROJECT_NAME}_helper
+    Qt5::DBus
+    PolkitQt5-1::Core
+)
 
-install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KAUTH_HELPER_INSTALL_DIR})
-install(FILES data/dev.jonmagon.kdiskmark.applicationinterface.conf DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
-install(FILES data/dev.jonmagon.kdiskmark.helperinterface.conf DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
+install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+install(FILES data/dev.jonmagon.kdiskmark.helperinterface.conf DESTINATION DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
 
-kauth_install_helper_files(${PROJECT_NAME}_helper dev.jonmagon.kdiskmark.helper root)
-kauth_install_actions(dev.jonmagon.kdiskmark.helper data/dev.jonmagon.kdiskmark.helper.actions)
+install(FILES data/dev.jonmagon.kdiskmark.helper.policy DESTINATION ${POLKITQT-1_POLICY_FILES_INSTALL_DIR})
+ecm_install_configured_files(
+    INPUT data/dev.jonmagon.kdiskmark.helperinterface.service.in
+    DESTINATION ${KDE_INSTALL_DBUSDIR}/system-services
+)

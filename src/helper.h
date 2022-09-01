@@ -1,4 +1,3 @@
-#include <KAuth>
 #include <QDBusAbstractAdaptor>
 #include <QDBusContext>
 #include <QEventLoop>
@@ -6,9 +5,8 @@
 
 #include <memory>
 
-using namespace KAuth;
-
 class Helper;
+class QDBusServiceWatcher;
 
 class HelperAdaptor : public QDBusAbstractAdaptor
 {
@@ -26,7 +24,6 @@ public slots:
     Q_SCRIPTABLE QVariantMap flushPageCache();
     Q_SCRIPTABLE bool removeFile(const QString &benchmarkFile);
     Q_SCRIPTABLE void stopCurrentTask();
-    Q_SCRIPTABLE void exit();
 
 signals:
     Q_SCRIPTABLE void taskFinished(bool, QString, QString);
@@ -40,11 +37,7 @@ class Helper : public QObject, public QDBusContext
     Q_OBJECT
 
 public:
-    Helper()
-    {
-        m_helperAdaptor = new HelperAdaptor(this);
-        QObject::connect(this, &Helper::taskFinished, m_helperAdaptor, &HelperAdaptor::taskFinished);
-    }
+    Helper();
 
 public:
     QVariantMap listStorages();
@@ -54,19 +47,17 @@ public:
     QVariantMap flushPageCache();
     bool removeFile(const QString &benchmarkFile);
     void stopCurrentTask();
-    void exit();
 
 private:
+    bool isCallerAuthorized();
     void testFilePath(const QString &benchmarkFile);
-
-public slots:
-    ActionReply init(const QVariantMap& args);
 
 signals:
     void taskFinished(bool, QString, QString);
 
 private:
     HelperAdaptor *m_helperAdaptor;
-    std::unique_ptr<QEventLoop> m_loop;
     QProcess *m_process;
+
+    QDBusServiceWatcher *m_serviceWatcher = nullptr;
 };

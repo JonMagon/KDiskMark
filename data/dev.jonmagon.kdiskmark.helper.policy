@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE policyconfig PUBLIC
+"-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+"http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+<vendor>kdiskmark</vendor>
+<vendor_url>https://github.com/JonMagon/KDiskMark</vendor_url>
+<icon_name>kdiskmark</icon_name>
+   <action id="dev.jonmagon.kdiskmark.helper.init" >
+      <description>Run privileged KDiskMark helper</description>
+      <message>Authentication is required to benchmark disks</message>
+      <message xml:lang="de">Legitimation ist zum Benchmarking erforderlich</message>
+      <message xml:lang="fr">Autorisation est requise pour mesurer la performance des disques</message>
+      <message xml:lang="hu">Hitelesítés szükséges a lemezek teljesítményértékeléséhez</message>
+      <message xml:lang="ru">Требуется авторизация для тестирования дисков</message>
+      <message xml:lang="tr">Diskleri kıyaslamak için kimlik doğrulama gereklidir</message>
+      <message xml:lang="ua">Слід пройти розпізнавання, щоб тестувати диски</message>
+      <defaults>
+         <allow_inactive>no</allow_inactive>
+         <allow_active>auth_admin_keep</allow_active>
+      </defaults>
+   </action>
+</policyconfig>

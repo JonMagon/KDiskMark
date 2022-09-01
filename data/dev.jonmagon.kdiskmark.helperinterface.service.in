@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=dev.jonmagon.kdiskmark.helperinterface
+Exec=@KDE_INSTALL_FULL_LIBEXECDIR@/kdiskmark_helper
+User=root
