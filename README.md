@@ -44,7 +44,7 @@ Profile: Default
 ## Dependencies
 ### Build
 * GCC/Clang C++17 (or later)
-* [CMake](https://cmake.org/) >= 3.5
+* [CMake](https://cmake.org/) >= 3.12
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules)
 * PolicyKit Library Qt Bindings
 * Qt with Widgets and DBus >= 5.9
