@@ -18,11 +18,11 @@ public:
 
 public slots:
     Q_SCRIPTABLE QVariantMap listStorages();
-    Q_SCRIPTABLE void prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
-    Q_SCRIPTABLE void startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
-                                int blockSize, int queueDepth, int threads, const QString &rw);
+    Q_SCRIPTABLE void prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
+    Q_SCRIPTABLE void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
+                                         int blockSize, int queueDepth, int threads, const QString &rw);
     Q_SCRIPTABLE QVariantMap flushPageCache();
-    Q_SCRIPTABLE bool removeFile(const QString &benchmarkFile);
+    Q_SCRIPTABLE bool removeBenchmarkFile();
     Q_SCRIPTABLE void stopCurrentTask();
 
 signals:
@@ -41,11 +41,11 @@ public:
 
 public:
     QVariantMap listStorages();
-    void prepareFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
-    void startTest(const QString &benchmarkFile, int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
-                   int blockSize, int queueDepth, int threads, const QString &rw);
+    void prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
+    void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
+                            int blockSize, int queueDepth, int threads, const QString &rw);
     QVariantMap flushPageCache();
-    bool removeFile(const QString &benchmarkFile);
+    bool removeBenchmarkFile();
     void stopCurrentTask();
 
 private:
@@ -57,7 +57,8 @@ signals:
 
 private:
     HelperAdaptor *m_helperAdaptor;
-    QProcess *m_process;
-
     QDBusServiceWatcher *m_serviceWatcher = nullptr;
+
+    QProcess *m_process;
+    QString m_benchmarkFile = QStringLiteral();
 };

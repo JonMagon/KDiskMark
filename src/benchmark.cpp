@@ -79,12 +79,11 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
             return;
         }
 
-        QDBusPendingCall pcall = interface->startTest(getBenchmarkFile(),
-                                                      settings.getMeasuringTime(),
-                                                      settings.getFileSize(),
-                                                      settings.getRandomReadPercentage(),
-                                                      settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
-                                                      blockSize, queueDepth, threads, rw);
+        QDBusPendingCall pcall = interface->startBenchmarkTest(settings.getMeasuringTime(),
+                                                               settings.getFileSize(),
+                                                               settings.getRandomReadPercentage(),
+                                                               settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
+                                                               blockSize, queueDepth, threads, rw);
         QEventLoop loop;
 
         auto exitLoop = [&] (bool success, QString output, QString errorOutput) {
@@ -292,7 +291,7 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     auto interface = helperInterface();
     if (interface)
-        dbusWaitForFinish(interface->removeFile(getBenchmarkFile()));
+        dbusWaitForFinish(interface->removeBenchmarkFile());
 
     setRunning(false);
     emit finished();
@@ -396,7 +395,7 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QS
     auto interface = helperInterface();
     if (!interface) return false;
 
-    QDBusPendingCall pcall = interface->prepareFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
+    QDBusPendingCall pcall = interface->prepareBenchmarkFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
 
     QEventLoop loop;
 
