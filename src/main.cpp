@@ -17,6 +17,9 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+    QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << (qApp->applicationDirPath() + "/../share/icons/"));
+    QIcon::setThemeName("breeze");
+
     AppSettings().setupLocalization();
 
     if (getuid() != 0) {
