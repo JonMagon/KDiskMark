@@ -60,4 +60,70 @@ jobs:
       with:
         files: ${{ matrix.upload-files }}
         repo-token: ${{ secrets.GITHUB_TOKEN }}
- 
+
+  appimage:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04]
+        arch: [amd64]
+        include:
+          - os: ubuntu-18.04
+            bundled-fio: '3.31'
+            cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
+            upload-files: 'build/*.AppImage'
+    steps:
+    - name: Clone repo
+      uses: actions/checkout@v2.2.0
+      with:
+        ref: 'legacy'
+        submodules: recursive
+
+    - name: Install dependent packages
+      run: |
+        sudo apt-get update
+        sudo apt-get install python3-pip libaio-dev qt5-default qttools5-dev kde-style-breeze breeze-icon-theme
+        wget http://launchpadlibrarian.net/590905036/extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
+        sudo dpkg -i extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
+
+    - name: Install Qt
+      run: |
+        sudo pip3 install setuptools
+        sudo pip3 install aqtinstall
+        sudo aqt install --outputdir /opt/Qt 5.15.1 linux desktop
+
+    - name: Prepare 3rd-party
+      run: |
+        mkdir 3rd-party
+        cd 3rd-party
+        wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+        chmod +x ./linuxdeployqt-continuous-x86_64.AppImage
+        wget https://github.com/axboe/fio/archive/refs/tags/fio-${{ matrix.bundled-fio }}.tar.gz
+        tar -xzf fio-${{ matrix.bundled-fio }}.tar.gz
+        cd ..
+
+    - name: Build
+      run: |
+        SOURCE_NAME=$(awk -F/ '{print $NF}' <<<"${{ github.repository }}")-$(awk -F/ '{print $NF}' <<<"${{ github.ref }}")
+        APPIMAGE_NAME=$SOURCE_NAME-fio-${{ matrix.bundled-fio }}-x86_64.AppImage
+        mkdir build
+        cd build
+        mkdir appdir
+        echo -e '#!/bin/bash\nHERE="$(dirname "$(readlink -f "${0}")")"\nexport PATH="$HERE/usr/bin/:$PATH"\n$HERE/usr/bin/kdiskmark -style Breeze' > appdir/AppRun
+        chmod +x ./appdir/AppRun
+        cmake ${{ matrix.cmake-defines }} -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_PREFIX_PATH=/opt/Qt/5.15.1/gcc_64/ ..
+        sed -i "s|kdiskmark|./$APPIMAGE_NAME|g" ../src/main.cpp
+        make DESTDIR=appdir -j$(nproc) install
+        ../3rd-party/fio-fio-${{ matrix.bundled-fio }}/configure --disable-native
+        make DESTDIR="$(pwd)/appdir" prefix=/usr install
+        cp -a /usr/share/icons/breeze appdir/usr/share/icons/
+        sudo mkdir /opt/Qt/5.15.1/gcc_64/plugins/styles/
+        sudo cp /usr/lib/x86_64-linux-gnu/qt5/plugins/styles/breeze.so /opt/Qt/5.15.1/gcc_64/plugins/styles/
+        ../3rd-party/linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage -qmake=/opt/Qt/5.15.1/gcc_64/bin/qmake -extra-plugins=styles/breeze.so
+        mv *.AppImage $APPIMAGE_NAME
+
+    - name: Upload
+      uses: AButler/upload-release-assets@v2.0
+      with:
+        files: ${{ matrix.upload-files }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
