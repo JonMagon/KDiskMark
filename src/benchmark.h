@@ -93,7 +93,7 @@ private:
     Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
-    bool prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw);
+    bool prepareFile(const QString &benchmarkFile, int fileSize);
     bool flushPageCache();
 
     void dbusWaitForFinish(QDBusPendingCall pcall);

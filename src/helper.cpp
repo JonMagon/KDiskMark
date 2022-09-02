@@ -112,10 +112,9 @@ void Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bo
         return;
     }
 
-    // We can use the same file for read, write and mix groups without recreating it before each individual group.
-    // But if benchmarking has been done, but removeBenchmarkFile has not been called,
-    // and benchmarking on a new file is called, then reject the request. The previous file must be deleted first.
-    if (!m_benchmarkFile.isEmpty() && m_benchmarkFile != benchmarkFile) {
+    // If benchmarking has been done, but removeBenchmarkFile has not been called,
+    // and benchmarking on a new file is called, then reject the request. The *previous* file must be removed first.
+    if (!m_benchmarkFile.isEmpty()) {
         qWarning() << "The previous benchmarking was not completed correctly.";
         return;
     }
