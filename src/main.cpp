@@ -7,6 +7,8 @@
 
 #include <unistd.h>
 
+#include "styletweaks.h"
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
@@ -16,6 +18,8 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication a(argc, argv);
+
+    a.setStyle(new StyleTweaks);
 
     QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << (qApp->applicationDirPath() + "/../share/icons/"));
     QIcon::setThemeName("breeze");

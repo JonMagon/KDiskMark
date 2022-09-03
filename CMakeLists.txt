@@ -69,6 +69,8 @@ add_executable(${PROJECT_NAME}
     ${QM_FILES}
     data/icons/flags/flags.qrc
     src/main.cpp
+    src/styletweaks.h
+    src/styletweaks.cpp
     src/mainwindow.h
     src/mainwindow.cpp
     src/mainwindow.ui
