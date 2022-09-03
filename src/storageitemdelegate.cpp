@@ -57,7 +57,7 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 #else
         int percentTextWidth = QFontMetrics(painter->font()).width(QLatin1Char('0')) * 4;
 #endif
-        progressBarOption.rect = progressBarRect.adjusted(0, 0, -percentTextWidth, 0);
+        progressBarOption.rect = progressBarRect.adjusted(0, textHeight / 2 + textMargin, -percentTextWidth, -textHeight / 2 - textMargin);
         progressBarOption.minimum = 0;
         progressBarOption.maximum = 100;
         progressBarOption.progress = percent;
