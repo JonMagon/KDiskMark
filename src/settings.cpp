@@ -12,6 +12,8 @@ Settings::Settings(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
     ui->buttonBox->addButton(QStringLiteral("NVMe SSD"), QDialogButtonBox::ActionRole);
 
     for (int val : { 0, 1, 3, 5, 10, 30, 60, 180, 300, 600 }) {
