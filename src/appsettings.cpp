@@ -42,7 +42,8 @@ void AppSettings::applyLocale(const QLocale &locale)
 {
     const QLocale newLocale = locale == defaultLocale() ? QLocale::system() : locale;
     QLocale::setDefault(newLocale);
-    s_appTranslator.load(newLocale, QStringLiteral(PROJECT_NAME), QStringLiteral("_"), QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("translations"), QStandardPaths::LocateDirectory));
+    s_appTranslator.load(newLocale, QStringLiteral(PROJECT_NAME), QStringLiteral("_"),
+                         qApp->applicationDirPath() + QStringLiteral("/../share/") + QStringLiteral(PROJECT_NAME) + QStringLiteral("/translations/"));
     s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 }
 
