@@ -67,7 +67,6 @@ qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 add_executable(${PROJECT_NAME}
     ${QM_FILES}
-    data/icons/app.qrc
     data/icons/flags/flags.qrc
     src/main.cpp
     src/mainwindow.cpp

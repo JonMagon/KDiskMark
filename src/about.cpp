@@ -17,7 +17,7 @@ About::About(const QString &FIOVersion, QWidget *parent) :
     ui->label_Version->setText(qApp->applicationVersion());
     ui->label_FIO->setText(FIOVersion);
 
-    ui->label_Icon->setPixmap(QPixmap(":/icons/app/128-apps-kdiskmark.png"));
+    ui->label_Icon->setPixmap(QPixmap(qApp->applicationDirPath() + QStringLiteral("/../share/icons/hicolor/128x128/apps/kdiskmark.png")));
 }
 
 About::~About()
