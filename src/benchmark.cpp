@@ -55,14 +55,7 @@ QString Benchmark::getBenchmarkFile()
 
 void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage)
 {
-    emit benchmarkStatusUpdate(tr("Preparing..."));
-
     const AppSettings settings;
-
-    if (!prepareFile(getBenchmarkFile(), settings.getFileSize(), rw)) {
-        setRunning(false);
-        return;
-    }
 
     PerformanceResult totalRead { 0, 0, 0 }, totalWrite { 0, 0, 0 };
 
@@ -254,6 +247,19 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     iter.toFront();
 
+    // If there are no tests in the queue
+    if (!iter.hasNext()) {
+        setRunning(false);
+        return;
+    }
+
+    emit benchmarkStatusUpdate(tr("Preparing..."));
+
+    if (!prepareFile(getBenchmarkFile(), settings.getFileSize())) {
+        setRunning(false);
+        return;
+    }
+
     while (iter.hasNext() && m_running) {
         item = iter.next();
 
@@ -308,12 +314,12 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     QFile(getBenchmarkFile()).remove();
 
     setRunning(false);
-    emit finished();
+    emit finished(); // Only needed when closing the app during a running benchmarking
 }
 
 bool Benchmark::listStorages()
 {
-    QVector<Storage> storages;
+    QVector<Global::Storage> storages;
 
     foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
         if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
@@ -344,7 +350,7 @@ bool Benchmark::flushPageCache()
     return true;
 }
 
-bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw)
+bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
 {
     bool prepared = true;
 

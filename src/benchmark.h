@@ -11,8 +11,6 @@
 
 #include "appsettings.h"
 
-struct HelperPrivate;
-
 class Benchmark : public QObject
 {
     Q_OBJECT
@@ -79,13 +77,6 @@ public:
         PerformanceResult read, write;
     };
 
-    struct Storage
-    {
-        QString path;
-        qlonglong bytesTotal;
-        qlonglong bytesOccupied;
-    };
-
 private:
     bool m_running;
     QString m_FIOVersion;
@@ -99,11 +90,11 @@ private:
     Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
-    bool prepareFile(const QString &benchmarkFile, int fileSize, const QString &rw);
+    bool prepareFile(const QString &benchmarkFile, int fileSize);
     bool flushPageCache();
 
 signals:
-    void mountPointsListReady(const QVector<Storage> &storages);
+    void mountPointsListReady(const QVector<Global::Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void failed(const QString &error);

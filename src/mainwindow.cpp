@@ -16,6 +16,7 @@
 #include "about.h"
 #include "settings.h"
 #include "diskdriveinfo.h"
+#include "storageitemdelegate.h"
 #include "global.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -57,6 +58,8 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar()->hide();
 
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
+
+    ui->comboBox_Storages->setItemDelegate(new StorageItemDelegate());
 
     ui->actionDefault->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault->setProperty("mixed", false);
@@ -186,7 +189,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
-            QMessageBox::critical(0, "KDiskMark",
+            QMessageBox::critical(this, "KDiskMark",
                                   QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
             qApp->quit();
         }
@@ -234,6 +237,22 @@ void MainWindow::changeEvent(QEvent *event)
             updateProgressBar(progressBar);
         }
 
+        for (int i = 0; i < ui->comboBox_Storages->count(); i++) {
+            QVariant variant = ui->comboBox_Storages->itemData(i);
+            if (variant.canConvert<Global::Storage>()) {
+                Global::Storage storage = variant.value<Global::Storage>();
+
+                storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
+
+                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2 (%3)").arg(storage.path)
+                                                   .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
+                                                   .arg(storage.formatedSize));
+
+                ui->comboBox_Storages->setItemData(i, QVariant::fromValue(storage));
+            }
+        }
+        resizeComboBoxItemsPopup(ui->comboBox_Storages);
+
         break;
     }
     default:
@@ -248,24 +267,23 @@ void MainWindow::on_refreshStoragesButton_clicked()
     }
 }
 
-void MainWindow::mountPointsListReady(const QVector<Benchmark::Storage> &storages)
+void MainWindow::mountPointsListReady(const QVector<Global::Storage> &storages)
 {
     QString temp;
 
     QVariant variant = ui->comboBox_Storages->currentData();
-    if (variant.canConvert<QStringList>())
-        temp = variant.value<QStringList>()[0];
+    if (variant.canConvert<Global::Storage>())
+        temp = variant.value<Global::Storage>().path;
 
     ui->comboBox_Storages->clear();
 
-    for (Benchmark::Storage storage : storages) {
-        QStringList volumeInfo = { storage.path, DiskDriveInfo::Instance().getModelName(QStorageInfo(storage.path).device()) };
-
+    for (Global::Storage storage : storages) {
+        storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
         ui->comboBox_Storages->addItem(
                     QStringLiteral("%1 %2% (%3)").arg(storage.path)
                     .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
-                    .arg(formatSize(storage.bytesOccupied, storage.bytesTotal)),
-                    QVariant::fromValue(volumeInfo)
+                    .arg(storage.formatedSize),
+                    QVariant::fromValue(storage)
                     );
     }
 
@@ -454,8 +472,9 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
         outputAvailable = outputAvailable / 1024;
         outputTotal = outputTotal / 1024;
     }
-    return QString("%1/%2 %3").arg(outputAvailable, 0, 'f', 2)
-            .arg(outputTotal, 0, 'f', 2).arg(units[i]);
+    QLocale locale = QLocale();
+    return QString("%1/%2 %3").arg(locale.toString(outputAvailable, 'f', 2))
+            .arg(locale.toString(outputTotal, 'f', 2)).arg(units[i]);
 }
 
 void MainWindow::on_comboBox_ComparisonUnit_currentIndexChanged(int index)
@@ -622,11 +641,11 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
 {
     QVariant variant = ui->comboBox_Storages->itemData(index);
-    if (variant.canConvert<QStringList>()) {
-        QStringList volumeInfo = variant.value<QStringList>();
-        m_benchmark->setDir(volumeInfo[0]);
-        ui->deviceModel->setText(volumeInfo[1]);
-        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo[0]).device()));
+    if (variant.canConvert<Global::Storage>()) {
+        Global::Storage volumeInfo = variant.value<Global::Storage>();
+        m_benchmark->setDir(volumeInfo.path);
+        ui->deviceModel->setText(DiskDriveInfo::Instance().getModelName(QStorageInfo(volumeInfo.path).device()));
+        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo.path).device()));
     }
 }
 
@@ -840,7 +859,8 @@ void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
                 QMessageBox::warning(this, tr("Confirmation"),
                                      tr("This action destroys the data in %1\nDo you want to continue?")
                                      .arg(m_benchmark->getBenchmarkFile()
-                                          .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))),
+                                          .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))
+                                          .replace("-", QChar(0x2060) + QString("-") + QChar(0x2060))),
                                      QMessageBox::Yes | QMessageBox::No)) {
             bodyFunc();
         }

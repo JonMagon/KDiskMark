@@ -78,7 +78,7 @@ private:
     void updateProgressBarsStyle();
 
 public slots:
-    void mountPointsListReady(const QVector<Benchmark::Storage> &storages);
+    void mountPointsListReady(const QVector<Global::Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);

@@ -80,6 +80,14 @@ namespace Global
         DoNotApply,
     };
 
+    struct Storage
+    {
+        QString path;
+        qlonglong bytesTotal;
+        qlonglong bytesOccupied;
+        QString formatedSize;
+    };
+
     int getOutputColumnsCount();
     QString getBenchmarkButtonText(BenchmarkParams params, QString paramsLine = QStringLiteral());
     QString getBenchmarkButtonToolTip(BenchmarkParams params, bool extraField = false);
@@ -92,5 +100,7 @@ namespace Global
     QString getRWRandomWrite();
     QString getRWRandomMix();
 }
+
+Q_DECLARE_METATYPE(Global::Storage)
 
 #endif // GLOBAL_H
