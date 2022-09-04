@@ -19,7 +19,7 @@ public:
 public slots:
     Q_SCRIPTABLE QVariantMap listStorages();
     Q_SCRIPTABLE void prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
-    Q_SCRIPTABLE void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
+    Q_SCRIPTABLE void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
                                          int blockSize, int queueDepth, int threads, const QString &rw);
     Q_SCRIPTABLE QVariantMap flushPageCache();
     Q_SCRIPTABLE bool removeBenchmarkFile();
@@ -42,7 +42,7 @@ public:
 public:
     QVariantMap listStorages();
     void prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
-    void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
+    void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
                             int blockSize, int queueDepth, int threads, const QString &rw);
     QVariantMap flushPageCache();
     bool removeBenchmarkFile();

@@ -63,6 +63,10 @@ public:
     void setRandomReadPercentage(int randomReadPercentage);
     static int defaultRandomReadPercentage();
 
+    bool getCacheBypassState() const;
+    void setCacheBypassState(bool cacheBypassState);
+    static bool defaultCacheBypassState();
+
     bool getFlusingCacheState() const;
     void setFlushingCacheState(bool flushingCacheState);
     static bool defaultFlushingCacheState();

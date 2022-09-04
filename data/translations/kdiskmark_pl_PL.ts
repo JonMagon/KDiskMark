@@ -5,43 +5,36 @@
     <name>About</name>
     <message>
         <location filename="../../src/about.ui" line="17"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="133"/>
         <source>About KDiskMark</source>
         <translation>O programie</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="62"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="135"/>
         <source>Version:</source>
         <translation>Wersja:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="88"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="136"/>
         <source>License:</source>
         <translation>Licencja:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="114"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="137"/>
         <source>Author:</source>
         <translation>Autor:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="146"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="138"/>
         <source>E-mail:</source>
         <translation>E-mail:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="178"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="139"/>
         <source>Flexible I/O Tester:</source>
         <translation>Flexible I/O Tester:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="204"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_about.h" line="140"/>
         <source>Application Icon:</source>
         <translation>Ikona Aplikacji:</translation>
     </message>
@@ -49,42 +42,42 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="240"/>
+        <location filename="../../src/benchmark.cpp" line="241"/>
         <source>Preparing...</source>
         <translation>Przygotowywanie...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="259"/>
+        <location filename="../../src/benchmark.cpp" line="260"/>
         <source>Sequential Read %1/%2</source>
         <translation>Odczyt Sekwencyjny %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="269"/>
+        <location filename="../../src/benchmark.cpp" line="270"/>
         <source>Sequential Write %1/%2</source>
         <translation>Zapis Sekwencyjny %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="279"/>
+        <location filename="../../src/benchmark.cpp" line="280"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Sekwencyjny Mix %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="263"/>
+        <location filename="../../src/benchmark.cpp" line="264"/>
         <source>Random Read %1/%2</source>
         <translation>Losowy Odczyt %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="273"/>
+        <location filename="../../src/benchmark.cpp" line="274"/>
         <source>Random Write %1/%2</source>
         <translation>Losowy Zapis %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="283"/>
+        <location filename="../../src/benchmark.cpp" line="284"/>
         <source>Random Mix %1/%2</source>
         <translation>Losowy Mix %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="290"/>
+        <location filename="../../src/benchmark.cpp" line="291"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Interwał %1/%2 s</translation>
     </message>
@@ -93,251 +86,215 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="651"/>
-        <location filename="../../src/mainwindow.cpp" line="892"/>
+        <location filename="../../src/mainwindow.cpp" line="897"/>
         <source>All</source>
         <translation>Wszystkie</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="352"/>
         <location filename="../../src/mainwindow.ui" line="934"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="660"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="663"/>
-        <location filename="../../src/mainwindow.cpp" line="530"/>
+        <location filename="../../src/mainwindow.cpp" line="535"/>
         <source>Read</source>
         <translation>Odczyt</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="521"/>
         <location filename="../../src/mainwindow.ui" line="953"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="661"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="664"/>
-        <location filename="../../src/mainwindow.cpp" line="533"/>
+        <location filename="../../src/mainwindow.cpp" line="538"/>
         <source>Write</source>
         <translation>Zapis</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="687"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="662"/>
-        <location filename="../../src/mainwindow.cpp" line="536"/>
+        <location filename="../../src/mainwindow.cpp" line="541"/>
         <source>Mix</source>
         <translation>Mix</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="221"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="654"/>
-        <location filename="../../src/mainwindow.cpp" line="419"/>
-        <location filename="../../src/mainwindow.cpp" line="423"/>
+        <location filename="../../src/mainwindow.cpp" line="424"/>
+        <location filename="../../src/mainwindow.cpp" line="428"/>
         <source>MB/s</source>
         <translation>MB/s</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="226"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="655"/>
         <source>GB/s</source>
         <translation>GB/s</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="231"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="656"/>
-        <location filename="../../src/mainwindow.cpp" line="425"/>
-        <location filename="../../src/mainwindow.cpp" line="426"/>
+        <location filename="../../src/mainwindow.cpp" line="430"/>
+        <location filename="../../src/mainwindow.cpp" line="431"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="236"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="657"/>
-        <location filename="../../src/mainwindow.cpp" line="428"/>
-        <location filename="../../src/mainwindow.cpp" line="429"/>
+        <location filename="../../src/mainwindow.cpp" line="433"/>
+        <location filename="../../src/mainwindow.cpp" line="434"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1018"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="665"/>
         <source>File</source>
         <translation>Plik</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1026"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="666"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1030"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="667"/>
         <source>Test Data</source>
         <translation>Dane testowe</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1045"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="668"/>
+        <location filename="../../src/mainwindow.ui" line="1047"/>
         <source>Profile</source>
         <translation>Profil</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1061"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="669"/>
+        <location filename="../../src/mainwindow.ui" line="1063"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1065"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="670"/>
+        <location filename="../../src/mainwindow.ui" line="1067"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1073"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="671"/>
+        <location filename="../../src/mainwindow.ui" line="1075"/>
         <source>Theme</source>
         <translation>wygląd</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1089"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="627"/>
+        <location filename="../../src/mainwindow.ui" line="1091"/>
         <source>About KDiskMark</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1094"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="628"/>
+        <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>Kolejki i wątki</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1099"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="629"/>
+        <location filename="../../src/mainwindow.ui" line="1101"/>
         <source>Copy</source>
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1104"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="630"/>
+        <location filename="../../src/mainwindow.ui" line="1106"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1109"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="631"/>
+        <location filename="../../src/mainwindow.ui" line="1111"/>
         <source>Exit</source>
         <translation>Wyjdź</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1120"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="632"/>
+        <location filename="../../src/mainwindow.ui" line="1122"/>
         <source>Default</source>
         <translation>Domyślny</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1128"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="633"/>
+        <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
         <translation>Szczytowa wydajność</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1136"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="634"/>
+        <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
         <translation>Rzeczywista Wydajność</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1144"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="635"/>
+        <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
         <translation>Domyślne [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1152"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="636"/>
+        <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
         <translation>Szczytowa wydajność [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1160"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="637"/>
+        <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
         <translation>Rzeczywista Wydajność [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1171"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="638"/>
+        <location filename="../../src/mainwindow.ui" line="1173"/>
         <source>Flush Pagecache</source>
         <translation>Oczyść cache dysku</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1179"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="639"/>
+        <location filename="../../src/mainwindow.ui" line="1181"/>
         <source>Demo</source>
         <translation>Demo</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1190"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="640"/>
+        <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
         <translation>Odczyt i zapis [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1198"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="641"/>
+        <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
         <translation>Odczyt [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1206"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="642"/>
+        <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
         <translation>Zapis [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1217"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="643"/>
+        <location filename="../../src/mainwindow.ui" line="1219"/>
         <source>Random</source>
         <translation>Losowe</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1225"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="644"/>
+        <location filename="../../src/mainwindow.ui" line="1227"/>
         <source>Fill with zeros</source>
         <translation>Wypełnić zerami</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1236"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="645"/>
+        <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
         <translation>Standardowe ustawienie</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1244"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="646"/>
+        <location filename="../../src/mainwindow.ui" line="1246"/>
         <source>NVMe SSD</source>
         <translation>NVMe SSD</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1255"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="647"/>
+        <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
         <translation>Fusion</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1263"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="648"/>
+        <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
         <translation>Arkusz stylów Light</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1271"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="649"/>
+        <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
         <translation>Arkusz stylów Dark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1279"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="650"/>
+        <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
         <translation>Nie stosować</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="1292"/>
+        <source>Use O_DIRECT</source>
+        <translation>Skorzystać O_DIRECT</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="53"/>
@@ -345,92 +302,92 @@
         <translation>Urządzenie jest zaszyfrowane. Wydajność może być niższa.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="276"/>
+        <location filename="../../src/mainwindow.cpp" line="277"/>
         <source>Access Denied</source>
         <translation>Odmowa dostępu</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="276"/>
+        <location filename="../../src/mainwindow.cpp" line="277"/>
         <source>Failed to retrieve storage list.</source>
         <translation>Nie udało się pobrać listy urządzeń.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="345"/>
-        <location filename="../../src/mainwindow.cpp" line="435"/>
-        <location filename="../../src/mainwindow.cpp" line="503"/>
+        <location filename="../../src/mainwindow.cpp" line="346"/>
+        <location filename="../../src/mainwindow.cpp" line="440"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="349"/>
-        <location filename="../../src/mainwindow.cpp" line="503"/>
+        <location filename="../../src/mainwindow.cpp" line="350"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="503"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>Bytes</source>
         <translation>Bajtów</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="435"/>
-        <location filename="../../src/mainwindow.cpp" line="503"/>
+        <location filename="../../src/mainwindow.cpp" line="440"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="315"/>
+        <location filename="../../src/mainwindow.cpp" line="316"/>
         <source>Add a directory</source>
         <translation>Dodać katalog</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="503"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="503"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="867"/>
-        <location filename="../../src/mainwindow.cpp" line="868"/>
-        <location filename="../../src/mainwindow.cpp" line="869"/>
-        <location filename="../../src/mainwindow.cpp" line="870"/>
-        <location filename="../../src/mainwindow.cpp" line="871"/>
+        <location filename="../../src/mainwindow.cpp" line="872"/>
+        <location filename="../../src/mainwindow.cpp" line="873"/>
+        <location filename="../../src/mainwindow.cpp" line="874"/>
+        <location filename="../../src/mainwindow.cpp" line="875"/>
+        <location filename="../../src/mainwindow.cpp" line="876"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="919"/>
+        <location filename="../../src/mainwindow.cpp" line="924"/>
         <source>Stopping...</source>
         <translation>Zatrzymywanie...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="929"/>
+        <location filename="../../src/mainwindow.cpp" line="934"/>
         <source>Not available</source>
         <translation>Nie dostępne</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="929"/>
+        <location filename="../../src/mainwindow.cpp" line="934"/>
         <source>Directory is not specified.</source>
         <translation>Nie określono katalogu.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="932"/>
+        <location filename="../../src/mainwindow.cpp" line="937"/>
         <source>Confirmation</source>
         <translation>Potwierdź</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="933"/>
+        <location filename="../../src/mainwindow.cpp" line="938"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>Ta czynność niszczy dane w %1
 Czy chcesz kontynuować?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="945"/>
+        <location filename="../../src/mainwindow.cpp" line="950"/>
         <source>Benchmark Failed</source>
         <translation>Testowanie nie powiodło się</translation>
     </message>
@@ -468,12 +425,12 @@ Czy chcesz kontynuować?</translation>
         <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="193"/>
+        <location filename="../../src/mainwindow.cpp" line="194"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>Nie znaleziono FIO. Przed użyciem KDiskMark zainstaluj FIO.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="202"/>
+        <location filename="../../src/mainwindow.cpp" line="203"/>
         <source>Could not obtain administrator privileges.
 The application will be closed.</source>
         <translation>Nie udało się uzyskać uprawnień administratora.
@@ -484,61 +441,51 @@ Aplikacja będzie zamknięta.</translation>
     <name>Settings</name>
     <message>
         <location filename="../../src/settings.ui" line="14"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="237"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="149"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="238"/>
         <source>Block Size</source>
         <translation>Rozmiar bloku</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="165"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="239"/>
         <source>Queues</source>
         <translation>Kolejki</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="181"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="240"/>
         <source>Threads</source>
         <translation>Wątki</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="280"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="242"/>
         <source>Type</source>
         <translation>Typ</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="335"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="243"/>
         <source>Profile: Peak Performance</source>
         <translation>Profil: Szczytowa wydajność</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="446"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="244"/>
         <source>Profile: Demo</source>
         <translation>Profil: Demo</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="508"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="245"/>
         <source>Measuring time</source>
         <translation>Długość pomiaru</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="530"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="246"/>
         <source>Interval time</source>
         <translation>Długość przerwy</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="257"/>
-        <location filename="../../build/kdiskmark_autogen/include/ui_settings.h" line="241"/>
         <source>Profile: Default</source>
         <translation>Profil: Domyślne</translation>
     </message>

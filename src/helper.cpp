@@ -24,10 +24,10 @@ void HelperAdaptor::prepareBenchmarkFile(const QString &benchmarkFile, int fileS
     return m_parentHelper->prepareBenchmarkFile(benchmarkFile, fileSize, fillZeros);
 }
 
-void HelperAdaptor::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
-                              int blockSize, int queueDepth, int threads, const QString &rw)
+void HelperAdaptor::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
+                                       int blockSize, int queueDepth, int threads, const QString &rw)
 {
-    m_parentHelper->startBenchmarkTest(measuringTime, fileSize, randomReadPercentage, fillZeros, blockSize, queueDepth, threads, rw);
+    m_parentHelper->startBenchmarkTest(measuringTime, fileSize, randomReadPercentage, fillZeros, cacheBypass, blockSize, queueDepth, threads, rw);
 }
 
 QVariantMap HelperAdaptor::flushPageCache()
@@ -134,8 +134,8 @@ void Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bo
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
-                     << "--output-format=json"
-                     << "--create_only=1"
+                     << QStringLiteral("--output-format=json")
+                     << QStringLiteral("--create_only=1")
                      << QStringLiteral("--filename=%1").arg(m_benchmarkFile)
                      << QStringLiteral("--size=%1m").arg(fileSize)
                      << QStringLiteral("--zero_buffers=%1").arg(fillZeros)
@@ -147,7 +147,7 @@ void Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bo
     });
 }
 
-void Helper::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros,
+void Helper::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
                                 int blockSize, int queueDepth, int threads, const QString &rw)
 {
     if (!isCallerAuthorized()) {
@@ -165,12 +165,12 @@ void Helper::startBenchmarkTest(int measuringTime, int fileSize, int randomReadP
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
-                     << "--output-format=json"
-                     << "--ioengine=libaio"
-                     << "--direct=1"
-                     << "--randrepeat=0"
-                     << "--refill_buffers"
-                     << "--end_fsync=1"
+                     << QStringLiteral("--output-format=json")
+                     << QStringLiteral("--ioengine=libaio")
+                     << QStringLiteral("--randrepeat=0")
+                     << QStringLiteral("--refill_buffers")
+                     << QStringLiteral("--end_fsync=1")
+                     << QStringLiteral("--direct=%1").arg(cacheBypass)
                      << QStringLiteral("--rwmixread=%1").arg(randomReadPercentage)
                      << QStringLiteral("--filename=%1").arg(m_benchmarkFile)
                      << QStringLiteral("--name=%1").arg(rw)

@@ -155,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionRead_Mix->setChecked(settings.getBenchmarkMode() == Global::BenchmarkMode::ReadMix);
     ui->actionWrite_Mix->setChecked(settings.getBenchmarkMode() == Global::BenchmarkMode::WriteMix);
 
+    ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
     ui->loopsCount->setValue(settings.getLoopsCount());
 
@@ -382,10 +383,14 @@ void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
         view->setMinimumWidth(maxWidth + view->autoScrollMargin() + combobox->style()->pixelMetric(QStyle::PM_ScrollBarExtent));
 }
 
+void MainWindow::on_actionUse_O_DIRECT_triggered(bool checked)
+{
+    AppSettings().setCacheBypassState(checked);
+}
+
 void MainWindow::on_actionFlush_Pagecache_triggered(bool checked)
 {
-    AppSettings settings;
-    settings.setFlushingCacheState(checked);
+    AppSettings().setFlushingCacheState(checked);
 }
 
 void MainWindow::updateBenchmarkButtonsContent()

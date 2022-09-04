@@ -76,6 +76,7 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
                                                                settings.getFileSize(),
                                                                settings.getRandomReadPercentage(),
                                                                settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
+                                                               settings.getCacheBypassState(),
                                                                blockSize, queueDepth, threads, rw);
         QEventLoop loop;
 
