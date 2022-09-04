@@ -73,12 +73,12 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
 
         m_process = new QProcess();
         m_process->start("fio", QStringList()
-                         << "--output-format=json"
-                         << "--ioengine=libaio"
-                         << "--direct=1"
-                         << "--randrepeat=0"
-                         << "--refill_buffers"
-                         << "--end_fsync=1"
+                         << QStringLiteral("--output-format=json")
+                         << QStringLiteral("--ioengine=libaio")
+                         << QStringLiteral("--randrepeat=0")
+                         << QStringLiteral("--refill_buffers")
+                         << QStringLiteral("--end_fsync=1")
+                         << QStringLiteral("--direct=%1").arg(settings.getCacheBypassState())
                          << QStringLiteral("--rwmixread=%1").arg(settings.getRandomReadPercentage())
                          << QStringLiteral("--filename=%1").arg(getBenchmarkFile())
                          << QStringLiteral("--name=%1").arg(rw)
@@ -356,8 +356,8 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
-                     << "--output-format=json"
-                     << "--create_only=1"
+                     << QStringLiteral("--output-format=json")
+                     << QStringLiteral("--create_only=1")
                      << QStringLiteral("--filename=%1").arg(benchmarkFile)
                      << QStringLiteral("--size=%1m").arg(fileSize)
                      << QStringLiteral("--zero_buffers=%1").arg(AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)

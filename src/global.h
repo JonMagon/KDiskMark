@@ -86,6 +86,7 @@ namespace Global
         qlonglong bytesTotal;
         qlonglong bytesOccupied;
         QString formatedSize;
+        bool permanentInList = false;
     };
 
     int getOutputColumnsCount();

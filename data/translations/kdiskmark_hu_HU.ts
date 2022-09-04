@@ -42,42 +42,42 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="54"/>
+        <location filename="../../src/benchmark.cpp" line="241"/>
         <source>Preparing...</source>
         <translation>Felkészülés...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="252"/>
+        <location filename="../../src/benchmark.cpp" line="260"/>
         <source>Sequential Read %1/%2</source>
         <translation>Folyamatos olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="256"/>
+        <location filename="../../src/benchmark.cpp" line="264"/>
         <source>Random Read %1/%2</source>
         <translation>Véletlenszerű olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="262"/>
+        <location filename="../../src/benchmark.cpp" line="270"/>
         <source>Sequential Write %1/%2</source>
         <translation>Folyamatos írás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="266"/>
+        <location filename="../../src/benchmark.cpp" line="274"/>
         <source>Random Write %1/%2</source>
         <translation>Véletlenszerű írás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="272"/>
+        <location filename="../../src/benchmark.cpp" line="280"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Folyamatos írás és olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="276"/>
+        <location filename="../../src/benchmark.cpp" line="284"/>
         <source>Random Mix %1/%2</source>
         <translation>Véletlenszerű írás és olvasás %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="283"/>
+        <location filename="../../src/benchmark.cpp" line="291"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Szünet %1/%2 mp</translation>
     </message>
@@ -86,15 +86,15 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="816"/>
+        <location filename="../../src/mainwindow.cpp" line="897"/>
         <source>All</source>
         <translation>Átfogó
 mérés</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="221"/>
-        <location filename="../../src/mainwindow.cpp" line="380"/>
-        <location filename="../../src/mainwindow.cpp" line="384"/>
+        <location filename="../../src/mainwindow.cpp" line="424"/>
+        <location filename="../../src/mainwindow.cpp" line="428"/>
         <source>MB/s</source>
         <translation>MB/mp</translation>
     </message>
@@ -105,35 +105,35 @@ mérés</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="231"/>
-        <location filename="../../src/mainwindow.cpp" line="386"/>
-        <location filename="../../src/mainwindow.cpp" line="387"/>
+        <location filename="../../src/mainwindow.cpp" line="430"/>
+        <location filename="../../src/mainwindow.cpp" line="431"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="236"/>
-        <location filename="../../src/mainwindow.cpp" line="389"/>
-        <location filename="../../src/mainwindow.cpp" line="390"/>
+        <location filename="../../src/mainwindow.cpp" line="433"/>
+        <location filename="../../src/mainwindow.cpp" line="434"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="352"/>
         <location filename="../../src/mainwindow.ui" line="934"/>
-        <location filename="../../src/mainwindow.cpp" line="490"/>
+        <location filename="../../src/mainwindow.cpp" line="535"/>
         <source>Read</source>
         <translation>Olvasás</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="521"/>
         <location filename="../../src/mainwindow.ui" line="953"/>
-        <location filename="../../src/mainwindow.cpp" line="493"/>
+        <location filename="../../src/mainwindow.cpp" line="538"/>
         <source>Write</source>
         <translation>Írás</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="687"/>
-        <location filename="../../src/mainwindow.cpp" line="496"/>
+        <location filename="../../src/mainwindow.cpp" line="541"/>
         <source>Mix</source>
         <translation>Vegyes</translation>
     </message>
@@ -153,232 +153,242 @@ mérés</translation>
         <translation>Adattömb</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1045"/>
+        <location filename="../../src/mainwindow.ui" line="1047"/>
         <source>Profile</source>
         <translation>Mérés</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1061"/>
+        <location filename="../../src/mainwindow.ui" line="1063"/>
         <source>Help</source>
         <translation>Súgó</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1065"/>
+        <location filename="../../src/mainwindow.ui" line="1067"/>
         <source>Language</source>
         <translation>Nyelv</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1073"/>
+        <location filename="../../src/mainwindow.ui" line="1075"/>
         <source>Theme</source>
         <translation>Téma</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1089"/>
+        <location filename="../../src/mainwindow.ui" line="1091"/>
         <source>About KDiskMark</source>
         <translation>Névjegy</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1094"/>
+        <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>Sorozatok és szálak</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1099"/>
+        <location filename="../../src/mainwindow.ui" line="1101"/>
         <source>Copy</source>
         <translation>Másolás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1104"/>
+        <location filename="../../src/mainwindow.ui" line="1106"/>
         <source>Save</source>
         <translation>Mentés</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1109"/>
+        <location filename="../../src/mainwindow.ui" line="1111"/>
         <source>Exit</source>
         <translation>Kilépés</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1120"/>
+        <location filename="../../src/mainwindow.ui" line="1122"/>
         <source>Default</source>
         <translation>Alapértelmezett</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1128"/>
+        <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
         <translation>Csúcsteljesítmény</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1136"/>
+        <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
         <translation>Valódi teljesítmény</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1144"/>
+        <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
         <translation>Alapértelmezett [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1152"/>
+        <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
         <translation>Csúcsteljesítmény [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1160"/>
+        <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
         <translation>Valódi teljesítmény [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1171"/>
+        <location filename="../../src/mainwindow.ui" line="1173"/>
         <source>Flush Pagecache</source>
         <translation>Gyorsítótár ürítése</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1179"/>
+        <location filename="../../src/mainwindow.ui" line="1181"/>
         <source>Demo</source>
         <translation>Bemutató</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1190"/>
+        <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
         <translation>Olvasás és írás [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1198"/>
+        <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
         <translation>Olvasás [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1206"/>
+        <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
         <translation>Írás [+Mix]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1217"/>
+        <location filename="../../src/mainwindow.ui" line="1219"/>
         <source>Random</source>
         <translation>Véletlenszerű</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1225"/>
+        <location filename="../../src/mainwindow.ui" line="1227"/>
         <source>Fill with zeros</source>
         <translation>Feltöltés nullákkal</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1236"/>
+        <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
         <translation>Alapértelmezett profil</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1244"/>
+        <location filename="../../src/mainwindow.ui" line="1246"/>
         <source>NVMe SSD</source>
         <translation>NVMe SSD profil</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1255"/>
+        <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
         <translation>Fusion használata</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1263"/>
+        <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
         <translation>Stíluslap Light</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1271"/>
+        <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
         <translation>Stíluslap Dark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1279"/>
+        <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
         <translation>Ne használja</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="52"/>
+        <location filename="../../src/mainwindow.ui" line="1292"/>
+        <source>Use O_DIRECT</source>
+        <translation>O_DIRECT használata</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="53"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation>A kötet titkosított. A mérés némileg pontatlan lehet.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="263"/>
+        <location filename="../../src/mainwindow.cpp" line="277"/>
         <source>Access Denied</source>
         <translation>Hozzáférés megtagadva</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="263"/>
+        <location filename="../../src/mainwindow.cpp" line="277"/>
         <source>Failed to retrieve storage list.</source>
         <translation>A meghajtók lekérdezése sikertelen.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="306"/>
-        <location filename="../../src/mainwindow.cpp" line="396"/>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="316"/>
+        <source>Add a directory</source>
+        <translation>Elérési útvonal kiválasztása</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="346"/>
+        <location filename="../../src/mainwindow.cpp" line="440"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="310"/>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="350"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="396"/>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="440"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>Bytes</source>
         <translation>bájt</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="791"/>
-        <location filename="../../src/mainwindow.cpp" line="792"/>
-        <location filename="../../src/mainwindow.cpp" line="793"/>
-        <location filename="../../src/mainwindow.cpp" line="794"/>
-        <location filename="../../src/mainwindow.cpp" line="795"/>
+        <location filename="../../src/mainwindow.cpp" line="872"/>
+        <location filename="../../src/mainwindow.cpp" line="873"/>
+        <location filename="../../src/mainwindow.cpp" line="874"/>
+        <location filename="../../src/mainwindow.cpp" line="875"/>
+        <location filename="../../src/mainwindow.cpp" line="876"/>
         <source>Stop</source>
         <translation>Megszakítás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="843"/>
+        <location filename="../../src/mainwindow.cpp" line="924"/>
         <source>Stopping...</source>
         <translation>Megszakítás...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="853"/>
+        <location filename="../../src/mainwindow.cpp" line="934"/>
         <source>Not available</source>
         <translation>Nem lehet hozzáférni</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="853"/>
+        <location filename="../../src/mainwindow.cpp" line="934"/>
         <source>Directory is not specified.</source>
         <translation>A könyvtár nincs megadva.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="856"/>
+        <location filename="../../src/mainwindow.cpp" line="937"/>
         <source>Confirmation</source>
         <translation>Jóváhagyás</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="857"/>
+        <location filename="../../src/mainwindow.cpp" line="938"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>A művelet adattömböt fog létrehozni a(z) %1 fájlban.
 Folytatod?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="868"/>
+        <location filename="../../src/mainwindow.cpp" line="950"/>
         <source>Benchmark Failed</source>
         <translation>Mérés sikertelen</translation>
     </message>
@@ -416,12 +426,12 @@ Folytatod?</translation>
         <translation>&lt;h1&gt;%1 MB/mp&lt;br/&gt;%2 GB/mp&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="190"/>
+        <location filename="../../src/mainwindow.cpp" line="194"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>Nincs telepítve FIO csomag a rendszerben. Kérlek, telepítsd a KDiskMark használata előtt!</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="201"/>
+        <location filename="../../src/mainwindow.cpp" line="203"/>
         <source>Could not obtain administrator privileges.
 The application will be closed.</source>
         <translation>Nem sikerült rendszergazdai jogosultságokat szerezni.

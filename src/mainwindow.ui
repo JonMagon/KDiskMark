@@ -1038,6 +1038,8 @@
     <addaction name="actionPreset_NVMe_SSD"/>
     <addaction name="separator"/>
     <addaction name="actionQueues_Threads"/>
+    <addaction name="separator"/>
+    <addaction name="actionUse_O_DIRECT"/>
     <addaction name="actionFlush_Pagecache"/>
    </widget>
    <widget class="QMenu" name="menuProfile">
@@ -1277,6 +1279,17 @@
    </property>
    <property name="text">
     <string>Do not apply</string>
+   </property>
+  </action>
+  <action name="actionUse_O_DIRECT">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use O_DIRECT</string>
    </property>
   </action>
  </widget>

@@ -187,6 +187,21 @@ int AppSettings::defaultRandomReadPercentage()
     return 70;
 }
 
+bool AppSettings::getCacheBypassState() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/BypassCache"), defaultCacheBypassState()).toBool();
+}
+
+void AppSettings::setCacheBypassState(bool state)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/BypassCache"), state);
+}
+
+bool AppSettings::defaultCacheBypassState()
+{
+    return true;
+}
+
 bool AppSettings::getFlusingCacheState() const
 {
     return m_settings->value(QStringLiteral("Benchmark/FlushingCache"), defaultFlushingCacheState()).toBool();
