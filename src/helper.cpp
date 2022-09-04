@@ -190,6 +190,10 @@ void Helper::startBenchmarkTest(int measuringTime, int fileSize, int randomReadP
 
 QVariantMap Helper::flushPageCache()
 {
+    if (!isCallerAuthorized()) {
+        return {};
+    }
+
     QVariantMap reply;
     reply[QStringLiteral("success")] = true;
 
