@@ -114,8 +114,10 @@ jobs:
         cmake ${{ matrix.cmake-defines }} -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_PREFIX_PATH=/opt/Qt/5.15.1/gcc_64/ ..
         sed -i "s|kdiskmark|./$APPIMAGE_NAME|g" ../src/main.cpp
         make DESTDIR=appdir -j$(nproc) install
-        ../3rd-party/fio-fio-${{ matrix.bundled-fio }}/configure --disable-native
-        make DESTDIR="$(pwd)/appdir" prefix=/usr install
+        cd ../3rd-party/fio-fio-${{ matrix.bundled-fio }}
+        ./configure --disable-native
+        make DESTDIR="$(pwd)/../../build/appdir" prefix=/usr install
+        cd ../../build
         cp -a /usr/share/icons/breeze appdir/usr/share/icons/
         sudo mkdir /opt/Qt/5.15.1/gcc_64/plugins/styles/
         sudo cp /usr/lib/x86_64-linux-gnu/qt5/plugins/styles/breeze.so /opt/Qt/5.15.1/gcc_64/plugins/styles/
