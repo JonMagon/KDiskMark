@@ -84,6 +84,13 @@ bool Helper::testFilePath(const QString &benchmarkFile)
         return false;
     }
 
+    // Actually superfluous because of above, makes the check more obvious
+    // Just in case something changes in the backend
+    if (benchmarkFile.startsWith("/dev")) {
+        qWarning("Cannot specify a raw device.");
+        return false;
+    }
+
     return true;
 }
 

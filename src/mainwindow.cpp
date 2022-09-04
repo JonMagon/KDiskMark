@@ -285,16 +285,26 @@ void MainWindow::mountPointsListReady(const QVector<Global::Storage> &storages)
     if (variant.canConvert<Global::Storage>())
         temp = variant.value<Global::Storage>().path;
 
+    QVector<Global::Storage> permanentStoragesInList;
+    for (int i = 0; i < ui->comboBox_Storages->count(); i++) {
+        QVariant variant = ui->comboBox_Storages->itemData(i);
+        if (variant.canConvert<Global::Storage>()) {
+            Global::Storage storage = variant.value<Global::Storage>();
+            if (storage.permanentInList)
+                permanentStoragesInList.append(storage);
+        }
+    }
+
     ui->comboBox_Storages->clear();
 
     for (Global::Storage storage : storages) {
         storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
-        ui->comboBox_Storages->addItem(
-                    QStringLiteral("%1 %2% (%3)").arg(storage.path)
-                    .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
-                    .arg(storage.formatedSize),
-                    QVariant::fromValue(storage)
-                    );
+        addItemToStoragesList(storage);
+    }
+
+    for (Global::Storage storage : permanentStoragesInList) {
+        storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
+        addItemToStoragesList(storage);
     }
 
     if (!temp.isEmpty()) {
@@ -302,8 +312,25 @@ void MainWindow::mountPointsListReady(const QVector<Global::Storage> &storages)
         if (foundIndex != -1) ui->comboBox_Storages->setCurrentIndex(foundIndex);
     }
 
+    ui->comboBox_Storages->insertItem(0, tr("Add a directory"));
+    ui->comboBox_Storages->setItemData(0, Qt::AlignCenter, Qt::TextAlignmentRole);
+    ui->comboBox_Storages->setItemIcon(0, style()->standardIcon(QStyle::SP_FileDialogNewFolder));
+
     // Resize items popup
     resizeComboBoxItemsPopup(ui->comboBox_Storages);
+}
+
+void MainWindow::addItemToStoragesList(const Global::Storage &storage)
+{
+    if (ui->comboBox_Storages->findText(storage.path, Qt::MatchContains) != -1)
+         return;
+
+    ui->comboBox_Storages->addItem(
+                QStringLiteral("%1 %2% (%3)").arg(storage.path)
+                .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
+                .arg(storage.formatedSize),
+                QVariant::fromValue(storage)
+                );
 }
 
 void MainWindow::updateFileSizeList()
@@ -650,12 +677,48 @@ void MainWindow::on_comboBox_MixRatio_currentIndexChanged(int index)
 
 void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
 {
-    QVariant variant = ui->comboBox_Storages->itemData(index);
-    if (variant.canConvert<Global::Storage>()) {
-        Global::Storage volumeInfo = variant.value<Global::Storage>();
-        m_benchmark->setDir(volumeInfo.path);
-        ui->deviceModel->setText(DiskDriveInfo::Instance().getModelName(QStorageInfo(volumeInfo.path).device()));
-        ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo.path).device()));
+    // It is expected that at index 0 without item data there will be a field to add a directory
+    if (index == 0 && ui->comboBox_Storages->itemData(index).isNull()) {
+        QString dir = QFileDialog::getExistingDirectory(this, QString(), QDir::homePath(),
+                                                        QFileDialog::ShowDirsOnly |
+                                                        QFileDialog::DontResolveSymlinks |
+                                                        QFileDialog::DontUseNativeDialog);
+        if (!dir.isNull()) {
+            int foundIndex = ui->comboBox_Storages->findText(dir, Qt::MatchContains);
+
+            if (foundIndex == -1) {
+                QStorageInfo volume(dir);
+
+                Global::Storage storage {
+                    .path = dir,
+                    .bytesTotal = volume.bytesTotal(),
+                    .bytesOccupied = volume.bytesAvailable(),
+                    .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
+                    .permanentInList = true
+                };
+
+                addItemToStoragesList(storage);
+                resizeComboBoxItemsPopup(ui->comboBox_Storages);
+
+                ui->comboBox_Storages->setCurrentIndex(ui->comboBox_Storages->count() - 1);
+            }
+            else {
+                ui->comboBox_Storages->setCurrentIndex(foundIndex);
+            }
+
+            return;
+        }
+
+        ui->comboBox_Storages->setCurrentIndex(1);
+    }
+    else {
+        QVariant variant = ui->comboBox_Storages->itemData(index);
+        if (variant.canConvert<Global::Storage>()) {
+            Global::Storage volumeInfo = variant.value<Global::Storage>();
+            m_benchmark->setDir(volumeInfo.path);
+            ui->deviceModel->setText(DiskDriveInfo::Instance().getModelName(QStorageInfo(volumeInfo.path).device()));
+            ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo.path).device()));
+        }
     }
 }
 

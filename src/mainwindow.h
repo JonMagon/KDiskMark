@@ -61,8 +61,8 @@ private:
     QVector<QProgressBar*> m_progressBars;
     QString m_windowTitle;
 
-    void updateMountPointsList();
     void updateFileSizeList();
+    void addItemToStoragesList(const Global::Storage &storage);
     void defineBenchmark(std::function<void()> bodyFunc);
     void closeEvent(QCloseEvent *event);
     QString formatSize(quint64 available, quint64 total);
