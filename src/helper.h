@@ -17,13 +17,12 @@ public:
     explicit HelperAdaptor(Helper *parent);
 
 public slots:
-    Q_SCRIPTABLE QVariantMap listStorages();
-    Q_SCRIPTABLE void prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
-    Q_SCRIPTABLE void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
-                                         int blockSize, int queueDepth, int threads, const QString &rw);
+    Q_SCRIPTABLE QVariantMap prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
+    Q_SCRIPTABLE QVariantMap startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
+                                                int blockSize, int queueDepth, int threads, const QString &rw);
     Q_SCRIPTABLE QVariantMap flushPageCache();
-    Q_SCRIPTABLE bool removeBenchmarkFile();
-    Q_SCRIPTABLE void stopCurrentTask();
+    Q_SCRIPTABLE QVariantMap removeBenchmarkFile();
+    Q_SCRIPTABLE QVariantMap stopCurrentTask();
 
 signals:
     Q_SCRIPTABLE void taskFinished(bool, QString, QString);
@@ -40,13 +39,12 @@ public:
     Helper();
 
 public:
-    QVariantMap listStorages();
-    void prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
-    void startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
-                            int blockSize, int queueDepth, int threads, const QString &rw);
+    QVariantMap prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
+    QVariantMap startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
+                                   int blockSize, int queueDepth, int threads, const QString &rw);
     QVariantMap flushPageCache();
-    bool removeBenchmarkFile();
-    void stopCurrentTask();
+    QVariantMap removeBenchmarkFile();
+    QVariantMap stopCurrentTask();
 
 private:
     bool isCallerAuthorized();

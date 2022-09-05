@@ -170,8 +170,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     updateFileSizeList();
 
+    updateStoragesList();
+
     // Set callbacks
-    connect(m_benchmark, &Benchmark::mountPointsListReady, this, &MainWindow::mountPointsListReady);
     connect(m_benchmark, &Benchmark::runningStateChanged, this, &MainWindow::benchmarkStateChanged);
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
@@ -186,21 +187,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveBenchmarkResult);
 
-    this->setEnabled(false);
-
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
             QMessageBox::critical(this, "KDiskMark",
                                   QObject::tr("No FIO was found. Please install FIO before using KDiskMark."));
-            qApp->quit();
-        }
-
-        if (m_benchmark->listStorages()) {
-            this->setEnabled(true);
-        }
-        else {
-            QMessageBox::critical(this, "KDiskMark Helper",
-                                  QObject::tr("Could not obtain administrator privileges.\nThe application will be closed."));
             qApp->quit();
         }
     });
@@ -273,12 +263,10 @@ void MainWindow::changeEvent(QEvent *event)
 
 void MainWindow::on_refreshStoragesButton_clicked()
 {
-    if (!m_benchmark->listStorages()) {
-        QMessageBox::critical(this, tr("Access Denied"), tr("Failed to retrieve storage list."));
-    }
+    updateStoragesList();
 }
 
-void MainWindow::mountPointsListReady(const QVector<Global::Storage> &storages)
+void MainWindow::updateStoragesList()
 {
     QString temp;
 
@@ -298,9 +286,18 @@ void MainWindow::mountPointsListReady(const QVector<Global::Storage> &storages)
 
     ui->comboBox_Storages->clear();
 
-    for (Global::Storage storage : storages) {
-        storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
-        addItemToStoragesList(storage);
+    foreach (const QStorageInfo &volume, QStorageInfo::mountedVolumes()) {
+        if (volume.isValid() && volume.isReady() && !volume.isReadOnly()) {
+            if (volume.device().indexOf("/dev") != -1) {
+                Global::Storage storage {
+                    .path = volume.rootPath(),
+                    .bytesTotal = volume.bytesTotal(),
+                    .bytesOccupied = volume.bytesTotal() - volume.bytesFree(),
+                    .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
+                };
+                addItemToStoragesList(storage);
+            }
+        }
     }
 
     for (Global::Storage storage : permanentStoragesInList) {
@@ -696,7 +693,7 @@ void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
                 Global::Storage storage {
                     .path = dir,
                     .bytesTotal = volume.bytesTotal(),
-                    .bytesOccupied = volume.bytesAvailable(),
+                    .bytesOccupied = volume.bytesTotal() - volume.bytesFree(),
                     .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
                     .permanentInList = true
                 };

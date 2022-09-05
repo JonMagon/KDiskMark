@@ -14,20 +14,15 @@ HelperAdaptor::HelperAdaptor(Helper *parent) :
     m_parentHelper = parent;
 }
 
-QVariantMap HelperAdaptor::listStorages()
-{
-    return m_parentHelper->listStorages();
-}
-
-void HelperAdaptor::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
+QVariantMap HelperAdaptor::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
 {
     return m_parentHelper->prepareBenchmarkFile(benchmarkFile, fileSize, fillZeros);
 }
 
-void HelperAdaptor::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
-                                       int blockSize, int queueDepth, int threads, const QString &rw)
+QVariantMap HelperAdaptor::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
+                                              int blockSize, int queueDepth, int threads, const QString &rw)
 {
-    m_parentHelper->startBenchmarkTest(measuringTime, fileSize, randomReadPercentage, fillZeros, cacheBypass, blockSize, queueDepth, threads, rw);
+    return m_parentHelper->startBenchmarkTest(measuringTime, fileSize, randomReadPercentage, fillZeros, cacheBypass, blockSize, queueDepth, threads, rw);
 }
 
 QVariantMap HelperAdaptor::flushPageCache()
@@ -35,14 +30,14 @@ QVariantMap HelperAdaptor::flushPageCache()
     return m_parentHelper->flushPageCache();
 }
 
-bool HelperAdaptor::removeBenchmarkFile()
+QVariantMap HelperAdaptor::removeBenchmarkFile()
 {
     return m_parentHelper->removeBenchmarkFile();
 }
 
-void HelperAdaptor::stopCurrentTask()
+QVariantMap HelperAdaptor::stopCurrentTask()
 {
-    m_parentHelper->stopCurrentTask();
+    return m_parentHelper->stopCurrentTask();
 }
 
 Helper::Helper() : m_helperAdaptor(new HelperAdaptor(this))
@@ -94,40 +89,20 @@ bool Helper::testFilePath(const QString &benchmarkFile)
     return true;
 }
 
-QVariantMap Helper::listStorages()
+QVariantMap Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
 {
     if (!isCallerAuthorized()) {
         return {};
     }
 
-    QVariantMap reply;
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-        if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
-            if (storage.device().indexOf("/dev") != -1) {
-                reply[storage.rootPath()] =
-                        QVariant::fromValue(QDBusVariant(QVariant::fromValue(QVector<qlonglong> { storage.bytesTotal(), storage.bytesAvailable() })));
-            }
-        }
-    }
-
-    return reply;
-}
-
-void Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
-{
-    if (!isCallerAuthorized()) {
-        return;
-    }
-
     // If benchmarking has been done, but removeBenchmarkFile has not been called,
     // and benchmarking on a new file is called, then reject the request. The *previous* file must be removed first.
     if (!m_benchmarkFile.isEmpty()) {
-        qWarning() << "The previous benchmarking was not completed correctly.";
-        return;
+        return {{"success", false}, {"error", "The previous benchmarking was not completed correctly."}};
     }
 
     if (!testFilePath(benchmarkFile)) {
-        return;
+        return {{"success", false}, {"error", "The path to the file is incorrect."}};
     }
 
     m_benchmarkFile = benchmarkFile;
@@ -145,22 +120,19 @@ void Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bo
             [=] (int exitCode, QProcess::ExitStatus exitStatus) {
         emit taskFinished(exitStatus == QProcess::NormalExit, QString(m_process->readAllStandardOutput()), QString(m_process->readAllStandardError()));
     });
+
+    return {{"success", true}};
 }
 
-void Helper::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
-                                int blockSize, int queueDepth, int threads, const QString &rw)
+QVariantMap Helper::startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
+                                       int blockSize, int queueDepth, int threads, const QString &rw)
 {
     if (!isCallerAuthorized()) {
-        return;
+        return {};
     }
 
-    if (m_benchmarkFile.isEmpty()) {
-        return;
-    }
-
-    if (!QFile(m_benchmarkFile).exists()) {
-        qWarning() << "The benchmark file was not pre-created.";
-        return;
+    if (m_benchmarkFile.isEmpty() || !QFile(m_benchmarkFile).exists()) {
+        return {{"success", false}, {"error", "The benchmark file was not pre-created."}};
     }
 
     m_process = new QProcess();
@@ -186,20 +158,14 @@ void Helper::startBenchmarkTest(int measuringTime, int fileSize, int randomReadP
             [=] (int exitCode, QProcess::ExitStatus exitStatus) {
         emit taskFinished(exitStatus == QProcess::NormalExit, QString(m_process->readAllStandardOutput()), QString(m_process->readAllStandardError()));
     });
+
+    return {{"success", true}};
 }
 
 QVariantMap Helper::flushPageCache()
 {
     if (!isCallerAuthorized()) {
         return {};
-    }
-
-    QVariantMap reply;
-    reply[QStringLiteral("success")] = true;
-
-    if (!isCallerAuthorized()) {
-        reply[QStringLiteral("success")] = false;
-        return reply;
     }
 
     QFile file("/proc/sys/vm/drop_caches");
@@ -209,36 +175,37 @@ QVariantMap Helper::flushPageCache()
         file.close();
     }
     else {
-        reply[QStringLiteral("success")] = false;
-        reply[QStringLiteral("error")] = file.errorString();
+        return {{"success", false}, {"error", file.errorString()}};
     }
 
-    return reply;
+    return {{"success", true}};
 }
 
-bool Helper::removeBenchmarkFile()
+QVariantMap Helper::removeBenchmarkFile()
 {
     if (!isCallerAuthorized()) {
-        return false;
+        return {};
     }
 
-    if (m_benchmarkFile.isEmpty()) {
-        return false;
+    if (m_benchmarkFile.isEmpty() || !QFile(m_benchmarkFile).exists()) {
+        return {{"success", false}, {"error", "The benchmark file was not pre-created."}};
     }
 
     bool deletionState = QFile(m_benchmarkFile).remove();
     m_benchmarkFile.clear();
 
-    return deletionState;
+    return {{"success", deletionState}};
 }
 
-void Helper::stopCurrentTask()
+QVariantMap Helper::stopCurrentTask()
 {
     if (!isCallerAuthorized()) {
-        return;
+        return {};
     }
 
-    if (!m_process) return;
+    if (!m_process) {
+        return {{"success", false}, {"error", "The pointer to the process is empty."}};
+    }
 
     if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
         m_process->terminate();
@@ -246,6 +213,8 @@ void Helper::stopCurrentTask()
     }
 
     delete m_process;
+
+    return {{"success", true}};
 }
 
 bool Helper::isCallerAuthorized()

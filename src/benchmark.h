@@ -32,8 +32,6 @@ public:
     void setRunning(bool state);
     bool isRunning();
 
-    bool listStorages();
-
     void runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> tests);
 
     struct PerformanceResult
@@ -93,13 +91,12 @@ private:
     Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
-    bool prepareFile(const QString &benchmarkFile, int fileSize);
-    bool flushPageCache();
+    void prepareFile(const QString &benchmarkFile, int fileSize);
+    void flushPageCache();
 
-    void dbusWaitForFinish(QDBusPendingCall pcall);
+    void handleDbusPendingCallState(QDBusPendingCall pcall);
 
 signals:
-    void mountPointsListReady(const QVector<Global::Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void resultReady(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
     void failed(const QString &error);

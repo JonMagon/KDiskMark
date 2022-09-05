@@ -60,24 +60,28 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
 
         emit benchmarkStatusUpdate(statusMessage.arg(index + 1).arg(settings.getLoopsCount()));
 
-        if (settings.getFlusingCacheState() && !flushPageCache()) {
-            setRunning(false);
-            return;
+        if (settings.getFlusingCacheState()) {
+            flushPageCache();
         }
+
+        if (!isRunning()) return;
 
         auto interface = helperInterface();
         if (!interface) {
             setRunning(false);
-            emit failed("Inteface is null");
+            emit failed("Helper inteface is null.");
             return;
         }
 
-        QDBusPendingCall pcall = interface->startBenchmarkTest(settings.getMeasuringTime(),
-                                                               settings.getFileSize(),
-                                                               settings.getRandomReadPercentage(),
-                                                               settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
-                                                               settings.getCacheBypassState(),
-                                                               blockSize, queueDepth, threads, rw);
+        handleDbusPendingCallState(interface->startBenchmarkTest(settings.getMeasuringTime(),
+                                                                 settings.getFileSize(),
+                                                                 settings.getRandomReadPercentage(),
+                                                                 settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
+                                                                 settings.getCacheBypassState(),
+                                                                 blockSize, queueDepth, threads, rw));
+
+        if (!isRunning()) return;
+
         QEventLoop loop;
 
         auto exitLoop = [&] (bool success, QString output, QString errorOutput) {
@@ -124,10 +128,6 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
         loop.exec();
 
         QObject::disconnect(conn);
-
-        if (pcall.isError()) {
-            setRunning(false);
-        }
     }
 }
 
@@ -198,8 +198,7 @@ void Benchmark::setRunning(bool state)
 
     if (!m_running) {
         auto interface = helperInterface();
-        if (interface)
-            dbusWaitForFinish(interface->stopCurrentTask());
+        if (interface) handleDbusPendingCallState(interface->stopCurrentTask());
     }
 
     emit runningStateChanged(state);
@@ -240,12 +239,11 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
-    if (!prepareFile(getBenchmarkFile(), settings.getFileSize())) {
-        setRunning(false);
-        return;
-    }
+    prepareFile(getBenchmarkFile(), settings.getFileSize());
 
-    while (iter.hasNext() && m_running) {
+    if (!isRunning()) return;
+
+    while (iter.hasNext() && isRunning()) {
         item = iter.next();
 
         m_progressBars = item.second;
@@ -297,8 +295,7 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     }
 
     auto interface = helperInterface();
-    if (interface)
-        dbusWaitForFinish(interface->removeBenchmarkFile());
+    if (interface) handleDbusPendingCallState(interface->removeBenchmarkFile());
 
     setRunning(false);
     emit finished(); // Only needed when closing the app during a running benchmarking
@@ -318,91 +315,24 @@ DevJonmagonKdiskmarkHelperInterface* Benchmark::helperInterface()
     return interface;
 }
 
-bool Benchmark::listStorages()
+void Benchmark::flushPageCache()
 {
     auto interface = helperInterface();
-    if (!interface) return false;
-
-    QDBusPendingCall pcall = interface->listStorages();
-
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
-    QEventLoop loop;
-
-    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
-        loop.exit();
-
-        if (watcher->isError())
-            qWarning() << watcher->error();
-        else {
-            QDBusPendingReply<QVariantMap> reply = *watcher;
-
-            QVariantMap replyContent = reply.value();
-
-            QVector<Global::Storage> storages;
-
-            for (auto pathStorage : replyContent.keys()) {
-                QDBusVariant dbusVariant = qvariant_cast<QDBusVariant>(replyContent.value(pathStorage));
-                QVector<qlonglong> storageStats;
-                dbusVariant.variant().value<QDBusArgument>() >> storageStats;
-                storages.append({ pathStorage, storageStats[0], storageStats[0] - storageStats[1] });
-            }
-
-            emit mountPointsListReady(storages);
-        }
-    };
-
-    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
-    loop.exec();
-
-    return !watcher->isError();
-}
-
-bool Benchmark::flushPageCache()
-{
-    bool flushed = true;
-
-    auto interface = helperInterface();
-    if (!interface) return false;
+    if (!interface) return;
 
     QDBusPendingCall pcall = interface->flushPageCache();
 
-    QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
-    QEventLoop loop;
-
-    auto exitLoop = [&] (QDBusPendingCallWatcher *watcher) {
-        loop.exit();
-
-        if (watcher->isError())
-            qWarning() << watcher->error();
-        else {
-            QDBusPendingReply<QVariantMap> reply = *watcher;
-
-            QVariantMap replyContent = reply.value();
-            if (!replyContent[QStringLiteral("success")].toBool()) {
-                flushed = false;
-                QString error = replyContent[QStringLiteral("error")].toString();
-                if (!error.isEmpty()) {
-                    setRunning(false);
-                    emit failed(error);
-                }
-            }
-        }
-    };
-
-    connect(watcher, &QDBusPendingCallWatcher::finished, exitLoop);
-    loop.exec();
-
-    return flushed && !watcher->isError();;
+    handleDbusPendingCallState(interface->flushPageCache());
 }
 
-bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
+void Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
 {
-    bool prepared = true;
-
     auto interface = helperInterface();
-    if (!interface) return false;
+    if (!interface) return;
 
-    QDBusPendingCall pcall = interface->prepareBenchmarkFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros);
+    handleDbusPendingCallState(interface->prepareBenchmarkFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros));
+
+    if (!isRunning()) return;
 
     QEventLoop loop;
 
@@ -410,11 +340,8 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
         loop.exit();
 
         if (!success) {
-            prepared = false;
-            if (!errorOutput.isEmpty()) {
-                setRunning(false);
-                emit failed(errorOutput);
-            }
+            setRunning(false);
+            emit failed(!errorOutput.isEmpty() ? errorOutput : "The benchmark file could not be prepared.");
         }
 
         if (m_running) {
@@ -427,14 +354,35 @@ bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
     loop.exec();
 
     QObject::disconnect(conn);
-
-    return prepared && !pcall.isError();
 }
 
-void Benchmark::dbusWaitForFinish(QDBusPendingCall pcall)
+void Benchmark::handleDbusPendingCallState(QDBusPendingCall pcall)
 {
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
     QEventLoop loop;
-    connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) { loop.exit(); });
+    connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) {
+        loop.exit();
+
+        if (watcher->isError()) {
+            setRunning(false);
+            if (watcher->error().type() == QDBusError::AccessDenied) {
+                emit failed(tr("Could not obtain administrator privileges."));
+            }
+            else {
+                emit failed(!watcher->error().message().isEmpty() ? watcher->error().message() : watcher->error().name());
+            }
+        }
+        else {
+            QDBusPendingReply<QVariantMap> reply = *watcher;
+
+            QVariantMap replyContent = reply.value();
+            if (!replyContent[QStringLiteral("success")].toBool()) {
+                setRunning(false);
+                QString error = replyContent[QStringLiteral("error")].toString();
+                failed(!error.isEmpty() ? error : "An error has occurred when executing a DBus task.");
+            }
+        }
+    });
+
     loop.exec();
 }

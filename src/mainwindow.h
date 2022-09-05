@@ -64,6 +64,7 @@ private:
     QString m_windowTitle;
 
     void updateFileSizeList();
+    void updateStoragesList();
     void addItemToStoragesList(const Global::Storage &storage);
     void defineBenchmark(std::function<void()> bodyFunc);
     void closeEvent(QCloseEvent *event);
@@ -80,7 +81,6 @@ private:
     void updateProgressBarsStyle();
 
 public slots:
-    void mountPointsListReady(const QVector<Global::Storage> &storages);
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
     void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
