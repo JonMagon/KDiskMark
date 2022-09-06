@@ -101,11 +101,12 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         int textWidth = QFontMetrics(painter->font()).width(text);
 #endif
 
-        int textMargin = (option.rect.size().width() - (option.decorationSize.width() + (style->pixelMetric(QStyle::PM_FocusFrameHMargin, 0, option.widget) + 1) * 4 + textWidth)) / 2;
+        const int textMargin = (style->pixelMetric(QStyle::PM_FocusFrameHMargin, 0, option.widget) + 1);
+        int textMarginCenter = (option.rect.size().width() - (option.decorationSize.width() + textMargin * 8 + textWidth)) / 2;
 
         auto opt = option;
         //opt.state &= ~(QStyle::State_MouseOver | QStyle::State_Selected);
-        opt.rect = opt.rect.adjusted(textMargin, 0, -textMargin, 0);
+        opt.rect = opt.rect.adjusted(textMarginCenter, 0, -textMarginCenter, 0);
 
         QPalette palette = opt.palette;
         palette.setColor(QPalette::Text, painter->pen().color());
