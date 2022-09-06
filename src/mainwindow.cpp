@@ -252,6 +252,8 @@ void MainWindow::changeEvent(QEvent *event)
                 ui->comboBox_Storages->setItemData(i, QVariant::fromValue(storage));
             }
         }
+
+        ui->comboBox_Storages->setItemText(0, tr("Add a directory"));
         resizeComboBoxItemsPopup(ui->comboBox_Storages);
 
         break;
