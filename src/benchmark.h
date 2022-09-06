@@ -80,6 +80,7 @@ public:
 
 private:
     bool m_running;
+    bool m_helperAuthorized;
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
     QString m_dir;
@@ -91,10 +92,10 @@ private:
     Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
+    void initSession();
     void prepareFile(const QString &benchmarkFile, int fileSize);
-    void flushPageCache();
 
-    void handleDbusPendingCallState(QDBusPendingCall pcall);
+    void handleDbusPendingCall(QDBusPendingCall pcall);
 
 signals:
     void benchmarkStatusUpdate(const QString &name);

@@ -14,6 +14,16 @@ HelperAdaptor::HelperAdaptor(Helper *parent) :
     m_parentHelper = parent;
 }
 
+QVariantMap HelperAdaptor::initSession()
+{
+    return m_parentHelper->initSession();
+}
+
+QVariantMap HelperAdaptor::endSession()
+{
+    return m_parentHelper->endSession();
+}
+
 QVariantMap HelperAdaptor::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
 {
     return m_parentHelper->prepareBenchmarkFile(benchmarkFile, fileSize, fillZeros);
@@ -49,7 +59,7 @@ Helper::Helper() : m_helperAdaptor(new HelperAdaptor(this))
     }
 
     m_serviceWatcher = new QDBusServiceWatcher(this);
-    m_serviceWatcher->setConnection(QDBusConnection ::systemBus());
+    m_serviceWatcher->setConnection(QDBusConnection::systemBus());
     m_serviceWatcher->setWatchMode(QDBusServiceWatcher::WatchForUnregistration);
 
     connect(m_serviceWatcher, &QDBusServiceWatcher::serviceUnregistered, qApp, [this](const QString &service) {
@@ -60,6 +70,62 @@ Helper::Helper() : m_helperAdaptor(new HelperAdaptor(this))
     });
 
     QObject::connect(this, &Helper::taskFinished, m_helperAdaptor, &HelperAdaptor::taskFinished);
+}
+
+QVariantMap Helper::initSession()
+{
+    if (!calledFromDBus()) {
+        return {};
+    }
+
+    if (m_serviceWatcher->watchedServices().contains(message().service())) {
+        return {{"success", true}};
+    }
+
+    if (!m_serviceWatcher->watchedServices().isEmpty()) {
+        return {{"success", false}, {"error", "There are already registered DBus connection."}};
+    }
+
+    PolkitQt1::SystemBusNameSubject subject(message().service());
+    PolkitQt1::Authority *authority = PolkitQt1::Authority::instance();
+
+    PolkitQt1::Authority::Result result;
+    QEventLoop e;
+    connect(authority, &PolkitQt1::Authority::checkAuthorizationFinished, &e, [&e, &result](PolkitQt1::Authority::Result _result) {
+        result = _result;
+        e.quit();
+    });
+
+    authority->checkAuthorization(QStringLiteral("dev.jonmagon.kdiskmark.helper.init"), subject, PolkitQt1::Authority::AllowUserInteraction);
+    e.exec();
+
+    if (authority->hasError()) {
+        qDebug() << "Encountered error while checking authorization, error code: " << authority->lastError() << authority->errorDetails();
+        authority->clearError();
+    }
+
+    switch (result) {
+    case PolkitQt1::Authority::Yes:
+        // track who called into us so we can close when all callers have gone away
+        m_serviceWatcher->addWatchedService(message().service());
+        return {{"success", true}};
+    default:
+        sendErrorReply(QDBusError::AccessDenied);
+        if (m_serviceWatcher->watchedServices().isEmpty())
+            qApp->quit();
+        return {};
+    }
+}
+
+QVariantMap Helper::endSession()
+{
+    if (!isCallerAuthorized()) {
+        return {};
+    }
+
+    qApp->exit();
+
+    Q_UNREACHABLE();
 }
 
 bool Helper::testFilePath(const QString &benchmarkFile)
@@ -98,7 +164,7 @@ QVariantMap Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileS
     // If benchmarking has been done, but removeBenchmarkFile has not been called,
     // and benchmarking on a new file is called, then reject the request. The *previous* file must be removed first.
     if (!m_benchmarkFile.isEmpty()) {
-        return {{"success", false}, {"error", "The previous benchmarking was not completed correctly."}};
+        return {{"success", false}, {"error", "A new benchmark session should be started."}};
     }
 
     if (!testFilePath(benchmarkFile)) {
@@ -168,6 +234,10 @@ QVariantMap Helper::flushPageCache()
         return {};
     }
 
+    if (m_benchmarkFile.isEmpty()) {
+        return {{"success", false}, {"error", "A benchmark file must first be created."}};
+    }
+
     QFile file("/proc/sys/vm/drop_caches");
 
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -188,13 +258,10 @@ QVariantMap Helper::removeBenchmarkFile()
     }
 
     if (m_benchmarkFile.isEmpty() || !QFile(m_benchmarkFile).exists()) {
-        return {{"success", false}, {"error", "The benchmark file was not pre-created."}};
+        return {{"success", false}, {"error", "Cannot remove the benchmark file, because it doesn't exist."}};
     }
 
-    bool deletionState = QFile(m_benchmarkFile).remove();
-    m_benchmarkFile.clear();
-
-    return {{"success", deletionState}};
+    return {{"success", QFile(m_benchmarkFile).remove()}};
 }
 
 QVariantMap Helper::stopCurrentTask()
@@ -212,8 +279,6 @@ QVariantMap Helper::stopCurrentTask()
         m_process->waitForFinished(-1);
     }
 
-    delete m_process;
-
     return {{"success", true}};
 }
 
@@ -223,44 +288,7 @@ bool Helper::isCallerAuthorized()
         return false;
     }
 
-    if (m_serviceWatcher->watchedServices().contains(message().service())) {
-        return true;
-    }
-
-    if (!m_serviceWatcher->watchedServices().isEmpty()) {
-        qDebug() << "There are already registered DBus connections.";
-        return false;
-    }
-
-    PolkitQt1::SystemBusNameSubject subject(message().service());
-    PolkitQt1::Authority *authority = PolkitQt1::Authority::instance();
-
-    PolkitQt1::Authority::Result result;
-    QEventLoop e;
-    connect(authority, &PolkitQt1::Authority::checkAuthorizationFinished, &e, [&e, &result](PolkitQt1::Authority::Result _result) {
-        result = _result;
-        e.quit();
-    });
-
-    authority->checkAuthorization(QStringLiteral("dev.jonmagon.kdiskmark.helper.init"), subject, PolkitQt1::Authority::AllowUserInteraction);
-    e.exec();
-
-    if (authority->hasError()) {
-        qDebug() << "Encountered error while checking authorization, error code: " << authority->lastError() << authority->errorDetails();
-        authority->clearError();
-    }
-
-    switch (result) {
-    case PolkitQt1::Authority::Yes:
-        // track who called into us so we can close when all callers have gone away
-        m_serviceWatcher->addWatchedService(message().service());
-        return true;
-    default:
-        sendErrorReply(QDBusError::AccessDenied);
-        if (m_serviceWatcher->watchedServices().isEmpty())
-            qApp->quit();
-        return false;
-    }
+    return m_serviceWatcher->watchedServices().contains(message().service());
 }
 
 int main(int argc, char *argv[])

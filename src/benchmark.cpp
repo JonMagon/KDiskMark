@@ -60,12 +60,6 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
 
         emit benchmarkStatusUpdate(statusMessage.arg(index + 1).arg(settings.getLoopsCount()));
 
-        if (settings.getFlusingCacheState()) {
-            flushPageCache();
-        }
-
-        if (!isRunning()) return;
-
         auto interface = helperInterface();
         if (!interface) {
             setRunning(false);
@@ -73,12 +67,18 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
             return;
         }
 
-        handleDbusPendingCallState(interface->startBenchmarkTest(settings.getMeasuringTime(),
-                                                                 settings.getFileSize(),
-                                                                 settings.getRandomReadPercentage(),
-                                                                 settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
-                                                                 settings.getCacheBypassState(),
-                                                                 blockSize, queueDepth, threads, rw));
+        if (settings.getFlusingCacheState()) {
+            handleDbusPendingCall(interface->flushPageCache());
+        }
+
+        if (!isRunning()) return;
+
+        handleDbusPendingCall(interface->startBenchmarkTest(settings.getMeasuringTime(),
+                                                            settings.getFileSize(),
+                                                            settings.getRandomReadPercentage(),
+                                                            settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros,
+                                                            settings.getCacheBypassState(),
+                                                            blockSize, queueDepth, threads, rw));
 
         if (!isRunning()) return;
 
@@ -196,9 +196,9 @@ void Benchmark::setRunning(bool state)
 
     m_running = state;
 
-    if (!m_running) {
+    if (!m_running && m_helperAuthorized) {
         auto interface = helperInterface();
-        if (interface) handleDbusPendingCallState(interface->stopCurrentTask());
+        if (interface) handleDbusPendingCall(interface->stopCurrentTask());
     }
 
     emit runningStateChanged(state);
@@ -239,9 +239,9 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
-    prepareFile(getBenchmarkFile(), settings.getFileSize());
+    initSession(); if (!isRunning()) return;
 
-    if (!isRunning()) return;
+    prepareFile(getBenchmarkFile(), settings.getFileSize());
 
     while (iter.hasNext() && isRunning()) {
         item = iter.next();
@@ -295,16 +295,21 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     }
 
     auto interface = helperInterface();
-    if (interface) handleDbusPendingCallState(interface->removeBenchmarkFile());
+    if (interface) handleDbusPendingCall(interface->removeBenchmarkFile());
 
     setRunning(false);
+
+    // Turn off the helper, otherwise it will not be able to perform another test
+    // Just sending a message without waiting for a response
+    if (interface) interface->endSession();
+
     emit finished(); // Only needed when closing the app during a running benchmarking
 }
 
 DevJonmagonKdiskmarkHelperInterface* Benchmark::helperInterface()
 {
     if (!QDBusConnection::systemBus().isConnected()) {
-        qCritical() << QDBusConnection::systemBus().lastError().message();
+        emit failed(QDBusConnection::systemBus().lastError().message());
         return nullptr;
     }
 
@@ -315,14 +320,15 @@ DevJonmagonKdiskmarkHelperInterface* Benchmark::helperInterface()
     return interface;
 }
 
-void Benchmark::flushPageCache()
+void Benchmark::initSession()
 {
+    m_helperAuthorized = false;
+
     auto interface = helperInterface();
-    if (!interface) return;
+    if (interface) handleDbusPendingCall(interface->initSession());
 
-    QDBusPendingCall pcall = interface->flushPageCache();
-
-    handleDbusPendingCallState(interface->flushPageCache());
+    // Process was not stopped by handleDbusPendingCall, consider that the authorization was successful
+    if (isRunning()) m_helperAuthorized = true;
 }
 
 void Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
@@ -330,7 +336,7 @@ void Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
     auto interface = helperInterface();
     if (!interface) return;
 
-    handleDbusPendingCallState(interface->prepareBenchmarkFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros));
+    handleDbusPendingCall(interface->prepareBenchmarkFile(benchmarkFile, fileSize, AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros));
 
     if (!isRunning()) return;
 
@@ -356,7 +362,7 @@ void Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
     QObject::disconnect(conn);
 }
 
-void Benchmark::handleDbusPendingCallState(QDBusPendingCall pcall)
+void Benchmark::handleDbusPendingCall(QDBusPendingCall pcall)
 {
     QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(pcall, this);
     QEventLoop loop;
@@ -379,7 +385,7 @@ void Benchmark::handleDbusPendingCallState(QDBusPendingCall pcall)
             if (!replyContent[QStringLiteral("success")].toBool()) {
                 setRunning(false);
                 QString error = replyContent[QStringLiteral("error")].toString();
-                failed(!error.isEmpty() ? error : "An error has occurred when executing a DBus task.");
+                emit failed(!error.isEmpty() ? error : "An error has occurred when executing a DBus task.");
             }
         }
     });
