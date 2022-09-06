@@ -254,13 +254,12 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     }
 
     emit benchmarkStatusUpdate(tr("Preparing..."));
-
     if (!prepareFile(getBenchmarkFile(), settings.getFileSize())) {
         setRunning(false);
         return;
     }
 
-    while (iter.hasNext() && m_running) {
+    while (iter.hasNext() && isRunning()) {
         item = iter.next();
 
         m_progressBars = item.second;
@@ -315,23 +314,6 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     setRunning(false);
     emit finished(); // Only needed when closing the app during a running benchmarking
-}
-
-bool Benchmark::listStorages()
-{
-    QVector<Global::Storage> storages;
-
-    foreach (const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
-        if (storage.isValid() && storage.isReady() && !storage.isReadOnly()) {
-            if (storage.device().indexOf("/dev") != -1) {
-                storages.append({ storage.rootPath(), storage.bytesTotal(), storage.bytesTotal() - storage.bytesAvailable() });
-            }
-        }
-    }
-
-    emit mountPointsListReady(storages);
-
-    return true;
 }
 
 bool Benchmark::flushPageCache()

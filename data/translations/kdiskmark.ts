@@ -42,43 +42,48 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="54"/>
+        <location filename="../../src/benchmark.cpp" line="240"/>
         <source>Preparing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="252"/>
+        <location filename="../../src/benchmark.cpp" line="258"/>
         <source>Sequential Read %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="256"/>
+        <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Random Read %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="262"/>
+        <location filename="../../src/benchmark.cpp" line="268"/>
         <source>Sequential Write %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="266"/>
+        <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Random Write %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="272"/>
+        <location filename="../../src/benchmark.cpp" line="278"/>
         <source>Sequential Mix %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="276"/>
+        <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Random Mix %1/%2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="283"/>
+        <location filename="../../src/benchmark.cpp" line="289"/>
         <source>Interval Time %1/%2 sec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="377"/>
+        <source>Could not obtain administrator privileges.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -86,14 +91,14 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="816"/>
+        <location filename="../../src/mainwindow.cpp" line="895"/>
         <source>All</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="221"/>
-        <location filename="../../src/mainwindow.cpp" line="380"/>
-        <location filename="../../src/mainwindow.cpp" line="384"/>
+        <location filename="../../src/mainwindow.cpp" line="423"/>
+        <location filename="../../src/mainwindow.cpp" line="427"/>
         <source>MB/s</source>
         <translation type="unfinished"></translation>
     </message>
@@ -104,35 +109,35 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="231"/>
-        <location filename="../../src/mainwindow.cpp" line="386"/>
-        <location filename="../../src/mainwindow.cpp" line="387"/>
+        <location filename="../../src/mainwindow.cpp" line="429"/>
+        <location filename="../../src/mainwindow.cpp" line="430"/>
         <source>IOPS</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="236"/>
-        <location filename="../../src/mainwindow.cpp" line="389"/>
-        <location filename="../../src/mainwindow.cpp" line="390"/>
+        <location filename="../../src/mainwindow.cpp" line="432"/>
+        <location filename="../../src/mainwindow.cpp" line="433"/>
         <source>μs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="352"/>
         <location filename="../../src/mainwindow.ui" line="934"/>
-        <location filename="../../src/mainwindow.cpp" line="490"/>
+        <location filename="../../src/mainwindow.cpp" line="534"/>
         <source>Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="521"/>
         <location filename="../../src/mainwindow.ui" line="953"/>
-        <location filename="../../src/mainwindow.cpp" line="493"/>
+        <location filename="../../src/mainwindow.cpp" line="537"/>
         <source>Write</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="687"/>
-        <location filename="../../src/mainwindow.cpp" line="496"/>
+        <location filename="../../src/mainwindow.cpp" line="540"/>
         <source>Mix</source>
         <translation type="unfinished"></translation>
     </message>
@@ -152,231 +157,232 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1045"/>
+        <location filename="../../src/mainwindow.ui" line="1047"/>
         <source>Profile</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1061"/>
+        <location filename="../../src/mainwindow.ui" line="1063"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1065"/>
+        <location filename="../../src/mainwindow.ui" line="1067"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1073"/>
+        <location filename="../../src/mainwindow.ui" line="1075"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1089"/>
+        <location filename="../../src/mainwindow.ui" line="1091"/>
         <source>About KDiskMark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1094"/>
+        <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1099"/>
+        <location filename="../../src/mainwindow.ui" line="1101"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1104"/>
+        <location filename="../../src/mainwindow.ui" line="1106"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1109"/>
+        <location filename="../../src/mainwindow.ui" line="1111"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1120"/>
+        <location filename="../../src/mainwindow.ui" line="1122"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1128"/>
+        <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1136"/>
+        <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1144"/>
+        <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1152"/>
+        <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1160"/>
+        <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1171"/>
+        <location filename="../../src/mainwindow.ui" line="1173"/>
         <source>Flush Pagecache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1179"/>
+        <location filename="../../src/mainwindow.ui" line="1181"/>
         <source>Demo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1190"/>
+        <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1198"/>
+        <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1206"/>
+        <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1217"/>
+        <location filename="../../src/mainwindow.ui" line="1219"/>
         <source>Random</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1225"/>
+        <location filename="../../src/mainwindow.ui" line="1227"/>
         <source>Fill with zeros</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1236"/>
+        <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1244"/>
+        <location filename="../../src/mainwindow.ui" line="1246"/>
         <source>NVMe SSD</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1255"/>
+        <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1263"/>
+        <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1271"/>
+        <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1279"/>
+        <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="52"/>
+        <location filename="../../src/mainwindow.ui" line="1292"/>
+        <source>Use O_DIRECT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="53"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="263"/>
-        <source>Access Denied</source>
+        <location filename="../../src/mainwindow.cpp" line="256"/>
+        <location filename="../../src/mainwindow.cpp" line="315"/>
+        <source>Add a directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="263"/>
-        <source>Failed to retrieve storage list.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="306"/>
-        <location filename="../../src/mainwindow.cpp" line="396"/>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="345"/>
+        <location filename="../../src/mainwindow.cpp" line="439"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>MiB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="310"/>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="349"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>GiB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="396"/>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="439"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>KiB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>Bytes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>TiB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="464"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>PiB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="791"/>
-        <location filename="../../src/mainwindow.cpp" line="792"/>
-        <location filename="../../src/mainwindow.cpp" line="793"/>
-        <location filename="../../src/mainwindow.cpp" line="794"/>
-        <location filename="../../src/mainwindow.cpp" line="795"/>
+        <location filename="../../src/mainwindow.cpp" line="870"/>
+        <location filename="../../src/mainwindow.cpp" line="871"/>
+        <location filename="../../src/mainwindow.cpp" line="872"/>
+        <location filename="../../src/mainwindow.cpp" line="873"/>
+        <location filename="../../src/mainwindow.cpp" line="874"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="843"/>
+        <location filename="../../src/mainwindow.cpp" line="922"/>
         <source>Stopping...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="853"/>
+        <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="853"/>
+        <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Directory is not specified.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="856"/>
+        <location filename="../../src/mainwindow.cpp" line="935"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="857"/>
+        <location filename="../../src/mainwindow.cpp" line="936"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="868"/>
+        <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation type="unfinished"></translation>
     </message>
@@ -414,14 +420,8 @@ Do you want to continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="190"/>
+        <location filename="../../src/mainwindow.cpp" line="193"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="201"/>
-        <source>Could not obtain administrator privileges.
-The application will be closed.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

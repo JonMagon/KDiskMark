@@ -42,42 +42,47 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="241"/>
+        <location filename="../../src/benchmark.cpp" line="240"/>
         <source>Preparing...</source>
         <translation>तैयारी जारी...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="260"/>
+        <location filename="../../src/benchmark.cpp" line="258"/>
         <source>Sequential Read %1/%2</source>
         <translation>अनुक्रमिक रीड %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="270"/>
+        <location filename="../../src/benchmark.cpp" line="268"/>
         <source>Sequential Write %1/%2</source>
         <translation>अनुक्रमिक राइट %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="280"/>
+        <location filename="../../src/benchmark.cpp" line="278"/>
         <source>Sequential Mix %1/%2</source>
         <translation>अनुक्रमिक मिश्रण %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="264"/>
+        <location filename="../../src/benchmark.cpp" line="377"/>
+        <source>Could not obtain administrator privileges.</source>
+        <translation>व्यवस्थापकीय विशेषाधिकार प्राप्त नहीं कर सके।</translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Random Read %1/%2</source>
         <translation>क्रमरहित रीड %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="274"/>
+        <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Random Write %1/%2</source>
         <translation>क्रमरहित राइट %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="284"/>
+        <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Random Mix %1/%2</source>
         <translation>क्रमरहित मिश्रण %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="291"/>
+        <location filename="../../src/benchmark.cpp" line="289"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>अंतराल समय %1/%2 सेकंड</translation>
     </message>
@@ -86,34 +91,34 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="897"/>
+        <location filename="../../src/mainwindow.cpp" line="895"/>
         <source>All</source>
         <translation>सभी</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="352"/>
         <location filename="../../src/mainwindow.ui" line="934"/>
-        <location filename="../../src/mainwindow.cpp" line="535"/>
+        <location filename="../../src/mainwindow.cpp" line="534"/>
         <source>Read</source>
         <translation>रीड</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="521"/>
         <location filename="../../src/mainwindow.ui" line="953"/>
-        <location filename="../../src/mainwindow.cpp" line="538"/>
+        <location filename="../../src/mainwindow.cpp" line="537"/>
         <source>Write</source>
         <translation>राइट</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="687"/>
-        <location filename="../../src/mainwindow.cpp" line="541"/>
+        <location filename="../../src/mainwindow.cpp" line="540"/>
         <source>Mix</source>
         <translation>मिश्रण</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="221"/>
-        <location filename="../../src/mainwindow.cpp" line="424"/>
-        <location filename="../../src/mainwindow.cpp" line="428"/>
+        <location filename="../../src/mainwindow.cpp" line="423"/>
+        <location filename="../../src/mainwindow.cpp" line="427"/>
         <source>MB/s</source>
         <translation>एमबी/सेकंड</translation>
     </message>
@@ -124,15 +129,15 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="231"/>
+        <location filename="../../src/mainwindow.cpp" line="429"/>
         <location filename="../../src/mainwindow.cpp" line="430"/>
-        <location filename="../../src/mainwindow.cpp" line="431"/>
         <source>IOPS</source>
         <translation>इनपुट-आउटपुट/सेकंड</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="236"/>
+        <location filename="../../src/mainwindow.cpp" line="432"/>
         <location filename="../../src/mainwindow.cpp" line="433"/>
-        <location filename="../../src/mainwindow.cpp" line="434"/>
         <source>μs</source>
         <translation>माइक्रो-सेकंड</translation>
     </message>
@@ -302,92 +307,83 @@
         <translation>यह उपकरण एन्क्रिप्शन युक्त है। कार्यक्षमता प्रभावित हो सकती है।</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="277"/>
-        <source>Access Denied</source>
-        <translation>पहुंच अस्वीकृत</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="277"/>
-        <source>Failed to retrieve storage list.</source>
-        <translation>संग्रहण सूची पुनर्प्राप्त करने में विफल।</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="346"/>
-        <location filename="../../src/mainwindow.cpp" line="440"/>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="345"/>
+        <location filename="../../src/mainwindow.cpp" line="439"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>MiB</source>
         <translation>एमआईबी</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="350"/>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="349"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>GiB</source>
         <translation>जीआईबी</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>Bytes</source>
         <translation>बाइट</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="440"/>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="439"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>KiB</source>
         <translation>केआईबी</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="316"/>
+        <location filename="../../src/mainwindow.cpp" line="256"/>
+        <location filename="../../src/mainwindow.cpp" line="315"/>
         <source>Add a directory</source>
         <translation>डायरेक्टरी जोड़ें</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>TiB</source>
         <translation>टीआईबी</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>PiB</source>
         <translation>पीआईबी</translation>
     </message>
     <message>
+        <location filename="../../src/mainwindow.cpp" line="870"/>
+        <location filename="../../src/mainwindow.cpp" line="871"/>
         <location filename="../../src/mainwindow.cpp" line="872"/>
         <location filename="../../src/mainwindow.cpp" line="873"/>
         <location filename="../../src/mainwindow.cpp" line="874"/>
-        <location filename="../../src/mainwindow.cpp" line="875"/>
-        <location filename="../../src/mainwindow.cpp" line="876"/>
         <source>Stop</source>
         <translation>रोकें</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="924"/>
+        <location filename="../../src/mainwindow.cpp" line="922"/>
         <source>Stopping...</source>
         <translation>रोकना जारी...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="934"/>
+        <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Not available</source>
         <translation>अनुपलब्ध</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="934"/>
+        <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Directory is not specified.</source>
         <translation>कोई डायरेक्टरी निर्दिष्ट नहीं है।</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="937"/>
+        <location filename="../../src/mainwindow.cpp" line="935"/>
         <source>Confirmation</source>
         <translation>पुष्टिकरण</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="938"/>
+        <location filename="../../src/mainwindow.cpp" line="936"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
         <translation>इस कार्य से %1 का डेटा नष्ट हो जाएगा
 क्या आप जारी रखना चाहते हैं?</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="950"/>
+        <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation>मानदंड प्रक्रिया विफल</translation>
     </message>
@@ -425,16 +421,9 @@ Do you want to continue?</source>
         <translation>&lt;h1&gt;%1 एमबी/सेकंड&lt;br/&gt;%2 जीबी/सेकंड&lt;br/&gt;%3 इनपुट-आउटपुट/सेकंड&lt;br/&gt;%4 माइक्रो-सेकंड&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="194"/>
+        <location filename="../../src/mainwindow.cpp" line="193"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>FIO प्राप्ति विफल। कृपया KDiskMark उपयोग करने से पहले FIO इंस्टॉल करें।</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.cpp" line="203"/>
-        <source>Could not obtain administrator privileges.
-The application will be closed.</source>
-        <translation>व्यवस्थापकीय विशेषाधिकार प्राप्त नहीं कर सके।
-आवेदन बंद हो जाएगा।</translation>
     </message>
 </context>
 <context>
