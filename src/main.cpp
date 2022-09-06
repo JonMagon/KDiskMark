@@ -19,11 +19,6 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
-    a.setStyle(new StyleTweaks);
-
-    QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << (qApp->applicationDirPath() + "/../share/icons/"));
-    QIcon::setThemeName("breeze");
-
     AppSettings().setupLocalization();
 
     if (getuid() != 0) {
@@ -32,6 +27,11 @@ int main(int argc, char *argv[])
                                               "sudo env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY kdiskmark");
         return -1;
     }
+
+    a.setStyle(new StyleTweaks);
+
+    QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << (qApp->applicationDirPath() + "/../share/icons/"));
+    QIcon::setThemeName("breeze");
 
     MainWindow w;
     w.setFixedSize(w.size());
