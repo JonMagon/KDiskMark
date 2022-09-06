@@ -345,14 +345,14 @@ void Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
     auto exitLoop = [&] (bool success, QString output, QString errorOutput) {
         loop.exit();
 
+        if (!isRunning()) return;
+
         if (!success) {
             setRunning(false);
             emit failed(!errorOutput.isEmpty() ? errorOutput : "The benchmark file could not be prepared.");
         }
 
-        if (m_running) {
-            parseResult(output, errorOutput);
-        }
+        parseResult(output, errorOutput);
     };
 
     auto conn = QObject::connect(interface, &DevJonmagonKdiskmarkHelperInterface::taskFinished, exitLoop);
@@ -368,6 +368,8 @@ void Benchmark::handleDbusPendingCall(QDBusPendingCall pcall)
     QEventLoop loop;
     connect(watcher, &QDBusPendingCallWatcher::finished, [&] (QDBusPendingCallWatcher *watcher) {
         loop.exit();
+
+        if (!isRunning()) return;
 
         if (watcher->isError()) {
             setRunning(false);
