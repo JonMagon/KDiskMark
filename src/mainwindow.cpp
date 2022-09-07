@@ -309,8 +309,16 @@ void MainWindow::updateStoragesList()
     foreach (const QStorageInfo &volume, QStorageInfo::mountedVolumes()) {
         if (volume.isValid() && volume.isReady() && !volume.isReadOnly()) {
             if (volume.device().indexOf("/dev") != -1) {
+                QString rootPath = volume.rootPath();
+#ifndef ROOT_EDITION
+                rootPath = rootPath.replace("/var/lib/snapd/hostfs", "");
+                rootPath = rootPath.replace("/var/lib/snapd", "");
+                if (rootPath.indexOf("/snap/kdiskmark") != -1)
+                    rootPath = rootPath.mid(0, rootPath.indexOf("/snap/kdiskmark"));
+                if (rootPath.isEmpty()) continue;
+#endif
                 Global::Storage storage {
-                    .path = volume.rootPath(),
+                    .path = rootPath,
                     .bytesTotal = volume.bytesTotal(),
                     .bytesOccupied = volume.bytesTotal() - volume.bytesFree(),
                     .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
