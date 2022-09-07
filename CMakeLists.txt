@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.5)
 
 project(kdiskmark VERSION 3.1.0 LANGUAGES CXX)
 
@@ -142,7 +142,7 @@ target_link_libraries(${PROJECT_NAME}_helper
 )
 
 install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KDE_INSTALL_LIBEXECDIR})
-install(FILES data/dev.jonmagon.kdiskmark.helperinterface.conf DESTINATION DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
+install(FILES data/dev.jonmagon.kdiskmark.helperinterface.conf DESTINATION ${KDE_INSTALL_DBUSDIR}/system.d)
 
 install(FILES data/dev.jonmagon.kdiskmark.helper.policy DESTINATION ${POLKITQT-1_POLICY_FILES_INSTALL_DIR})
 ecm_install_configured_files(
