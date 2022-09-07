@@ -11,6 +11,7 @@
 #include <QAbstractItemView>
 #include <QStyleFactory>
 #include <QTimer>
+#include <QStandardItemModel>
 
 #include "math.h"
 #include "about.h"
@@ -158,7 +159,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionWrite_Mix->setChecked(settings.getBenchmarkMode() == Global::BenchmarkMode::WriteMix);
 
     ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
-    ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
+
+#ifndef ROOT_EDITION
+    ui->actionFlush_Pagecache->setEnabled(false);
+    ui->actionFlush_Pagecache->setChecked(false);
+#endif
+
     ui->loopsCount->setValue(settings.getLoopsCount());
 
     ui->actionTheme_Stylesheet_Light->setChecked(settings.getTheme() == Global::Theme::StyleSheetLight);
@@ -287,6 +293,19 @@ void MainWindow::updateStoragesList()
 
     ui->comboBox_Storages->clear();
 
+#ifndef ROOT_EDITION
+    QString homePath = QDir::homePath();
+    QStorageInfo volume(homePath);
+
+    Global::Storage storage {
+        .path = homePath,
+        .bytesTotal = volume.bytesTotal(),
+        .bytesOccupied = volume.bytesTotal() - volume.bytesFree(),
+        .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
+    };
+    addItemToStoragesList(storage);
+#endif
+
     foreach (const QStorageInfo &volume, QStorageInfo::mountedVolumes()) {
         if (volume.isValid() && volume.isReady() && !volume.isReadOnly()) {
             if (volume.device().indexOf("/dev") != -1) {
@@ -330,6 +349,16 @@ void MainWindow::addItemToStoragesList(const Global::Storage &storage)
                 .arg(storage.formatedSize),
                 QVariant::fromValue(storage)
                 );
+
+#ifndef ROOT_EDITION
+    if (!QFileInfo(storage.path).isWritable()) {
+        const QStandardItemModel* model =
+                dynamic_cast<QStandardItemModel*>(ui->comboBox_Storages->model());
+
+        QStandardItem* item = model->item(ui->comboBox_Storages->count() - 1);
+        item->setEnabled(false);
+    }
+#endif
 }
 
 void MainWindow::updateFileSizeList()

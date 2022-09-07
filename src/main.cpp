@@ -7,7 +7,9 @@
 
 #include <unistd.h>
 
+#ifdef ROOT_EDITION
 #include "styletweaks.h"
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -21,6 +23,7 @@ int main(int argc, char *argv[])
 
     AppSettings().setupLocalization();
 
+#ifdef ROOT_EDITION
     if (getuid() != 0) {
         QMessageBox::critical(0, "KDiskMark", "This edition of KDiskMark must be run as a root user.\n"
                                               "This can be done, for example, with the following command:\n"
@@ -32,6 +35,11 @@ int main(int argc, char *argv[])
 
     QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << (qApp->applicationDirPath() + "/../share/icons/"));
     QIcon::setThemeName("breeze");
+#else
+    QMessageBox::warning(0, "KDiskMark", "This edition of KDiskMark has limitations that cannot be fixed.\n"
+                                          "Clearing the cache and writing to protected directories will not be available.\n"
+                                          "If possible, use the native package for the distribution or AppImage.");
+#endif
 
     MainWindow w;
     w.setFixedSize(w.size());

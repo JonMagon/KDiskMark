@@ -91,7 +91,9 @@ private:
 
     void initSession();
     bool prepareFile(const QString &benchmarkFile, int fileSize);
+#ifdef ROOT_EDITION
     bool flushPageCache();
+#endif
 
 signals:
     void benchmarkStatusUpdate(const QString &name);

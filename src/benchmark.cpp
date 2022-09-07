@@ -66,10 +66,12 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
 
         emit benchmarkStatusUpdate(statusMessage.arg(index + 1).arg(settings.getLoopsCount()));
 
+#ifdef ROOT_EDITION
         if (settings.getFlusingCacheState() && !flushPageCache()) {
             setRunning(false);
             return;
         }
+#endif
 
         m_process = new QProcess();
         m_process->start("fio", QStringList()
@@ -316,6 +318,7 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     emit finished(); // Only needed when closing the app during a running benchmarking
 }
 
+#ifdef ROOT_EDITION
 bool Benchmark::flushPageCache()
 {
     QFile file("/proc/sys/vm/drop_caches");
@@ -331,6 +334,7 @@ bool Benchmark::flushPageCache()
 
     return true;
 }
+#endif
 
 bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
 {
