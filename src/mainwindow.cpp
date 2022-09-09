@@ -20,12 +20,43 @@
 #include "storageitemdelegate.h"
 #include "global.h"
 
+#include <unistd.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_benchmark(new Benchmark)
 {
     ui->setupUi(this);
+
+    QMenuBar *bar = new QMenuBar(ui->menubar);
+    QAction *actionLimited = new QAction(bar);
+    actionLimited->setIcon(style()->standardIcon(QStyle::SP_MessageBoxWarning));
+
+    connect(actionLimited, &QAction::triggered, [this]() {
+#ifdef ROOT_EDITION
+        QMessageBox::warning(this, "KDiskMark is limited", "To use all the features of KDiskMark's AppImage edition,\n"
+                                                           "such as writing to protected directories and clearing the cache,\n"
+                                                           "run the application as an administrator.\n"
+                                                           "This can be done, for example, with the following command:\n"
+                                                           "sudo env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY kdiskmark");
+#else
+        QMessageBox::warning(this, "KDiskMark is limited", "This edition of KDiskMark has limitations that cannot be fixed.\n"
+                                                           "Clearing the cache and writing to protected directories will not be available.\n"
+                                                           "If necessary, use the native package for the distribution or AppImage.");
+#endif
+    });
+
+    bar->addAction(actionLimited);
+
+    bar->setStyleSheet("background-color: orange;");
+    ui->menubar->setCornerWidget(bar);
+
+#ifdef ROOT_EDITION
+    if (getuid() == 0) {
+        ui->menubar->cornerWidget()->setVisible(false);
+    }
+#endif
 
     QActionGroup *localesGroup = new QActionGroup(this);
 
@@ -160,7 +191,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
 
-#ifndef ROOT_EDITION
+#ifdef ROOT_EDITION
+    if (getuid() != 0) {
+        ui->actionFlush_Pagecache->setEnabled(false);
+        ui->actionFlush_Pagecache->setChecked(false);
+    }
+#else
     ui->actionFlush_Pagecache->setEnabled(false);
     ui->actionFlush_Pagecache->setChecked(false);
 #endif
@@ -293,7 +329,6 @@ void MainWindow::updateStoragesList()
 
     ui->comboBox_Storages->clear();
 
-#ifndef ROOT_EDITION
     QString homePath = QDir::homePath();
     QStorageInfo volume(homePath);
 
@@ -304,7 +339,6 @@ void MainWindow::updateStoragesList()
         .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
     };
     addItemToStoragesList(storage);
-#endif
 
     foreach (const QStorageInfo &volume, QStorageInfo::mountedVolumes()) {
         if (volume.isValid() && volume.isReady() && !volume.isReadOnly()) {
@@ -358,7 +392,6 @@ void MainWindow::addItemToStoragesList(const Global::Storage &storage)
                 QVariant::fromValue(storage)
                 );
 
-#ifndef ROOT_EDITION
     if (!QFileInfo(storage.path).isWritable()) {
         const QStandardItemModel* model =
                 dynamic_cast<QStandardItemModel*>(ui->comboBox_Storages->model());
@@ -366,7 +399,6 @@ void MainWindow::addItemToStoragesList(const Global::Storage &storage)
         QStandardItem* item = model->item(ui->comboBox_Storages->count() - 1);
         item->setEnabled(false);
     }
-#endif
 }
 
 void MainWindow::updateFileSizeList()

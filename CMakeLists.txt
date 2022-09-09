@@ -36,6 +36,8 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
+option(ROOT_EDITION "Determines whether it can be run as root user" ON)
+
 find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
@@ -69,8 +71,6 @@ add_executable(${PROJECT_NAME}
     ${QM_FILES}
     data/icons/flags/flags.qrc
     src/main.cpp
-    src/styletweaks.h
-    src/styletweaks.cpp
     src/mainwindow.h
     src/mainwindow.cpp
     src/mainwindow.ui
@@ -93,6 +93,13 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
+if(ROOT_EDITION)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE ROOT_EDITION)
+    target_sources(${PROJECT_NAME} PRIVATE
+        src/styletweaks.h
+        src/styletweaks.cpp
+    )
+endif()
 
 set(APP_ICONS
     data/icons/16-apps-kdiskmark.png
