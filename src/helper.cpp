@@ -125,7 +125,7 @@ QVariantMap Helper::endSession()
 
     qApp->exit();
 
-    Q_UNREACHABLE();
+    return {};
 }
 
 bool Helper::testFilePath(const QString &benchmarkFile)
