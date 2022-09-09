@@ -69,7 +69,7 @@ jobs:
         arch: [amd64]
         include:
           - os: ubuntu-18.04
-            bundled-fio: '3.31'
+            bundled-fio: '3.32'
             cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
             upload-files: 'build/*.AppImage'
     steps:
