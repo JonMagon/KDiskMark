@@ -109,7 +109,7 @@ jobs:
         mkdir build
         cd build
         mkdir appdir
-        echo -e '#!/bin/bash\nHERE="$(dirname "$(readlink -f "${0}")")"\nexport PATH="$HERE/usr/bin/:$PATH"\n$HERE/usr/bin/kdiskmark -style Breeze' > appdir/AppRun
+        echo -e '#!/bin/bash\nHERE="$(dirname "$(readlink -f "${0}")")"\nexport PATH="$HERE/usr/bin/:$PATH"\n$HERE/usr/bin/kdiskmark' > appdir/AppRun
         chmod +x ./appdir/AppRun
         cmake ${{ matrix.cmake-defines }} -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_PREFIX_PATH=/opt/Qt/5.15.1/gcc_64/ ..
         sed -i "s|kdiskmark|./$APPIMAGE_NAME|g" ../src/main.cpp
