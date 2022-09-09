@@ -37,6 +37,7 @@ set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
 option(ROOT_EDITION "Determines whether it can be run as root user" ON)
+option(SNAP_EDITION "Determines whether it can be built for snap package" OFF)
 
 find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
 
@@ -99,6 +100,10 @@ if(ROOT_EDITION)
         src/styletweaks.h
         src/styletweaks.cpp
     )
+endif()
+
+if(SNAP_EDITION)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE SNAP_EDITION)
 endif()
 
 set(APP_ICONS
