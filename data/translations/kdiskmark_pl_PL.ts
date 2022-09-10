@@ -36,7 +36,7 @@
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Application Icon:</source>
-        <translation>Ikona Aplikacji:</translation>
+        <translation>Ikona aplikacji:</translation>
     </message>
 </context>
 <context>
@@ -49,17 +49,17 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="258"/>
         <source>Sequential Read %1/%2</source>
-        <translation>Odczyt Sekwencyjny %1/%2</translation>
+        <translation>Odczyt sekwencyjny %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="268"/>
         <source>Sequential Write %1/%2</source>
-        <translation>Zapis Sekwencyjny %1/%2</translation>
+        <translation>Zapis sekwencyjny %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="278"/>
         <source>Sequential Mix %1/%2</source>
-        <translation>Sekwencyjny Mix %1/%2</translation>
+        <translation>Mix sekwencyjny %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="377"/>
@@ -69,22 +69,22 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Random Read %1/%2</source>
-        <translation>Losowy Odczyt %1/%2</translation>
+        <translation>Odczyt losowy %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Random Write %1/%2</source>
-        <translation>Losowy Zapis %1/%2</translation>
+        <translation>Zapis losowy %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Random Mix %1/%2</source>
-        <translation>Losowy Mix %1/%2</translation>
+        <translation>Mix losowy %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="289"/>
         <source>Interval Time %1/%2 sec</source>
-        <translation>Interwał %1/%2 s</translation>
+        <translation>Przerwa %1/%2 s</translation>
     </message>
 </context>
 <context>
@@ -174,7 +174,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1075"/>
         <source>Theme</source>
-        <translation>wygląd</translation>
+        <translation>Wygląd</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1091"/>
@@ -209,27 +209,27 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
-        <translation>Szczytowa wydajność</translation>
+        <translation>Najwyższa wydajność</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
-        <translation>Rzeczywista Wydajność</translation>
+        <translation>Rzeczywista wydajność</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
-        <translation>Domyślne [+Mix]</translation>
+        <translation>Domyślny [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
-        <translation>Szczytowa wydajność [+Mix]</translation>
+        <translation>Najwyższa wydajność [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
-        <translation>Rzeczywista Wydajność [+Mix]</translation>
+        <translation>Rzeczywista wydajność [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1173"/>
@@ -239,7 +239,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1181"/>
         <source>Demo</source>
-        <translation>Demo</translation>
+        <translation>Demonstracyjny</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1192"/>
@@ -264,7 +264,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1227"/>
         <source>Fill with zeros</source>
-        <translation>Wypełnić zerami</translation>
+        <translation>Wypełnij zerami</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1238"/>
@@ -294,12 +294,12 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
-        <translation>Nie stosować</translation>
+        <translation>Nie stosuj</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1292"/>
         <source>Use O_DIRECT</source>
-        <translation>Skorzystać O_DIRECT</translation>
+        <translation>Użyj opcji O_DIRECT</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="53"/>
@@ -334,7 +334,7 @@
         <location filename="../../src/mainwindow.cpp" line="256"/>
         <location filename="../../src/mainwindow.cpp" line="315"/>
         <source>Add a directory</source>
-        <translation>Dodać katalog</translation>
+        <translation>Dodaj katalog</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
@@ -379,7 +379,7 @@
         <location filename="../../src/mainwindow.cpp" line="936"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
-        <translation>Ta czynność niszczy dane w %1
+        <translation>Ta czynność kasuje dane w %1
 Czy chcesz kontynuować?</translation>
     </message>
     <message>
@@ -423,7 +423,7 @@ Czy chcesz kontynuować?</translation>
     <message>
         <location filename="../../src/mainwindow.cpp" line="193"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation>Nie znaleziono FIO. Przed użyciem KDiskMark zainstaluj FIO.</translation>
+        <translation>Nie znaleziono programu FIO. Proszę zainstalować FIO przed użyciem KDiskMark.</translation>
     </message>
 </context>
 <context>
@@ -456,27 +456,27 @@ Czy chcesz kontynuować?</translation>
     <message>
         <location filename="../../src/settings.ui" line="335"/>
         <source>Profile: Peak Performance</source>
-        <translation>Profil: Szczytowa wydajność</translation>
+        <translation>Profil: Najwyższa wydajność</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="446"/>
         <source>Profile: Demo</source>
-        <translation>Profil: Demo</translation>
+        <translation>Profil: Demonstracyjny</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="508"/>
         <source>Measuring time</source>
-        <translation>Długość pomiaru</translation>
+        <translation>Czas pomiaru</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="530"/>
         <source>Interval time</source>
-        <translation>Długość przerwy</translation>
+        <translation>Czas przerwy</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="257"/>
         <source>Profile: Default</source>
-        <translation>Profil: Domyślne</translation>
+        <translation>Profil: Domyślny</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="18"/>
