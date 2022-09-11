@@ -12,6 +12,7 @@
       <message xml:lang="de">Legitimation ist zum Benchmarking erforderlich</message>
       <message xml:lang="fr">Autorisation est requise pour mesurer la performance des disques</message>
       <message xml:lang="hu">Hitelesítés szükséges a lemezek teljesítményértékeléséhez</message>
+      <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby przetestować dysk</message>
       <message xml:lang="ru">Требуется авторизация для тестирования дисков</message>
       <message xml:lang="tr">Diskleri kıyaslamak için kimlik doğrulama gereklidir</message>
       <message xml:lang="ua">Слід пройти розпізнавання, щоб тестувати диски</message>
