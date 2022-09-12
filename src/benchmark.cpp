@@ -67,7 +67,7 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
         emit benchmarkStatusUpdate(statusMessage.arg(index + 1).arg(settings.getLoopsCount()));
 
 #ifdef ROOT_EDITION
-        if (settings.getFlusingCacheState() && !flushPageCache()) {
+        if (Global::isRunningAsRoot() && settings.getFlusingCacheState() && !flushPageCache()) {
             setRunning(false);
             return;
         }

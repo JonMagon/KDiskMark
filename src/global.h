@@ -100,6 +100,7 @@ namespace Global
     QString getRWRandomRead();
     QString getRWRandomWrite();
     QString getRWRandomMix();
+    bool isRunningAsRoot();
 }
 
 Q_DECLARE_METATYPE(Global::Storage)

@@ -6,7 +6,7 @@
 #include "cmake.h"
 
 #ifdef ROOT_EDITION
-#include <unistd.h>
+#include "global.h"
 #include "styletweaks.h"
 #endif
 
@@ -21,9 +21,11 @@ int main(int argc, char *argv[])
 
     AppSettings().setupLocalization();
 
+    a.setStyle(new StyleTweaks());
+
 #ifdef ROOT_EDITION
     // Override style when run as root
-    if (getuid() == 0) {
+    if (Global::isRunningAsRoot()) {
         StyleTweaks *styleTweaks = new StyleTweaks();
         styleTweaks->setBaseStyle(QStyleFactory::create("Breeze"));
         a.setStyle(styleTweaks);

@@ -20,8 +20,6 @@
 #include "storageitemdelegate.h"
 #include "global.h"
 
-#include <unistd.h>
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -67,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->menubar->setCornerWidget(bar);
 
 #ifdef ROOT_EDITION
-    if (getuid() == 0) {
+    if (Global::isRunningAsRoot()) {
         ui->menubar->cornerWidget()->setVisible(false);
     }
 #endif
@@ -206,7 +204,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
 
 #ifdef ROOT_EDITION
-    if (getuid() != 0) {
+    if (!Global::isRunningAsRoot()) {
         ui->actionFlush_Pagecache->setEnabled(false);
         ui->actionFlush_Pagecache->setChecked(false);
     }

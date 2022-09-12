@@ -3,6 +3,8 @@
 #include <QString>
 #include <QObject>
 
+#include <unistd.h>
+
 int Global::getOutputColumnsCount()
 {
     return 80;
@@ -67,4 +69,9 @@ QString Global::getRWRandomWrite()
 QString Global::getRWRandomMix()
 {
     return QStringLiteral("randrw");
+}
+
+bool Global::isRunningAsRoot()
+{
+    return getuid() == 0;
 }
