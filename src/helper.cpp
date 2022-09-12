@@ -89,7 +89,7 @@ QVariantMap Helper::initSession()
     PolkitQt1::SystemBusNameSubject subject(message().service());
     PolkitQt1::Authority *authority = PolkitQt1::Authority::instance();
 
-    PolkitQt1::Authority::Result result;
+    PolkitQt1::Authority::Result result = PolkitQt1::Authority::No;
     QEventLoop e;
     connect(authority, &PolkitQt1::Authority::checkAuthorizationFinished, &e, [&e, &result](PolkitQt1::Authority::Result _result) {
         result = _result;
