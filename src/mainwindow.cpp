@@ -61,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     bar->addAction(actionLimited);
 
-    bar->setStyleSheet("background-color: orange;");
+    bar->setStyleSheet("background-color: orange");
     ui->menubar->setCornerWidget(bar);
 
 #ifdef ROOT_EDITION
@@ -941,6 +941,7 @@ void MainWindow::benchmarkStateChanged(bool state)
 {
     if (state) {
         ui->menubar->setEnabled(false);
+        ui->menubar->cornerWidget()->setStyleSheet(QStringLiteral());
         ui->loopsCount->setEnabled(false);
         ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Storages->setEnabled(false);
@@ -961,6 +962,7 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->pushButton_Test_3->setEnabled(true);
         ui->pushButton_Test_4->setEnabled(true);
         ui->menubar->setEnabled(true);
+        ui->menubar->cornerWidget()->setStyleSheet("background-color: orange");
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Storages->setEnabled(true);
