@@ -42,17 +42,18 @@ Profile: Default
 ```
 
 ## Dependencies
-### Build
+### Required
 * GCC/Clang C++17 (or later)
 * [CMake](https://cmake.org/) >= 3.12
 * [Extra CMake Modules](https://github.com/KDE/extra-cmake-modules) >= 5.73
-* PolicyKit Library Qt Bindings
-* Qt with Widgets and DBus >= 5.9
-### Runtime
-* Qt with Widgets and DBus >= 5.9
+* [Qt](https://www.qt.io/) with Widgets and DBus >= 5.9
+* [PolicyKit](https://gitlab.freedesktop.org/polkit/polkit) Agent
+    * `PolkitQt-1` bindings.
 * [Flexible I/O Tester](https://github.com/axboe/fio) with libaio >= 3.1
-    * If you build FIO from source, install `libaio-dev` package.
-* PolicyKit Agent
+    * `libaio` development package.
+
+### External libraries
+* [SingleApplication](https://github.com/itay-grudev/SingleApplication) prevents launch of multiple application instances.
 
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page. 
@@ -109,7 +110,7 @@ cpack -G DEB # Or RPM, ZIP etc.
 ```
 
 ## Localization [![Crowdin](https://badges.crowdin.net/kdiskmark/localized.svg)](https://crowdin.com/project/kdiskmark)
-To help with localization you can use [Crowdin](https://crowdin.com/project/kdiskmark) or translate files in `data/translations` with [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html) directly. To add a new language, copy `data/translations/kdiskmark.ts` to `data/translations/kdiskmark_<ISO 639-1 language code>_<ISO 3166-1 alpha-2 language code>.ts`, translate it, then add the file to the TS_FILES variable in CMakeLists.txt, and create a pull request. It is also possible to add localized Comment and Keywords sections into `data/kdiskmark.desktop`.
+To help with localization you can use [Crowdin](https://crowdin.com/project/kdiskmark) or translate files in `data/translations` with [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html) directly. To add a new language, copy `data/translations/kdiskmark.ts` to `data/translations/kdiskmark_<ISO 639-1 language code>_<ISO 3166-1 alpha-2 language code>.ts`, translate it, then add the file to the TS_FILES variable in CMakeLists.txt, and create a pull request. It is also possible to add localized Comment and Keywords sections into `data/kdiskmark.desktop` and message for PolicyKit authorization into `data/dev.jonmagon.kdiskmark.helper.policy`.
 
 Languages currently available:
 * Chinese (Simplified)
@@ -138,7 +139,10 @@ Languages currently available:
 Thanks to the package maintainers, translators, and all users for supporting the project.
 
 ## Credits
-Application Icon  
+**Application Icon**
 Copyright (c) https://www.iconfinder.com/baitisstudio
+
+**FlagKit**
+https://github.com/madebybowtie/FlagKit
 
 If you have any ideas, critics, suggestions or whatever you want to call it, please open an issue.
