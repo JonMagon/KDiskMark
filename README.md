@@ -126,6 +126,7 @@ Languages currently available:
 * Russian
 * Slovak
 * Spanish (Mexico)
+- Swedish
 * Turkish
 * Ukrainian
 
