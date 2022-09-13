@@ -105,7 +105,8 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         int textMarginCenter = (option.rect.size().width() - (option.decorationSize.width() + textMargin * 8 + textWidth)) / 2;
 
         auto opt = option;
-        //opt.state &= ~(QStyle::State_MouseOver | QStyle::State_Selected);
+        if (!(opt.state & QStyle::State_HasFocus))
+            opt.state &= ~(QStyle::State_MouseOver);
         opt.rect = opt.rect.adjusted(textMarginCenter, 0, -textMarginCenter, 0);
 
         QPalette palette = opt.palette;

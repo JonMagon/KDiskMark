@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.5)
 
 project(kdiskmark VERSION 3.1.1 LANGUAGES CXX)
 
@@ -61,6 +61,7 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_pt_BR.ts
     data/translations/${PROJECT_NAME}_ru_RU.ts
     data/translations/${PROJECT_NAME}_sk_SK.ts
+    data/translations/${PROJECT_NAME}_sv_SE.ts
     data/translations/${PROJECT_NAME}_tr_TR.ts
     data/translations/${PROJECT_NAME}_uk_UA.ts
     data/translations/${PROJECT_NAME}_zh_CN.ts

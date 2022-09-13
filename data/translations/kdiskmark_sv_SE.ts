@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="pl_PL" sourcelanguage="en">
+<TS version="2.1" language="sv_SE">
 <context>
     <name>About</name>
     <message>
         <location filename="../../src/about.ui" line="17"/>
         <source>About KDiskMark</source>
-        <translation>O programie</translation>
+        <translation>Om KDiskMark</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="62"/>
         <source>Version:</source>
-        <translation>Wersja:</translation>
+        <translation>Version:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="88"/>
         <source>License:</source>
-        <translation>Licencja:</translation>
+        <translation>Licens:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="114"/>
         <source>Author:</source>
-        <translation>Autor:</translation>
+        <translation>Utvecklare:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="146"/>
         <source>E-mail:</source>
-        <translation>E-mail:</translation>
+        <translation>E-post:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="178"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Application Icon:</source>
-        <translation>Ikona aplikacji:</translation>
+        <translation>Programikon:</translation>
     </message>
 </context>
 <context>
@@ -44,47 +44,47 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="240"/>
         <source>Preparing...</source>
-        <translation>Przygotowywanie...</translation>
+        <translation>Förbereder...</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="258"/>
         <source>Sequential Read %1/%2</source>
-        <translation>Odczyt sekwencyjny %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../../src/benchmark.cpp" line="268"/>
-        <source>Sequential Write %1/%2</source>
-        <translation>Zapis sekwencyjny %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../../src/benchmark.cpp" line="278"/>
-        <source>Sequential Mix %1/%2</source>
-        <translation>Mix sekwencyjny %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../../src/benchmark.cpp" line="377"/>
-        <source>Could not obtain administrator privileges.</source>
-        <translation>Nie udało się uzyskać uprawnień administratora.</translation>
+        <translation>Sekventiell läsning %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Random Read %1/%2</source>
-        <translation>Odczyt losowy %1/%2</translation>
+        <translation>Slumpmässig läsning %1/%2</translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="268"/>
+        <source>Sequential Write %1/%2</source>
+        <translation>Sekventiell skrivning %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Random Write %1/%2</source>
-        <translation>Zapis losowy %1/%2</translation>
+        <translation>Slumpmässig skrivning %1/%2</translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="278"/>
+        <source>Sequential Mix %1/%2</source>
+        <translation>Sekventiell mix %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Random Mix %1/%2</source>
-        <translation>Mix losowy %1/%2</translation>
+        <translation>Slumpmässig mix %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="289"/>
         <source>Interval Time %1/%2 sec</source>
-        <translation>Przerwa %1/%2 s</translation>
+        <translation>Intervalltid %1/%2 sek</translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="377"/>
+        <source>Could not obtain administrator privileges.</source>
+        <translation>Det gick inte att få administratörsbehörighet.</translation>
     </message>
 </context>
 <context>
@@ -93,27 +93,7 @@
         <location filename="../../src/mainwindow.ui" line="30"/>
         <location filename="../../src/mainwindow.cpp" line="895"/>
         <source>All</source>
-        <translation>Wszystkie</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="352"/>
-        <location filename="../../src/mainwindow.ui" line="934"/>
-        <location filename="../../src/mainwindow.cpp" line="534"/>
-        <source>Read</source>
-        <translation>Odczyt</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="521"/>
-        <location filename="../../src/mainwindow.ui" line="953"/>
-        <location filename="../../src/mainwindow.cpp" line="537"/>
-        <source>Write</source>
-        <translation>Zapis</translation>
-    </message>
-    <message>
-        <location filename="../../src/mainwindow.ui" line="687"/>
-        <location filename="../../src/mainwindow.cpp" line="540"/>
-        <source>Mix</source>
-        <translation>Mix</translation>
+        <translation>Alla</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="221"/>
@@ -142,19 +122,39 @@
         <translation>μs</translation>
     </message>
     <message>
+        <location filename="../../src/mainwindow.ui" line="352"/>
+        <location filename="../../src/mainwindow.ui" line="934"/>
+        <location filename="../../src/mainwindow.cpp" line="534"/>
+        <source>Read</source>
+        <translation>Läs</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="521"/>
+        <location filename="../../src/mainwindow.ui" line="953"/>
+        <location filename="../../src/mainwindow.cpp" line="537"/>
+        <source>Write</source>
+        <translation>Skriv</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.ui" line="687"/>
+        <location filename="../../src/mainwindow.cpp" line="540"/>
+        <source>Mix</source>
+        <translation>Mix</translation>
+    </message>
+    <message>
         <location filename="../../src/mainwindow.ui" line="1018"/>
         <source>File</source>
-        <translation>Plik</translation>
+        <translation>Arkiv</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1026"/>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1030"/>
         <source>Test Data</source>
-        <translation>Dane testowe</translation>
+        <translation>Testdata</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1047"/>
@@ -164,112 +164,112 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1063"/>
         <source>Help</source>
-        <translation>Pomoc</translation>
+        <translation>Hjälp</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1067"/>
         <source>Language</source>
-        <translation>Język</translation>
+        <translation>Språk</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1075"/>
         <source>Theme</source>
-        <translation>Wygląd</translation>
+        <translation>Tema</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1091"/>
         <source>About KDiskMark</source>
-        <translation>O programie</translation>
+        <translation>Om KDiskMark</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
-        <translation>Kolejki i wątki</translation>
+        <translation>Köer &amp;&amp; trådar</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1101"/>
         <source>Copy</source>
-        <translation>Kopiuj</translation>
+        <translation>Kopiera</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1106"/>
         <source>Save</source>
-        <translation>Zapisz</translation>
+        <translation>Spara</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1111"/>
         <source>Exit</source>
-        <translation>Wyjdź</translation>
+        <translation>Avsluta</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1122"/>
         <source>Default</source>
-        <translation>Domyślny</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
-        <translation>Najwyższa wydajność</translation>
+        <translation>Topprestanda</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
-        <translation>Rzeczywista wydajność</translation>
+        <translation>Verklig prestanda</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
-        <translation>Domyślny [+Mix]</translation>
+        <translation>Standard [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
-        <translation>Najwyższa wydajność [+Mix]</translation>
+        <translation>Topprestanda [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
-        <translation>Rzeczywista wydajność [+Mix]</translation>
+        <translation>Verklig prestanda [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1173"/>
         <source>Flush Pagecache</source>
-        <translation>Oczyść cache dysku</translation>
+        <translation>Rensa sidcache</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1181"/>
         <source>Demo</source>
-        <translation>Demonstracyjny</translation>
+        <translation>Demo</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
-        <translation>Odczyt i zapis [+Mix]</translation>
+        <translation>Läs och skriv [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
-        <translation>Odczyt [+Mix]</translation>
+        <translation>Läs [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
-        <translation>Zapis [+Mix]</translation>
+        <translation>Skriv [+Mix]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1219"/>
         <source>Random</source>
-        <translation>Losowe</translation>
+        <translation>Slumpmässigt</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1227"/>
         <source>Fill with zeros</source>
-        <translation>Wypełnij zerami</translation>
+        <translation>Fyll med nollor</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
-        <translation>Standardowe ustawienie</translation>
+        <translation>Standardförinställning</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1246"/>
@@ -279,32 +279,38 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
-        <translation>Fusion</translation>
+        <translation>Använd fusion</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
-        <translation>Arkusz stylów Light</translation>
+        <translation>Stilmall ljus</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
-        <translation>Arkusz stylów Dark</translation>
+        <translation>Stilmall mörk</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
-        <translation>Nie stosuj</translation>
+        <translation>Tillämpa inte</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1292"/>
         <source>Use O_DIRECT</source>
-        <translation>Użyj opcji O_DIRECT</translation>
+        <translation>Använd O_DIRECT</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="53"/>
         <source>The device is encrypted. Performance may drop.</source>
-        <translation>Urządzenie jest zaszyfrowane. Wydajność może być niższa.</translation>
+        <translation>Enheten är krypterad. Prestanda kan sjunka.</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="256"/>
+        <location filename="../../src/mainwindow.cpp" line="315"/>
+        <source>Add a directory</source>
+        <translation>Lägg till en mapp</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="345"/>
@@ -320,21 +326,15 @@
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="507"/>
-        <source>Bytes</source>
-        <translation>Bajtów</translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="439"/>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="256"/>
-        <location filename="../../src/mainwindow.cpp" line="315"/>
-        <source>Add a directory</source>
-        <translation>Dodaj katalog</translation>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
+        <source>Bytes</source>
+        <translation>Byte</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
@@ -353,39 +353,39 @@
         <location filename="../../src/mainwindow.cpp" line="873"/>
         <location filename="../../src/mainwindow.cpp" line="874"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation>Stopp</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="922"/>
         <source>Stopping...</source>
-        <translation>Zatrzymywanie...</translation>
+        <translation>Stoppar...</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Not available</source>
-        <translation>Nie dostępne</translation>
+        <translation>Ej tillgänglig</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Directory is not specified.</source>
-        <translation>Nie określono katalogu.</translation>
+        <translation>Mapp är inte specificerad.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="935"/>
         <source>Confirmation</source>
-        <translation>Potwierdź</translation>
+        <translation>Bekräftelse</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="936"/>
         <source>This action destroys the data in %1
 Do you want to continue?</source>
-        <translation>Ta czynność kasuje dane w %1
-Czy chcesz kontynuować?</translation>
+        <translation>Denna åtgärd förstör data i %1
+Vill du fortsätta?</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
-        <translation>Testowanie nie powiodło się</translation>
+        <translation>Prestandamätning misslyckades</translation>
     </message>
 </context>
 <context>
@@ -393,17 +393,17 @@ Czy chcesz kontynuować?</translation>
     <message>
         <location filename="../../src/global.cpp" line="25"/>
         <source>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Queues=%4&lt;br/&gt;Threads=%5%6&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Kolejki=%4&lt;br/&gt;Wątki=%5%6&lt;/h2&gt;</translation>
+        <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Köer=%4&lt;br/&gt;Trådar=%5%6&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Sequential</source>
-        <translation>Sekwencyjne</translation>
+        <translation>Sekventiell</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Random</source>
-        <translation>Losowe</translation>
+        <translation>Slumpmässig</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="28"/>
@@ -423,7 +423,7 @@ Czy chcesz kontynuować?</translation>
     <message>
         <location filename="../../src/mainwindow.cpp" line="193"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation>Nie znaleziono programu FIO. Proszę zainstalować FIO przed użyciem KDiskMark.</translation>
+        <translation>Ingen FIO hittades. Installera FIO innan du använder KDiskMark.</translation>
     </message>
 </context>
 <context>
@@ -431,22 +431,27 @@ Czy chcesz kontynuować?</translation>
     <message>
         <location filename="../../src/settings.ui" line="14"/>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="149"/>
         <source>Block Size</source>
-        <translation>Rozmiar bloku</translation>
+        <translation>Blockstorlek</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="165"/>
         <source>Queues</source>
-        <translation>Kolejki</translation>
+        <translation>Köer</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="181"/>
         <source>Threads</source>
-        <translation>Wątki</translation>
+        <translation>Trådar</translation>
+    </message>
+    <message>
+        <location filename="../../src/settings.ui" line="257"/>
+        <source>Profile: Default</source>
+        <translation>Profil: Standard</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="280"/>
@@ -456,50 +461,34 @@ Czy chcesz kontynuować?</translation>
     <message>
         <location filename="../../src/settings.ui" line="335"/>
         <source>Profile: Peak Performance</source>
-        <translation>Profil: Najwyższa wydajność</translation>
+        <translation>Profil: Topprestanda</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="446"/>
         <source>Profile: Demo</source>
-        <translation>Profil: Demonstracyjny</translation>
+        <translation>Profil: Demo</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="508"/>
         <source>Measuring time</source>
-        <translation>Czas pomiaru</translation>
+        <translation>Mätningstid</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="530"/>
         <source>Interval time</source>
-        <translation>Czas przerwy</translation>
-    </message>
-    <message>
-        <location filename="../../src/settings.ui" line="257"/>
-        <source>Profile: Default</source>
-        <translation>Profil: Domyślny</translation>
+        <translation>Intervalltid</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="18"/>
         <location filename="../../src/settings.cpp" line="23"/>
         <source>sec</source>
-        <translation>s</translation>
+        <translation>sek</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="19"/>
         <location filename="../../src/settings.cpp" line="24"/>
         <source>min</source>
         <translation>min</translation>
-    </message>
-    <message>
-        <location filename="../../src/settings.cpp" line="71"/>
-        <location filename="../../src/settings.cpp" line="72"/>
-        <location filename="../../src/settings.cpp" line="73"/>
-        <location filename="../../src/settings.cpp" line="74"/>
-        <location filename="../../src/settings.cpp" line="76"/>
-        <location filename="../../src/settings.cpp" line="77"/>
-        <location filename="../../src/settings.cpp" line="79"/>
-        <source>MiB</source>
-        <translation>MiB</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="59"/>
@@ -511,6 +500,17 @@ Czy chcesz kontynuować?</translation>
         <location filename="../../src/settings.cpp" line="67"/>
         <source>KiB</source>
         <translation>KiB</translation>
+    </message>
+    <message>
+        <location filename="../../src/settings.cpp" line="71"/>
+        <location filename="../../src/settings.cpp" line="72"/>
+        <location filename="../../src/settings.cpp" line="73"/>
+        <location filename="../../src/settings.cpp" line="74"/>
+        <location filename="../../src/settings.cpp" line="76"/>
+        <location filename="../../src/settings.cpp" line="77"/>
+        <location filename="../../src/settings.cpp" line="79"/>
+        <source>MiB</source>
+        <translation>MiB</translation>
     </message>
 </context>
 </TS>

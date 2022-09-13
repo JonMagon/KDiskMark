@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
                                  QLocale::French, QLocale::Italian, QLocale::Hungarian,
                                  QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil),
-                                 QLocale::Slovak, QLocale::Turkish, QLocale::Russian,
+                                 QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian,
                                  QLocale::Ukrainian, QLocale::Chinese, QLocale::Hindi };
 
     for (const QLocale &locale : locales) {
