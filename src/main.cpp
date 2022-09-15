@@ -5,10 +5,8 @@
 
 #include "cmake.h"
 
-#ifdef ROOT_EDITION
 #include "global.h"
 #include "styletweaks.h"
-#endif
 
 int main(int argc, char *argv[])
 {
