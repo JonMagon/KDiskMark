@@ -765,9 +765,9 @@ void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
     if (index == 0 && ui->comboBox_Storages->itemData(index).isNull()) {
         QString dir = QFileDialog::getExistingDirectory(this, QString(), QDir::homePath(),
                                                         QFileDialog::ShowDirsOnly |
-                                                        QFileDialog::DontResolveSymlinks |
+                                                        QFileDialog::DontResolveSymlinks
                                                 #ifdef SNAP_EDITION
-                                                        QFileDialog::DontUseNativeDialog
+                                                        | QFileDialog::DontUseNativeDialog
                                                 #endif
                                                         );
         if (!dir.isNull()) {
