@@ -71,7 +71,7 @@ jobs:
           - os: ubuntu-18.04
             bundled-fio: '3.32'
             cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
-            upload-files: 'build/*.AppImage'
+            upload-files: 'build/{*.AppImage,*.AppImage.zsync}'
     steps:
     - name: Clone repo
       uses: actions/checkout@v2.2.0
@@ -104,8 +104,9 @@ jobs:
 
     - name: Build
       run: |
-        SOURCE_NAME=$(awk -F/ '{print $NF}' <<<"${{ github.repository }}")-$(awk -F/ '{print $NF}' <<<"${{ github.ref }}")
-        APPIMAGE_NAME=$SOURCE_NAME-fio-${{ matrix.bundled-fio }}-x86_64.AppImage
+        REPO_NAME=$(awk -F/ '{print $NF}' <<<"${{ github.repository }}")
+        APP_VERSION=$(awk -F/ '{print $NF}' <<<"${{ github.ref }}")
+        APPIMAGE_NAME=$REPO_NAME-$APP_VERSION-fio-${{ matrix.bundled-fio }}-x86_64.AppImage
         mkdir build
         cd build
         mkdir appdir
@@ -121,8 +122,9 @@ jobs:
         cp -a /usr/share/icons/breeze appdir/usr/share/icons/
         sudo mkdir /opt/Qt/5.15.1/gcc_64/plugins/styles/
         sudo cp /usr/lib/x86_64-linux-gnu/qt5/plugins/styles/breeze.so /opt/Qt/5.15.1/gcc_64/plugins/styles/
-        ../3rd-party/linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage -qmake=/opt/Qt/5.15.1/gcc_64/bin/qmake -extra-plugins=styles/breeze.so
-        mv *.AppImage $APPIMAGE_NAME
+        export VERSION=$APP_VERSION-fio-${{ matrix.bundled-fio }}
+        ../3rd-party/linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage -qmake=/opt/Qt/5.15.1/gcc_64/bin/qmake \
+          -extra-plugins=styles/breeze.so -updateinformation="gh-releases-zsync|${{ github.repository_owner }}|$REPO_NAME|latest|*.zsync"
 
     - name: Upload
       uses: AButler/upload-release-assets@v2.0
