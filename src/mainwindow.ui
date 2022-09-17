@@ -1057,6 +1057,8 @@
     <addaction name="actionRead_Write_Mix"/>
     <addaction name="actionRead_Mix"/>
     <addaction name="actionWrite_Mix"/>
+    <addaction name="separator"/>
+    <addaction name="actionPlots"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -1290,6 +1292,14 @@
    </property>
    <property name="text">
     <string>Use O_DIRECT</string>
+   </property>
+  </action>
+  <action name="actionPlots">
+   <property name="text">
+    <string>Graphical Traces</string>
+   </property>
+   <property name="iconText">
+    <string>Graphical Traces</string>
    </property>
   </action>
  </widget>

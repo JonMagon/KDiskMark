@@ -201,9 +201,14 @@ QVariantMap Helper::startBenchmarkTest(int measuringTime, int fileSize, int rand
         return {{"success", false}, {"error", "The benchmark file was not pre-created."}};
     }
 
+    QString logFile = "/tmp/.kdiskmark";
+
     m_process = new QProcess();
     m_process->start("fio", QStringList()
                      << QStringLiteral("--output-format=json")
+                     << QStringLiteral("--write_bw_log=%1").arg(logFile)
+                     << QStringLiteral("--write_iops_log=%1").arg(logFile)
+                     << QStringLiteral("--write_lat_log=%1").arg(logFile)
                      << QStringLiteral("--ioengine=libaio")
                      << QStringLiteral("--randrepeat=0")
                      << QStringLiteral("--refill_buffers")

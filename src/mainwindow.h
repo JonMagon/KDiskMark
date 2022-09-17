@@ -57,6 +57,8 @@ private slots:
 
     void on_actionUse_O_DIRECT_triggered(bool checked);
 
+    void on_actionPlots_triggered();
+
 private:
     Ui::MainWindow *ui;
     Benchmark *m_benchmark;

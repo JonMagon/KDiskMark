@@ -19,6 +19,8 @@
 #include "storageitemdelegate.h"
 #include "global.h"
 
+#include "plots.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -912,6 +914,12 @@ void MainWindow::showSettings()
 
     updatePresetsSelection();
     updateBenchmarkButtonsContent();
+}
+
+void MainWindow::on_actionPlots_triggered()
+{
+    Plots plots;
+    plots.exec();
 }
 
 void MainWindow::defineBenchmark(std::function<void()> bodyFunc)

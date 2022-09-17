@@ -39,7 +39,7 @@ set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 set(QAPPLICATION_CLASS QApplication)
 add_subdirectory(src/singleapplication)
 
-find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
+find_package(Qt5 COMPONENTS Widgets LinguistTools DBus PrintSupport REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -87,6 +87,10 @@ add_executable(${PROJECT_NAME}
     data/icons/flags/flags.qrc
     ${HelperInterface_SRCS}
     src/main.cpp
+    src/qcustomplot/qcustomplot.h
+    src/qcustomplot/qcustomplot.cpp
+    src/plots.h src/plots.cpp src/plots.ui
+
     src/mainwindow.h
     src/mainwindow.cpp
     src/mainwindow.ui
@@ -112,6 +116,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     SingleApplication::SingleApplication
     Qt5::Widgets
     Qt5::DBus
+    Qt5::PrintSupport # for QCustomPlot
 )
 
 set(APP_ICONS
