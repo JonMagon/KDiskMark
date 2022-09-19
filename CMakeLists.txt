@@ -7,6 +7,7 @@ set(CMAKE_PROJECT_DESCRIPTION "A simple open source disk benchmark tool for Linu
 
 set(APPLICATION_NAME "KDiskMark")
 set(DESKTOP_FILE kdiskmark.desktop)
+set(METAINFO_FILE io.github.jonmagon.kdiskmark.metainfo.xml)
 
 configure_file(src/cmake.h.in cmake.h)
 include_directories(${PROJECT_BINARY_BIN})
@@ -119,5 +120,6 @@ set(APP_ICONS
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/translations)
 install(FILES data/${DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
+install(FILES data/${METAINFO_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo)
 
 ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)

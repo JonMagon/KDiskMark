@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.jonmagon.kdiskmark</id>
+
+  <name>KDiskMark</name>
+  <summary>Disk benchmark tool</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+
+  <description>
+    <p>
+      A simple open-source disk benchmark tool for Linux distros.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Configurable block size, queues, and threads count for each test</li>
+      <li>Many languages support</li>
+      <li>Report generation</li>
+    </ul>
+  </description>
+
+  <url type="homepage">https://github.com/JonMagon/KDiskMark</url>
+  <url type="bugtracker">https://github.com/JonMagon/KDiskMark/issues</url>
+  <url type="translate">https://crowdin.com/project/kdiskmark</url>
+
+  <launchable type="desktop-id">io.github.jonmagon.kdiskmark.desktop</launchable>
+
+  <content_rating type="oars-1.1"/>
+
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/JonMagon/KDiskMark/master/assets/images/kdiskmark.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="3.1.2" date="2022-09-16"/>
+  </releases>
+</component>
