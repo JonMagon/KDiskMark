@@ -66,7 +66,7 @@ sudo snap connect kdiskmark:removable-media # external storages
 ````
 
 ### Install from the Flathub repository
-[<img src="https://flathub.org/assets/badges/flathub-badge-en.png" width="240">](https://flathub.org/apps/details/io.github.jonmagon.kdiskmark)
+[<img src="https://flathub.org/assets/badges/flathub-badge-i-en.png" height="56">](https://flathub.org/apps/details/io.github.jonmagon.kdiskmark)
 ```bash
 flatpak install flathub io.github.jonmagon.kdiskmark
 ````
