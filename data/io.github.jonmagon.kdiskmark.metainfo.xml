@@ -24,6 +24,8 @@
   <url type="bugtracker">https://github.com/JonMagon/KDiskMark/issues</url>
   <url type="translate">https://crowdin.com/project/kdiskmark</url>
 
+  <developer_name>Dmitry Sidorov (JonMagon)</developer_name>
+
   <launchable type="desktop-id">io.github.jonmagon.kdiskmark.desktop</launchable>
 
   <content_rating type="oars-1.1"/>
