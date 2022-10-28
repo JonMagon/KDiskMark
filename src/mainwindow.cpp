@@ -51,10 +51,12 @@ MainWindow::MainWindow(QWidget *parent)
                                                            "such as writing to protected directories and clearing the cache,\n"
                                                            "run the application as an administrator.\n"
                                                            "This can be done, for example, with the following command:\n"
-                                                           "sudo env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY kdiskmark");
+                                                           "sudo env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY kdiskmark\n"
+                                                           "Without clearing the cache the measured read performance may not be correct.");
 #else
         QMessageBox::warning(this, "KDiskMark is limited", "This edition of KDiskMark has limitations that cannot be fixed.\n"
                                                            "Clearing the cache and writing to protected directories will not be available.\n"
+                                                           "Without clearing the cache the measured read performance may not be correct.\n"
                                                            "If necessary, use the native package for the distribution or AppImage.");
 #endif
     });
