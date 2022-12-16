@@ -2,6 +2,7 @@
 #include <QDBusContext>
 #include <QEventLoop>
 #include <QProcess>
+#include <QTemporaryFile>
 
 #include <memory>
 
@@ -19,7 +20,7 @@ public:
 public slots:
     Q_SCRIPTABLE QVariantMap initSession();
     Q_SCRIPTABLE QVariantMap endSession();
-    Q_SCRIPTABLE QVariantMap prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
+    Q_SCRIPTABLE QVariantMap prepareBenchmarkFile(const QString &benchmarkPath, int fileSize, bool fillZeros);
     Q_SCRIPTABLE QVariantMap startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
                                                 int blockSize, int queueDepth, int threads, const QString &rw);
     Q_SCRIPTABLE QVariantMap flushPageCache();
@@ -43,7 +44,7 @@ public:
 public:
     QVariantMap initSession();
     QVariantMap endSession();
-    QVariantMap prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros);
+    QVariantMap prepareBenchmarkFile(const QString &benchmarkPath, int fileSize, bool fillZeros);
     QVariantMap startBenchmarkTest(int measuringTime, int fileSize, int randomReadPercentage, bool fillZeros, bool cacheBypass,
                                    int blockSize, int queueDepth, int threads, const QString &rw);
     QVariantMap flushPageCache();
@@ -52,7 +53,7 @@ public:
 
 private:
     bool isCallerAuthorized();
-    bool testFilePath(const QString &benchmarkFile);
+    bool testFilePath(const QString &benchmarkPath);
 
 signals:
     void taskFinished(bool, QString, QString);
@@ -62,5 +63,5 @@ private:
     QDBusServiceWatcher *m_serviceWatcher = nullptr;
 
     QProcess *m_process;
-    QString m_benchmarkFile = QStringLiteral();
+    QTemporaryFile m_benchmarkFile;
 };

@@ -376,13 +376,6 @@
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="936"/>
-        <source>This action destroys the data in %1
-Do you want to continue?</source>
-        <translation>Cette action détruit les données en %1
-Vous voulez continuer ?</translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation>Échec de l&apos;évaluation comparative</translation>

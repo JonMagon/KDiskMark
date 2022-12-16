@@ -376,13 +376,6 @@
         <translation>Bekräftelse</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="936"/>
-        <source>This action destroys the data in %1
-Do you want to continue?</source>
-        <translation>Denna åtgärd förstör data i %1
-Vill du fortsätta?</translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation>Prestandamätning misslyckades</translation>

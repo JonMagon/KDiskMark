@@ -376,13 +376,6 @@
         <translation>पुष्टिकरण</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="936"/>
-        <source>This action destroys the data in %1
-Do you want to continue?</source>
-        <translation>इस कार्य से %1 का डेटा नष्ट हो जाएगा
-क्या आप जारी रखना चाहते हैं?</translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation>मानदंड प्रक्रिया विफल</translation>

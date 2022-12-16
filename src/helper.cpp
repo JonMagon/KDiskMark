@@ -128,26 +128,21 @@ QVariantMap Helper::endSession()
     return {};
 }
 
-bool Helper::testFilePath(const QString &benchmarkFile)
+bool Helper::testFilePath(const QString &benchmarkPath)
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
-    if (QFileInfo(benchmarkFile).isSymbolicLink()) {
+    if (QFileInfo(benchmarkPath).isSymbolicLink()) {
 #else
     // detects *.lnk on Windows, but there's not Windows version, whatever
-    if (QFileInfo(benchmarkFile).isSymLink()) {
+    if (QFileInfo(benchmarkPath).isSymLink()) {
 #endif
         qWarning("The path should not be symbolic link.");
         return false;
     }
 
-    if (!benchmarkFile.endsWith("/.kdiskmark.tmp")) {
-        qWarning("The path must end with /.kdiskmark.tmp");
-        return false;
-    }
-
     // Actually superfluous because of above, makes the check more obvious
     // Just in case something changes in the backend
-    if (benchmarkFile.startsWith("/dev")) {
+    if (benchmarkPath.startsWith("/dev")) {
         qWarning("Cannot specify a raw device.");
         return false;
     }
@@ -155,7 +150,7 @@ bool Helper::testFilePath(const QString &benchmarkFile)
     return true;
 }
 
-QVariantMap Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileSize, bool fillZeros)
+QVariantMap Helper::prepareBenchmarkFile(const QString &benchmarkPath, int fileSize, bool fillZeros)
 {
     if (!isCallerAuthorized()) {
         return {};
@@ -163,21 +158,25 @@ QVariantMap Helper::prepareBenchmarkFile(const QString &benchmarkFile, int fileS
 
     // If benchmarking has been done, but removeBenchmarkFile has not been called,
     // and benchmarking on a new file is called, then reject the request. The *previous* file must be removed first.
-    if (!m_benchmarkFile.isEmpty()) {
+    if (!m_benchmarkFile.fileName().isNull()) {
         return {{"success", false}, {"error", "A new benchmark session should be started."}};
     }
 
-    if (!testFilePath(benchmarkFile)) {
+    if (!testFilePath(benchmarkPath)) {
         return {{"success", false}, {"error", "The path to the file is incorrect."}};
     }
 
-    m_benchmarkFile = benchmarkFile;
+    m_benchmarkFile.setFileTemplate(QStringLiteral("%1/%2").arg(benchmarkPath).arg("kdiskmark-XXXXXX.tmp"));
+
+    if (!m_benchmarkFile.open()) {
+        return {{"success", false}, {"error", "An error occurred while creating the benchmark file."}};
+    }
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
                      << QStringLiteral("--output-format=json")
                      << QStringLiteral("--create_only=1")
-                     << QStringLiteral("--filename=%1").arg(m_benchmarkFile)
+                     << QStringLiteral("--filename=%1").arg(m_benchmarkFile.fileName())
                      << QStringLiteral("--size=%1m").arg(fileSize)
                      << QStringLiteral("--zero_buffers=%1").arg(fillZeros)
                      << QStringLiteral("--name=prepare"));
@@ -197,7 +196,7 @@ QVariantMap Helper::startBenchmarkTest(int measuringTime, int fileSize, int rand
         return {};
     }
 
-    if (m_benchmarkFile.isEmpty() || !QFile(m_benchmarkFile).exists()) {
+    if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
         return {{"success", false}, {"error", "The benchmark file was not pre-created."}};
     }
 
@@ -210,7 +209,7 @@ QVariantMap Helper::startBenchmarkTest(int measuringTime, int fileSize, int rand
                      << QStringLiteral("--end_fsync=1")
                      << QStringLiteral("--direct=%1").arg(cacheBypass)
                      << QStringLiteral("--rwmixread=%1").arg(randomReadPercentage)
-                     << QStringLiteral("--filename=%1").arg(m_benchmarkFile)
+                     << QStringLiteral("--filename=%1").arg(m_benchmarkFile.fileName())
                      << QStringLiteral("--name=%1").arg(rw)
                      << QStringLiteral("--size=%1m").arg(fileSize)
                      << QStringLiteral("--zero_buffers=%1").arg(fillZeros)
@@ -234,7 +233,7 @@ QVariantMap Helper::flushPageCache()
         return {};
     }
 
-    if (m_benchmarkFile.isEmpty()) {
+    if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
         return {{"success", false}, {"error", "A benchmark file must first be created."}};
     }
 
@@ -257,11 +256,13 @@ QVariantMap Helper::removeBenchmarkFile()
         return {};
     }
 
-    if (m_benchmarkFile.isEmpty() || !QFile(m_benchmarkFile).exists()) {
+    if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
         return {{"success", false}, {"error", "Cannot remove the benchmark file, because it doesn't exist."}};
     }
 
-    return {{"success", QFile(m_benchmarkFile).remove()}};
+    m_benchmarkFile.close();
+
+    return {{"success", m_benchmarkFile.remove()}};
 }
 
 QVariantMap Helper::stopCurrentTask()

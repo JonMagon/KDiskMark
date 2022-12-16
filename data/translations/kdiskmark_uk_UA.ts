@@ -376,13 +376,6 @@
         <translation>Підтвердження</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="936"/>
-        <source>This action destroys the data in %1
-Do you want to continue?</source>
-        <translation>Ця дія знищить дані на %1
-Ви хочете продовжити?</translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation>Тестування невадале</translation>
