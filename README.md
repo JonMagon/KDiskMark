@@ -127,6 +127,7 @@ Languages currently available:
 * Hindi
 * Hungarian
 * Italian
+* Japanese
 * Polish
 * Portuguese (Brazilian)
 * Russian
