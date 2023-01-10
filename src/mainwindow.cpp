@@ -245,7 +245,7 @@ void MainWindow::changeEvent(QEvent *event)
 
                 storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
 
-                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2 (%3)").arg(storage.path)
+                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2% (%3)").arg(storage.path)
                                                    .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
                                                    .arg(storage.formatedSize));
 
