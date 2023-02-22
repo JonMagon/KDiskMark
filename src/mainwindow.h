@@ -33,9 +33,9 @@ private slots:
 
     void on_pushButton_All_clicked();
 
-    void showAbout();
+    void on_actionAbout_triggered();
 
-    void showSettings();
+    void on_actionQueues_Threads_triggered();
 
     void on_comboBox_Storages_currentIndexChanged(int index);
 
@@ -43,9 +43,9 @@ private slots:
 
     void on_comboBox_ComparisonUnit_currentIndexChanged(int index);
 
-    void copyBenchmarkResult();
+    void on_actionCopy_triggered();
 
-    void saveBenchmarkResult();
+    void on_actionSave_triggered();
 
     void on_comboBox_MixRatio_currentIndexChanged(int index);
 

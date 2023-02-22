@@ -178,15 +178,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
 
-    // About button
-    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
-
-    // Settings
-    connect(ui->actionQueues_Threads, &QAction::triggered, this, &MainWindow::showSettings);
-
-    connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
-    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveBenchmarkResult);
-
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
             QMessageBox::critical(this, "KDiskMark",
@@ -645,13 +636,13 @@ QString MainWindow::getTextBenchmarkResult()
     return output.join("\n");
 }
 
-void MainWindow::copyBenchmarkResult()
+void MainWindow::on_actionCopy_triggered()
 {
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(getTextBenchmarkResult());
 }
 
-void MainWindow::saveBenchmarkResult()
+void MainWindow::on_actionSave_triggered()
 {
     QString fileName =
             QFileDialog::getSaveFileName(this, QString(),
@@ -897,14 +888,14 @@ void MainWindow::benchmarkStateChanged(bool state)
     }
 }
 
-void MainWindow::showAbout()
+void MainWindow::on_actionAbout_triggered()
 {
     About about(m_benchmark->getFIOVersion());
     about.setFixedSize(about.size());
     about.exec();
 }
 
-void MainWindow::showSettings()
+void MainWindow::on_actionQueues_Threads_triggered()
 {
     Settings settings;
     settings.setFixedSize(settings.size());
