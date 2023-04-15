@@ -6,6 +6,7 @@
 #include <QString>
 #include <QProgressBar>
 #include <QObject>
+#include <QTemporaryFile>
 
 #include <memory>
 
@@ -81,6 +82,7 @@ private:
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
     QString m_dir;
+    QTemporaryFile m_benchmarkFile;
 
     QProcess *m_process;
 
@@ -89,8 +91,8 @@ private:
     Benchmark::ParsedJob parseResult(const QString &output, const QString &errorOutput);
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
-    void initSession();
-    bool prepareFile(const QString &benchmarkFile, int fileSize);
+    bool testFilePath(const QString &benchmarkPath);
+    bool prepareBenchmarkFile(const QString &benchmarkPath, int fileSize);
 #ifdef ROOT_EDITION
     bool flushPageCache();
 #endif

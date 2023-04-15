@@ -65,6 +65,12 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
         }
 #endif
 
+        if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
+            emit failed("The benchmark file was not pre-created.");
+            setRunning(false);
+            return;
+        }
+
         m_process = new QProcess();
         m_process->start("fio", QStringList()
                          << QStringLiteral("--output-format=json")
@@ -74,7 +80,7 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
                          << QStringLiteral("--end_fsync=1")
                          << QStringLiteral("--direct=%1").arg(settings.getCacheBypassState())
                          << QStringLiteral("--rwmixread=%1").arg(settings.getRandomReadPercentage())
-                         << QStringLiteral("--filename=%1").arg(getBenchmarkFile())
+                         << QStringLiteral("--filename=%1").arg(m_benchmarkFile.fileName())
                          << QStringLiteral("--name=%1").arg(rw)
                          << QStringLiteral("--size=%1m").arg(settings.getFileSize())
                          << QStringLiteral("--zero_buffers=%1").arg(settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
@@ -248,7 +254,7 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     }
 
     emit benchmarkStatusUpdate(tr("Preparing..."));
-    if (!prepareFile(getBenchmarkFile(), settings.getFileSize())) {
+    if (!prepareBenchmarkFile(getBenchmarkFile(), settings.getFileSize())) {
         setRunning(false);
         return;
     }
@@ -304,7 +310,10 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         }
     }
 
-    QFile(getBenchmarkFile()).remove();
+    if (!m_benchmarkFile.fileName().isNull() || QFile(m_benchmarkFile.fileName()).exists()) {
+        m_benchmarkFile.close();
+        m_benchmarkFile.remove();
+    }
 
     setRunning(false);
     emit finished(); // Only needed when closing the app during a running benchmarking
@@ -313,6 +322,11 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 #ifdef ROOT_EDITION
 bool Benchmark::flushPageCache()
 {
+    if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
+        emit failed("A benchmark file must first be created.");
+        return false;
+    }
+
     QFile file("/proc/sys/vm/drop_caches");
 
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -328,15 +342,54 @@ bool Benchmark::flushPageCache()
 }
 #endif
 
-bool Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)
+bool Benchmark::testFilePath(const QString &benchmarkPath)
+{
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
+    if (QFileInfo(benchmarkPath).isSymbolicLink()) {
+#else
+    // detects *.lnk on Windows, but there's not Windows version, whatever
+    if (QFileInfo(benchmarkPath).isSymLink()) {
+#endif
+        qWarning("The path should not be symbolic link.");
+        return false;
+    }
+
+    // Actually superfluous because of above, makes the check more obvious
+    // Just in case something changes in the backend
+    if (benchmarkPath.startsWith("/dev")) {
+        qWarning("Cannot specify a raw device.");
+        return false;
+    }
+
+    return true;
+}
+
+bool Benchmark::prepareBenchmarkFile(const QString &benchmarkPath, int fileSize)
 {
     bool prepared = true;
+
+    if (!m_benchmarkFile.fileName().isNull()) {
+        emit failed("A new benchmark session should be started.");
+        return false;
+    }
+
+    if (!testFilePath(benchmarkPath)) {
+        emit failed("The path to the file is incorrect.");
+        return false;
+    }
+
+    m_benchmarkFile.setFileTemplate(QStringLiteral("%1/%2").arg(benchmarkPath).arg("kdiskmark-XXXXXX.tmp"));
+
+    if (!m_benchmarkFile.open()) {
+        emit failed("An error occurred while creating the benchmark file.");
+        return false;
+    }
 
     m_process = new QProcess();
     m_process->start("fio", QStringList()
                      << QStringLiteral("--output-format=json")
                      << QStringLiteral("--create_only=1")
-                     << QStringLiteral("--filename=%1").arg(benchmarkFile)
+                     << QStringLiteral("--filename=%1").arg(m_benchmarkFile.fileName())
                      << QStringLiteral("--size=%1m").arg(fileSize)
                      << QStringLiteral("--zero_buffers=%1").arg(AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
                      << QStringLiteral("--name=prepare"));
