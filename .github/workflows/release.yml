@@ -69,7 +69,7 @@ jobs:
         arch: [amd64]
         include:
           - os: ubuntu-20.04
-            bundled-fio: '3.32'
+            bundled-fio: '3.34'
             cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
             upload-files: 'build/{*.AppImage,*.AppImage.zsync}'
     steps:
