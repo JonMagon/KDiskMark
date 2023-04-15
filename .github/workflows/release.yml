@@ -27,10 +27,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04]
+        os: [ubuntu-20.04]
         arch: [amd64]
         include:
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             cmake-defines: '-D CPACK_GENERATOR="DEB;RPM;7Z" -D CMAKE_BUILD_TYPE=Release'
             upload-files: 'build/*.deb;build/*.rpm;build/*.7z'
     steps:
@@ -65,10 +65,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04]
+        os: [ubuntu-20.04]
         arch: [amd64]
         include:
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             bundled-fio: '3.32'
             cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
             upload-files: 'build/{*.AppImage,*.AppImage.zsync}'
