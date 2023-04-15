@@ -76,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
-                                 QLocale::French, QLocale::Italian, QLocale::Hungarian,
+                                 QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Japanese,
                                  QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil),
                                  QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian,
                                  QLocale::Ukrainian, QLocale::Chinese, QLocale::Hindi };
@@ -236,15 +236,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
 
-    // About button
-    connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::showAbout);
-
-    // Settings
-    connect(ui->actionQueues_Threads, &QAction::triggered, this, &MainWindow::showSettings);
-
-    connect(ui->actionCopy, &QAction::triggered, this, &MainWindow::copyBenchmarkResult);
-    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveBenchmarkResult);
-
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
             QMessageBox::critical(this, "KDiskMark",
@@ -300,7 +291,7 @@ void MainWindow::changeEvent(QEvent *event)
 
                 storage.formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal);
 
-                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2 (%3)").arg(storage.path)
+                ui->comboBox_Storages->setItemText(i, QStringLiteral("%1 %2% (%3)").arg(storage.path)
                                                    .arg(storage.bytesOccupied * 100 / storage.bytesTotal)
                                                    .arg(storage.formatedSize));
 
@@ -727,13 +718,13 @@ QString MainWindow::getTextBenchmarkResult()
     return output.join("\n");
 }
 
-void MainWindow::copyBenchmarkResult()
+void MainWindow::on_actionCopy_triggered()
 {
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(getTextBenchmarkResult());
 }
 
-void MainWindow::saveBenchmarkResult()
+void MainWindow::on_actionSave_triggered()
 {
     QString fileName =
             QFileDialog::getSaveFileName(this, QString(),
@@ -985,14 +976,14 @@ void MainWindow::benchmarkStateChanged(bool state)
     }
 }
 
-void MainWindow::showAbout()
+void MainWindow::on_actionAbout_triggered()
 {
     About about(m_benchmark->getFIOVersion());
     about.setFixedSize(about.size());
     about.exec();
 }
 
-void MainWindow::showSettings()
+void MainWindow::on_actionQueues_Threads_triggered()
 {
     Settings settings;
     settings.setFixedSize(settings.size());
@@ -1019,13 +1010,7 @@ void MainWindow::defineBenchmark(std::function<void()> bodyFunc)
         if (m_benchmark->getBenchmarkFile().isNull()) {
             QMessageBox::critical(this, tr("Not available"), tr("Directory is not specified."));
         }
-        else if (QMessageBox::Yes ==
-                QMessageBox::warning(this, tr("Confirmation"),
-                                     tr("This action destroys the data in %1\nDo you want to continue?")
-                                     .arg(m_benchmark->getBenchmarkFile()
-                                          .replace("/", QChar(0x2060) + QString("/") + QChar(0x2060))
-                                          .replace("-", QChar(0x2060) + QString("-") + QChar(0x2060))),
-                                     QMessageBox::Yes | QMessageBox::No)) {
+        else {
             bodyFunc();
         }
     }

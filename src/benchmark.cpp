@@ -42,15 +42,7 @@ void Benchmark::setDir(const QString &dir)
 
 QString Benchmark::getBenchmarkFile()
 {
-    if (m_dir.isNull())
-        return QString();
-
-    if (m_dir.endsWith("/")) {
-        return m_dir + ".kdiskmark.tmp";
-    }
-    else {
-        return m_dir + "/.kdiskmark.tmp";
-    }
+    return m_dir;
 }
 
 void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage)

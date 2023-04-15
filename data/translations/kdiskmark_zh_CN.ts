@@ -376,13 +376,6 @@
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="936"/>
-        <source>This action destroys the data in %1
-Do you want to continue?</source>
-        <translation>这个动作将会摧毁 %1 中的数据
-是否确认继续？</translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation>基准测试失败</translation>

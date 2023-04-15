@@ -376,13 +376,6 @@
         <translation>Potvrzení</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="936"/>
-        <source>This action destroys the data in %1
-Do you want to continue?</source>
-        <translation>Touto akci budou přepsána data v %1.
-Chcete pokračovat?</translation>
-    </message>
-    <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
         <translation>Test se nezdařil</translation>
