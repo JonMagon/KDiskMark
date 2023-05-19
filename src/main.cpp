@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
     QCoreApplication::setApplicationVersion(QStringLiteral("%1.%2.%3").arg(PROJECT_VERSION_MAJOR)
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
+    QCoreApplication::setOrganizationName(QStringLiteral(PROJECT_NAME));
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
