@@ -220,17 +220,17 @@ mérés</translation>
     <message>
         <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
-        <translation>Alapértelmezett [+Mix]</translation>
+        <translation>Alapértelmezett [vegyes]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
-        <translation>Csúcsteljesítmény [+Mix]</translation>
+        <translation>Csúcsteljesítmény [vegyes]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
-        <translation>Valódi teljesítmény [+Mix]</translation>
+        <translation>Valódi teljesítmény [vegyes]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1173"/>
@@ -245,17 +245,17 @@ mérés</translation>
     <message>
         <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
-        <translation>Olvasás és írás [+Mix]</translation>
+        <translation>Olvasás és írás [vegyes]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
-        <translation>Olvasás [+Mix]</translation>
+        <translation>Olvasás [vegyes]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
-        <translation>Írás [+Mix]</translation>
+        <translation>Írás [vegyes]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1219"/>
@@ -275,27 +275,27 @@ mérés</translation>
     <message>
         <location filename="../../src/mainwindow.ui" line="1246"/>
         <source>NVMe SSD</source>
-        <translation>NVMe SSD profil</translation>
+        <translation>NVMe SSD mérés</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
-        <translation>Fusion használata</translation>
+        <translation>Fusion</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
-        <translation>Stíluslap Light</translation>
+        <translation>Világos</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
-        <translation>Stíluslap Dark</translation>
+        <translation>Sötét</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
-        <translation>Ne használja</translation>
+        <translation>Nincs</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1292"/>
