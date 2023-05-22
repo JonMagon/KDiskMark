@@ -13,6 +13,7 @@
       <message xml:lang="fr">Autorisation est requise pour mesurer la performance des disques</message>
       <message xml:lang="hu">Hitelesítés szükséges a lemezek teljesítményértékeléséhez</message>
       <message xml:lang="ja">特権的な KDiskMark の実行ヘルパー</message>
+      <message xml:lang="de">Authenticatie vereist om schijven te kunnen benchmarken</message>
       <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby przetestować dysk</message>
       <message xml:lang="ru">Требуется авторизация для тестирования дисков</message>
       <message xml:lang="sv">Kör KDiskMark-hjälpare med förhöjda rättigheter</message>
