@@ -31,7 +31,7 @@
     <message>
         <location filename="../../src/about.ui" line="178"/>
         <source>Flexible I/O Tester:</source>
-        <translation>Flexibele I/O-tester:</translation>
+        <translation>Flexible I/O Tester:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="204"/>
