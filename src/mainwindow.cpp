@@ -27,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+#ifndef APPIMAGE_EDITION
     QMenuBar *bar = new QMenuBar(ui->menubar);
 
-#ifdef SNAP_EDITION
     QAction *actionSnapSlot = new QAction(bar);
     actionSnapSlot->setIcon(style()->standardIcon(QStyle::SP_DriveHDIcon));
 
@@ -40,36 +40,21 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     bar->addAction(actionSnapSlot);
-#endif
 
     QAction *actionLimited = new QAction(bar);
     actionLimited->setIcon(style()->standardIcon(QStyle::SP_MessageBoxWarning));
 
     connect(actionLimited, &QAction::triggered, [this]() {
-#ifdef ROOT_EDITION
-        QMessageBox::warning(this, "KDiskMark is limited", "To use all the features of KDiskMark's AppImage edition,\n"
-                                                           "such as writing to protected directories and clearing the cache,\n"
-                                                           "run the application as an administrator.\n"
-                                                           "This can be done, for example, with the following command:\n"
-                                                           "sudo env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY kdiskmark\n"
-                                                           "Without clearing the cache the measured read performance may not be correct.");
-#else
         QMessageBox::warning(this, "KDiskMark is limited", "This edition of KDiskMark has limitations that cannot be fixed.\n"
                                                            "Clearing the cache and writing to protected directories will not be available.\n"
                                                            "Without clearing the cache the measured read performance may not be correct.\n"
                                                            "If necessary, use the native package for the distribution or AppImage.");
-#endif
     });
 
     bar->addAction(actionLimited);
 
     bar->setStyleSheet("background-color: orange");
     ui->menubar->setCornerWidget(bar);
-
-#ifdef ROOT_EDITION
-    if (Global::isRunningAsRoot()) {
-        ui->menubar->cornerWidget()->setVisible(false);
-    }
 #endif
 
     QActionGroup *localesGroup = new QActionGroup(this);
@@ -205,12 +190,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
 
-#ifdef ROOT_EDITION
-    if (!Global::isRunningAsRoot()) {
-        ui->actionFlush_Pagecache->setEnabled(false);
-        ui->actionFlush_Pagecache->setChecked(false);
-    }
-#else
+#ifndef APPIMAGE_EDITION
     ui->actionFlush_Pagecache->setEnabled(false);
     ui->actionFlush_Pagecache->setChecked(false);
 #endif
@@ -349,7 +329,7 @@ void MainWindow::updateStoragesList()
         if (volume.isValid() && volume.isReady() && !volume.isReadOnly()) {
             if (volume.device().indexOf("/dev") != -1) {
                 QString rootPath = volume.rootPath();
-#ifndef ROOT_EDITION
+#ifndef APPIMAGE_EDITION
                 rootPath = rootPath.replace("/var/lib/snapd/hostfs", "");
                 rootPath = rootPath.replace("/var/lib/snapd", "");
                 if (rootPath.indexOf("/snap/kdiskmark") != -1)
@@ -938,7 +918,9 @@ void MainWindow::benchmarkStateChanged(bool state)
 {
     if (state) {
         ui->menubar->setEnabled(false);
+#ifndef APPIMAGE_EDITION
         ui->menubar->cornerWidget()->setStyleSheet(QStringLiteral());
+#endif
         ui->loopsCount->setEnabled(false);
         ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Storages->setEnabled(false);
@@ -959,7 +941,9 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->pushButton_Test_3->setEnabled(true);
         ui->pushButton_Test_4->setEnabled(true);
         ui->menubar->setEnabled(true);
+#ifndef APPIMAGE_EDITION
         ui->menubar->cornerWidget()->setStyleSheet("background-color: orange");
+#endif
         ui->loopsCount->setEnabled(true);
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Storages->setEnabled(true);

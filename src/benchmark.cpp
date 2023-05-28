@@ -8,9 +8,18 @@
 #include <QJsonObject>
 #include <QJsonArray>
 
+#include <QBuffer>
+
 #include "global.h"
 
+#include <QDebug>
+
+#include <QStandardPaths>
+
 Benchmark::Benchmark()
+#ifdef APPIMAGE_EDITION
+    : m_localServer(new QLocalServer), m_nextBlockSize(0)
+#endif
 {
     m_running = false;
 
@@ -21,6 +30,19 @@ Benchmark::Benchmark()
     m_FIOVersion = process.readAllStandardOutput().simplified();
 
     process.close();
+
+#ifdef APPIMAGE_EDITION
+    QLocalServer::removeServer("kdiskmarkLocalServer");
+
+    if (!m_localServer->listen("kdiskmarkLocalServer"))
+    {
+        qCritical() << "Server error:" << m_localServer->errorString();
+        m_localServer->close();
+        return;
+    }
+
+    connect(m_localServer, &QLocalServer::newConnection, this, &Benchmark::helperConnected);
+#endif
 }
 
 Benchmark::~Benchmark() {}
@@ -58,10 +80,9 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
 
         emit benchmarkStatusUpdate(statusMessage.arg(index + 1).arg(settings.getLoopsCount()));
 
-#ifdef ROOT_EDITION
-        if (Global::isRunningAsRoot() && settings.getFlusingCacheState() && !flushPageCache()) {
-            setRunning(false);
-            return;
+#ifdef APPIMAGE_EDITION
+        if (settings.getFlusingCacheState()) {
+            flushPageCache();
         }
 #endif
 
@@ -207,14 +228,20 @@ void Benchmark::setRunning(bool state)
     m_running = state;
 
     if (!m_running) {
-        if (!m_process) return;
-
-        if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
-            m_process->terminate();
-            m_process->waitForFinished(-1);
+#ifdef APPIMAGE_EDITION
+        if (m_helperSocket) {
+            sendMessageToSocket(m_helperSocket, "HALT");
         }
+#endif
 
-        delete m_process;
+        if (m_process) {
+            if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
+                m_process->terminate();
+                m_process->waitForFinished(-1);
+            }
+
+            m_process = nullptr;
+        }
     }
 
     emit runningStateChanged(state);
@@ -254,6 +281,14 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     }
 
     emit benchmarkStatusUpdate(tr("Preparing..."));
+
+#ifdef APPIMAGE_EDITION
+    if (settings.getFlusingCacheState() && !initHelper()) {
+        setRunning(false);
+        return;
+    }
+#endif
+
     if (!prepareBenchmarkFile(getBenchmarkFile(), settings.getFileSize())) {
         setRunning(false);
         return;
@@ -315,30 +350,134 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         m_benchmarkFile.remove();
     }
 
+#ifdef APPIMAGE_EDITION
+    if (settings.getFlusingCacheState()) {
+        sendMessageToSocket(m_helperSocket, "HALT");
+    }
+#endif
+
     setRunning(false);
     emit finished(); // Only needed when closing the app during a running benchmarking
 }
 
-#ifdef ROOT_EDITION
-bool Benchmark::flushPageCache()
+#ifdef APPIMAGE_EDITION
+bool Benchmark::initHelper()
 {
-    if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
-        emit failed("A benchmark file must first be created.");
+    QString appImagePath = QProcessEnvironment::systemEnvironment().value(QStringLiteral("APPIMAGE"));
+
+    if (appImagePath.isEmpty()) {
+        emit failed("Failed to get AppImage path. The helper could not be started.");
         return false;
     }
 
-    QFile file("/proc/sys/vm/drop_caches");
+    QString pkexec = QStandardPaths::findExecutable("pkexec"),
+            kdesu = QStandardPaths::findExecutable("kdesu");
 
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        file.write("1");
-        file.close();
+    if (pkexec.isEmpty() && kdesu.isEmpty()) {
+        emit failed("No graphical sudo wrapper found. Please install pkexec or kdesu.");
+        return false;
+    }
+
+    QProcess *process = new QProcess();
+    if (!pkexec.isEmpty()) {
+        process->start(pkexec, {appImagePath, "--helper"});
     }
     else {
-        emit failed(file.errorString());
-        return false;
+        process->start(kdesu, {"--noignorebutton", "-n", "-c", QStringLiteral("%1 --helper").arg(appImagePath)});
     }
 
-    return true;
+    bool helperState = true;
+
+    QEventLoop loop;
+    auto connSocket = QObject::connect(m_localServer, &QLocalServer::newConnection, [&]() { loop.exit(); });
+    // If the process ended before newConnection was called, something went wrong
+    auto connProcess = QObject::connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                [&] (int exitCode, QProcess::ExitStatus exitStatus) {
+        emit failed(tr("Could not obtain administrator privileges."));
+        helperState = false;
+        loop.exit();
+    });
+    loop.exec();
+
+    QObject::disconnect(connSocket);
+    QObject::disconnect(connProcess);
+
+    return helperState;
+}
+
+void Benchmark::sendMessageToSocket(QLocalSocket* localSocket, const QString& message)
+{
+    if (!localSocket) return;
+
+    QByteArray array;
+    QDataStream out(&array, QIODevice::WriteOnly);
+    out << quint16(0) << message;
+    out.device()->seek(0);
+    out << quint16(array.size() - sizeof(quint16));
+    localSocket->write(array);
+
+    qInfo() << "S->" << message;
+}
+
+void Benchmark::flushPageCache()
+{
+    sendMessageToSocket(m_helperSocket, "FLUSHCACHE");
+
+    QEventLoop loop;
+    auto connSocket = QObject::connect(m_helperSocket, &QLocalSocket::readyRead, [&]() { loop.exit(); });
+    auto connHelper = QObject::connect(m_helperSocket, &QLocalSocket::disconnected, [&]() { loop.exit(); });
+    loop.exec();
+
+    QObject::disconnect(connSocket);
+    QObject::disconnect(connHelper);
+}
+
+void Benchmark::helperConnected()
+{
+    QLocalSocket* localSocket = m_localServer->nextPendingConnection();
+
+    if (m_helperSocket) {
+        localSocket->abort();
+        qInfo() << "New helper rejected";
+        return;
+    }
+    else {
+        qInfo() << "New helper connected";
+        m_helperSocket = localSocket;
+        connect(localSocket, &QLocalSocket::disconnected, [this]() {
+            qInfo() << "Helper disconnected";
+            m_helperSocket = nullptr;
+            setRunning(false);
+        });
+        connect(localSocket, &QLocalSocket::readyRead, this, &Benchmark::readHelper);
+    }
+}
+
+void Benchmark::readHelper()
+{
+    QLocalSocket* localSocket = (QLocalSocket*)sender();
+    QDataStream in(localSocket);
+    for (;;)
+    {
+        if (!m_nextBlockSize)
+        {
+            if (localSocket->bytesAvailable() < (int)sizeof(quint16))
+                break;
+            in >> m_nextBlockSize;
+        }
+
+        QString message;
+        in >> message;
+
+        qInfo() << "S<-" << message;
+
+        if (message.startsWith("ERROR")) {
+            emit failed(message.mid(6));
+            setRunning(false);
+        }
+
+        m_nextBlockSize = 0;
+    }
 }
 #endif
 

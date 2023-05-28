@@ -8,6 +8,11 @@
 #include <QObject>
 #include <QTemporaryFile>
 
+#ifdef APPIMAGE_EDITION
+#include <QLocalServer>
+#include <QLocalSocket>
+#endif
+
 #include <memory>
 
 #include "appsettings.h"
@@ -78,13 +83,17 @@ public:
 
 private:
     bool m_running;
-    bool m_helperAuthorized;
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
     QString m_dir;
     QTemporaryFile m_benchmarkFile;
 
-    QProcess *m_process;
+    QProcess *m_process = nullptr;
+#ifdef APPIMAGE_EDITION
+    QLocalServer *m_localServer;
+    quint16 m_nextBlockSize;
+    QLocalSocket *m_helperSocket = nullptr;
+#endif
 
 private:
     void startTest(int blockSize, int queueDepth, int threads, const QString &rw, const QString &statusMessage);
@@ -93,8 +102,14 @@ private:
 
     bool testFilePath(const QString &benchmarkPath);
     bool prepareBenchmarkFile(const QString &benchmarkPath, int fileSize);
-#ifdef ROOT_EDITION
-    bool flushPageCache();
+#ifdef APPIMAGE_EDITION
+    bool initHelper();
+    void sendMessageToSocket(QLocalSocket* localSocket, const QString& message);
+    void flushPageCache();
+
+private slots:
+    void helperConnected();
+    void readHelper();
 #endif
 
 signals:

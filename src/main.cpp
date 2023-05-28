@@ -8,8 +8,33 @@
 #include "global.h"
 #include "styletweaks.h"
 
+#ifdef APPIMAGE_EDITION
+#include "helper.h"
+#include <QDebug>
+#endif
+
 int main(int argc, char *argv[])
 {
+#ifdef APPIMAGE_EDITION
+    if (argc != 1) {
+        QCoreApplication a(argc, argv);
+        if (QString::compare(a.arguments().at(1), "--helper") == 0) {
+            if (Global::isRunningAsRoot()) {
+                Helper *helper = new Helper();
+                return helper->connectToServer() ? a.exec(): -1;
+            }
+            else {
+                qCritical() << "The helper must be run as superuser.";
+                return -1;
+            }
+        }
+    }
+
+    if (Global::isRunningAsRoot()) {
+        qCritical() << "You should run KDiskMark as normal user.";
+        return -1;
+    }
+#endif
     QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
     QCoreApplication::setApplicationVersion(QStringLiteral("%1.%2.%3").arg(PROJECT_VERSION_MAJOR)
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
@@ -21,18 +46,6 @@ int main(int argc, char *argv[])
     AppSettings().setupLocalization();
 
     a.setStyle(new StyleTweaks());
-
-#ifdef ROOT_EDITION
-    // Override style when run as root
-    if (Global::isRunningAsRoot()) {
-        StyleTweaks *styleTweaks = new StyleTweaks();
-        styleTweaks->setBaseStyle(QStyleFactory::create("Breeze"));
-        a.setStyle(styleTweaks);
-
-        QIcon::setThemeSearchPaths(QIcon::themeSearchPaths() << (qApp->applicationDirPath() + "/../share/icons/"));
-        QIcon::setThemeName("breeze");
-    }
-#endif
 
     MainWindow w;
     w.setFixedSize(w.size());

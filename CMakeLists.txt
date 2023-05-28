@@ -37,10 +37,10 @@ set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
-option(ROOT_EDITION "Determines whether it can be run as root user" ON)
+option(APPIMAGE_EDITION "Determines whether it can be run as root user" ON)
 option(SNAP_EDITION "Determines whether it can be built for snap package" OFF)
 
-find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
+find_package(Qt5 COMPONENTS Widgets LinguistTools Network REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -100,8 +100,14 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
-if(ROOT_EDITION)
-    target_compile_definitions(${PROJECT_NAME} PRIVATE ROOT_EDITION)
+if(APPIMAGE_EDITION)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE APPIMAGE_EDITION)
+    target_sources(
+        ${PROJECT_NAME} PRIVATE
+        src/helper.h
+        src/helper.cpp
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Network)
 endif()
 
 if(SNAP_EDITION)
