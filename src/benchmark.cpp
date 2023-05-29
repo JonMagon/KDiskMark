@@ -229,9 +229,7 @@ void Benchmark::setRunning(bool state)
 
     if (!m_running) {
 #ifdef APPIMAGE_EDITION
-        if (m_helperSocket) {
-            sendMessageToSocket(m_helperSocket, "HALT");
-        }
+        sendMessageToSocket(m_helperSocket, "HALT");
 #endif
 
         if (m_process) {
@@ -300,7 +298,6 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     if (!prepareBenchmarkFile(getBenchmarkFile(), settings.getFileSize())) {
         setRunning(false);
-        return;
     }
 
     while (iter.hasNext() && isRunning()) {
@@ -358,12 +355,6 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         m_benchmarkFile.close();
         m_benchmarkFile.remove();
     }
-
-#ifdef APPIMAGE_EDITION
-    if (settings.getFlusingCacheState()) {
-        sendMessageToSocket(m_helperSocket, "HALT");
-    }
-#endif
 
     setRunning(false);
     emit finished(); // Only needed when closing the app during a running benchmarking
