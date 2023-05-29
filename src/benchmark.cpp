@@ -421,6 +421,12 @@ void Benchmark::sendMessageToSocket(QLocalSocket* localSocket, const QString& me
 
 void Benchmark::flushPageCache()
 {
+    if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
+        emit failed("A benchmark file must first be created.");
+        setRunning(false);
+        return;
+    }
+
     sendMessageToSocket(m_helperSocket, "FLUSHCACHE");
 
     QEventLoop loop;
