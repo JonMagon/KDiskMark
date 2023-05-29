@@ -190,7 +190,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
 
-#ifndef APPIMAGE_EDITION
+#ifdef APPIMAGE_EDITION
+    ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
+#else
     ui->actionFlush_Pagecache->setEnabled(false);
     ui->actionFlush_Pagecache->setChecked(false);
 #endif
