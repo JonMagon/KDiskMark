@@ -237,7 +237,16 @@ void Benchmark::setRunning(bool state)
         if (m_process) {
             if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
                 m_process->terminate();
-                m_process->waitForFinished(-1);
+
+                QEventLoop loop;
+
+                auto conn = QObject::connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [&] (int exitCode, QProcess::ExitStatus exitStatus) {
+                    loop.exit();
+                });
+
+                loop.exec();
+
+                QObject::disconnect(conn);
             }
 
             m_process = nullptr;
