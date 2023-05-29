@@ -86,7 +86,7 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
         }
 #endif
 
-        if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
+        if (m_benchmarkFile->fileName().isNull() || !QFile(m_benchmarkFile->fileName()).exists()) {
             emit failed("The benchmark file was not pre-created.");
             setRunning(false);
             return;
@@ -101,7 +101,7 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
                          << QStringLiteral("--end_fsync=1")
                          << QStringLiteral("--direct=%1").arg(settings.getCacheBypassState())
                          << QStringLiteral("--rwmixread=%1").arg(settings.getRandomReadPercentage())
-                         << QStringLiteral("--filename=%1").arg(m_benchmarkFile.fileName())
+                         << QStringLiteral("--filename=%1").arg(m_benchmarkFile->fileName())
                          << QStringLiteral("--name=%1").arg(rw)
                          << QStringLiteral("--size=%1m").arg(settings.getFileSize())
                          << QStringLiteral("--zero_buffers=%1").arg(settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
@@ -247,6 +247,7 @@ void Benchmark::setRunning(bool state)
                 QObject::disconnect(conn);
             }
 
+            delete m_process;
             m_process = nullptr;
         }
     }
@@ -351,9 +352,11 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         }
     }
 
-    if (!m_benchmarkFile.fileName().isNull() || QFile(m_benchmarkFile.fileName()).exists()) {
-        m_benchmarkFile.close();
-        m_benchmarkFile.remove();
+    if (!m_benchmarkFile->fileName().isNull() || QFile(m_benchmarkFile->fileName()).exists()) {
+        m_benchmarkFile->close();
+        m_benchmarkFile->remove();
+        delete m_benchmarkFile;
+        m_benchmarkFile = nullptr;
     }
 
     setRunning(false);
@@ -421,7 +424,7 @@ void Benchmark::sendMessageToSocket(QLocalSocket* localSocket, const QString& me
 
 void Benchmark::flushPageCache()
 {
-    if (m_benchmarkFile.fileName().isNull() || !QFile(m_benchmarkFile.fileName()).exists()) {
+    if (m_benchmarkFile->fileName().isNull() || !QFile(m_benchmarkFile->fileName()).exists()) {
         emit failed("A benchmark file must first be created.");
         setRunning(false);
         return;
@@ -513,7 +516,7 @@ bool Benchmark::prepareBenchmarkFile(const QString &benchmarkPath, int fileSize)
 {
     bool prepared = true;
 
-    if (!m_benchmarkFile.fileName().isNull()) {
+    if (m_benchmarkFile && !m_benchmarkFile->fileName().isNull()) {
         emit failed("A new benchmark session should be started.");
         return false;
     }
@@ -523,9 +526,10 @@ bool Benchmark::prepareBenchmarkFile(const QString &benchmarkPath, int fileSize)
         return false;
     }
 
-    m_benchmarkFile.setFileTemplate(QStringLiteral("%1/%2").arg(benchmarkPath).arg("kdiskmark-XXXXXX.tmp"));
+    m_benchmarkFile = new QTemporaryFile();
+    m_benchmarkFile->setFileTemplate(QStringLiteral("%1/%2").arg(benchmarkPath).arg("kdiskmark-XXXXXX.tmp"));
 
-    if (!m_benchmarkFile.open()) {
+    if (!m_benchmarkFile->open()) {
         emit failed("An error occurred while creating the benchmark file.");
         return false;
     }
@@ -534,7 +538,7 @@ bool Benchmark::prepareBenchmarkFile(const QString &benchmarkPath, int fileSize)
     m_process->start("fio", QStringList()
                      << QStringLiteral("--output-format=json")
                      << QStringLiteral("--create_only=1")
-                     << QStringLiteral("--filename=%1").arg(m_benchmarkFile.fileName())
+                     << QStringLiteral("--filename=%1").arg(m_benchmarkFile->fileName())
                      << QStringLiteral("--size=%1m").arg(fileSize)
                      << QStringLiteral("--zero_buffers=%1").arg(AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
                      << QStringLiteral("--name=prepare"));

@@ -86,7 +86,7 @@ private:
     QString m_FIOVersion;
     QVector<QProgressBar*> m_progressBars;
     QString m_dir;
-    QTemporaryFile m_benchmarkFile;
+    QTemporaryFile *m_benchmarkFile = nullptr;
 
     QProcess *m_process = nullptr;
 #ifdef APPIMAGE_EDITION
