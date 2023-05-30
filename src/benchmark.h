@@ -103,7 +103,7 @@ private:
     bool testFilePath(const QString &benchmarkPath);
     bool prepareBenchmarkFile(const QString &benchmarkPath, int fileSize);
 #ifdef APPIMAGE_EDITION
-    bool initHelper();
+    bool initHelper(const QString& id);
     void sendMessageToSocket(QLocalSocket* localSocket, const QString& message);
     void flushPageCache();
 

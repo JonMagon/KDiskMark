@@ -32,15 +32,6 @@ Benchmark::Benchmark()
     process.close();
 
 #ifdef APPIMAGE_EDITION
-    QLocalServer::removeServer("kdiskmarkLocalServer");
-
-    if (!m_localServer->listen("kdiskmarkLocalServer"))
-    {
-        qCritical() << "Server error:" << m_localServer->errorString();
-        m_localServer->close();
-        return;
-    }
-
     connect(m_localServer, &QLocalServer::newConnection, this, &Benchmark::helperConnected);
 #endif
 }
@@ -230,6 +221,8 @@ void Benchmark::setRunning(bool state)
     if (!m_running) {
 #ifdef APPIMAGE_EDITION
         sendMessageToSocket(m_helperSocket, "HALT");
+        m_localServer->close();
+        QLocalServer::removeServer(m_localServer->serverName());
 #endif
 
         if (m_process) {
@@ -291,7 +284,17 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     emit benchmarkStatusUpdate(tr("Preparing..."));
 
 #ifdef APPIMAGE_EDITION
-    if (settings.getFlusingCacheState() && !initHelper()) {
+    QUuid uuid = QUuid::createUuid();
+    if (!m_localServer->listen("kdiskmark" + uuid.toString(QUuid::StringFormat::WithoutBraces)))
+    {
+        qCritical() << "Server error:" << m_localServer->errorString();
+        m_localServer->close();
+        return;
+    }
+#endif
+
+#ifdef APPIMAGE_EDITION
+    if (settings.getFlusingCacheState() && !initHelper(uuid.toString(QUuid::StringFormat::WithoutBraces))) {
         setRunning(false);
         return;
     }
@@ -364,7 +367,7 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 }
 
 #ifdef APPIMAGE_EDITION
-bool Benchmark::initHelper()
+bool Benchmark::initHelper(const QString& id)
 {
     QString appImagePath = QProcessEnvironment::systemEnvironment().value(QStringLiteral("APPIMAGE"));
 
@@ -383,10 +386,10 @@ bool Benchmark::initHelper()
 
     QProcess *process = new QProcess();
     if (!pkexec.isEmpty()) {
-        process->start(pkexec, {appImagePath, "--helper"});
+        process->start(pkexec, {appImagePath, "--helper", id});
     }
     else {
-        process->start(kdesu, {"--noignorebutton", "-n", "-c", QStringLiteral("%1 --helper").arg(appImagePath)});
+        process->start(kdesu, {"--noignorebutton", "-n", "-c", QStringLiteral("%1 --helper %2").arg(appImagePath).arg(id)});
     }
 
     bool helperState = true;

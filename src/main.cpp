@@ -20,8 +20,14 @@ int main(int argc, char *argv[])
         QCoreApplication a(argc, argv);
         if (QString::compare(a.arguments().at(1), "--helper") == 0) {
             if (Global::isRunningAsRoot()) {
-                Helper *helper = new Helper();
-                return helper->connectToServer() ? a.exec(): -1;
+                if (argc >= 3) {
+                    Helper *helper = new Helper(a.arguments().at(2));
+                    return helper->connectToServer() ? a.exec(): -1;
+                }
+                else {
+                    qCritical() << "Helper id must be defined.";
+                    return -1;
+                }
             }
             else {
                 qCritical() << "The helper must be run as superuser.";

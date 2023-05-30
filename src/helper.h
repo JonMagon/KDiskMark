@@ -9,7 +9,7 @@ class Helper : public QObject
     Q_OBJECT
 
 public:
-    Helper();
+    Helper(const QString& id);
     ~Helper();
 
     bool connectToServer();
