@@ -384,12 +384,12 @@ bool Benchmark::initHelper(const QString& id)
         return false;
     }
 
-    QProcess *process = new QProcess();
+    m_process = new QProcess();
     if (!pkexec.isEmpty()) {
-        process->start(pkexec, {appImagePath, "--helper", id});
+        m_process->start(pkexec, {appImagePath, "--helper", id});
     }
     else {
-        process->start(kdesu, {"--noignorebutton", "-n", "-c", QStringLiteral("%1 --helper %2").arg(appImagePath).arg(id)});
+        m_process->start(kdesu, {"--noignorebutton", "-n", "-c", QStringLiteral("%1 --helper %2").arg(appImagePath).arg(id)});
     }
 
     bool helperState = true;
@@ -397,10 +397,12 @@ bool Benchmark::initHelper(const QString& id)
     QEventLoop loop;
     auto connSocket = QObject::connect(m_localServer, &QLocalServer::newConnection, [&]() { loop.exit(); });
     // If the process ended before newConnection was called, something went wrong
-    auto connProcess = QObject::connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+    auto connProcess = QObject::connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                 [&] (int exitCode, QProcess::ExitStatus exitStatus) {
-        emit failed(tr("Could not obtain administrator privileges."));
-        helperState = false;
+        if (isRunning()) {
+            emit failed(tr("Could not obtain administrator privileges."));
+            helperState = false;
+        }
         loop.exit();
     });
     loop.exec();
