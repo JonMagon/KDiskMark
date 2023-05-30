@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
+    QApplication::setWindowIcon(QIcon(QStringLiteral("%1/../share/icons/hicolor/256x256/apps/%2.png")
+                                      .arg(qApp->applicationDirPath()).arg(PROJECT_NAME)));
 
     AppSettings().setupLocalization();
 
