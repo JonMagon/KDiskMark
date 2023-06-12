@@ -401,8 +401,8 @@ bool Benchmark::initHelper(const QString& id)
                 [&] (int exitCode, QProcess::ExitStatus exitStatus) {
         if (isRunning()) {
             emit failed(tr("Could not obtain administrator privileges."));
-            helperState = false;
         }
+        helperState = false;
         loop.exit();
     });
     loop.exec();
