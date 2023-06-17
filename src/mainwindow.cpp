@@ -34,9 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     actionSnapSlot->setIcon(style()->standardIcon(QStyle::SP_DriveHDIcon));
 
     connect(actionSnapSlot, &QAction::triggered, [this]() {
-        QMessageBox::warning(this, "KDiskMark is limited", "External devices may not be available at this time.\n"
-                                                           "In this case, run: sudo snap connect kdiskmark:removable-media\n"
-                                                           "Note: the speed may be measured incorrectly (unreal high) for external storages due the caching.");
+        QMessageBox::warning(this, "KDiskMark is limited", "External devices may not be available.\n"
+                                                           "In this case, run: sudo snap connect kdiskmark:removable-media");
     });
 
     bar->addAction(actionSnapSlot);
