@@ -116,7 +116,7 @@ jobs:
         sed -i "s|XAUTHORITY kdiskmark|XAUTHORITY ./$APPIMAGE_NAME|g" ../src/mainwindow.cpp
         make DESTDIR=appdir -j$(nproc) install
         cd ../3rd-party/fio-fio-${{ matrix.bundled-fio }}
-        ./configure --disable-native
+        ./configure --disable-native --build-static
         make DESTDIR="$(pwd)/../../build/appdir" prefix=/usr install
         cd ../../build
         cp -a /usr/share/icons/breeze appdir/usr/share/icons/
