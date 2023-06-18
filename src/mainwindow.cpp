@@ -30,15 +30,17 @@ MainWindow::MainWindow(QWidget *parent)
 #ifndef APPIMAGE_EDITION
     QMenuBar *bar = new QMenuBar(ui->menubar);
 
+#ifdef SNAP_EDITION
     QAction *actionSnapSlot = new QAction(bar);
     actionSnapSlot->setIcon(style()->standardIcon(QStyle::SP_DriveHDIcon));
 
     connect(actionSnapSlot, &QAction::triggered, [this]() {
         QMessageBox::warning(this, "KDiskMark is limited", "External devices may not be available.\n"
-                                                           "In this case, run: sudo snap connect kdiskmark:removable-media");
+                                                           "Use: sudo snap connect kdiskmark:removable-media");
     });
 
     bar->addAction(actionSnapSlot);
+#endif
 
     QAction *actionLimited = new QAction(bar);
     actionLimited->setIcon(style()->standardIcon(QStyle::SP_MessageBoxWarning));
