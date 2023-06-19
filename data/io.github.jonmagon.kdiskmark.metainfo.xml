@@ -36,6 +36,17 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.1.4" date="2023-06-19">
+      <description>
+        <p>Changelog:</p>
+        <ul>
+          <li>Fixed config directory name to ~/.config/kdiskmark</li>
+          <li>Hungarian localization correction.</li>
+          <li>Fixed window icon.</li>
+          <li>Dutch localization.</li>
+        </ul>
+      </description>
+    </release>
     <release version="3.1.3" date="2023-04-15">
       <description>
         <p>Changelog:</p>
