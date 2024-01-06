@@ -59,6 +59,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->comboBox_Storages->setItemDelegate(new StorageItemDelegate());
 
+    ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
+    ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
+    ui->actionExit->setIcon(QIcon::fromTheme("application-exit"));
+    ui->menuTest_Data->setIcon(QIcon::fromTheme("distribute-randomize"));
+    ui->actionQueues_Threads->setIcon(QIcon::fromTheme("configure"));
+    ui->actionTheme_Use_Fusion->setIcon(QIcon::fromTheme("preferences-desktop-color"));
+    ui->actionTheme_Stylesheet_Light->setIcon(QIcon::fromTheme("color-picker-white"));
+    ui->actionTheme_Stylesheet_Dark->setIcon(QIcon::fromTheme("color-picker-black"));
+    ui->actionTheme_Do_not_apply->setIcon(QIcon::fromTheme("edit-undo"));
+    ui->actionAbout->setIcon(QIcon::fromTheme("kdiskmark"));
+    ui->menuLanguage->setIcon(QIcon::fromTheme("language-chooser"));
+
     ui->actionDefault->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault->setProperty("mixed", false);
     ui->actionPeak_Performance->setProperty("profile", Global::PerformanceProfile::Peak);
