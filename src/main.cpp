@@ -12,8 +12,6 @@ int main(int argc, char *argv[])
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
     QCoreApplication::setOrganizationName(QStringLiteral(PROJECT_NAME));
 
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     SingleApplication a(argc, argv);
 
     AppSettings().setupLocalization();

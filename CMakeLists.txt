@@ -39,7 +39,7 @@ set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 set(QAPPLICATION_CLASS QApplication)
 add_subdirectory(src/singleapplication)
 
-find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
+find_package(Qt6 COMPONENTS Widgets LinguistTools DBus REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -50,17 +50,17 @@ include(ECMInstallIcons)
 include(ECMConfiguredInstall)
 include(KDEInstallDirs)
 
-find_package(PolkitQt5-1 REQUIRED)
+find_package(PolkitQt6-1 REQUIRED)
 
 set(helper_interface_xml dev.jonmagon.kdiskmark.helperinterface.xml)
 
-qt5_generate_dbus_interface(
+qt6_generate_dbus_interface(
     src/helper.h
     ${helper_interface_xml}
     OPTIONS -a
 )
 
-qt5_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
+qt6_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
 
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
@@ -83,7 +83,7 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_zh_CN.ts
 )
 
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 
 add_executable(${PROJECT_NAME}
     ${QM_FILES}
@@ -113,8 +113,8 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     SingleApplication::SingleApplication
-    Qt5::Widgets
-    Qt5::DBus
+    Qt6::Widgets
+    Qt6::DBus
 )
 
 set(APP_ICONS
@@ -141,8 +141,8 @@ add_executable(${PROJECT_NAME}_helper
 )
 
 target_link_libraries(${PROJECT_NAME}_helper
-    Qt5::DBus
-    PolkitQt5-1::Core
+    Qt6::DBus
+    PolkitQt6-1::Core
 )
 
 install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KDE_INSTALL_LIBEXECDIR})

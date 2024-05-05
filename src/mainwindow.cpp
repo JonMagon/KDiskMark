@@ -11,6 +11,7 @@
 #include <QAbstractItemView>
 #include <QStyleFactory>
 #include <QTimer>
+#include <QActionGroup>
 
 #include "math.h"
 #include "about.h"
@@ -47,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
         if (QLocale().name() == locale.name()) lang->setChecked(true);
     }
 
-    connect(localesGroup, SIGNAL(triggered(QAction*)), this, SLOT(localeSelected(QAction*)));
+    connect(localesGroup, &QActionGroup::triggered, this, &MainWindow::localeSelected);
 
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
     ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
@@ -371,11 +372,8 @@ void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
     QFontMetrics fontMetrics(combobox->font());
     for (int i = 0; i < combobox->count(); i++)
     {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
         int width = fontMetrics.horizontalAdvance(combobox->itemText(i));
-#else
-        int width = fontMetrics.width(combobox->itemText(i));
-#endif
+
         if (width > maxWidth)
             maxWidth = width;
     }

@@ -130,12 +130,7 @@ QVariantMap Helper::endSession()
 
 bool Helper::testFilePath(const QString &benchmarkPath)
 {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 14, 0))
     if (QFileInfo(benchmarkPath).isSymbolicLink()) {
-#else
-    // detects *.lnk on Windows, but there's not Windows version, whatever
-    if (QFileInfo(benchmarkPath).isSymLink()) {
-#endif
         qWarning("The path should not be symbolic link.");
         return false;
     }
