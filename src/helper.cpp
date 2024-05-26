@@ -162,7 +162,7 @@ QVariantMap Helper::prepareBenchmarkFile(const QString &benchmarkPath, int fileS
     m_benchmarkFile.setFileTemplate(QStringLiteral("%1/%2").arg(benchmarkPath).arg("kdiskmark-XXXXXX.tmp"));
 
     if (!m_benchmarkFile.open()) {
-        return {{"success", false}, {"error", "An error occurred while creating the benchmark file."}};
+        return {{"success", false}, {"error", QString("An error occurred while creating the benchmark file: %1").arg(m_benchmarkFile.errorString())}};
     }
 
     m_process = new QProcess();
