@@ -372,7 +372,11 @@ void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
     QFontMetrics fontMetrics(combobox->font());
     for (int i = 0; i < combobox->count(); i++)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
         int width = fontMetrics.horizontalAdvance(combobox->itemText(i));
+#else
+        int width = fontMetrics.width(combobox->itemText(i));
+#endif
 
         if (width > maxWidth)
             maxWidth = width;

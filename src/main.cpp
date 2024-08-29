@@ -12,6 +12,10 @@ int main(int argc, char *argv[])
                                             .arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH));
     QCoreApplication::setOrganizationName(QStringLiteral(PROJECT_NAME));
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
+
     SingleApplication a(argc, argv);
 
     AppSettings().setupLocalization();

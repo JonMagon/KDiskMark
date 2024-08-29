@@ -9,6 +9,8 @@
 #include <QSettings>
 #include <QMetaEnum>
 
+#include <QDebug>
+
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
@@ -53,7 +55,12 @@ void AppSettings::applyLocale(const QLocale &locale)
         }
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     bool qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::path(QLibraryInfo::TranslationsPath));
+#else
+    bool qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#endif
+
     if (qtTranslatorLoaded) {
         QCoreApplication::installTranslator(&s_qtTranslator);
     } else {
