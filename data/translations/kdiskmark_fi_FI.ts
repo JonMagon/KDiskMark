@@ -139,7 +139,7 @@
         <location filename="../../src/mainwindow.ui" line="687"/>
         <location filename="../../src/mainwindow.cpp" line="540"/>
         <source>Mix</source>
-        <translation>Mix</translation>
+        <translation>Sekoitus</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1018"/>

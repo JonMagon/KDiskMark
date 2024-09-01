@@ -330,13 +330,13 @@
         <location filename="../../src/mainwindow.ui" line="1265"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="655"/>
         <source>Stylesheet Light</source>
-        <translation>明るいスタイルシート</translation>
+        <translation>ライト用スタイルシート</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1273"/>
         <location filename="../../build/kdiskmark_autogen/include/ui_mainwindow.h" line="656"/>
         <source>Stylesheet Dark</source>
-        <translation>暗いスタイルシート</translation>
+        <translation>ダーク用スタイルシート</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1281"/>
