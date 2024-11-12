@@ -18,11 +18,11 @@ QString DiskDriveInfo::getDeviceByVolume(const QString &volume)
 QString DiskDriveInfo::getModelName(const QString &volume)
 {
 #if defined(__linux__)
-    QFileInfo sysClass(QFileInfo(QString("/sys/class/block/%1/..")
+    QFileInfo sysClass(QFileInfo(QStringLiteral("/sys/class/block/%1/..")
                                  .arg(getDeviceByVolume(volume)))
                        .canonicalFilePath());
 
-    QFile sysBlock(QString("/sys/block/%1/device/model").arg(sysClass.baseName()));
+    QFile sysBlock(QStringLiteral("/sys/block/%1/device/model").arg(sysClass.baseName()));
 
     if (!sysBlock.open(QIODevice::ReadOnly | QIODevice::Text))
         return QString();
@@ -56,7 +56,7 @@ bool DiskDriveInfo::isEncrypted(const QString &volume)
     if (device.indexOf("dm") != 0)
         return false;
 
-    QFile sysBlock(QString("/sys/block/%1/dm/uuid").arg(device));
+    QFile sysBlock(QStringLiteral("/sys/block/%1/dm/uuid").arg(device));
 
     if (!sysBlock.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
