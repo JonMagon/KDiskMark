@@ -531,6 +531,38 @@
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>DefaultProfile_Test_1_Pattern</tabstop>
+  <tabstop>DefaultProfile_Test_1_BlockSize</tabstop>
+  <tabstop>DefaultProfile_Test_1_Queues</tabstop>
+  <tabstop>DefaultProfile_Test_1_Threads</tabstop>
+  <tabstop>DefaultProfile_Test_2_Pattern</tabstop>
+  <tabstop>DefaultProfile_Test_2_BlockSize</tabstop>
+  <tabstop>DefaultProfile_Test_2_Queues</tabstop>
+  <tabstop>DefaultProfile_Test_2_Threads</tabstop>
+  <tabstop>DefaultProfile_Test_3_Pattern</tabstop>
+  <tabstop>DefaultProfile_Test_3_BlockSize</tabstop>
+  <tabstop>DefaultProfile_Test_3_Queues</tabstop>
+  <tabstop>DefaultProfile_Test_3_Threads</tabstop>
+  <tabstop>DefaultProfile_Test_4_Pattern</tabstop>
+  <tabstop>DefaultProfile_Test_4_BlockSize</tabstop>
+  <tabstop>DefaultProfile_Test_4_Queues</tabstop>
+  <tabstop>DefaultProfile_Test_4_Threads</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_1_Pattern</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_1_BlockSize</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_1_Queues</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_1_Threads</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_2_Pattern</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_2_BlockSize</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_2_Queues</tabstop>
+  <tabstop>PeakPerformanceProfile_Test_2_Threads</tabstop>
+  <tabstop>DemoProfile_Test_1_Pattern</tabstop>
+  <tabstop>DemoProfile_Test_1_BlockSize</tabstop>
+  <tabstop>DemoProfile_Test_1_Queues</tabstop>
+  <tabstop>DemoProfile_Test_1_Threads</tabstop>
+  <tabstop>MeasuringTime</tabstop>
+  <tabstop>IntervalTime</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
