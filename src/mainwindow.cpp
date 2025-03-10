@@ -647,6 +647,15 @@ QString MainWindow::getTextBenchmarkResult()
            << QStringLiteral("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
               .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
 
+    QString targetInfo = ui->comboBox_Storages->currentText();
+    QString modelName = ui->deviceModel->text();
+    if (!modelName.isEmpty()) {
+        targetInfo += QString(" [%1]").arg(modelName);
+    }
+
+    output << QString(" Target: %1")
+              .arg(targetInfo);
+
     return output.join("\n");
 }
 
