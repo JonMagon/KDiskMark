@@ -6,27 +6,27 @@
     <message>
         <location filename="../../src/about.ui" line="17"/>
         <source>About KDiskMark</source>
-        <translation>KDiskMark के बारे में</translation>
+        <translation>KDiskMark के बारे में जानकारी</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="62"/>
         <source>Version:</source>
-        <translation>संस्करण :</translation>
+        <translation>संस्करण:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="88"/>
         <source>License:</source>
-        <translation>लाइसेंस :</translation>
+        <translation>लाइसेंस:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="114"/>
         <source>Author:</source>
-        <translation>निर्माता :</translation>
+        <translation>रचयिता:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="146"/>
         <source>E-mail:</source>
-        <translation>ईमेल :</translation>
+        <translation>ईमेल:</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="178"/>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Application Icon:</source>
-        <translation>अनुप्रयोग आइकन :</translation>
+        <translation>एप्लिकेशन चिह्न:</translation>
     </message>
 </context>
 <context>
@@ -44,42 +44,42 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="240"/>
         <source>Preparing...</source>
-        <translation>तैयारी जारी...</translation>
+        <translation>तैयारी हो रही है...</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="258"/>
         <source>Sequential Read %1/%2</source>
-        <translation>अनुक्रमिक रीड %1/%2</translation>
+        <translation>क्रमबद्ध पठन %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="268"/>
         <source>Sequential Write %1/%2</source>
-        <translation>अनुक्रमिक राइट %1/%2</translation>
+        <translation>क्रमबद्ध लेखन %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="278"/>
         <source>Sequential Mix %1/%2</source>
-        <translation>अनुक्रमिक मिश्रण %1/%2</translation>
-    </message>
-    <message>
-        <location filename="../../src/benchmark.cpp" line="377"/>
-        <source>Could not obtain administrator privileges.</source>
-        <translation>व्यवस्थापकीय विशेषाधिकार प्राप्त नहीं कर सके।</translation>
+        <translation>क्रमबद्ध मिश्रित %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Random Read %1/%2</source>
-        <translation>क्रमरहित रीड %1/%2</translation>
+        <translation>यादृच्छिक पठन %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Random Write %1/%2</source>
-        <translation>क्रमरहित राइट %1/%2</translation>
+        <translation>यादृच्छिक लेखन %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Random Mix %1/%2</source>
-        <translation>क्रमरहित मिश्रण %1/%2</translation>
+        <translation>यादृच्छिक मिश्रित %1/%2</translation>
+    </message>
+    <message>
+        <location filename="../../src/benchmark.cpp" line="377"/>
+        <source>Could not obtain administrator privileges.</source>
+        <translation>प्रशासक अधिकार प्राप्त नहीं हो सके।</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="289"/>
@@ -100,56 +100,56 @@
         <location filename="../../src/mainwindow.ui" line="934"/>
         <location filename="../../src/mainwindow.cpp" line="534"/>
         <source>Read</source>
-        <translation>रीड</translation>
+        <translation>पठन</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="521"/>
         <location filename="../../src/mainwindow.ui" line="953"/>
         <location filename="../../src/mainwindow.cpp" line="537"/>
         <source>Write</source>
-        <translation>राइट</translation>
+        <translation>लेखन</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="687"/>
         <location filename="../../src/mainwindow.cpp" line="540"/>
         <source>Mix</source>
-        <translation>मिश्रण</translation>
+        <translation>मिश्रित</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="221"/>
         <location filename="../../src/mainwindow.cpp" line="423"/>
         <location filename="../../src/mainwindow.cpp" line="427"/>
         <source>MB/s</source>
-        <translation>एमबी/सेकंड</translation>
+        <translation>MB/s</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="226"/>
         <source>GB/s</source>
-        <translation>जीबी/सेकंड</translation>
+        <translation>GB/s</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="231"/>
         <location filename="../../src/mainwindow.cpp" line="429"/>
         <location filename="../../src/mainwindow.cpp" line="430"/>
         <source>IOPS</source>
-        <translation>इनपुट-आउटपुट/सेकंड</translation>
+        <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="236"/>
         <location filename="../../src/mainwindow.cpp" line="432"/>
         <location filename="../../src/mainwindow.cpp" line="433"/>
         <source>μs</source>
-        <translation>माइक्रो-सेकंड</translation>
+        <translation>μs</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1018"/>
         <source>File</source>
-        <translation>फाइल</translation>
+        <translation>फ़ाइल</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1026"/>
         <source>Settings</source>
-        <translation>सेटिंग्स</translation>
+        <translation>समायोजन</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1030"/>
@@ -159,7 +159,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1047"/>
         <source>Profile</source>
-        <translation>प्रोफाइल</translation>
+        <translation>प्रोफ़ाइल</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1063"/>
@@ -184,17 +184,17 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
-        <translation>पंक्तियाँ व थ्रेड</translation>
+        <translation>कतारें और थ्रेड्स</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1101"/>
         <source>Copy</source>
-        <translation>कॉपी करें</translation>
+        <translation>प्रतिलिपि</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1106"/>
         <source>Save</source>
-        <translation>संचित करें</translation>
+        <translation>सहेजें</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1111"/>
@@ -204,37 +204,37 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1122"/>
         <source>Default</source>
-        <translation>डिफ़ॉल्ट</translation>
+        <translation>मानक</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
-        <translation>उच्चतम कार्यक्षमता</translation>
+        <translation>उच्चतम प्रदर्शन</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
-        <translation>वास्तविक सामान्य कार्यक्षमता</translation>
+        <translation>वास्तविक प्रदर्शन</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
-        <translation>डिफ़ॉल्ट [+मिश्रित]</translation>
+        <translation>मानक [+मिश्रित]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
-        <translation>उच्चतम कार्यक्षमता [+मिश्रित]</translation>
+        <translation>उच्चतम प्रदर्शन [+मिश्रित]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
-        <translation>वास्तविक सामान्य कार्यक्षमता [+मिश्रित]</translation>
+        <translation>वास्तविक प्रदर्शन [+मिश्रित]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1173"/>
         <source>Flush Pagecache</source>
-        <translation>मेमोरी पृष्ठ कैश रिक्त करें</translation>
+        <translation>पेज कैश साफ़ करें</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1181"/>
@@ -244,22 +244,22 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
-        <translation>रीड और राइट [+मिश्रित]</translation>
+        <translation>पठन और लेखन [+मिश्रित]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
-        <translation>रीड [+मिश्रित]</translation>
+        <translation>पठन [+मिश्रित]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
-        <translation>राइट [+मिश्रित]</translation>
+        <translation>लेखन [+मिश्रित]</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1219"/>
         <source>Random</source>
-        <translation>क्रमरहित</translation>
+        <translation>यादृच्छिक</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1227"/>
@@ -269,7 +269,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
-        <translation>मानक सेटिंग्स</translation>
+        <translation>मानक प्रीसेट</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1246"/>
@@ -279,17 +279,17 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
-        <translation>Fusion</translation>
+        <translation>Fusion का उपयोग करें</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
-        <translation>स्टाइलशीट Light</translation>
+        <translation>स्टाइलशीट लाइट</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
-        <translation>स्टाइलशीट Dark</translation>
+        <translation>स्टाइलशीट डार्क</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1281"/>
@@ -299,52 +299,52 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1292"/>
         <source>Use O_DIRECT</source>
-        <translation>O_DIRECT का प्रयोग करें</translation>
+        <translation>O_DIRECT का उपयोग करें</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="53"/>
         <source>The device is encrypted. Performance may drop.</source>
-        <translation>यह उपकरण एन्क्रिप्शन युक्त है। कार्यक्षमता प्रभावित हो सकती है।</translation>
+        <translation>यह डिवाइस एन्क्रिप्टेड है। प्रदर्शन कम हो सकता है।</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="345"/>
         <location filename="../../src/mainwindow.cpp" line="439"/>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>MiB</source>
-        <translation>एमआईबी</translation>
+        <translation>MiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="349"/>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>GiB</source>
-        <translation>जीआईबी</translation>
+        <translation>GiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>Bytes</source>
-        <translation>बाइट</translation>
+        <translation>Bytes</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="439"/>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>KiB</source>
-        <translation>केआईबी</translation>
+        <translation>KiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="256"/>
         <location filename="../../src/mainwindow.cpp" line="315"/>
         <source>Add a directory</source>
-        <translation>डायरेक्टरी जोड़ें</translation>
+        <translation>निर्देशिका जोड़ें</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>TiB</source>
-        <translation>टीआईबी</translation>
+        <translation>TiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>PiB</source>
-        <translation>पीआईबी</translation>
+        <translation>PiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="870"/>
@@ -358,27 +358,27 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="922"/>
         <source>Stopping...</source>
-        <translation>रोकना जारी...</translation>
+        <translation>रुक रहा है...</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Not available</source>
-        <translation>अनुपलब्ध</translation>
+        <translation>उपलब्ध नहीं</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Directory is not specified.</source>
-        <translation>कोई डायरेक्टरी निर्दिष्ट नहीं है।</translation>
+        <translation>निर्देशिका निर्दिष्ट नहीं है।</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="935"/>
         <source>Confirmation</source>
-        <translation>पुष्टिकरण</translation>
+        <translation>पुष्टि</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
-        <translation>मानदंड प्रक्रिया विफल</translation>
+        <translation>बेंचमार्क विफल रहा</translation>
     </message>
 </context>
 <context>
@@ -386,37 +386,37 @@
     <message>
         <location filename="../../src/global.cpp" line="25"/>
         <source>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Queues=%4&lt;br/&gt;Threads=%5%6&lt;/h2&gt;</source>
-        <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;पंक्तियाँ=%4&lt;br/&gt;थ्रेड=%5%6&lt;/h2&gt;</translation>
+        <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;कतारें=%4&lt;br/&gt;थ्रेड्स=%5%6&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Sequential</source>
-        <translation>अनुक्रमिक</translation>
+        <translation>क्रमबद्ध</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Random</source>
-        <translation>क्रमरहित</translation>
+        <translation>यादृच्छिक</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="28"/>
         <source>MiB</source>
-        <translation>एमआईबी</translation>
+        <translation>MiB</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="28"/>
         <source>KiB</source>
-        <translation>केआईबी</translation>
+        <translation>KiB</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="34"/>
         <source>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
-        <translation>&lt;h1&gt;%1 एमबी/सेकंड&lt;br/&gt;%2 जीबी/सेकंड&lt;br/&gt;%3 इनपुट-आउटपुट/सेकंड&lt;br/&gt;%4 माइक्रो-सेकंड&lt;/h1&gt;</translation>
+        <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="193"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation>FIO प्राप्ति विफल। कृपया KDiskMark उपयोग करने से पहले FIO इंस्टॉल करें।</translation>
+        <translation>FIO नहीं मिला। कृपया KDiskMark का उपयोग करने से पहले FIO इंस्टॉल करें।</translation>
     </message>
 </context>
 <context>
@@ -424,7 +424,7 @@
     <message>
         <location filename="../../src/settings.ui" line="14"/>
         <source>Settings</source>
-        <translation>सेटिंग्स</translation>
+        <translation>समायोजन</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="149"/>
@@ -434,32 +434,32 @@
     <message>
         <location filename="../../src/settings.ui" line="165"/>
         <source>Queues</source>
-        <translation>पंक्तियाँ</translation>
+        <translation>कतारें</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="181"/>
         <source>Threads</source>
-        <translation>थ्रेड</translation>
+        <translation>थ्रेड्स</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="280"/>
         <source>Type</source>
-        <translation>टाइप</translation>
+        <translation>प्रकार</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="335"/>
         <source>Profile: Peak Performance</source>
-        <translation>प्रोफाइल: उच्चतम कार्यक्षमता</translation>
+        <translation>प्रोफ़ाइल: उच्चतम प्रदर्शन</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="446"/>
         <source>Profile: Demo</source>
-        <translation>प्रोफाइल: डेमो</translation>
+        <translation>प्रोफ़ाइल: डेमो</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="508"/>
         <source>Measuring time</source>
-        <translation>समय मापन</translation>
+        <translation>मापन समय</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="530"/>
@@ -469,7 +469,7 @@
     <message>
         <location filename="../../src/settings.ui" line="257"/>
         <source>Profile: Default</source>
-        <translation>प्रोफाइल: डिफ़ॉल्ट</translation>
+        <translation>प्रोफ़ाइल: मानक</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="18"/>
@@ -492,7 +492,7 @@
         <location filename="../../src/settings.cpp" line="77"/>
         <location filename="../../src/settings.cpp" line="79"/>
         <source>MiB</source>
-        <translation>एमआईबी</translation>
+        <translation>MiB</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="59"/>
@@ -503,7 +503,7 @@
         <location filename="../../src/settings.cpp" line="65"/>
         <location filename="../../src/settings.cpp" line="67"/>
         <source>KiB</source>
-        <translation>केआईबी</translation>
+        <translation>KiB</translation>
     </message>
 </context>
 </TS>
