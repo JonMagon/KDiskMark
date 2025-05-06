@@ -6,37 +6,37 @@
     <message>
         <location filename="../../src/about.ui" line="17"/>
         <source>About KDiskMark</source>
-        <translation type="unfinished">關於 KDiskMark</translation>
+        <translation>關於 KDiskMark</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="62"/>
         <source>Version:</source>
-        <translation type="unfinished">版本：</translation>
+        <translation>版本：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="88"/>
         <source>License:</source>
-        <translation type="unfinished">授權條款：</translation>
+        <translation>授權條款：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="114"/>
         <source>Author:</source>
-        <translation type="unfinished">作者：</translation>
+        <translation>作者：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="146"/>
         <source>E-mail:</source>
-        <translation type="unfinished">電子郵件：</translation>
+        <translation>電子郵件：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="178"/>
         <source>Flexible I/O Tester:</source>
-        <translation type="unfinished">Flexible I/O 測試者：</translation>
+        <translation>Flexible I/O 測試者：</translation>
     </message>
     <message>
         <location filename="../../src/about.ui" line="204"/>
         <source>Application Icon:</source>
-        <translation type="unfinished">應用程式圖示：</translation>
+        <translation>應用程式圖示：</translation>
     </message>
 </context>
 <context>
@@ -44,47 +44,47 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="240"/>
         <source>Preparing...</source>
-        <translation type="unfinished"></translation>
+        <translation>準備中......</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="258"/>
         <source>Sequential Read %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>順序讀取 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Random Read %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>隨機讀取 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="268"/>
         <source>Sequential Write %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>順序寫入 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Random Write %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>隨機寫入 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="278"/>
         <source>Sequential Mix %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>順序混合 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Random Mix %1/%2</source>
-        <translation type="unfinished"></translation>
+        <translation>隨機混合 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="289"/>
         <source>Interval Time %1/%2 sec</source>
-        <translation type="unfinished"></translation>
+        <translation>間隔時間</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="377"/>
         <source>Could not obtain administrator privileges.</source>
-        <translation type="unfinished">無法取得管理者權限。</translation>
+        <translation>無法取得管理員權限。</translation>
     </message>
 </context>
 <context>
@@ -93,53 +93,53 @@
         <location filename="../../src/mainwindow.ui" line="30"/>
         <location filename="../../src/mainwindow.cpp" line="895"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>所有</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="221"/>
         <location filename="../../src/mainwindow.cpp" line="423"/>
         <location filename="../../src/mainwindow.cpp" line="427"/>
         <source>MB/s</source>
-        <translation type="unfinished"></translation>
+        <translation>MB/秒</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="226"/>
         <source>GB/s</source>
-        <translation type="unfinished"></translation>
+        <translation>GB/秒</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="231"/>
         <location filename="../../src/mainwindow.cpp" line="429"/>
         <location filename="../../src/mainwindow.cpp" line="430"/>
         <source>IOPS</source>
-        <translation type="unfinished"></translation>
+        <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="236"/>
         <location filename="../../src/mainwindow.cpp" line="432"/>
         <location filename="../../src/mainwindow.cpp" line="433"/>
         <source>μs</source>
-        <translation type="unfinished"></translation>
+        <translation>微秒</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="352"/>
         <location filename="../../src/mainwindow.ui" line="934"/>
         <location filename="../../src/mainwindow.cpp" line="534"/>
         <source>Read</source>
-        <translation type="unfinished"></translation>
+        <translation>讀取</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="521"/>
         <location filename="../../src/mainwindow.ui" line="953"/>
         <location filename="../../src/mainwindow.cpp" line="537"/>
         <source>Write</source>
-        <translation type="unfinished"></translation>
+        <translation>寫入</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="687"/>
         <location filename="../../src/mainwindow.cpp" line="540"/>
         <source>Mix</source>
-        <translation type="unfinished"></translation>
+        <translation>混合</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1018"/>
