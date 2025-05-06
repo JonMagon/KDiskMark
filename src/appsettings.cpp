@@ -9,6 +9,8 @@
 #include <QSettings>
 #include <QMetaEnum>
 
+#include <QDebug>
+
 QTranslator AppSettings::s_appTranslator;
 QTranslator AppSettings::s_qtTranslator;
 
@@ -21,8 +23,6 @@ AppSettings::AppSettings(QObject *parent)
 void AppSettings::setupLocalization()
 {
     applyLocale(locale());
-    QCoreApplication::installTranslator(&s_appTranslator);
-    QCoreApplication::installTranslator(&s_qtTranslator);
 }
 
 QLocale AppSettings::locale() const
@@ -42,8 +42,30 @@ void AppSettings::applyLocale(const QLocale &locale)
 {
     const QLocale newLocale = locale == defaultLocale() ? QLocale::system() : locale;
     QLocale::setDefault(newLocale);
-    s_appTranslator.load(newLocale, QStringLiteral(PROJECT_NAME), QStringLiteral("_"), QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("translations"), QStandardPaths::LocateDirectory));
-    s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+
+    QCoreApplication::removeTranslator(&s_appTranslator);
+    QCoreApplication::removeTranslator(&s_qtTranslator);
+
+    if (newLocale.language() != QLocale::English) {
+        bool appTranslatorLoaded = s_appTranslator.load(newLocale, QStringLiteral(PROJECT_NAME), QStringLiteral("_"), QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("translations"), QStandardPaths::LocateDirectory));
+        if (appTranslatorLoaded) {
+            QCoreApplication::installTranslator(&s_appTranslator);
+        } else {
+            qWarning() << "Failed to load application translations for locale" << newLocale;
+        }
+    }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    bool qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::path(QLibraryInfo::TranslationsPath));
+#else
+    bool qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#endif
+
+    if (qtTranslatorLoaded) {
+        QCoreApplication::installTranslator(&s_qtTranslator);
+    } else {
+        qWarning() << "Failed to load Qt translations for locale" << newLocale;
+    }
 }
 
 QLocale AppSettings::defaultLocale()

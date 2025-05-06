@@ -11,6 +11,7 @@
 #include <QAbstractItemView>
 #include <QStyleFactory>
 #include <QTimer>
+#include <QActionGroup>
 
 #include "math.h"
 #include "about.h"
@@ -31,13 +32,13 @@ MainWindow::MainWindow(QWidget *parent)
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
                                  QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Dutch,
-                                 QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil),
+                                 QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil), QLocale::Finnish,
                                  QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian,
                                  QLocale::Ukrainian, QLocale::Chinese, QLocale::Japanese, QLocale::Hindi };
 
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
-        QAction *lang = new QAction(QString("%1%2").arg(langName[0].toUpper(), langName.mid(1)), this);
+        QAction *lang = new QAction(QStringLiteral("%1%2").arg(langName[0].toUpper(), langName.mid(1)), this);
         lang->setIcon(QIcon(QStringLiteral(":/icons/flags/%1.svg").arg(locale.name().mid(3))));
         lang->setCheckable(true);
         lang->setData(locale);
@@ -47,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
         if (QLocale().name() == locale.name()) lang->setChecked(true);
     }
 
-    connect(localesGroup, SIGNAL(triggered(QAction*)), this, SLOT(localeSelected(QAction*)));
+    connect(localesGroup, &QActionGroup::triggered, this, &MainWindow::localeSelected);
 
     ui->extraIcon->setPixmap(style()->standardIcon(QStyle::SP_MessageBoxWarning).pixmap(QSize(16, 16)));
     ui->extraIcon->setToolTip(tr("The device is encrypted. Performance may drop."));
@@ -376,6 +377,7 @@ void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
 #else
         int width = fontMetrics.width(combobox->itemText(i));
 #endif
+
         if (width > maxWidth)
             maxWidth = width;
     }
@@ -517,7 +519,7 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
         outputTotal = outputTotal / 1024;
     }
     QLocale locale = QLocale();
-    return QString("%1/%2 %3").arg(locale.toString(outputAvailable, 'f', 2))
+    return QStringLiteral("%1/%2 %3").arg(locale.toString(outputAvailable, 'f', 2))
             .arg(locale.toString(outputTotal, 'f', 2)).arg(units[i]);
 }
 
@@ -550,7 +552,7 @@ QString MainWindow::combineOutputTestResult(const QProgressBar *progressBar, con
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
-    return QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
+    return QStringLiteral("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
            .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? "Sequential" : "Random")
            .arg(QString::number(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize).rightJustified(3, ' '))
            .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
@@ -574,13 +576,13 @@ QString MainWindow::getTextBenchmarkResult()
 
     QStringList output;
 
-    output << QString("KDiskMark (%1): https://github.com/JonMagon/KDiskMark")
+    output << QStringLiteral("KDiskMark (%1): https://github.com/JonMagon/KDiskMark")
               .arg(qApp->applicationVersion())
               .rightJustified(Global::getOutputColumnsCount(), ' ')
-           << QString("Flexible I/O Tester (%1): https://github.com/axboe/fio")
+           << QStringLiteral("Flexible I/O Tester (%1): https://github.com/axboe/fio")
               .arg(m_benchmark->getFIOVersion())
               .rightJustified(Global::getOutputColumnsCount(), ' ')
-           << QString("-").repeated(Global::getOutputColumnsCount())
+           << QStringLiteral("-").repeated(Global::getOutputColumnsCount())
            << "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]"
            << "* KB = 1000 bytes, KiB = 1024 bytes";
 
@@ -614,7 +616,7 @@ QString MainWindow::getTextBenchmarkResult()
 
     if (settings.getMixedState() && settings.getPerformanceProfile() != Global::PerformanceProfile::Demo) {
          output << QString()
-                << QString("[Mix] Read %1%/Write %2%")
+                << QStringLiteral("[Mix] Read %1%/Write %2%")
                    .arg(settings.getRandomReadPercentage())
                    .arg(100 - settings.getRandomReadPercentage())
                 << combineOutputTestResult(ui->mixBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()))
@@ -628,9 +630,9 @@ QString MainWindow::getTextBenchmarkResult()
     QString profiles[] = { "Default", "Peak Performance", "Real World Performance", "Demo" };
 
     output << QString()
-           << QString("Profile: %1%2")
+           << QStringLiteral("Profile: %1%2")
               .arg(profiles[(int)settings.getPerformanceProfile()]).arg(settings.getMixedState() ? " [+Mix]" : QString())
-           << QString("   Test: %1")
+           << QStringLiteral("   Test: %1")
               .arg("%1 %2 (x%3) [Measure: %4 %5 / Interval: %6 %7]")
               .arg(settings.getFileSize() >= 1024 ? settings.getFileSize() / 1024 : settings.getFileSize())
               .arg(settings.getFileSize() >= 1024 ? "GiB" : "MiB")
@@ -639,11 +641,20 @@ QString MainWindow::getTextBenchmarkResult()
               .arg(settings.getMeasuringTime() >= 60 ? "min" : "sec")
               .arg(settings.getIntervalTime() >= 60 ? settings.getIntervalTime() / 60 : settings.getIntervalTime())
               .arg(settings.getIntervalTime() >= 60 ? "min" : "sec")
-           << QString("   Date: %1 %2")
+           << QStringLiteral("   Date: %1 %2")
               .arg(QDate::currentDate().toString("yyyy-MM-dd"))
               .arg(QTime::currentTime().toString("hh:mm:ss"))
-           << QString("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
+           << QStringLiteral("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
               .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
+
+    QString targetInfo = ui->comboBox_Storages->currentText();
+    QString modelName = ui->deviceModel->text();
+    if (!modelName.isEmpty()) {
+        targetInfo += QString(" [%1]").arg(modelName);
+    }
+
+    output << QString(" Target: %1")
+              .arg(targetInfo);
 
     return output.join("\n");
 }
@@ -947,7 +958,7 @@ void MainWindow::benchmarkFailed(const QString &error)
 
 void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
-    setWindowTitle(QString("%1 - %2").arg(m_windowTitle, name));
+    setWindowTitle(QStringLiteral("%1 - %2").arg(m_windowTitle, name));
 }
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)

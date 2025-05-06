@@ -114,6 +114,15 @@ cmake -D CMAKE_BUILD_TYPE=Release ..
 cpack -G DEB # Or RPM, ZIP etc.
 ```
 
+### Building with Qt6
+To build **KDiskMark** with Qt6 instead of the default Qt5, use the `USE_QT6` flag during the CMake configuration step:
+
+```bash
+mkdir build && cd build
+cmake -D CMAKE_BUILD_TYPE=Release -D USE_QT6=ON ..
+cpack -G DEB # Or RPM, ZIP etc.
+```
+
 ## Localization [![Crowdin](https://badges.crowdin.net/kdiskmark/localized.svg)](https://crowdin.com/project/kdiskmark)
 To help with localization you can use [Crowdin](https://crowdin.com/project/kdiskmark) or translate files in `data/translations` with [Qt Linguist](https://doc.qt.io/Qt-5/linguist-translators.html) directly. To add a new language, copy `data/translations/kdiskmark.ts` to `data/translations/kdiskmark_<ISO 639-1 language code>_<ISO 3166-1 alpha-2 language code>.ts`, translate it, then add the file to the TS_FILES variable in CMakeLists.txt, and create a pull request. It is also possible to add localized Comment and Keywords sections into `data/kdiskmark.desktop` and message for PolicyKit authorization into `data/dev.jonmagon.kdiskmark.helper.policy`.
 

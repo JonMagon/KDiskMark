@@ -139,7 +139,7 @@
         <location filename="../../src/mainwindow.ui" line="687"/>
         <location filename="../../src/mainwindow.cpp" line="540"/>
         <source>Mix</source>
-        <translation>Mix</translation>
+        <translation>Sekoitus</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1018"/>
@@ -184,7 +184,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
-        <translation>Jonot &amp; &amp; Säikeet</translation>
+        <translation>Jonot &amp;&amp; Säikeet</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1101"/>

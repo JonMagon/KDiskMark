@@ -13,6 +13,20 @@ include_directories(${PROJECT_BINARY_BIN})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+option(USE_QT6 "Use Qt6 instead of Qt5" OFF)
+
+if(USE_QT6)
+    find_package(Qt6 COMPONENTS Widgets LinguistTools DBus REQUIRED)
+    find_package(PolkitQt6-1 REQUIRED)
+    set(QT_LIBS Qt6::Widgets Qt6::DBus)
+    set(POLKIT_LIB PolkitQt6-1::Core)
+else()
+    find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
+    find_package(PolkitQt5-1 REQUIRED)
+    set(QT_LIBS Qt5::Widgets Qt5::DBus)
+    set(POLKIT_LIB PolkitQt5-1::Core)
+endif()
+
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -32,14 +46,13 @@ set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY >=)
 set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
 set(CPACK_RPM_PACKAGE_LICENSE GPLv3)
 set(CPACK_RPM_PACKAGE_GROUP Applications/System)
+set(CPACK_RPM_PACKAGE_REQUIRES "fio >= 3.1")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
 set(QAPPLICATION_CLASS QApplication)
 add_subdirectory(src/singleapplication)
-
-find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
 
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
@@ -50,22 +63,30 @@ include(ECMInstallIcons)
 include(ECMConfiguredInstall)
 include(KDEInstallDirs)
 
-find_package(PolkitQt5-1 REQUIRED)
-
 set(helper_interface_xml dev.jonmagon.kdiskmark.helperinterface.xml)
 
-qt5_generate_dbus_interface(
-    src/helper.h
-    ${helper_interface_xml}
-    OPTIONS -a
-)
-
-qt5_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
+# Generate DBus Interface
+if(USE_QT6)
+    qt6_generate_dbus_interface(
+        src/helper.h
+        ${helper_interface_xml}
+        OPTIONS -a
+    )
+    qt6_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
+else()
+    qt5_generate_dbus_interface(
+        src/helper.h
+        ${helper_interface_xml}
+        OPTIONS -a
+    )
+    qt5_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
+endif()
 
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
     data/translations/${PROJECT_NAME}_de_DE.ts
     data/translations/${PROJECT_NAME}_es_MX.ts
+    data/translations/${PROJECT_NAME}_fi_FI.ts
     data/translations/${PROJECT_NAME}_fr_FR.ts
     data/translations/${PROJECT_NAME}_hi_IN.ts
     data/translations/${PROJECT_NAME}_hu_HU.ts
@@ -82,7 +103,11 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_zh_CN.ts
 )
 
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+if(USE_QT6)
+    qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+else()
+    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+endif()
 
 add_executable(${PROJECT_NAME}
     ${QM_FILES}
@@ -112,8 +137,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
     SingleApplication::SingleApplication
-    Qt5::Widgets
-    Qt5::DBus
+    ${QT_LIBS}
 )
 
 set(APP_ICONS
@@ -140,8 +164,8 @@ add_executable(${PROJECT_NAME}_helper
 )
 
 target_link_libraries(${PROJECT_NAME}_helper
-    Qt5::DBus
-    PolkitQt5-1::Core
+    ${QT_LIBS}
+    ${POLKIT_LIB}
 )
 
 install(TARGETS ${PROJECT_NAME}_helper DESTINATION ${KDE_INSTALL_LIBEXECDIR})

@@ -93,7 +93,7 @@
         <location filename="../../src/mainwindow.ui" line="30"/>
         <location filename="../../src/mainwindow.cpp" line="895"/>
         <source>All</source>
-        <translation>Všetci</translation>
+        <translation>Všetky</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="352"/>
@@ -149,7 +149,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1026"/>
         <source>Settings</source>
-        <translation>Nastavenie</translation>
+        <translation>Nastavenia</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1030"/>
@@ -269,7 +269,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
-        <translation>Štandardné prednastavenie</translation>
+        <translation>Štandardná predvoľba</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1246"/>
@@ -284,12 +284,12 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
-        <translation>Štýlový list Light</translation>
+        <translation>Štýl Svetlý</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
-        <translation>Štýlový list Dark</translation>
+        <translation>Štýl Tmavý</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1281"/>
@@ -353,7 +353,7 @@
         <location filename="../../src/mainwindow.cpp" line="873"/>
         <location filename="../../src/mainwindow.cpp" line="874"/>
         <source>Stop</source>
-        <translation>Stop</translation>
+        <translation>Zastaviť</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="922"/>
@@ -368,7 +368,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Directory is not specified.</source>
-        <translation>Nie je zadaná zložka.</translation>
+        <translation>Nie je zadaný priečinok.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="935"/>
@@ -424,7 +424,7 @@
     <message>
         <location filename="../../src/settings.ui" line="14"/>
         <source>Settings</source>
-        <translation>Nastavenie</translation>
+        <translation>Nastavenia</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="149"/>
@@ -469,7 +469,7 @@
     <message>
         <location filename="../../src/settings.ui" line="257"/>
         <source>Profile: Default</source>
-        <translation>Profil: Predvolené</translation>
+        <translation>Profil: Predvolený</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="18"/>

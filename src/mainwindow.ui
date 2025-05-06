@@ -1293,6 +1293,20 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+   <tabstop>pushButton_All</tabstop>
+   <tabstop>pushButton_Test_1</tabstop>
+   <tabstop>pushButton_Test_2</tabstop>
+   <tabstop>pushButton_Test_3</tabstop>
+   <tabstop>pushButton_Test_4</tabstop>
+   <tabstop>loopsCount</tabstop>
+   <tabstop>comboBox_fileSize</tabstop>
+   <tabstop>comboBox_Storages</tabstop>
+   <tabstop>refreshStoragesButton</tabstop>
+   <tabstop>comboBox_ComparisonUnit</tabstop>
+   <tabstop>comboBox_MixRatio</tabstop>
+   <tabstop>deviceModel</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
