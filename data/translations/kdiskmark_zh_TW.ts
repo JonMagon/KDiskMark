@@ -69,12 +69,12 @@
     <message>
         <location filename="../../src/benchmark.cpp" line="278"/>
         <source>Sequential Mix %1/%2</source>
-        <translation>順序混合 %1/%2</translation>
+        <translation>順序讀寫 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="282"/>
         <source>Random Mix %1/%2</source>
-        <translation>隨機混合 %1/%2</translation>
+        <translation>隨機讀寫 %1/%2</translation>
     </message>
     <message>
         <location filename="../../src/benchmark.cpp" line="289"/>
@@ -139,212 +139,212 @@
         <location filename="../../src/mainwindow.ui" line="687"/>
         <location filename="../../src/mainwindow.cpp" line="540"/>
         <source>Mix</source>
-        <translation>混合</translation>
+        <translation>讀寫</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1018"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>檔案</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1026"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>設定</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1030"/>
         <source>Test Data</source>
-        <translation type="unfinished"></translation>
+        <translation>測試資料</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1047"/>
         <source>Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>設定檔</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1063"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>說明</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1067"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>語言</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1075"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>主題</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1091"/>
         <source>About KDiskMark</source>
-        <translation type="unfinished"></translation>
+        <translation>關於 KDiskMark</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
-        <translation type="unfinished"></translation>
+        <translation>序列 &amp;&amp; 執行緒</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1101"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>複製</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1106"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1111"/>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1122"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>預設</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>最佳數據</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
-        <translation type="unfinished"></translation>
+        <translation>實際數據</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>預設（混合）</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>最佳數據（混合）</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>實際數據（混合）</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1173"/>
         <source>Flush Pagecache</source>
-        <translation type="unfinished"></translation>
+        <translation>清除頁快取</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1181"/>
         <source>Demo</source>
-        <translation type="unfinished"></translation>
+        <translation>預覽</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>讀寫（混合）</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>讀取（混合）</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
-        <translation type="unfinished"></translation>
+        <translation>寫入（混合）</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1219"/>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>隨機</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1227"/>
         <source>Fill with zeros</source>
-        <translation type="unfinished"></translation>
+        <translation>填入「零」</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
-        <translation type="unfinished"></translation>
+        <translation>標準資料</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1246"/>
         <source>NVMe SSD</source>
-        <translation type="unfinished"></translation>
+        <translation>NVMe 硬碟</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
-        <translation type="unfinished"></translation>
+        <translation>使用混合</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
-        <translation type="unfinished"></translation>
+        <translation>明亮樣式表</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>暗黑樣式表</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
-        <translation type="unfinished"></translation>
+        <translation>請勿套用</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1292"/>
         <source>Use O_DIRECT</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 O_DIRECT</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="53"/>
         <source>The device is encrypted. Performance may drop.</source>
-        <translation type="unfinished"></translation>
+        <translation>此裝置因已被加密而可能降低磁碟性能。</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="256"/>
         <location filename="../../src/mainwindow.cpp" line="315"/>
         <source>Add a directory</source>
-        <translation type="unfinished"></translation>
+        <translation>新增資料夾</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="345"/>
         <location filename="../../src/mainwindow.cpp" line="439"/>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>MiB</source>
-        <translation type="unfinished"></translation>
+        <translation>MiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="349"/>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>GiB</source>
-        <translation type="unfinished"></translation>
+        <translation>GiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="439"/>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>KiB</source>
-        <translation type="unfinished"></translation>
+        <translation>KiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>Bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>位元組</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>TiB</source>
-        <translation type="unfinished"></translation>
+        <translation>TiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>PiB</source>
-        <translation type="unfinished"></translation>
+        <translation>PiB</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="870"/>
@@ -353,32 +353,32 @@
         <location filename="../../src/mainwindow.cpp" line="873"/>
         <location filename="../../src/mainwindow.cpp" line="874"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>停止</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="922"/>
         <source>Stopping...</source>
-        <translation type="unfinished"></translation>
+        <translation>正在停止......</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Not available</source>
-        <translation type="unfinished"></translation>
+        <translation>目前不可用</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="932"/>
         <source>Directory is not specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>尚未指定資料夾。</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="935"/>
         <source>Confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>確認</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="948"/>
         <source>Benchmark Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>測試失敗</translation>
     </message>
 </context>
 <context>
@@ -386,37 +386,37 @@
     <message>
         <location filename="../../src/global.cpp" line="25"/>
         <source>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Queues=%4&lt;br/&gt;Threads=%5%6&lt;/h2&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;序列=%4&lt;br/&gt;執行緒=%5%6&lt;/h2&gt;</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Sequential</source>
-        <translation type="unfinished"></translation>
+        <translation>順序</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="26"/>
         <source>Random</source>
-        <translation type="unfinished"></translation>
+        <translation>隨機</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="28"/>
         <source>MiB</source>
-        <translation type="unfinished"></translation>
+        <translation>MiB</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="28"/>
         <source>KiB</source>
-        <translation type="unfinished"></translation>
+        <translation>KiB</translation>
     </message>
     <message>
         <location filename="../../src/global.cpp" line="34"/>
         <source>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;h1&gt;%1 MB/秒&lt;br/&gt;%2 GB/秒&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 微秒&lt;/h1&gt;</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="193"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
-        <translation type="unfinished"></translation>
+        <translation>請安裝 FIO 以繼續使用 KDiskMark。</translation>
     </message>
 </context>
 <context>
@@ -424,64 +424,64 @@
     <message>
         <location filename="../../src/settings.ui" line="14"/>
         <source>Settings</source>
-        <translation type="unfinished">設定</translation>
+        <translation>設定</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="149"/>
         <source>Block Size</source>
-        <translation type="unfinished">區塊大小</translation>
+        <translation>區塊大小</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="165"/>
         <source>Queues</source>
-        <translation type="unfinished">序列</translation>
+        <translation>序列</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="181"/>
         <source>Threads</source>
-        <translation type="unfinished">執行緒</translation>
+        <translation>執行緒</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="257"/>
         <source>Profile: Default</source>
-        <translation type="unfinished">預設設定檔</translation>
+        <translation>預設設定檔</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="280"/>
         <source>Type</source>
-        <translation type="unfinished">種類</translation>
+        <translation>種類</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="335"/>
         <source>Profile: Peak Performance</source>
-        <translation type="unfinished">設定檔：最佳表現</translation>
+        <translation>設定檔：最佳表現</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="446"/>
         <source>Profile: Demo</source>
-        <translation type="unfinished">設定檔：展示</translation>
+        <translation>設定檔：展示</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="508"/>
         <source>Measuring time</source>
-        <translation type="unfinished">測量時間</translation>
+        <translation>測量時間</translation>
     </message>
     <message>
         <location filename="../../src/settings.ui" line="530"/>
         <source>Interval time</source>
-        <translation type="unfinished">間隔時間</translation>
+        <translation>間隔時間</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="18"/>
         <location filename="../../src/settings.cpp" line="23"/>
         <source>sec</source>
-        <translation type="unfinished">秒</translation>
+        <translation>秒</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="19"/>
         <location filename="../../src/settings.cpp" line="24"/>
         <source>min</source>
-        <translation type="unfinished">分</translation>
+        <translation>分</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="59"/>
@@ -492,7 +492,7 @@
         <location filename="../../src/settings.cpp" line="65"/>
         <location filename="../../src/settings.cpp" line="67"/>
         <source>KiB</source>
-        <translation type="unfinished">KiB</translation>
+        <translation>KiB</translation>
     </message>
     <message>
         <location filename="../../src/settings.cpp" line="71"/>
@@ -503,7 +503,7 @@
         <location filename="../../src/settings.cpp" line="77"/>
         <location filename="../../src/settings.cpp" line="79"/>
         <source>MiB</source>
-        <translation type="unfinished">MiB</translation>
+        <translation>MiB</translation>
     </message>
 </context>
 </TS>
