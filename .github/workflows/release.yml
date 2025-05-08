@@ -30,10 +30,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
         arch: [amd64, aarch64]
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             cmake-defines: '-D CPACK_GENERATOR="DEB;RPM" -D CMAKE_BUILD_TYPE=Release'
             upload-files: 'build/*.deb;build/*.rpm;package-signing-key.pub'
     steps:
@@ -46,9 +46,7 @@ jobs:
       if: runner.os == 'Linux' && matrix.arch == 'amd64'
       run: |
         sudo apt-get update
-        sudo apt-get install qttools5-dev libpolkit-qt5-1-dev
-        wget http://launchpadlibrarian.net/590905036/extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
-        sudo dpkg -i extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
+        sudo apt-get install qttools5-dev libpolkit-qt5-1-dev extra-cmake-modules
 
     - name: Import GPG key
       uses: crazy-max/ghaction-import-gpg@v6
@@ -72,8 +70,8 @@ jobs:
         cmake --build build --target package --parallel 2 --config Release
 
     - name: Build ARM64
-      uses: uraimo/run-on-arch-action@v2.7.2
-      if: matrix.os == 'ubuntu-20.04' && matrix.arch != 'amd64'
+      uses: uraimo/run-on-arch-action@v3.0.1
+      if: matrix.os == 'ubuntu-22.04' && matrix.arch != 'amd64'
       with:
         arch: ${{ matrix.arch }}
         distro: ubuntu20.04
@@ -82,12 +80,7 @@ jobs:
         install: |
           apt update -y
           # dpkg-dev for dpkg-shlibdeps
-          apt install -y qttools5-dev libpolkit-qt5-1-dev g++ rpm dpkg-dev apt-transport-https ca-certificates gnupg software-properties-common wget
-          wget http://launchpadlibrarian.net/590905696/extra-cmake-modules_5.92.0-0ubuntu1_arm64.deb
-          dpkg -i extra-cmake-modules_5.92.0-0ubuntu1_arm64.deb
-          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-          apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main'
-          apt install -y cmake
+          apt install -y qttools5-dev libpolkit-qt5-1-dev g++ rpm dpkg-dev apt-transport-https ca-certificates gnupg software-properties-common wget extra-cmake-modules cmake file
 
         run: |
           cmake -S . -B build ${{ matrix.cmake-defines }}
@@ -95,7 +88,7 @@ jobs:
           cmake --build build --target package --parallel 2 --config Release
 
     - name: Fix permissions for ARM64 build
-      if: matrix.os == 'ubuntu-20.04' && matrix.arch == 'aarch64'
+      if: matrix.os == 'ubuntu-22.04' && matrix.arch == 'aarch64'
       run: |
         sudo chown -R $USER:$USER build
         sudo chmod -R 755 build
@@ -123,10 +116,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
         arch: [amd64]
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             bundled-fio: '3.37'
             cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
             upload-files: 'build/{*.AppImage,*.AppImage.zsync,*.AppImage.sig}'
@@ -140,9 +133,7 @@ jobs:
     - name: Install dependent packages
       run: |
         sudo apt-get update
-        sudo apt-get install python3-pip libaio-dev qt5-default qttools5-dev kde-style-breeze breeze-icon-theme
-        wget http://launchpadlibrarian.net/590905036/extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
-        sudo dpkg -i extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
+        sudo apt-get install python3-pip libaio-dev qtbase5-dev qttools5-dev kde-style-breeze breeze-icon-theme extra-cmake-modules libfuse2
 
     - name: Import GPG key
       uses: crazy-max/ghaction-import-gpg@v6
@@ -150,12 +141,6 @@ jobs:
         gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
         passphrase: ${{ secrets.GPG_PASSPHRASE }}
         fingerprint: ${{ env.GPG_KEY_ID }}
-
-    - name: Install Qt
-      run: |
-        sudo pip3 install setuptools
-        sudo pip3 install aqtinstall
-        sudo aqt install --outputdir /opt/Qt 5.15.1 linux desktop
 
     - name: Prepare 3rd-party
       run: |
@@ -177,18 +162,15 @@ jobs:
         mkdir appdir
         echo -e '#!/bin/bash\nHERE="$(dirname "$(readlink -f "${0}")")"\nexport PATH="$HERE/usr/bin/:$PATH"\n$HERE/usr/bin/kdiskmark "$@"' > appdir/AppRun
         chmod +x ./appdir/AppRun
-        cmake ${{ matrix.cmake-defines }} -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_PREFIX_PATH=/opt/Qt/5.15.1/gcc_64/ ..
+        cmake ${{ matrix.cmake-defines }} -DCMAKE_INSTALL_PREFIX=/usr ..
         sed -i "s|XAUTHORITY kdiskmark|XAUTHORITY ./$APPIMAGE_NAME|g" ../src/mainwindow.cpp
         make DESTDIR=appdir -j$(nproc) install
         cd ../3rd-party/fio-fio-${{ matrix.bundled-fio }}
         ./configure --disable-native --build-static
         make DESTDIR="$(pwd)/../../build/appdir" prefix=/usr install
         cd ../../build
-        cp -a /usr/share/icons/breeze appdir/usr/share/icons/
-        sudo mkdir /opt/Qt/5.15.1/gcc_64/plugins/styles/
-        sudo cp /usr/lib/x86_64-linux-gnu/qt5/plugins/styles/breeze.so /opt/Qt/5.15.1/gcc_64/plugins/styles/
         export VERSION=$APP_VERSION-fio-${{ matrix.bundled-fio }}
-        ../3rd-party/linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage -qmake=/opt/Qt/5.15.1/gcc_64/bin/qmake \
+        ../3rd-party/linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage \
           -extra-plugins=styles/breeze.so -updateinformation="gh-releases-zsync|${{ github.repository_owner }}|$REPO_NAME|latest|*.zsync"
 
     - name: Sign AppImage
