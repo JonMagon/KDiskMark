@@ -19,9 +19,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-22.04]
         include:
-          - os: ubuntu-20.04
+          - os: ubuntu-22.04
             CXXFLAGS: '-Wall -Wextra -pedantic -Werror'
     steps:
     - name: Clone repo
@@ -33,9 +33,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install qttools5-dev libpolkit-qt5-1-dev
-        wget http://launchpadlibrarian.net/590905036/extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
-        sudo dpkg -i extra-cmake-modules_5.92.0-0ubuntu1_amd64.deb
+        sudo apt-get install qttools5-dev libpolkit-qt5-1-dev extra-cmake-modules
 
     - name: Build
       run: |
