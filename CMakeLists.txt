@@ -101,6 +101,7 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_tr_TR.ts
     data/translations/${PROJECT_NAME}_uk_UA.ts
     data/translations/${PROJECT_NAME}_zh_CN.ts
+    data/translations/${PROJECT_NAME}_zh_TW.ts
 )
 
 if(USE_QT6)

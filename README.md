@@ -128,6 +128,7 @@ To help with localization you can use [Crowdin](https://crowdin.com/project/kdis
 
 Languages currently available:
 * Chinese (Simplified)
+* Chinese (Traditional)
 * Czech
 * Dutch
 * English (default)

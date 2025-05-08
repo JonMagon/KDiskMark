@@ -33,8 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
                                  QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Dutch,
                                  QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil), QLocale::Finnish,
-                                 QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian,
-                                 QLocale::Ukrainian, QLocale::Chinese, QLocale::Japanese, QLocale::Hindi };
+                                 QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian, QLocale::Ukrainian,
+                                 QLocale(QLocale::Chinese, QLocale::China), QLocale(QLocale::Chinese, QLocale::Taiwan),
+                                 QLocale::Japanese, QLocale::Hindi };
 
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
