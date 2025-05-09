@@ -373,7 +373,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="1054"/>
         <source>Copy-on-Write (CoW) is enabled on the selected directory.</source>
-        <translation type="unfinished">Seçili dizinde yazma üzerine kopyalama (CoW) etkinleştirildi.</translation>
+        <translation>Seçili dizinde yazma üzerine kopyalama (CoW) etkinleştirildi.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="1055"/>
