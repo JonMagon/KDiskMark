@@ -101,7 +101,10 @@ private:
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
     bool testFilePath(const QString &benchmarkPath);
+    bool prepareDirectory(const QString &benchmarkPath);
     bool prepareBenchmarkFile(const QString &benchmarkPath, int fileSize);
+    bool checkCowStatus(const QString &path);
+    bool createNoCowDirectory(const QString &path);
 #ifdef APPIMAGE_EDITION
     bool initHelper(const QString& id);
     void sendMessageToSocket(QLocalSocket* localSocket, const QString& message);
@@ -118,9 +121,9 @@ signals:
     void failed(const QString &error);
     void finished();
     void runningStateChanged(bool state);
-    void cowCheckRequired();
+    bool cowCheckRequired();
     void directoryChanged(const QString &newDir);
-    void createNoCowDirectoryResponse(bool create);
+    bool createNoCowDirectoryResponse(bool create);
 };
 
 #endif // BENCHMARK_H

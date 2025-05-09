@@ -16,6 +16,11 @@
 
 #include <QStandardPaths>
 
+#include <sys/ioctl.h>
+#include <linux/fs.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 Benchmark::Benchmark()
 #ifdef APPIMAGE_EDITION
     : m_localServer(new QLocalServer), m_nextBlockSize(0)
@@ -300,6 +305,10 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     }
 #endif
 
+    if (!prepareDirectory(getBenchmarkFile())) {
+        setRunning(false);
+    }
+
     if (!prepareBenchmarkFile(getBenchmarkFile(), settings.getFileSize())) {
         setRunning(false);
     }
@@ -512,6 +521,111 @@ bool Benchmark::testFilePath(const QString &benchmarkPath)
     if (benchmarkPath.startsWith("/dev")) {
         qWarning("Cannot specify a raw device.");
         return false;
+    }
+
+    return true;
+}
+
+bool Benchmark::checkCowStatus(const QString &path)
+{
+    if (!testFilePath(path)) {
+        setRunning(false);
+        emit failed(QStringLiteral("The path is incorrect."));
+        return false;
+    }
+
+    int fd = open(path.toLocal8Bit().constData(), O_RDONLY);
+    if (fd < 0) {
+        setRunning(false);
+        emit failed(QStringLiteral("Cannot open directory: %1").arg(strerror(errno)));
+        return false;
+    }
+
+    unsigned long flags = 0;
+    bool hasCow = false;
+
+    if (ioctl(fd, FS_IOC_GETFLAGS, &flags) >= 0) {
+        hasCow = !(flags & FS_NOCOW_FL);
+    } else {
+        qWarning() << QStringLiteral("Failed to get FS flags for") << path << QStringLiteral(":") << strerror(errno);
+    }
+
+    close(fd);
+    return hasCow;
+}
+
+bool Benchmark::createNoCowDirectory(const QString &path)
+{
+    if (!testFilePath(path)) {
+        setRunning(false);
+        emit failed("The path is incorrect.");
+        return false;
+    }
+
+    QDir dir(path);
+    QString newDir = dir.absoluteFilePath("kdiskmark_no_cow");
+
+    if (!QDir().mkpath(newDir)) {
+        setRunning(false);
+        emit failed(QStringLiteral("Failed to create directory: %1").arg(newDir));
+        return false;
+    }
+
+    int fd = open(newDir.toLocal8Bit().constData(), O_RDONLY);
+    if (fd < 0) {
+        setRunning(false);
+        emit failed(QStringLiteral("Cannot open new directory: %1").arg(strerror(errno)));
+        return false;
+    }
+
+    unsigned long flags = 0;
+    if (ioctl(fd, FS_IOC_GETFLAGS, &flags) < 0) {
+        close(fd);
+
+        setRunning(false);
+        emit failed(QStringLiteral("Cannot get flags: %1").arg(strerror(errno)));
+        return false;
+    }
+
+    flags |= FS_NOCOW_FL;
+    bool success = (ioctl(fd, FS_IOC_SETFLAGS, &flags) >= 0);
+
+    close(fd);
+
+    if (!success) {
+        setRunning(false);
+        emit failed(QStringLiteral("Cannot set NoCow flag: %1").arg(strerror(errno)));
+        return false;
+    }
+
+    this->setDir(newDir);
+
+    return true;
+}
+
+bool Benchmark::prepareDirectory(const QString &benchmarkFile)
+{
+    bool hasCow = checkCowStatus(benchmarkFile);
+
+    if (!m_running) return false;
+
+    if (hasCow) {
+        bool createNoCowDir = false;
+        auto callback = [&createNoCowDir](bool create) {
+            createNoCowDir = create;
+        };
+
+        auto conn = QObject::connect(this, &Benchmark::createNoCowDirectoryResponse, callback);
+        emit cowCheckRequired();
+        QObject::disconnect(conn);
+
+        if (createNoCowDir) {
+            bool success = createNoCowDirectory(benchmarkFile);
+
+            if (success && m_running) {
+                emit directoryChanged(getBenchmarkFile());
+            }
+        }
     }
 
     return true;

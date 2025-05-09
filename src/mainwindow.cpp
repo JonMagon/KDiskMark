@@ -12,7 +12,10 @@
 #include <QStyleFactory>
 #include <QTimer>
 #include <QStandardItemModel>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QActionGroup>
+#endif
 
 #include "math.h"
 #include "about.h"
