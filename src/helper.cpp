@@ -4,6 +4,8 @@
 #include <QDataStream>
 #include <QFile>
 
+#include <QDebug>
+
 Helper::Helper(const QString& id): m_localSocket(new QLocalSocket(this)), m_nextBlockSize(0) {
     m_localSocket->setServerName("kdiskmark" + id);
 

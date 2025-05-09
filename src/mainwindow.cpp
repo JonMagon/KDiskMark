@@ -12,6 +12,7 @@
 #include <QStyleFactory>
 #include <QTimer>
 #include <QStandardItemModel>
+#include <QActionGroup>
 
 #include "math.h"
 #include "about.h"
@@ -63,13 +64,14 @@ MainWindow::MainWindow(QWidget *parent)
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
                                  QLocale(QLocale::Spanish, QLocale::Mexico),
                                  QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Dutch,
-                                 QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil),
-                                 QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian,
-                                 QLocale::Ukrainian, QLocale::Chinese, QLocale::Japanese, QLocale::Hindi };
+                                 QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil), QLocale::Finnish,
+                                 QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian, QLocale::Ukrainian,
+                                 QLocale(QLocale::Chinese, QLocale::China), QLocale(QLocale::Chinese, QLocale::Taiwan),
+                                 QLocale::Japanese, QLocale::Hindi };
 
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
-        QAction *lang = new QAction(QString("%1%2").arg(langName[0].toUpper(), langName.mid(1)), this);
+        QAction *lang = new QAction(QStringLiteral("%1%2").arg(langName[0].toUpper(), langName.mid(1)), this);
         lang->setIcon(QIcon(QStringLiteral(":/icons/flags/%1.svg").arg(locale.name().mid(3))));
         lang->setCheckable(true);
         lang->setData(locale);
@@ -79,7 +81,7 @@ MainWindow::MainWindow(QWidget *parent)
         if (QLocale().name() == locale.name()) lang->setChecked(true);
     }
 
-    connect(localesGroup, SIGNAL(triggered(QAction*)), this, SLOT(localeSelected(QAction*)));
+    connect(localesGroup, &QActionGroup::triggered, this, &MainWindow::localeSelected);
 
     ui->refreshStoragesButton->setIcon(style()->standardIcon(QStyle::SP_BrowserReload).pixmap(QSize(16, 16)));
 
@@ -92,6 +94,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
 
     ui->comboBox_Storages->setItemDelegate(new StorageItemDelegate());
+
+    ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
+    ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
+    ui->actionExit->setIcon(QIcon::fromTheme("application-exit"));
+    ui->menuTest_Data->setIcon(QIcon::fromTheme("distribute-randomize"));
+    ui->actionQueues_Threads->setIcon(QIcon::fromTheme("configure"));
+    ui->actionTheme_Use_Fusion->setIcon(QIcon::fromTheme("preferences-desktop-color"));
+    ui->actionTheme_Stylesheet_Light->setIcon(QIcon::fromTheme("color-picker-white"));
+    ui->actionTheme_Stylesheet_Dark->setIcon(QIcon::fromTheme("color-picker-black"));
+    ui->actionTheme_Do_not_apply->setIcon(QIcon::fromTheme("edit-undo"));
+    ui->actionAbout->setIcon(QIcon::fromTheme("kdiskmark"));
+    ui->menuLanguage->setIcon(QIcon::fromTheme("language-chooser"));
 
     ui->actionDefault->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault->setProperty("mixed", false);
@@ -218,6 +232,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
+    connect(m_benchmark, &Benchmark::cowCheckRequired, this, &MainWindow::handleCowCheck);
+    connect(m_benchmark, &Benchmark::directoryChanged, this, &MainWindow::handleDirectoryChanged);
 
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
@@ -429,6 +445,7 @@ void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
 #else
         int width = fontMetrics.width(combobox->itemText(i));
 #endif
+
         if (width > maxWidth)
             maxWidth = width;
     }
@@ -570,7 +587,7 @@ QString MainWindow::formatSize(quint64 available, quint64 total)
         outputTotal = outputTotal / 1024;
     }
     QLocale locale = QLocale();
-    return QString("%1/%2 %3").arg(locale.toString(outputAvailable, 'f', 2))
+    return QStringLiteral("%1/%2 %3").arg(locale.toString(outputAvailable, 'f', 2))
             .arg(locale.toString(outputTotal, 'f', 2)).arg(units[i]);
 }
 
@@ -603,7 +620,7 @@ QString MainWindow::combineOutputTestResult(const QProgressBar *progressBar, con
 {
     QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
-    return QString("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
+    return QStringLiteral("%1 %2 %3 (Q=%4, T=%5): %6 MB/s [ %7 IOPS] < %8 us>")
            .arg(params.Pattern == Global::BenchmarkIOPattern::SEQ ? "Sequential" : "Random")
            .arg(QString::number(params.BlockSize >= 1024 ? params.BlockSize / 1024 : params.BlockSize).rightJustified(3, ' '))
            .arg(params.BlockSize >= 1024 ? "MiB" : "KiB")
@@ -627,13 +644,13 @@ QString MainWindow::getTextBenchmarkResult()
 
     QStringList output;
 
-    output << QString("KDiskMark (%1): https://github.com/JonMagon/KDiskMark")
+    output << QStringLiteral("KDiskMark (%1): https://github.com/JonMagon/KDiskMark")
               .arg(qApp->applicationVersion())
               .rightJustified(Global::getOutputColumnsCount(), ' ')
-           << QString("Flexible I/O Tester (%1): https://github.com/axboe/fio")
+           << QStringLiteral("Flexible I/O Tester (%1): https://github.com/axboe/fio")
               .arg(m_benchmark->getFIOVersion())
               .rightJustified(Global::getOutputColumnsCount(), ' ')
-           << QString("-").repeated(Global::getOutputColumnsCount())
+           << QStringLiteral("-").repeated(Global::getOutputColumnsCount())
            << "* MB/s = 1,000,000 bytes/s [SATA/600 = 600,000,000 bytes/s]"
            << "* KB = 1000 bytes, KiB = 1024 bytes";
 
@@ -667,7 +684,7 @@ QString MainWindow::getTextBenchmarkResult()
 
     if (settings.getMixedState() && settings.getPerformanceProfile() != Global::PerformanceProfile::Demo) {
          output << QString()
-                << QString("[Mix] Read %1%/Write %2%")
+                << QStringLiteral("[Mix] Read %1%/Write %2%")
                    .arg(settings.getRandomReadPercentage())
                    .arg(100 - settings.getRandomReadPercentage())
                 << combineOutputTestResult(ui->mixBar_1, settings.getBenchmarkParams(Global::BenchmarkTest::Test_1, settings.getPerformanceProfile()))
@@ -681,9 +698,9 @@ QString MainWindow::getTextBenchmarkResult()
     QString profiles[] = { "Default", "Peak Performance", "Real World Performance", "Demo" };
 
     output << QString()
-           << QString("Profile: %1%2")
+           << QStringLiteral("Profile: %1%2")
               .arg(profiles[(int)settings.getPerformanceProfile()]).arg(settings.getMixedState() ? " [+Mix]" : QString())
-           << QString("   Test: %1")
+           << QStringLiteral("   Test: %1")
               .arg("%1 %2 (x%3) [Measure: %4 %5 / Interval: %6 %7]")
               .arg(settings.getFileSize() >= 1024 ? settings.getFileSize() / 1024 : settings.getFileSize())
               .arg(settings.getFileSize() >= 1024 ? "GiB" : "MiB")
@@ -692,11 +709,20 @@ QString MainWindow::getTextBenchmarkResult()
               .arg(settings.getMeasuringTime() >= 60 ? "min" : "sec")
               .arg(settings.getIntervalTime() >= 60 ? settings.getIntervalTime() / 60 : settings.getIntervalTime())
               .arg(settings.getIntervalTime() >= 60 ? "min" : "sec")
-           << QString("   Date: %1 %2")
+           << QStringLiteral("   Date: %1 %2")
               .arg(QDate::currentDate().toString("yyyy-MM-dd"))
               .arg(QTime::currentTime().toString("hh:mm:ss"))
-           << QString("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
+           << QStringLiteral("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
               .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
+
+    QString targetInfo = ui->comboBox_Storages->currentText();
+    QString modelName = ui->deviceModel->text();
+    if (!modelName.isEmpty()) {
+        targetInfo += QString(" [%1]").arg(modelName);
+    }
+
+    output << QString(" Target: %1")
+              .arg(targetInfo);
 
     return output.join("\n");
 }
@@ -1010,7 +1036,7 @@ void MainWindow::benchmarkFailed(const QString &error)
 
 void MainWindow::benchmarkStatusUpdate(const QString &name)
 {
-    setWindowTitle(QString("%1 - %2").arg(m_windowTitle, name));
+    setWindowTitle(QStringLiteral("%1 - %2").arg(m_windowTitle, name));
 }
 
 void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
@@ -1092,6 +1118,45 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
         else {
             progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
         }
+    }
+}
+
+void MainWindow::handleCowCheck()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("KDiskMark");
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setText(tr("Copy-on-Write (CoW) is enabled on the selected directory."));
+    msgBox.setInformativeText(tr("This may affect performance results. Would you like to create a new subdirectory with CoW disabled?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+
+    bool createNew = (msgBox.exec() == QMessageBox::Yes);
+    emit m_benchmark->createNoCowDirectoryResponse(createNew);
+}
+
+void MainWindow::handleDirectoryChanged(const QString &newDir)
+{
+    int existingIndex = ui->comboBox_Storages->findText(newDir, Qt::MatchContains);
+    if (existingIndex != -1) {
+        ui->comboBox_Storages->setCurrentIndex(existingIndex);
+        return;
+    }
+
+    Global::Storage storage {
+        .path = newDir,
+        .bytesTotal = QStorageInfo(newDir).bytesTotal(),
+        .bytesOccupied = QStorageInfo(newDir).bytesTotal() - QStorageInfo(newDir).bytesFree(),
+        .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
+        .permanentInList = true
+    };
+
+    addItemToStoragesList(storage);
+    resizeComboBoxItemsPopup(ui->comboBox_Storages);
+
+    int index = ui->comboBox_Storages->findText(newDir, Qt::MatchContains);
+    if (index != -1) {
+        ui->comboBox_Storages->setCurrentIndex(index);
     }
 }
 

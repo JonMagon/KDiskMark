@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(kdiskmark VERSION 3.1.4 LANGUAGES CXX)
+project(kdiskmark VERSION 3.2.0 LANGUAGES CXX)
 
 set(CMAKE_PROJECT_HOMEPAGE_URL "https://github.com/JonMagon/KDiskMark")
 set(CMAKE_PROJECT_DESCRIPTION "A simple open source disk benchmark tool for Linux distros")
@@ -13,6 +13,18 @@ configure_file(src/cmake.h.in cmake.h)
 include_directories(${PROJECT_BINARY_BIN})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+option(USE_QT6 "Use Qt6 instead of Qt5" OFF)
+
+if(USE_QT6)
+    find_package(Qt6 COMPONENTS Widgets LinguistTools Network REQUIRED)
+    set(QT_LIBS Qt6::Widgets)
+    set(QT_NETWORK_LIB Qt6::Network)
+else()
+    find_package(Qt5 COMPONENTS Widgets LinguistTools Network REQUIRED)
+    set(QT_LIBS Qt5::Widgets)
+    set(QT_NETWORK_LIB Qt5::Network)
+endif()
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -33,15 +45,13 @@ set(CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY >=)
 set(CPACK_RPM_FILE_NAME RPM-DEFAULT)
 set(CPACK_RPM_PACKAGE_LICENSE GPLv3)
 set(CPACK_RPM_PACKAGE_GROUP Applications/System)
+set(CPACK_RPM_PACKAGE_REQUIRES "fio >= 3.1")
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "fio (>= 3.1)")
 set(CPACK_RPM_COMPRESSION_TYPE lzma)
 set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
 option(APPIMAGE_EDITION "Determines whether it can be run as root user" ON)
 option(SNAP_EDITION "Determines whether it can be built for snap package" OFF)
-
-find_package(Qt5 COMPONENTS Widgets LinguistTools Network REQUIRED)
-
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -54,6 +64,7 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
     data/translations/${PROJECT_NAME}_de_DE.ts
     data/translations/${PROJECT_NAME}_es_MX.ts
+    data/translations/${PROJECT_NAME}_fi_FI.ts
     data/translations/${PROJECT_NAME}_fr_FR.ts
     data/translations/${PROJECT_NAME}_hi_IN.ts
     data/translations/${PROJECT_NAME}_hu_HU.ts
@@ -68,9 +79,14 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_tr_TR.ts
     data/translations/${PROJECT_NAME}_uk_UA.ts
     data/translations/${PROJECT_NAME}_zh_CN.ts
+    data/translations/${PROJECT_NAME}_zh_TW.ts
 )
 
-qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+if(USE_QT6)
+    qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+else()
+    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+endif()
 
 add_executable(${PROJECT_NAME}
     ${QM_FILES}
@@ -99,7 +115,7 @@ add_executable(${PROJECT_NAME}
     src/diskdriveinfo.cpp
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_LIBS})
 if(APPIMAGE_EDITION)
     target_compile_definitions(${PROJECT_NAME} PRIVATE APPIMAGE_EDITION)
     target_sources(
@@ -107,7 +123,7 @@ if(APPIMAGE_EDITION)
         src/helper.h
         src/helper.cpp
     )
-    target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Network)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_NETWORK_LIB})
 endif()
 
 if(SNAP_EDITION)

@@ -21,11 +21,14 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
     QVariant variant = index.data(Qt::UserRole);
 
     if (variant.canConvert<Global::Storage>()) {
-        QStyledItemDelegate::paint(painter, option, QModelIndex());
-
         Global::Storage storage = variant.value<Global::Storage>();
 
         QStyle *style = option.widget ? option.widget->style() : QApplication::style();
+
+        QStyleOptionViewItem opt = option;
+        initStyleOption(&opt, index);
+        opt.text = QString();
+        style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, option.widget);
 
         QPalette::ColorGroup cg = option.state & QStyle::State_Enabled
                                   ? QPalette::Normal : QPalette::Disabled;
@@ -59,6 +62,7 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 #else
         int percentTextWidth = QFontMetrics(painter->font()).width(QLatin1Char('0')) * 4;
 #endif
+
         const int textVMargin = style->pixelMetric(QStyle::PM_FocusFrameVMargin, 0, option.widget) + 1;
 
         progressBarOption.rect = progressBarRect.adjusted(0, textHeight / 2 + textVMargin, -percentTextWidth, -textHeight / 2 - textVMargin);
@@ -76,10 +80,18 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
 
         painter->drawText(progressBarRect, option.displayAlignment | Qt::AlignRight, QString::number(percent) + "%");
     }
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    else if (index.data(Qt::DecorationRole).typeId() == QVariant::Icon) {
+#else
     else if (index.data(Qt::DecorationRole).type() == QVariant::Icon) {
-        QStyledItemDelegate::paint(painter, option, QModelIndex());
-
+#endif
         QStyle *style = option.widget ? option.widget->style() : QApplication::style();
+
+        QStyleOptionViewItem opt = option;
+        initStyleOption(&opt, index);
+        opt.icon = QIcon();
+        opt.text = QString();
+        style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, option.widget);
 
         QPalette::ColorGroup cg = option.state & QStyle::State_Enabled
                                   ? QPalette::Normal : QPalette::Disabled;
@@ -104,7 +116,6 @@ void StorageItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &o
         const int textMargin = (style->pixelMetric(QStyle::PM_FocusFrameHMargin, 0, option.widget) + 1);
         int textMarginCenter = (option.rect.size().width() - (option.decorationSize.width() + textMargin * 8 + textWidth)) / 2;
 
-        auto opt = option;
         if (!(opt.state & QStyle::State_HasFocus))
             opt.state &= ~(QStyle::State_MouseOver);
         opt.rect = opt.rect.adjusted(textMarginCenter, 0, -textMarginCenter, 0);

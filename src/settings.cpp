@@ -17,13 +17,13 @@ Settings::Settings(QWidget *parent) :
     ui->buttonBox->addButton(QStringLiteral("NVMe SSD"), QDialogButtonBox::ActionRole);
 
     for (int val : { 0, 1, 3, 5, 10, 30, 60, 180, 300, 600 }) {
-        ui->IntervalTime->addItem(val < 60 ? QString("%1 %2").arg(val).arg(tr("sec"))
-                                           : QString("%1 %2").arg(val / 60).arg(tr("min")), val);
+        ui->IntervalTime->addItem(val < 60 ? QStringLiteral("%1 %2").arg(val).arg(tr("sec"))
+                                           : QStringLiteral("%1 %2").arg(val / 60).arg(tr("min")), val);
     }
 
     for (int val : { 5, 10, 20, 30, 60 }) {
-        ui->MeasuringTime->addItem(val < 60 ? QString("%1 %2").arg(val).arg(tr("sec"))
-                                            : QString("%1 %2").arg(val / 60).arg(tr("min")), val);
+        ui->MeasuringTime->addItem(val < 60 ? QStringLiteral("%1 %2").arg(val).arg(tr("sec"))
+                                            : QStringLiteral("%1 %2").arg(val / 60).arg(tr("min")), val);
     }
 
     for (const Global::BenchmarkIOPattern &pattern : { Global::BenchmarkIOPattern::SEQ, Global::BenchmarkIOPattern::RND }) {

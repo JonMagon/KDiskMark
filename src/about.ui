@@ -3,7 +3,7 @@
  <class>About</class>
  <widget class="QDialog" name="About">
   <property name="windowModality">
-   <enum>Qt::NonModal</enum>
+   <enum>Qt::WindowModality::NonModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -44,7 +44,7 @@
     <string/>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
    <property name="flat">
     <bool>false</bool>
@@ -55,7 +55,7 @@
       <x>10</x>
       <y>10</y>
       <width>141</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -68,7 +68,7 @@
       <x>160</x>
       <y>10</y>
       <width>161</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -81,7 +81,7 @@
       <x>10</x>
       <y>50</y>
       <width>141</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -94,7 +94,7 @@
       <x>160</x>
       <y>50</y>
       <width>161</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -107,7 +107,7 @@
       <x>10</x>
       <y>70</y>
       <width>141</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -120,14 +120,14 @@
       <x>160</x>
       <y>70</y>
       <width>161</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/JonMagon&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;Dmitry Sidorov&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
-     <enum>Qt::AutoText</enum>
+     <enum>Qt::TextFormat::AutoText</enum>
     </property>
     <property name="openExternalLinks">
      <bool>true</bool>
@@ -139,7 +139,7 @@
       <x>10</x>
       <y>90</y>
       <width>141</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -152,14 +152,14 @@
       <x>160</x>
       <y>90</y>
       <width>161</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
      <string notr="true">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a href=&quot;mailto:jonmagon@gmail.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;jonmagon@gmail.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
-     <enum>Qt::AutoText</enum>
+     <enum>Qt::TextFormat::AutoText</enum>
     </property>
     <property name="openExternalLinks">
      <bool>true</bool>
@@ -171,7 +171,7 @@
       <x>10</x>
       <y>30</y>
       <width>141</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -184,7 +184,7 @@
       <x>160</x>
       <y>30</y>
       <width>161</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -197,7 +197,7 @@
       <x>10</x>
       <y>110</y>
       <width>141</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -210,7 +210,7 @@
       <x>160</x>
       <y>110</y>
       <width>161</width>
-      <height>18</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -250,7 +250,7 @@
     <item>
      <widget class="QDialogButtonBox" name="buttonBox">
       <property name="standardButtons">
-       <set>QDialogButtonBox::Close</set>
+       <set>QDialogButtonBox::StandardButton::Close</set>
       </property>
       <property name="centerButtons">
        <bool>true</bool>

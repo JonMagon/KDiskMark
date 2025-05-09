@@ -118,6 +118,9 @@ signals:
     void failed(const QString &error);
     void finished();
     void runningStateChanged(bool state);
+    void cowCheckRequired();
+    void directoryChanged(const QString &newDir);
+    void createNoCowDirectoryResponse(bool create);
 };
 
 #endif // BENCHMARK_H

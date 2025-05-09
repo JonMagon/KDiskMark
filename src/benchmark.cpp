@@ -194,12 +194,12 @@ Benchmark::ParsedJob Benchmark::parseResult(const QString &output, const QString
                 QJsonObject jobRead = job["read"].toObject();
                 parsedJob.read.Bandwidth += jobRead.value("bw").toInt() / 1000.0; // to mb
                 parsedJob.read.IOPS += jobRead.value("iops").toDouble();
-                parsedJob.read.Latency += jobRead["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
+                parsedJob.read.Latency += jobRead["clat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
 
                 QJsonObject jobWrite = job["write"].toObject();
                 parsedJob.write.Bandwidth += jobWrite.value("bw").toInt() / 1000.0; // to mb
                 parsedJob.write.IOPS += jobWrite.value("iops").toDouble();
-                parsedJob.write.Latency += jobWrite["lat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
+                parsedJob.write.Latency += jobWrite["clat_ns"].toObject().value("mean").toDouble() / 1000.0 / jobsCount; // to usec
             }
             else {
                 setRunning(false);

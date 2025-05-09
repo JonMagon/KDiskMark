@@ -79,6 +79,7 @@ private:
     QString combineOutputTestResult(const QProgressBar *progressBar, const Global::BenchmarkParams &params);
     void resizeComboBoxItemsPopup(QComboBox *combobox);
     void updateProgressBarsStyle();
+    void handleDirectoryChanged(const QString &newDir);
 
 public slots:
     void benchmarkStatusUpdate(const QString &name);
@@ -91,6 +92,7 @@ public slots:
     void presetSelected(QAction* act);
     void themeSelected(QAction* act);
     void benchmarkStateChanged(bool state);
+    void handleCowCheck();
 
 protected slots:
     virtual void changeEvent(QEvent * event);
