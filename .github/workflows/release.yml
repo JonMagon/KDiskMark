@@ -120,7 +120,7 @@ jobs:
         arch: [amd64]
         include:
           - os: ubuntu-22.04
-            bundled-fio: '3.37'
+            bundled-fio: '3.39'
             cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
             upload-files: 'build/{*.AppImage,*.AppImage.zsync,*.AppImage.sig}'
     steps:
