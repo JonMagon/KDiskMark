@@ -149,7 +149,7 @@
     <string>Block Size</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_Queues">
@@ -165,7 +165,7 @@
     <string>Queues</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_Threads">
@@ -181,7 +181,7 @@
     <string>Threads</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QWidget" name="verticalLayoutWidget">
@@ -203,7 +203,7 @@
        </size>
       </property>
       <property name="standardButtons">
-       <set>QDialogButtonBox::Ok|QDialogButtonBox::RestoreDefaults</set>
+       <set>QDialogButtonBox::StandardButton::Ok|QDialogButtonBox::StandardButton::RestoreDefaults</set>
       </property>
      </widget>
     </item>
@@ -244,7 +244,7 @@
      <x>10</x>
      <y>40</y>
      <width>471</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -280,7 +280,7 @@
     <string>Type</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignmentFlag::AlignCenter</set>
    </property>
   </widget>
   <widget class="QComboBox" name="DefaultProfile_Test_2_Pattern">
@@ -322,7 +322,7 @@
      <x>10</x>
      <y>240</y>
      <width>471</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -433,7 +433,7 @@
      <x>10</x>
      <y>360</y>
      <width>471</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -495,7 +495,7 @@
      <x>10</x>
      <y>440</y>
      <width>231</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -517,7 +517,7 @@
      <x>250</x>
      <y>440</y>
      <width>231</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="autoFillBackground">

@@ -64,7 +64,7 @@
         <string/>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignmentFlag::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -94,7 +94,7 @@
       <x>110</x>
       <y>10</y>
       <width>681</width>
-      <height>33</height>
+      <height>34</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="targetLayout">
@@ -109,7 +109,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>31</height>
+         <height>32</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -140,7 +140,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>31</height>
+         <height>32</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -159,7 +159,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>31</height>
+         <height>32</height>
         </size>
        </property>
        <property name="editable">
@@ -175,7 +175,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>31</height>
+         <height>32</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -188,8 +188,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="view-refresh">
-         <normaloff>.</normaloff>.</iconset>
+        <iconset theme="view-refresh"/>
        </property>
       </widget>
      </item>
@@ -201,7 +200,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>31</height>
+         <height>32</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -243,7 +242,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>31</height>
+         <height>32</height>
         </size>
        </property>
       </widget>
@@ -352,7 +351,7 @@
           <string>Read</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -521,7 +520,7 @@
           <string>Write</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -687,7 +686,7 @@
           <string>Mix</string>
          </property>
          <property name="alignment">
-          <set>Qt::AlignCenter</set>
+          <set>Qt::AlignmentFlag::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -834,7 +833,7 @@
        <string notr="true">Test 1</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
      <widget class="QProgressBar" name="readBar_Demo">
@@ -972,7 +971,7 @@
        <string notr="true">Write Unit</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
       </property>
      </widget>
      <widget class="QLabel" name="label_Unit_Read_Demo">
@@ -994,7 +993,7 @@
        <string notr="true">Read Unit</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
       </property>
      </widget>
     </widget>
@@ -1294,18 +1293,18 @@
   </action>
  </widget>
  <tabstops>
-   <tabstop>pushButton_All</tabstop>
-   <tabstop>pushButton_Test_1</tabstop>
-   <tabstop>pushButton_Test_2</tabstop>
-   <tabstop>pushButton_Test_3</tabstop>
-   <tabstop>pushButton_Test_4</tabstop>
-   <tabstop>loopsCount</tabstop>
-   <tabstop>comboBox_fileSize</tabstop>
-   <tabstop>comboBox_Storages</tabstop>
-   <tabstop>refreshStoragesButton</tabstop>
-   <tabstop>comboBox_ComparisonUnit</tabstop>
-   <tabstop>comboBox_MixRatio</tabstop>
-   <tabstop>deviceModel</tabstop>
+  <tabstop>pushButton_All</tabstop>
+  <tabstop>pushButton_Test_1</tabstop>
+  <tabstop>pushButton_Test_2</tabstop>
+  <tabstop>pushButton_Test_3</tabstop>
+  <tabstop>pushButton_Test_4</tabstop>
+  <tabstop>loopsCount</tabstop>
+  <tabstop>comboBox_fileSize</tabstop>
+  <tabstop>comboBox_Storages</tabstop>
+  <tabstop>refreshStoragesButton</tabstop>
+  <tabstop>comboBox_ComparisonUnit</tabstop>
+  <tabstop>comboBox_MixRatio</tabstop>
+  <tabstop>deviceModel</tabstop>
  </tabstops>
  <resources/>
  <connections>
