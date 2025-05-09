@@ -8,6 +8,11 @@
 
 #include <signal.h>
 
+#include <sys/ioctl.h>
+#include <linux/fs.h>
+#include <fcntl.h>
+#include <unistd.h>
+
 HelperAdaptor::HelperAdaptor(Helper *parent) :
     QDBusAbstractAdaptor(parent)
 {
@@ -48,6 +53,16 @@ QVariantMap HelperAdaptor::removeBenchmarkFile()
 QVariantMap HelperAdaptor::stopCurrentTask()
 {
     return m_parentHelper->stopCurrentTask();
+}
+
+QVariantMap HelperAdaptor::checkCowStatus(const QString &path)
+{
+    return m_parentHelper->checkCowStatus(path);
+}
+
+QVariantMap HelperAdaptor::createNoCowDirectory(const QString &path)
+{
+    return m_parentHelper->createNoCowDirectory(path);
 }
 
 Helper::Helper() : m_helperAdaptor(new HelperAdaptor(this))
@@ -279,6 +294,70 @@ QVariantMap Helper::stopCurrentTask()
     }
 
     return {{"success", true}};
+}
+
+QVariantMap Helper::checkCowStatus(const QString &path)
+{
+    if (!isCallerAuthorized()) {
+        return {};
+    }
+
+    if (!testFilePath(path)) {
+        return {{"success", false}, {"error", "The path is incorrect."}};
+    }
+
+    int fd = open(path.toLocal8Bit().constData(), O_RDONLY);
+    if (fd < 0) {
+        return {{"success", false}, {"error", "Cannot open directory"}};
+    }
+
+    unsigned long flags = 0;
+    bool hasCow = false;
+
+    if (ioctl(fd, FS_IOC_GETFLAGS, &flags) >= 0) {
+        hasCow = !(flags & FS_NOCOW_FL);
+    }
+
+    close(fd);
+    return {{"success", true}, {"hasCow", hasCow}};
+}
+
+QVariantMap Helper::createNoCowDirectory(const QString &path)
+{
+    if (!isCallerAuthorized()) {
+        return {};
+    }
+
+    if (!testFilePath(path)) {
+        return {{"success", false}, {"error", "The path is incorrect."}};
+    }
+
+    QDir dir(path);
+    QString newDir = dir.absoluteFilePath("kdiskmark_no_cow");
+
+    QDir().mkpath(newDir);
+
+    int fd = open(newDir.toLocal8Bit().constData(), O_RDONLY);
+    if (fd < 0) {
+        return {{"success", false}, {"error", "Cannot open new directory"}};
+    }
+
+    unsigned long flags = 0;
+    if (ioctl(fd, FS_IOC_GETFLAGS, &flags) < 0) {
+        close(fd);
+        return {{"success", false}, {"error", "Cannot get flags"}};
+    }
+
+    flags |= FS_NOCOW_FL;
+    bool success = (ioctl(fd, FS_IOC_SETFLAGS, &flags) >= 0);
+
+    close(fd);
+
+    if (!success) {
+        return {{"success", false}, {"error", "Cannot set NoCow flag"}};
+    }
+
+    return {{"success", true}, {"path", newDir}};
 }
 
 bool Helper::isCallerAuthorized()

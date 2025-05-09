@@ -233,6 +233,8 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
 
     initSession(); if (!isRunning()) return;
 
+    prepareDirectory(getBenchmarkFile()); if (!isRunning()) return;
+
     prepareFile(getBenchmarkFile(), settings.getFileSize());
 
     while (iter.hasNext() && isRunning()) {
@@ -321,6 +323,38 @@ void Benchmark::initSession()
 
     // Process was not stopped by handleDbusPendingCall, consider that the authorization was successful
     if (isRunning()) m_helperAuthorized = true;
+}
+
+void Benchmark::prepareDirectory(const QString &benchmarkFile)
+{
+    auto interface = helperInterface();
+    if (!interface) return;
+
+    QDBusPendingCall pcall = interface->checkCowStatus(benchmarkFile);
+    handleDbusPendingCall(pcall);
+    if (!isRunning()) return;
+
+    QDBusPendingReply<QVariantMap> reply = pcall;
+    if (reply.value()["hasCow"].toBool()) {
+        bool createNoCowDir = false;
+        auto callback = [&createNoCowDir](bool create) {
+            createNoCowDir = create;
+        };
+
+        auto conn = QObject::connect(this, &Benchmark::createNoCowDirectoryResponse, callback);
+        emit cowCheckRequired();
+        QObject::disconnect(conn);
+
+        if (createNoCowDir) {
+            pcall = interface->createNoCowDirectory(benchmarkFile);
+            handleDbusPendingCall(pcall);
+            if (!isRunning()) return;
+
+            reply = pcall;
+            this->setDir(reply.value()["path"].toString());
+            emit directoryChanged(this->getBenchmarkFile());
+        }
+    }
 }
 
 void Benchmark::prepareFile(const QString &benchmarkFile, int fileSize)

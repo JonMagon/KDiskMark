@@ -42,47 +42,47 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="240"/>
+        <location filename="../../src/benchmark.cpp" line="232"/>
         <source>Preparing...</source>
         <translation>Підготовка...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="258"/>
+        <location filename="../../src/benchmark.cpp" line="252"/>
         <source>Sequential Read %1/%2</source>
         <translation>Послідовне читання %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="268"/>
+        <location filename="../../src/benchmark.cpp" line="262"/>
         <source>Sequential Write %1/%2</source>
         <translation>Послідовний запис %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="278"/>
+        <location filename="../../src/benchmark.cpp" line="272"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Послідовний (змішано) %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="377"/>
+        <location filename="../../src/benchmark.cpp" line="403"/>
         <source>Could not obtain administrator privileges.</source>
         <translation>Не вдалося отримати права адміністратора.</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="262"/>
+        <location filename="../../src/benchmark.cpp" line="256"/>
         <source>Random Read %1/%2</source>
         <translation>Випадкове читання %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="272"/>
+        <location filename="../../src/benchmark.cpp" line="266"/>
         <source>Random Write %1/%2</source>
         <translation>Випадковий запис %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="282"/>
+        <location filename="../../src/benchmark.cpp" line="276"/>
         <source>Random Mix %1/%2</source>
         <translation>Випадково (змішано) %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="289"/>
+        <location filename="../../src/benchmark.cpp" line="283"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Інтервал між тестами %1/%2 сек</translation>
     </message>
@@ -91,292 +91,301 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="895"/>
+        <location filename="../../src/mainwindow.cpp" line="912"/>
         <source>All</source>
         <translation>Все</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="352"/>
-        <location filename="../../src/mainwindow.ui" line="934"/>
-        <location filename="../../src/mainwindow.cpp" line="534"/>
+        <location filename="../../src/mainwindow.ui" line="351"/>
+        <location filename="../../src/mainwindow.ui" line="933"/>
+        <location filename="../../src/mainwindow.cpp" line="542"/>
         <source>Read</source>
         <translation>Читання</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="521"/>
-        <location filename="../../src/mainwindow.ui" line="953"/>
-        <location filename="../../src/mainwindow.cpp" line="537"/>
+        <location filename="../../src/mainwindow.ui" line="520"/>
+        <location filename="../../src/mainwindow.ui" line="952"/>
+        <location filename="../../src/mainwindow.cpp" line="545"/>
         <source>Write</source>
         <translation>Запис</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="687"/>
-        <location filename="../../src/mainwindow.cpp" line="540"/>
+        <location filename="../../src/mainwindow.ui" line="686"/>
+        <location filename="../../src/mainwindow.cpp" line="548"/>
         <source>Mix</source>
         <translation>Змішано</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="221"/>
-        <location filename="../../src/mainwindow.cpp" line="423"/>
-        <location filename="../../src/mainwindow.cpp" line="427"/>
+        <location filename="../../src/mainwindow.ui" line="220"/>
+        <location filename="../../src/mainwindow.cpp" line="431"/>
+        <location filename="../../src/mainwindow.cpp" line="435"/>
         <source>MB/s</source>
         <translation>МБ/с</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="226"/>
+        <location filename="../../src/mainwindow.ui" line="225"/>
         <source>GB/s</source>
         <translation>ГБ/с</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="231"/>
-        <location filename="../../src/mainwindow.cpp" line="429"/>
-        <location filename="../../src/mainwindow.cpp" line="430"/>
+        <location filename="../../src/mainwindow.ui" line="230"/>
+        <location filename="../../src/mainwindow.cpp" line="437"/>
+        <location filename="../../src/mainwindow.cpp" line="438"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="236"/>
-        <location filename="../../src/mainwindow.cpp" line="432"/>
-        <location filename="../../src/mainwindow.cpp" line="433"/>
+        <location filename="../../src/mainwindow.ui" line="235"/>
+        <location filename="../../src/mainwindow.cpp" line="440"/>
+        <location filename="../../src/mainwindow.cpp" line="441"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1018"/>
+        <location filename="../../src/mainwindow.ui" line="1017"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1026"/>
+        <location filename="../../src/mainwindow.ui" line="1025"/>
         <source>Settings</source>
         <translation>Налаштування</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1030"/>
+        <location filename="../../src/mainwindow.ui" line="1029"/>
         <source>Test Data</source>
         <translation>Тестові дані</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1047"/>
+        <location filename="../../src/mainwindow.ui" line="1046"/>
         <source>Profile</source>
         <translation>Профіль</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1063"/>
+        <location filename="../../src/mainwindow.ui" line="1062"/>
         <source>Help</source>
         <translation>Довідка</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1067"/>
+        <location filename="../../src/mainwindow.ui" line="1066"/>
         <source>Language</source>
         <translation>Мова</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1075"/>
+        <location filename="../../src/mainwindow.ui" line="1074"/>
         <source>Theme</source>
         <translation>Тема</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1091"/>
+        <location filename="../../src/mainwindow.ui" line="1090"/>
         <source>About KDiskMark</source>
         <translation>Про програму KDiskMark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1096"/>
+        <location filename="../../src/mainwindow.ui" line="1095"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>Черги і потоки</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1101"/>
+        <location filename="../../src/mainwindow.ui" line="1100"/>
         <source>Copy</source>
         <translation>Копіювати</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1106"/>
+        <location filename="../../src/mainwindow.ui" line="1105"/>
         <source>Save</source>
         <translation>Зберегти</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1111"/>
+        <location filename="../../src/mainwindow.ui" line="1110"/>
         <source>Exit</source>
         <translation>Вийти</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1122"/>
+        <location filename="../../src/mainwindow.ui" line="1121"/>
         <source>Default</source>
         <translation>За замовчуванням</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1130"/>
+        <location filename="../../src/mainwindow.ui" line="1129"/>
         <source>Peak Performance</source>
         <translation>Пікова продуктивність</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1138"/>
+        <location filename="../../src/mainwindow.ui" line="1137"/>
         <source>Real World Performance</source>
         <translation>Реальна продуктивність</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1146"/>
+        <location filename="../../src/mainwindow.ui" line="1145"/>
         <source>Default [+Mix]</source>
         <translation>За замовчуванням [+Змішано]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1154"/>
+        <location filename="../../src/mainwindow.ui" line="1153"/>
         <source>Peak Performance [+Mix]</source>
         <translation>Пікова продуктивність [+Змішано]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1162"/>
+        <location filename="../../src/mainwindow.ui" line="1161"/>
         <source>Real World Performance [+Mix]</source>
         <translation>Реальна продуктивність [+Змішано]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1173"/>
+        <location filename="../../src/mainwindow.ui" line="1172"/>
         <source>Flush Pagecache</source>
         <translation>Очищати сторінковий кеш</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1181"/>
+        <location filename="../../src/mainwindow.ui" line="1180"/>
         <source>Demo</source>
         <translation>Демо</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1192"/>
+        <location filename="../../src/mainwindow.ui" line="1191"/>
         <source>Read and Write [+Mix]</source>
         <translation>Читання та запис [+Змішано]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1200"/>
+        <location filename="../../src/mainwindow.ui" line="1199"/>
         <source>Read [+Mix]</source>
         <translation>Читання [+Змішано]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1208"/>
+        <location filename="../../src/mainwindow.ui" line="1207"/>
         <source>Write [+Mix]</source>
         <translation>Запис [+Змішано]</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1219"/>
+        <location filename="../../src/mainwindow.ui" line="1218"/>
         <source>Random</source>
         <translation>Випадково</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1227"/>
+        <location filename="../../src/mainwindow.ui" line="1226"/>
         <source>Fill with zeros</source>
         <translation>Заповніть нулями</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1238"/>
+        <location filename="../../src/mainwindow.ui" line="1237"/>
         <source>Standard Preset</source>
         <translation>Стандартні налаштування</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1246"/>
+        <location filename="../../src/mainwindow.ui" line="1245"/>
         <source>NVMe SSD</source>
         <translation>NVMe SSD</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1257"/>
+        <location filename="../../src/mainwindow.ui" line="1256"/>
         <source>Use Fusion</source>
         <translation>Fusion</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1265"/>
+        <location filename="../../src/mainwindow.ui" line="1264"/>
         <source>Stylesheet Light</source>
         <translation>Таблиця стилів Light</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1273"/>
+        <location filename="../../src/mainwindow.ui" line="1272"/>
         <source>Stylesheet Dark</source>
         <translation>Таблиця стилів Dark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1281"/>
+        <location filename="../../src/mainwindow.ui" line="1280"/>
         <source>Do not apply</source>
         <translation>Не використовувати</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1292"/>
+        <location filename="../../src/mainwindow.ui" line="1291"/>
         <source>Use O_DIRECT</source>
         <translation>Використовувати O_DIRECT</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="53"/>
+        <location filename="../../src/mainwindow.cpp" line="55"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation>Пристрій зашифровано. Продуктивність може знизитися.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="345"/>
-        <location filename="../../src/mainwindow.cpp" line="439"/>
-        <location filename="../../src/mainwindow.cpp" line="507"/>
+        <location filename="../../src/mainwindow.cpp" line="352"/>
+        <location filename="../../src/mainwindow.cpp" line="447"/>
+        <location filename="../../src/mainwindow.cpp" line="515"/>
         <source>MiB</source>
         <translation>МіБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="349"/>
-        <location filename="../../src/mainwindow.cpp" line="507"/>
+        <location filename="../../src/mainwindow.cpp" line="356"/>
+        <location filename="../../src/mainwindow.cpp" line="515"/>
         <source>GiB</source>
         <translation>ГіБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="507"/>
+        <location filename="../../src/mainwindow.cpp" line="515"/>
         <source>Bytes</source>
         <translation>Байти</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="439"/>
-        <location filename="../../src/mainwindow.cpp" line="507"/>
+        <location filename="../../src/mainwindow.cpp" line="447"/>
+        <location filename="../../src/mainwindow.cpp" line="515"/>
         <source>KiB</source>
         <translation>КіБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="256"/>
-        <location filename="../../src/mainwindow.cpp" line="315"/>
+        <location filename="../../src/mainwindow.cpp" line="263"/>
+        <location filename="../../src/mainwindow.cpp" line="322"/>
         <source>Add a directory</source>
         <translation>Додати теку</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="507"/>
+        <location filename="../../src/mainwindow.cpp" line="515"/>
         <source>TiB</source>
         <translation>ТіБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="507"/>
+        <location filename="../../src/mainwindow.cpp" line="515"/>
         <source>PiB</source>
         <translation>ПіБ</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="870"/>
-        <location filename="../../src/mainwindow.cpp" line="871"/>
-        <location filename="../../src/mainwindow.cpp" line="872"/>
-        <location filename="../../src/mainwindow.cpp" line="873"/>
-        <location filename="../../src/mainwindow.cpp" line="874"/>
+        <location filename="../../src/mainwindow.cpp" line="887"/>
+        <location filename="../../src/mainwindow.cpp" line="888"/>
+        <location filename="../../src/mainwindow.cpp" line="889"/>
+        <location filename="../../src/mainwindow.cpp" line="890"/>
+        <location filename="../../src/mainwindow.cpp" line="891"/>
         <source>Stop</source>
         <translation>Зупинити</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="922"/>
+        <location filename="../../src/mainwindow.cpp" line="939"/>
         <source>Stopping...</source>
         <translation>Зупинка...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="932"/>
+        <location filename="../../src/mainwindow.cpp" line="949"/>
         <source>Not available</source>
         <translation>Недоступно</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="932"/>
+        <location filename="../../src/mainwindow.cpp" line="949"/>
         <source>Directory is not specified.</source>
         <translation>Теку не вказано.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="935"/>
-        <source>Confirmation</source>
-        <translation>Підтвердження</translation>
+        <location filename="../../src/mainwindow.cpp" line="1054"/>
+        <source>Copy-on-Write (CoW) is enabled on the selected directory.</source>
+        <translation>Копіювання при записі (CoW) увімкнено для вибраного каталогу.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="948"/>
+        <location filename="../../src/mainwindow.cpp" line="1055"/>
+        <source>This may affect performance results. Would you like to create a new subdirectory with CoW disabled?</source>
+        <translation>Це може вплинути на результати продуктивності. Створити новий підкаталог з вимкненим CoW?</translation>
+    </message>
+    <message>
+        <source>Confirmation</source>
+        <translation type="vanished">Підтвердження</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="959"/>
         <source>Benchmark Failed</source>
         <translation>Тестування невадале</translation>
     </message>
@@ -414,7 +423,7 @@
         <translation>&lt;h1&gt;%1 МБ/с&lt;br/&gt;%2 ГБ/с&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="193"/>
+        <location filename="../../src/mainwindow.cpp" line="200"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>FIO не найден. Будь ласка, встановіть FIO, перш ніж використовувати KDiskMark.</translation>
     </message>

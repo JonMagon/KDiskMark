@@ -191,6 +191,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_benchmark, &Benchmark::benchmarkStatusUpdate, this, &MainWindow::benchmarkStatusUpdate);
     connect(m_benchmark, &Benchmark::resultReady, this, &MainWindow::handleResults);
     connect(m_benchmark, &Benchmark::failed, this, &MainWindow::benchmarkFailed);
+    connect(m_benchmark, &Benchmark::cowCheckRequired, this, &MainWindow::handleCowCheck);
+    connect(m_benchmark, &Benchmark::directoryChanged, this, &MainWindow::handleDirectoryChanged);
 
     QTimer::singleShot(0, [&] {
         if (!m_benchmark->isFIODetected()) {
@@ -1041,6 +1043,45 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
         else {
             progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
         }
+    }
+}
+
+void MainWindow::handleCowCheck()
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("KDiskMark");
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.setText(tr("Copy-on-Write (CoW) is enabled on the selected directory."));
+    msgBox.setInformativeText(tr("This may affect performance results. Would you like to create a new subdirectory with CoW disabled?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+
+    bool createNew = (msgBox.exec() == QMessageBox::Yes);
+    emit m_benchmark->createNoCowDirectoryResponse(createNew);
+}
+
+void MainWindow::handleDirectoryChanged(const QString &newDir)
+{
+    int existingIndex = ui->comboBox_Storages->findText(newDir, Qt::MatchContains);
+    if (existingIndex != -1) {
+        ui->comboBox_Storages->setCurrentIndex(existingIndex);
+        return;
+    }
+
+    Global::Storage storage {
+        .path = newDir,
+        .bytesTotal = QStorageInfo(newDir).bytesTotal(),
+        .bytesOccupied = QStorageInfo(newDir).bytesTotal() - QStorageInfo(newDir).bytesFree(),
+        .formatedSize = formatSize(storage.bytesOccupied, storage.bytesTotal),
+        .permanentInList = true
+    };
+
+    addItemToStoragesList(storage);
+    resizeComboBoxItemsPopup(ui->comboBox_Storages);
+
+    int index = ui->comboBox_Storages->findText(newDir, Qt::MatchContains);
+    if (index != -1) {
+        ui->comboBox_Storages->setCurrentIndex(index);
     }
 }
 

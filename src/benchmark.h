@@ -93,6 +93,7 @@ private:
     void sendResult(const Benchmark::PerformanceResult &result, const int index);
 
     void initSession();
+    void prepareDirectory(const QString &benchmarkFile);
     void prepareFile(const QString &benchmarkFile, int fileSize);
 
     void handleDbusPendingCall(QDBusPendingCall pcall);
@@ -103,6 +104,9 @@ signals:
     void failed(const QString &error);
     void finished();
     void runningStateChanged(bool state);
+    void cowCheckRequired();
+    void directoryChanged(const QString &newDir);
+    void createNoCowDirectoryResponse(bool create);
 };
 
 #endif // BENCHMARK_H
