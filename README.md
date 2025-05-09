@@ -57,17 +57,21 @@ Profile: Default
 ## Installation
 Binaries are available on the [Releases](https://github.com/JonMagon/KDiskMark/releases/latest) page.
 
-### Install from the Snap Store
-[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/kdiskmark)
-```bash
-sudo snap install kdiskmark
-sudo snap connect kdiskmark:removable-media # external storages
-````
-
 ### Install from the Flathub repository
 [<img src="https://flathub.org/assets/badges/flathub-badge-i-en.png" height="56">](https://flathub.org/apps/details/io.github.jonmagon.kdiskmark)
 ```bash
 flatpak install flathub io.github.jonmagon.kdiskmark
+````
+
+### Install from the Snap Store
+
+> [!WARNING]  
+> Package is no longer maintained. It will remain available on Snap Store but will receive no updates.
+
+[![Get it from the Snap Store](https://snapcraft.io/static/images/badges/en/snap-store-white.svg)](https://snapcraft.io/kdiskmark)
+```bash
+sudo snap install kdiskmark
+sudo snap connect kdiskmark:removable-media # external storages
 ````
 
 ### Ubuntu based distros
