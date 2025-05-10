@@ -74,7 +74,7 @@ jobs:
       if: matrix.os == 'ubuntu-22.04' && matrix.arch != 'amd64'
       with:
         arch: ${{ matrix.arch }}
-        distro: ubuntu20.04
+        distro: ubuntu22.04
         githubToken: ${{ github.token }}
         dockerRunArgs: --volume "${PWD}:/repo"
         install: |
