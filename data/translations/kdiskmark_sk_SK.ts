@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="sk_SK" sourcelanguage="en">
+<TS version="2.1" language="sk_SK" sourcelanguage="en_US">
 <context>
     <name>About</name>
     <message>
@@ -334,7 +334,7 @@
         <location filename="../../src/mainwindow.cpp" line="263"/>
         <location filename="../../src/mainwindow.cpp" line="322"/>
         <source>Add a directory</source>
-        <translation>Pridať adresár</translation>
+        <translation>Pridať priečinok</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="515"/>

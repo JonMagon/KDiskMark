@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="cs_CZ" sourcelanguage="en">
+<TS version="2.1" language="cs_CZ" sourcelanguage="en_US">
 <context>
     <name>About</name>
     <message>
@@ -368,17 +368,17 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="949"/>
         <source>Directory is not specified.</source>
-        <translation>Není zadána složka.</translation>
+        <translation>Není zadán adresář.</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="1054"/>
         <source>Copy-on-Write (CoW) is enabled on the selected directory.</source>
-        <translation>Na vybrané složce je povoleno kopírování při zápisu (CoW).</translation>
+        <translation>Na vybraném adresáři je povoleno kopírování při zápisu (CoW).</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.cpp" line="1055"/>
         <source>This may affect performance results. Would you like to create a new subdirectory with CoW disabled?</source>
-        <translation>Toto může ovlivnit výsledky výkonu. Chcete vytvořit novou podsložku s vypnutým CoW?</translation>
+        <translation>Toto může ovlivnit výsledky výkonu. Chcete vytvořit nový podadresář s vypnutým CoW?</translation>
     </message>
     <message>
         <source>Confirmation</source>

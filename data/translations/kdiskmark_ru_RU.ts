@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU" sourcelanguage="en">
+<TS version="2.1" language="ru_RU" sourcelanguage="en_US">
 <context>
     <name>About</name>
     <message>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../../src/mainwindow.cpp" line="1055"/>
         <source>This may affect performance results. Would you like to create a new subdirectory with CoW disabled?</source>
-        <translation type="unfinished">Это может повлиять на производительность. Создать новый подкаталог с отключенным CoW?</translation>
+        <translation>Это может повлиять на производительность. Создать новый подкаталог с отключенным CoW?</translation>
     </message>
     <message>
         <source>Confirmation</source>
