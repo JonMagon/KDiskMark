@@ -31,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    QStringList paths = QIcon::themeSearchPaths();
+    paths.prepend(QStringLiteral("%1/../share/icons/").arg(qApp->applicationDirPath()));
+    QIcon::setThemeSearchPaths(paths);
+
 #ifndef APPIMAGE_EDITION
     QMenuBar *bar = new QMenuBar(ui->menubar);
 
