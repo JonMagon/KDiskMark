@@ -17,6 +17,7 @@
 #include <QStandardPaths>
 
 #include <sys/ioctl.h>
+#include <sys/statfs.h>
 #include <linux/fs.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -532,6 +533,21 @@ bool Benchmark::checkCowStatus(const QString &path)
         setRunning(false);
         emit failed(QStringLiteral("The path is incorrect."));
         return false;
+    }
+
+    struct statfs fs_info;
+    if (statfs(path.toLocal8Bit().constData(), &fs_info) != 0) {
+        setRunning(false);
+        emit failed(QStringLiteral("Cannot get filesystem info: %1").arg(strerror(errno)));
+        return false;
+    }
+
+    switch (fs_info.f_type) {
+        case 0x9123683E: // BTRFS_SUPER_MAGIC
+        case 0xca451a4e: // BCACHEFS_SUPER_MAGIC
+            break;
+        default:
+            return false;
     }
 
     int fd = open(path.toLocal8Bit().constData(), O_RDONLY);
