@@ -308,14 +308,15 @@ QVariantMap Helper::checkCowStatus(const QString &path)
 
     int fd = open(path.toLocal8Bit().constData(), O_RDONLY);
     if (fd < 0) {
-        return {{"success", false}, {"error", "Cannot open directory"}};
+        return {{"success", false}, {"error", QStringLiteral("Cannot open directory: %1").arg(strerror(errno))}};
     }
 
     unsigned long flags = 0;
     bool hasCow = false;
-
     if (ioctl(fd, FS_IOC_GETFLAGS, &flags) >= 0) {
         hasCow = !(flags & FS_NOCOW_FL);
+    } else {
+        qWarning() << QStringLiteral("Failed to get FS flags for") << path << QStringLiteral(":") << strerror(errno);
     }
 
     close(fd);
@@ -333,28 +334,29 @@ QVariantMap Helper::createNoCowDirectory(const QString &path)
     }
 
     QDir dir(path);
-    QString newDir = dir.absoluteFilePath("kdiskmark_no_cow");
+    QString newDir = dir.absoluteFilePath(QStringLiteral("kdiskmark_no_cow"));
 
-    QDir().mkpath(newDir);
+    if (!QDir().mkpath(newDir)) {
+        return {{"success", false}, {"error", QStringLiteral("Failed to create directory: %1").arg(newDir)}};
+    }
 
     int fd = open(newDir.toLocal8Bit().constData(), O_RDONLY);
     if (fd < 0) {
-        return {{"success", false}, {"error", "Cannot open new directory"}};
+        return {{"success", false}, {"error", QStringLiteral("Cannot open new directory: %1").arg(strerror(errno))}};
     }
 
     unsigned long flags = 0;
     if (ioctl(fd, FS_IOC_GETFLAGS, &flags) < 0) {
         close(fd);
-        return {{"success", false}, {"error", "Cannot get flags"}};
+        return {{"success", false}, {"error", QStringLiteral("Cannot get flags: %1").arg(strerror(errno))}};
     }
 
     flags |= FS_NOCOW_FL;
     bool success = (ioctl(fd, FS_IOC_SETFLAGS, &flags) >= 0);
-
     close(fd);
 
     if (!success) {
-        return {{"success", false}, {"error", "Cannot set NoCow flag"}};
+        return {{"success", false}, {"error", QStringLiteral("Cannot set NoCow flag: %1").arg(strerror(errno))}};
     }
 
     return {{"success", true}, {"path", newDir}};
