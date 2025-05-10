@@ -169,6 +169,7 @@ jobs:
         ./configure --disable-native --build-static
         make DESTDIR="$(pwd)/../../build/appdir" prefix=/usr install
         cd ../../build
+        cp -a /usr/share/icons/* appdir/usr/share/icons/
         export VERSION=$APP_VERSION-fio-${{ matrix.bundled-fio }}
         ../3rd-party/linuxdeployqt-continuous-x86_64.AppImage appdir/usr/share/applications/*.desktop -appimage \
           -extra-plugins=styles/breeze.so -updateinformation="gh-releases-zsync|${{ github.repository_owner }}|$REPO_NAME|latest|*.zsync"
