@@ -50,10 +50,10 @@ MainWindow::MainWindow(QWidget *parent)
     actionLimited->setIcon(style()->standardIcon(QStyle::SP_MessageBoxWarning));
 
     connect(actionLimited, &QAction::triggered, [this]() {
-        QMessageBox::warning(this, "KDiskMark is limited", "This edition of KDiskMark has limitations that cannot be fixed.\n"
-                                                           "Clearing the cache and writing to protected directories will not be available.\n"
-                                                           "Without clearing the cache the measured read performance may not be correct.\n"
-                                                           "If necessary, use the native package for the distribution or AppImage.");
+        QMessageBox::warning(this, "KDiskMark is limited", tr("This sandboxed version of KDiskMark has limited access to system resources.\n"
+                                                           "Cache clearing and access to protected directories are not available.\n"
+                                                           "Read speeds may be overestimated beyond the drive's specifications due to disabled cache clearing.\n"
+                                                           "For full functionality, use the native package for your distribution or AppImage."));
     });
 
     bar->addAction(actionLimited);

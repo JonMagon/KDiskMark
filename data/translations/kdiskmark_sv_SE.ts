@@ -42,47 +42,47 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="232"/>
+        <location filename="../../src/benchmark.cpp" line="289"/>
         <source>Preparing...</source>
         <translation>Förbereder...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="252"/>
+        <location filename="../../src/benchmark.cpp" line="328"/>
         <source>Sequential Read %1/%2</source>
         <translation>Sekventiell läsning %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="256"/>
+        <location filename="../../src/benchmark.cpp" line="332"/>
         <source>Random Read %1/%2</source>
         <translation>Slumpmässig läsning %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="262"/>
+        <location filename="../../src/benchmark.cpp" line="338"/>
         <source>Sequential Write %1/%2</source>
         <translation>Sekventiell skrivning %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="266"/>
+        <location filename="../../src/benchmark.cpp" line="342"/>
         <source>Random Write %1/%2</source>
         <translation>Slumpmässig skrivning %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="272"/>
+        <location filename="../../src/benchmark.cpp" line="348"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Sekventiell mix %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="276"/>
+        <location filename="../../src/benchmark.cpp" line="352"/>
         <source>Random Mix %1/%2</source>
         <translation>Slumpmässig mix %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="283"/>
+        <location filename="../../src/benchmark.cpp" line="359"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Intervalltid %1/%2 sek</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="403"/>
+        <location filename="../../src/benchmark.cpp" line="412"/>
         <source>Could not obtain administrator privileges.</source>
         <translation>Det gick inte att få administratörsbehörighet.</translation>
     </message>
@@ -91,14 +91,14 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="912"/>
+        <location filename="../../src/mainwindow.cpp" line="990"/>
         <source>All</source>
         <translation>Alla</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="220"/>
-        <location filename="../../src/mainwindow.cpp" line="431"/>
-        <location filename="../../src/mainwindow.cpp" line="435"/>
+        <location filename="../../src/mainwindow.cpp" line="499"/>
+        <location filename="../../src/mainwindow.cpp" line="503"/>
         <source>MB/s</source>
         <translation>MB/s</translation>
     </message>
@@ -109,35 +109,35 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="230"/>
-        <location filename="../../src/mainwindow.cpp" line="437"/>
-        <location filename="../../src/mainwindow.cpp" line="438"/>
+        <location filename="../../src/mainwindow.cpp" line="505"/>
+        <location filename="../../src/mainwindow.cpp" line="506"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="235"/>
-        <location filename="../../src/mainwindow.cpp" line="440"/>
-        <location filename="../../src/mainwindow.cpp" line="441"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="509"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="351"/>
         <location filename="../../src/mainwindow.ui" line="933"/>
-        <location filename="../../src/mainwindow.cpp" line="542"/>
+        <location filename="../../src/mainwindow.cpp" line="610"/>
         <source>Read</source>
         <translation>Läs</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="520"/>
         <location filename="../../src/mainwindow.ui" line="952"/>
-        <location filename="../../src/mainwindow.cpp" line="545"/>
+        <location filename="../../src/mainwindow.cpp" line="613"/>
         <source>Write</source>
         <translation>Skriv</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="686"/>
-        <location filename="../../src/mainwindow.cpp" line="548"/>
+        <location filename="../../src/mainwindow.cpp" line="616"/>
         <source>Mix</source>
         <translation>Mix</translation>
     </message>
@@ -302,81 +302,92 @@
         <translation>Använd O_DIRECT</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="55"/>
+        <location filename="../../src/mainwindow.cpp" line="53"/>
+        <source>This sandboxed version of KDiskMark has limited access to system resources.
+Cache clearing and access to protected directories are not available.
+Read speeds may be overestimated beyond the drive&apos;s specifications due to disabled cache clearing.
+For full functionality, use the native package for your distribution or AppImage.</source>
+        <translation>Den här sandlådade versionen av KDiskMark har begränsad åtkomst till systemresurser.
+Cache-rensning och åtkomst till skyddade kataloger är inte tillgängliga.
+Läshastigheter kan överskattas utöver enhetens specifikationer på grund av inaktiverad cache-rensning.
+För full funktionalitet, använd det ursprungliga paketet för din distribution eller AppImage.</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="92"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation>Enheten är krypterad. Prestanda kan sjunka.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="263"/>
-        <location filename="../../src/mainwindow.cpp" line="322"/>
+        <location filename="../../src/mainwindow.cpp" line="304"/>
+        <location filename="../../src/mainwindow.cpp" line="382"/>
         <source>Add a directory</source>
         <translation>Lägg till en mapp</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="352"/>
-        <location filename="../../src/mainwindow.cpp" line="447"/>
+        <location filename="../../src/mainwindow.cpp" line="420"/>
         <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="356"/>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="424"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="447"/>
         <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>Bytes</source>
         <translation>Byte</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="887"/>
-        <location filename="../../src/mainwindow.cpp" line="888"/>
-        <location filename="../../src/mainwindow.cpp" line="889"/>
-        <location filename="../../src/mainwindow.cpp" line="890"/>
-        <location filename="../../src/mainwindow.cpp" line="891"/>
+        <location filename="../../src/mainwindow.cpp" line="962"/>
+        <location filename="../../src/mainwindow.cpp" line="963"/>
+        <location filename="../../src/mainwindow.cpp" line="964"/>
+        <location filename="../../src/mainwindow.cpp" line="965"/>
+        <location filename="../../src/mainwindow.cpp" line="966"/>
         <source>Stop</source>
         <translation>Stopp</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="939"/>
+        <location filename="../../src/mainwindow.cpp" line="1017"/>
         <source>Stopping...</source>
         <translation>Stoppar...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="949"/>
+        <location filename="../../src/mainwindow.cpp" line="1027"/>
         <source>Not available</source>
         <translation>Ej tillgänglig</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="949"/>
+        <location filename="../../src/mainwindow.cpp" line="1027"/>
         <source>Directory is not specified.</source>
         <translation>Mapp är inte specificerad.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1054"/>
+        <location filename="../../src/mainwindow.cpp" line="1132"/>
         <source>Copy-on-Write (CoW) is enabled on the selected directory.</source>
         <translation>Kopiera vid skrivning (CoW) är aktiverat i den valda katalogen.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1055"/>
+        <location filename="../../src/mainwindow.cpp" line="1133"/>
         <source>This may affect performance results. Would you like to create a new subdirectory with CoW disabled?</source>
         <translation>Detta kan påverka prestandaresultaten. Vill du skapa en ny underkatalog med CoW avaktiverat?</translation>
     </message>
@@ -385,7 +396,7 @@
         <translation type="vanished">Bekräftelse</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="959"/>
+        <location filename="../../src/mainwindow.cpp" line="1037"/>
         <source>Benchmark Failed</source>
         <translation>Prestandamätning misslyckades</translation>
     </message>
@@ -393,37 +404,37 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/global.cpp" line="25"/>
+        <location filename="../../src/global.cpp" line="27"/>
         <source>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Queues=%4&lt;br/&gt;Threads=%5%6&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Köer=%4&lt;br/&gt;Trådar=%5%6&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="26"/>
+        <location filename="../../src/global.cpp" line="28"/>
         <source>Sequential</source>
         <translation>Sekventiell</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="26"/>
+        <location filename="../../src/global.cpp" line="28"/>
         <source>Random</source>
         <translation>Slumpmässig</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="28"/>
+        <location filename="../../src/global.cpp" line="30"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="28"/>
+        <location filename="../../src/global.cpp" line="30"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="34"/>
+        <location filename="../../src/global.cpp" line="36"/>
         <source>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="200"/>
+        <location filename="../../src/mainwindow.cpp" line="244"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>Ingen FIO hittades. Installera FIO innan du använder KDiskMark.</translation>
     </message>
@@ -481,36 +492,36 @@
         <translation>Intervalltid</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="18"/>
-        <location filename="../../src/settings.cpp" line="23"/>
+        <location filename="../../src/settings.cpp" line="20"/>
+        <location filename="../../src/settings.cpp" line="25"/>
         <source>sec</source>
         <translation>sek</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="19"/>
-        <location filename="../../src/settings.cpp" line="24"/>
+        <location filename="../../src/settings.cpp" line="21"/>
+        <location filename="../../src/settings.cpp" line="26"/>
         <source>min</source>
         <translation>min</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="59"/>
-        <location filename="../../src/settings.cpp" line="60"/>
         <location filename="../../src/settings.cpp" line="61"/>
         <location filename="../../src/settings.cpp" line="62"/>
+        <location filename="../../src/settings.cpp" line="63"/>
         <location filename="../../src/settings.cpp" line="64"/>
-        <location filename="../../src/settings.cpp" line="65"/>
+        <location filename="../../src/settings.cpp" line="66"/>
         <location filename="../../src/settings.cpp" line="67"/>
+        <location filename="../../src/settings.cpp" line="69"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="71"/>
-        <location filename="../../src/settings.cpp" line="72"/>
         <location filename="../../src/settings.cpp" line="73"/>
         <location filename="../../src/settings.cpp" line="74"/>
+        <location filename="../../src/settings.cpp" line="75"/>
         <location filename="../../src/settings.cpp" line="76"/>
-        <location filename="../../src/settings.cpp" line="77"/>
+        <location filename="../../src/settings.cpp" line="78"/>
         <location filename="../../src/settings.cpp" line="79"/>
+        <location filename="../../src/settings.cpp" line="81"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>

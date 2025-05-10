@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="sk_SK" sourcelanguage="en">
+<TS version="2.1" language="sk_SK" sourcelanguage="en_US">
 <context>
     <name>About</name>
     <message>
@@ -42,47 +42,47 @@
 <context>
     <name>Benchmark</name>
     <message>
-        <location filename="../../src/benchmark.cpp" line="232"/>
+        <location filename="../../src/benchmark.cpp" line="289"/>
         <source>Preparing...</source>
         <translation>Príprava...</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="252"/>
+        <location filename="../../src/benchmark.cpp" line="328"/>
         <source>Sequential Read %1/%2</source>
         <translation>Sekvenčné čítanie %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="262"/>
+        <location filename="../../src/benchmark.cpp" line="338"/>
         <source>Sequential Write %1/%2</source>
         <translation>Sekvenčný zápis %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="272"/>
+        <location filename="../../src/benchmark.cpp" line="348"/>
         <source>Sequential Mix %1/%2</source>
         <translation>Sekvenčný mix %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="403"/>
+        <location filename="../../src/benchmark.cpp" line="412"/>
         <source>Could not obtain administrator privileges.</source>
         <translation>Nepodarilo sa získať oprávnenia správcu.</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="256"/>
+        <location filename="../../src/benchmark.cpp" line="332"/>
         <source>Random Read %1/%2</source>
         <translation>Náhodné čítanie %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="266"/>
+        <location filename="../../src/benchmark.cpp" line="342"/>
         <source>Random Write %1/%2</source>
         <translation>Náhodný zápis %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="276"/>
+        <location filename="../../src/benchmark.cpp" line="352"/>
         <source>Random Mix %1/%2</source>
         <translation>Náhodný mix %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="283"/>
+        <location filename="../../src/benchmark.cpp" line="359"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Oneskorenie medzi testami %1/%2 sek</translation>
     </message>
@@ -91,34 +91,34 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="912"/>
+        <location filename="../../src/mainwindow.cpp" line="990"/>
         <source>All</source>
         <translation>Všetky</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="351"/>
         <location filename="../../src/mainwindow.ui" line="933"/>
-        <location filename="../../src/mainwindow.cpp" line="542"/>
+        <location filename="../../src/mainwindow.cpp" line="610"/>
         <source>Read</source>
         <translation>Čítanie</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="520"/>
         <location filename="../../src/mainwindow.ui" line="952"/>
-        <location filename="../../src/mainwindow.cpp" line="545"/>
+        <location filename="../../src/mainwindow.cpp" line="613"/>
         <source>Write</source>
         <translation>Zápis</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="686"/>
-        <location filename="../../src/mainwindow.cpp" line="548"/>
+        <location filename="../../src/mainwindow.cpp" line="616"/>
         <source>Mix</source>
         <translation>Mix</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="220"/>
-        <location filename="../../src/mainwindow.cpp" line="431"/>
-        <location filename="../../src/mainwindow.cpp" line="435"/>
+        <location filename="../../src/mainwindow.cpp" line="499"/>
+        <location filename="../../src/mainwindow.cpp" line="503"/>
         <source>MB/s</source>
         <translation>MB/s</translation>
     </message>
@@ -129,15 +129,15 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="230"/>
-        <location filename="../../src/mainwindow.cpp" line="437"/>
-        <location filename="../../src/mainwindow.cpp" line="438"/>
+        <location filename="../../src/mainwindow.cpp" line="505"/>
+        <location filename="../../src/mainwindow.cpp" line="506"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="235"/>
-        <location filename="../../src/mainwindow.cpp" line="440"/>
-        <location filename="../../src/mainwindow.cpp" line="441"/>
+        <location filename="../../src/mainwindow.cpp" line="508"/>
+        <location filename="../../src/mainwindow.cpp" line="509"/>
         <source>μs</source>
         <translation>μs</translation>
     </message>
@@ -302,81 +302,92 @@
         <translation>Použiť O_DIRECT</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="55"/>
+        <location filename="../../src/mainwindow.cpp" line="92"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation>Zariadenie je šifrované. Výkon môže poklesnúť.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="352"/>
-        <location filename="../../src/mainwindow.cpp" line="447"/>
+        <location filename="../../src/mainwindow.cpp" line="420"/>
         <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="356"/>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="424"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>Bytes</source>
         <translation>Bajtov</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="447"/>
         <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="263"/>
-        <location filename="../../src/mainwindow.cpp" line="322"/>
-        <source>Add a directory</source>
-        <translation>Pridať adresár</translation>
+        <location filename="../../src/mainwindow.cpp" line="53"/>
+        <source>This sandboxed version of KDiskMark has limited access to system resources.
+Cache clearing and access to protected directories are not available.
+Read speeds may be overestimated beyond the drive&apos;s specifications due to disabled cache clearing.
+For full functionality, use the native package for your distribution or AppImage.</source>
+        <translation>Táto sandboxovaná verzia KDiskMark má obmedzený prístup k systémovým prostriedkom.
+Vymazanie medzipamäte a prístup k chráneným priečinkom nie sú k dispozícii.
+Rýchlosti čítania môžu byť nadhodnotené nad špecifikácie disku z dôvodu vypnutého vymazávania medzipamäte.
+Pre plnú funkcionalitu použite natívny balík pre vašu distribúciu alebo AppImage.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="304"/>
+        <location filename="../../src/mainwindow.cpp" line="382"/>
+        <source>Add a directory</source>
+        <translation>Pridať priečinok</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
+        <location filename="../../src/mainwindow.cpp" line="583"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="887"/>
-        <location filename="../../src/mainwindow.cpp" line="888"/>
-        <location filename="../../src/mainwindow.cpp" line="889"/>
-        <location filename="../../src/mainwindow.cpp" line="890"/>
-        <location filename="../../src/mainwindow.cpp" line="891"/>
+        <location filename="../../src/mainwindow.cpp" line="962"/>
+        <location filename="../../src/mainwindow.cpp" line="963"/>
+        <location filename="../../src/mainwindow.cpp" line="964"/>
+        <location filename="../../src/mainwindow.cpp" line="965"/>
+        <location filename="../../src/mainwindow.cpp" line="966"/>
         <source>Stop</source>
         <translation>Zastaviť</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="939"/>
+        <location filename="../../src/mainwindow.cpp" line="1017"/>
         <source>Stopping...</source>
         <translation>Zastavovanie...</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="949"/>
+        <location filename="../../src/mainwindow.cpp" line="1027"/>
         <source>Not available</source>
         <translation>Nie je k dispozícii</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="949"/>
+        <location filename="../../src/mainwindow.cpp" line="1027"/>
         <source>Directory is not specified.</source>
         <translation>Nie je zadaný priečinok.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1054"/>
+        <location filename="../../src/mainwindow.cpp" line="1132"/>
         <source>Copy-on-Write (CoW) is enabled on the selected directory.</source>
         <translation>Kopírovanie pri zápise (CoW) je v zvolenom priečinku povolené.</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1055"/>
+        <location filename="../../src/mainwindow.cpp" line="1133"/>
         <source>This may affect performance results. Would you like to create a new subdirectory with CoW disabled?</source>
         <translation>Toto môže ovplyvniť výsledky výkonu. Chcete vytvoriť nový priečinok s vypnutým CoW?</translation>
     </message>
@@ -385,7 +396,7 @@
         <translation type="vanished">Potvrdenie</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="959"/>
+        <location filename="../../src/mainwindow.cpp" line="1037"/>
         <source>Benchmark Failed</source>
         <translation>Test sa nepodaril</translation>
     </message>
@@ -393,37 +404,37 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../src/global.cpp" line="25"/>
+        <location filename="../../src/global.cpp" line="27"/>
         <source>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Queues=%4&lt;br/&gt;Threads=%5%6&lt;/h2&gt;</source>
         <translation>&lt;h2&gt;%1 %2 %3&lt;br/&gt;Fronty=%4&lt;br/&gt;Vlákna=%5%6&lt;/h2&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="26"/>
+        <location filename="../../src/global.cpp" line="28"/>
         <source>Sequential</source>
         <translation>Sekvenčné</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="26"/>
+        <location filename="../../src/global.cpp" line="28"/>
         <source>Random</source>
         <translation>Náhodné</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="28"/>
+        <location filename="../../src/global.cpp" line="30"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="28"/>
+        <location filename="../../src/global.cpp" line="30"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/global.cpp" line="34"/>
+        <location filename="../../src/global.cpp" line="36"/>
         <source>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</source>
         <translation>&lt;h1&gt;%1 MB/s&lt;br/&gt;%2 GB/s&lt;br/&gt;%3 IOPS&lt;br/&gt;%4 μs&lt;/h1&gt;</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="200"/>
+        <location filename="../../src/mainwindow.cpp" line="244"/>
         <source>No FIO was found. Please install FIO before using KDiskMark.</source>
         <translation>FIO nenájdené. Aby bolo možné používať KDiskMark, je potrebné nainštalovať FIO.</translation>
     </message>
@@ -481,36 +492,36 @@
         <translation>Profil: Predvolený</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="18"/>
-        <location filename="../../src/settings.cpp" line="23"/>
+        <location filename="../../src/settings.cpp" line="20"/>
+        <location filename="../../src/settings.cpp" line="25"/>
         <source>sec</source>
         <translation>sek</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="19"/>
-        <location filename="../../src/settings.cpp" line="24"/>
+        <location filename="../../src/settings.cpp" line="21"/>
+        <location filename="../../src/settings.cpp" line="26"/>
         <source>min</source>
         <translation>min</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="71"/>
-        <location filename="../../src/settings.cpp" line="72"/>
         <location filename="../../src/settings.cpp" line="73"/>
         <location filename="../../src/settings.cpp" line="74"/>
+        <location filename="../../src/settings.cpp" line="75"/>
         <location filename="../../src/settings.cpp" line="76"/>
-        <location filename="../../src/settings.cpp" line="77"/>
+        <location filename="../../src/settings.cpp" line="78"/>
         <location filename="../../src/settings.cpp" line="79"/>
+        <location filename="../../src/settings.cpp" line="81"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/settings.cpp" line="59"/>
-        <location filename="../../src/settings.cpp" line="60"/>
         <location filename="../../src/settings.cpp" line="61"/>
         <location filename="../../src/settings.cpp" line="62"/>
+        <location filename="../../src/settings.cpp" line="63"/>
         <location filename="../../src/settings.cpp" line="64"/>
-        <location filename="../../src/settings.cpp" line="65"/>
+        <location filename="../../src/settings.cpp" line="66"/>
         <location filename="../../src/settings.cpp" line="67"/>
+        <location filename="../../src/settings.cpp" line="69"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
