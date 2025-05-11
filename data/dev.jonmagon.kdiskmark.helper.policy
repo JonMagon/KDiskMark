@@ -8,17 +8,25 @@
 <icon_name>kdiskmark</icon_name>
    <action id="dev.jonmagon.kdiskmark.helper.init" >
       <description>Run privileged KDiskMark helper</description>
-      <message>Authentication is required to benchmark disks</message>
-      <message xml:lang="de">Legitimation ist zum Benchmarking erforderlich</message>
-      <message xml:lang="fr">Autorisation est requise pour mesurer la performance des disques</message>
-      <message xml:lang="hu">Hitelesítés szükséges a lemezek teljesítményértékeléséhez</message>
-      <message xml:lang="ja">特権的な KDiskMark の実行ヘルパー</message>
-      <message xml:lang="nl">Authenticatie vereist om schijven te kunnen benchmarken</message>
-      <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby przetestować dysk</message>
-      <message xml:lang="ru">Требуется авторизация для тестирования дисков</message>
-      <message xml:lang="sv">Kör KDiskMark-hjälpare med förhöjda rättigheter</message>
-      <message xml:lang="tr">Diskleri kıyaslamak için kimlik doğrulama gereklidir</message>
-      <message xml:lang="ua">Слід пройти розпізнавання, щоб тестувати диски</message>
+      <message>Authentication is required to benchmark storage device</message>
+      <message xml:lang="cs">Pro testování úložiště je vyžadováno ověření</message>
+      <message xml:lang="de">Legitimation ist zum Benchmarking des Speichergeräts erforderlich</message>
+      <message xml:lang="es_MX">Se requiere autenticación para evaluar el dispositivo de almacenamiento</message>
+      <message xml:lang="fr">Authentification requise pour mesurer la performance du périphérique de stockage</message>
+      <message xml:lang="hi">स्टोरेज डिवाइस बेंचमार्क करने के लिए प्रमाणीकरण आवश्यक है</message>
+      <message xml:lang="hu">Hitelesítés szükséges a tárolóeszköz teljesítményértékeléséhez</message>
+      <message xml:lang="it">È richiesta l'autenticazione per eseguire il benchmark del dispositivo di archiviazione</message>
+      <message xml:lang="ja">ストレージデバイスのベンチマークには認証が必要です</message>
+      <message xml:lang="nl">Authenticatie vereist om opslagapparaat te kunnen benchmarken</message>
+      <message xml:lang="pl">Wymagane jest uwierzytelnienie, aby przetestować urządzenie pamięci masowej</message>
+      <message xml:lang="pt_BR">Autenticação é necessária para fazer benchmark do dispositivo de armazenamento</message>
+      <message xml:lang="ru">Требуется авторизация для тестирования накопителя</message>
+      <message xml:lang="sk">Na testovanie úložného zariadenia je potrebné overenie</message>
+      <message xml:lang="sv">Autentisering krävs för att prestandatesta lagringsenhet</message>
+      <message xml:lang="tr">Depolama aygıtını test etmek için kimlik doğrulama gereklidir</message>
+      <message xml:lang="uk">Слід пройти розпізнавання для тестування накопичувача</message>
+      <message xml:lang="zh_CN">需要验证才能对存储设备进行基准测试</message>
+      <message xml:lang="zh_TW">需要驗證才能對儲存裝置進行效能測試</message>
       <defaults>
          <allow_inactive>no</allow_inactive>
          <allow_active>auth_admin_keep</allow_active>
