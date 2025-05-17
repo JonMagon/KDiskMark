@@ -308,7 +308,7 @@ QVariantMap Helper::checkCowStatus(const QString &path)
     }
 
     struct statfs fs_info;
-    if (statfs(path.toLocal8Bit().constData(), &fs_info) != 0) {
+    if (statfs(path.toUtf8().constData(), &fs_info) != 0) {
         return {{"success", false}, {"error", QStringLiteral("Cannot get filesystem info: %1").arg(strerror(errno))}};
     }
 
@@ -320,7 +320,7 @@ QVariantMap Helper::checkCowStatus(const QString &path)
             return {{"success", true}, {"hasCow", false}};
     }
 
-    int fd = open(path.toLocal8Bit().constData(), O_RDONLY);
+    int fd = open(path.toUtf8().constData(), O_RDONLY);
     if (fd < 0) {
         return {{"success", false}, {"error", QStringLiteral("Cannot open directory: %1").arg(strerror(errno))}};
     }
@@ -354,7 +354,7 @@ QVariantMap Helper::createNoCowDirectory(const QString &path)
         return {{"success", false}, {"error", QStringLiteral("Failed to create directory: %1").arg(newDir)}};
     }
 
-    int fd = open(newDir.toLocal8Bit().constData(), O_RDONLY);
+    int fd = open(newDir.toUtf8().constData(), O_RDONLY);
     if (fd < 0) {
         return {{"success", false}, {"error", QStringLiteral("Cannot open new directory: %1").arg(strerror(errno))}};
     }
