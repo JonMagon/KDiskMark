@@ -536,7 +536,7 @@ bool Benchmark::checkCowStatus(const QString &path)
     }
 
     struct statfs fs_info;
-    if (statfs(path.toLocal8Bit().constData(), &fs_info) != 0) {
+    if (statfs(path.toUtf8().constData(), &fs_info) != 0) {
         setRunning(false);
         emit failed(QStringLiteral("Cannot get filesystem info: %1").arg(strerror(errno)));
         return false;
@@ -550,7 +550,7 @@ bool Benchmark::checkCowStatus(const QString &path)
             return false;
     }
 
-    int fd = open(path.toLocal8Bit().constData(), O_RDONLY);
+    int fd = open(path.toUtf8().constData(), O_RDONLY);
     if (fd < 0) {
         setRunning(false);
         emit failed(QStringLiteral("Cannot open directory: %1").arg(strerror(errno)));
@@ -587,7 +587,7 @@ bool Benchmark::createNoCowDirectory(const QString &path)
         return false;
     }
 
-    int fd = open(newDir.toLocal8Bit().constData(), O_RDONLY);
+    int fd = open(newDir.toUtf8().constData(), O_RDONLY);
     if (fd < 0) {
         setRunning(false);
         emit failed(QStringLiteral("Cannot open new directory: %1").arg(strerror(errno)));
