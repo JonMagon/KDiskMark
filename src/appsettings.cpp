@@ -238,6 +238,21 @@ bool AppSettings::defaultFlushingCacheState()
     return true;
 }
 
+bool AppSettings::getCoWDetectionState() const
+{
+    return m_settings->value(QStringLiteral("Benchmark/CoWDetection"), defaultCoWDetectionState()).toBool();
+}
+
+void AppSettings::setCoWDetectionState(bool state)
+{
+    m_settings->setValue(QStringLiteral("Benchmark/CoWDetection"), state);
+}
+
+bool AppSettings::defaultCoWDetectionState()
+{
+    return true;
+}
+
 Global::ComparisonUnit AppSettings::getComparisonUnit() const
 {
     return (Global::ComparisonUnit)m_settings->value(QStringLiteral("Interface/ComparisonUnit"), defaultComparisonUnit()).toInt();

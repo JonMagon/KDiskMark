@@ -171,6 +171,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
+    ui->actionCoW_detection->setChecked(settings.getCoWDetectionState());
     ui->loopsCount->setValue(settings.getLoopsCount());
 
     ui->actionTheme_Stylesheet_Light->setChecked(settings.getTheme() == Global::Theme::StyleSheetLight);
@@ -398,6 +399,11 @@ void MainWindow::on_actionUse_O_DIRECT_triggered(bool checked)
 void MainWindow::on_actionFlush_Pagecache_triggered(bool checked)
 {
     AppSettings().setFlushingCacheState(checked);
+}
+
+void MainWindow::on_actionCoW_detection_triggered(bool checked)
+{
+    AppSettings().setCoWDetectionState(checked);
 }
 
 void MainWindow::updateBenchmarkButtonsContent()

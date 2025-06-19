@@ -57,6 +57,8 @@ private slots:
 
     void on_actionUse_O_DIRECT_triggered(bool checked);
 
+    void on_actionCoW_detection_triggered(bool checked);
+
 private:
     Ui::MainWindow *ui;
     Benchmark *m_benchmark;
