@@ -11,6 +11,7 @@
       <message>Authentication is required to benchmark storage device</message>
       <message xml:lang="cs">Pro testování úložiště je vyžadováno ověření</message>
       <message xml:lang="de">Legitimation ist zum Benchmarking des Speichergeräts erforderlich</message>
+      <message xml:lang="es_ES">Se requiere autenticación para diagnosticar el dispositivo de almacenamiento</message>
       <message xml:lang="es_MX">Se requiere autenticación para evaluar el dispositivo de almacenamiento</message>
       <message xml:lang="fr">Authentification requise pour mesurer la performance du périphérique de stockage</message>
       <message xml:lang="hi">स्टोरेज डिवाइस बेंचमार्क करने के लिए प्रमाणीकरण आवश्यक है</message>
