@@ -147,6 +147,7 @@ Languages currently available:
 * Russian
 * Slovak
 * Spanish (Mexico)
+* Spanish (Spain)
 * Swedish
 * Turkish
 * Ukrainian
