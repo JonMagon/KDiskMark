@@ -13,18 +13,18 @@ include_directories(${PROJECT_BINARY_BIN})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-option(USE_QT6 "Use Qt6 instead of Qt5" OFF)
+option(USE_QT5 "Use Qt5 instead of Qt6" OFF)
 
-if(USE_QT6)
-    find_package(Qt6 COMPONENTS Widgets LinguistTools DBus REQUIRED)
-    find_package(PolkitQt6-1 REQUIRED)
-    set(QT_LIBS Qt6::Widgets Qt6::DBus)
-    set(POLKIT_LIB PolkitQt6-1::Core)
-else()
+if(USE_QT5)
     find_package(Qt5 COMPONENTS Widgets LinguistTools DBus REQUIRED)
     find_package(PolkitQt5-1 REQUIRED)
     set(QT_LIBS Qt5::Widgets Qt5::DBus)
     set(POLKIT_LIB PolkitQt5-1::Core)
+else()
+    find_package(Qt6 COMPONENTS Widgets LinguistTools DBus REQUIRED)
+    find_package(PolkitQt6-1 REQUIRED)
+    set(QT_LIBS Qt6::Widgets Qt6::DBus)
+    set(POLKIT_LIB PolkitQt6-1::Core)
 endif()
 
 set(CMAKE_AUTOUIC ON)
@@ -66,20 +66,20 @@ include(KDEInstallDirs)
 set(helper_interface_xml dev.jonmagon.kdiskmark.helperinterface.xml)
 
 # Generate DBus Interface
-if(USE_QT6)
-    qt6_generate_dbus_interface(
-        src/helper.h
-        ${helper_interface_xml}
-        OPTIONS -a
-    )
-    qt6_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
-else()
+if(USE_QT5)
     qt5_generate_dbus_interface(
         src/helper.h
         ${helper_interface_xml}
         OPTIONS -a
     )
     qt5_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
+else()
+    qt6_generate_dbus_interface(
+        src/helper.h
+        ${helper_interface_xml}
+        OPTIONS -a
+    )
+    qt6_add_dbus_interface(HelperInterface_SRCS ${CMAKE_CURRENT_BINARY_DIR}/${helper_interface_xml} helper_interface)
 endif()
 
 set(TS_FILES
@@ -105,10 +105,10 @@ set(TS_FILES
     data/translations/${PROJECT_NAME}_zh_TW.ts
 )
 
-if(USE_QT6)
-    qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else()
+if(USE_QT5)
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+else()
+    qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
 add_executable(${PROJECT_NAME}

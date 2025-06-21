@@ -118,12 +118,12 @@ cmake -D CMAKE_BUILD_TYPE=Release ..
 cpack -G DEB # Or RPM, ZIP etc.
 ```
 
-### Building with Qt6
-To build **KDiskMark** with Qt6 instead of the default Qt5, use the `USE_QT6` flag during the CMake configuration step:
+### Building with Qt5
+To build **KDiskMark** with Qt5 instead of the default Qt6, use the `USE_QT5` flag during the CMake configuration step:
 
 ```bash
 mkdir build && cd build
-cmake -D CMAKE_BUILD_TYPE=Release -D USE_QT6=ON ..
+cmake -D CMAKE_BUILD_TYPE=Release -D USE_QT5=ON ..
 cpack -G DEB # Or RPM, ZIP etc.
 ```
 

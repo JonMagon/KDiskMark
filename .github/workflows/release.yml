@@ -34,7 +34,7 @@ jobs:
         arch: [amd64, aarch64]
         include:
           - os: ubuntu-22.04
-            cmake-defines: '-D CPACK_GENERATOR="DEB;RPM" -D CMAKE_BUILD_TYPE=Release'
+            cmake-defines: '-D CPACK_GENERATOR="DEB;RPM" -D CMAKE_BUILD_TYPE=Release -D USE_QT5=ON'
             upload-files: 'build/*.deb;build/*.rpm;package-signing-key.pub'
     steps:
     - name: Clone repo
@@ -121,7 +121,7 @@ jobs:
         include:
           - os: ubuntu-22.04
             bundled-fio: '3.39'
-            cmake-defines: '-D CMAKE_BUILD_TYPE=Release'
+            cmake-defines: '-D CMAKE_BUILD_TYPE=Release -D USE_QT5=ON'
             upload-files: 'build/{*.AppImage,*.AppImage.zsync,*.AppImage.sig}'
     steps:
     - name: Clone repo
@@ -162,7 +162,7 @@ jobs:
         mkdir appdir
         echo -e '#!/bin/bash\nHERE="$(dirname "$(readlink -f "${0}")")"\nexport PATH="$HERE/usr/bin/:$PATH"\n$HERE/usr/bin/kdiskmark "$@"' > appdir/AppRun
         chmod +x ./appdir/AppRun
-        cmake ${{ matrix.cmake-defines }} -DCMAKE_INSTALL_PREFIX=/usr ..
+        cmake ${{ matrix.cmake-defines }} -DCMAKE_INSTALL_PREFIX=/usr -DUSE_QT5=ON ..
         sed -i "s|XAUTHORITY kdiskmark|XAUTHORITY ./$APPIMAGE_NAME|g" ../src/mainwindow.cpp
         make DESTDIR=appdir -j$(nproc) install
         cd ../3rd-party/fio-fio-${{ matrix.bundled-fio }}

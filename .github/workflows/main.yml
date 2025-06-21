@@ -39,5 +39,5 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake ..
+        cmake -DUSE_QT5=ON ..
         cmake --build . --parallel 2
