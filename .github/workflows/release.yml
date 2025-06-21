@@ -120,7 +120,7 @@ jobs:
         arch: [amd64]
         include:
           - os: ubuntu-22.04
-            bundled-fio: '3.39'
+            bundled-fio: '3.40'
             cmake-defines: '-D CMAKE_BUILD_TYPE=Release -D USE_QT5=ON'
             upload-files: 'build/{*.AppImage,*.AppImage.zsync,*.AppImage.sig}'
     steps:
@@ -133,7 +133,7 @@ jobs:
     - name: Install dependent packages
       run: |
         sudo apt-get update
-        sudo apt-get install python3-pip libaio-dev qtbase5-dev qttools5-dev kde-style-breeze breeze-icon-theme extra-cmake-modules libfuse2
+        sudo apt-get install python3-pip libaio-dev qtbase5-dev qttools5-dev kde-style-breeze breeze-icon-theme extra-cmake-modules libfuse2 libpolkit-qt5-1-dev
 
     - name: Import GPG key
       uses: crazy-max/ghaction-import-gpg@v6
