@@ -71,6 +71,10 @@ public:
     void setFlushingCacheState(bool flushingCacheState);
     static bool defaultFlushingCacheState();
 
+    bool getCoWDetectionState() const;
+    void setCoWDetectionState(bool state);
+    static bool defaultCoWDetectionState();
+
     Global::ComparisonUnit getComparisonUnit() const;
     void setComparisonUnit(Global::ComparisonUnit comparisonUnit);
     static Global::ComparisonUnit defaultComparisonUnit();

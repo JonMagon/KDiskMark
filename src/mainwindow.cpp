@@ -69,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent)
     QActionGroup *localesGroup = new QActionGroup(this);
 
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
-                                 QLocale(QLocale::Spanish, QLocale::Mexico),
+                                 QLocale(QLocale::Spanish, QLocale::Spain), QLocale(QLocale::Spanish, QLocale::Mexico),
                                  QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Dutch,
                                  QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil), QLocale::Finnish,
                                  QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian, QLocale::Ukrainian,
@@ -79,7 +79,6 @@ MainWindow::MainWindow(QWidget *parent)
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
         QAction *lang = new QAction(QStringLiteral("%1%2").arg(langName[0].toUpper(), langName.mid(1)), this);
-        lang->setIcon(QIcon(QStringLiteral(":/icons/flags/%1.svg").arg(locale.name().mid(3))));
         lang->setCheckable(true);
         lang->setData(locale);
         lang->setActionGroup(localesGroup);
@@ -219,6 +218,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionFlush_Pagecache->setChecked(false);
 #endif
 
+    ui->actionCoW_detection->setChecked(settings.getCoWDetectionState());
     ui->loopsCount->setValue(settings.getLoopsCount());
 
     ui->actionTheme_Stylesheet_Light->setChecked(settings.getTheme() == Global::Theme::StyleSheetLight);
@@ -470,6 +470,11 @@ void MainWindow::on_actionUse_O_DIRECT_triggered(bool checked)
 void MainWindow::on_actionFlush_Pagecache_triggered(bool checked)
 {
     AppSettings().setFlushingCacheState(checked);
+}
+
+void MainWindow::on_actionCoW_detection_triggered(bool checked)
+{
+    AppSettings().setCoWDetectionState(checked);
 }
 
 void MainWindow::updateBenchmarkButtonsContent()

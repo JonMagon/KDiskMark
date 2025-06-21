@@ -47,42 +47,42 @@
         <translation>準備中......</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="328"/>
+        <location filename="../../src/benchmark.cpp" line="254"/>
         <source>Sequential Read %1/%2</source>
         <translation>順序讀取 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="332"/>
+        <location filename="../../src/benchmark.cpp" line="258"/>
         <source>Random Read %1/%2</source>
         <translation>隨機讀取 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="338"/>
+        <location filename="../../src/benchmark.cpp" line="264"/>
         <source>Sequential Write %1/%2</source>
         <translation>順序寫入 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="342"/>
+        <location filename="../../src/benchmark.cpp" line="268"/>
         <source>Random Write %1/%2</source>
         <translation>隨機寫入 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="348"/>
+        <location filename="../../src/benchmark.cpp" line="274"/>
         <source>Sequential Mix %1/%2</source>
         <translation>順序讀寫 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="352"/>
+        <location filename="../../src/benchmark.cpp" line="278"/>
         <source>Random Mix %1/%2</source>
         <translation>隨機讀寫 %1/%2</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="359"/>
+        <location filename="../../src/benchmark.cpp" line="285"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>間隔時間 %1/%2 秒</translation>
     </message>
     <message>
-        <location filename="../../src/benchmark.cpp" line="412"/>
+        <location filename="../../src/benchmark.cpp" line="405"/>
         <source>Could not obtain administrator privileges.</source>
         <translation>無法取得管理員權限。</translation>
     </message>
@@ -91,14 +91,14 @@
     <name>MainWindow</name>
     <message>
         <location filename="../../src/mainwindow.ui" line="30"/>
-        <location filename="../../src/mainwindow.cpp" line="990"/>
+        <location filename="../../src/mainwindow.cpp" line="917"/>
         <source>All</source>
         <translation>所有</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="220"/>
-        <location filename="../../src/mainwindow.cpp" line="499"/>
-        <location filename="../../src/mainwindow.cpp" line="503"/>
+        <location filename="../../src/mainwindow.cpp" line="436"/>
+        <location filename="../../src/mainwindow.cpp" line="440"/>
         <source>MB/s</source>
         <translation>MB/秒</translation>
     </message>
@@ -109,35 +109,35 @@
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="230"/>
-        <location filename="../../src/mainwindow.cpp" line="505"/>
-        <location filename="../../src/mainwindow.cpp" line="506"/>
+        <location filename="../../src/mainwindow.cpp" line="442"/>
+        <location filename="../../src/mainwindow.cpp" line="443"/>
         <source>IOPS</source>
         <translation>IOPS</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="235"/>
-        <location filename="../../src/mainwindow.cpp" line="508"/>
-        <location filename="../../src/mainwindow.cpp" line="509"/>
+        <location filename="../../src/mainwindow.cpp" line="445"/>
+        <location filename="../../src/mainwindow.cpp" line="446"/>
         <source>μs</source>
         <translation>微秒</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="351"/>
         <location filename="../../src/mainwindow.ui" line="933"/>
-        <location filename="../../src/mainwindow.cpp" line="610"/>
+        <location filename="../../src/mainwindow.cpp" line="547"/>
         <source>Read</source>
         <translation>讀取</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="520"/>
         <location filename="../../src/mainwindow.ui" line="952"/>
-        <location filename="../../src/mainwindow.cpp" line="613"/>
+        <location filename="../../src/mainwindow.cpp" line="550"/>
         <source>Write</source>
         <translation>寫入</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="686"/>
-        <location filename="../../src/mainwindow.cpp" line="616"/>
+        <location filename="../../src/mainwindow.cpp" line="553"/>
         <source>Mix</source>
         <translation>讀寫</translation>
     </message>
@@ -157,163 +157,157 @@
         <translation>測試資料</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1046"/>
+        <location filename="../../src/mainwindow.ui" line="1047"/>
         <source>Profile</source>
         <translation>設定檔</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1062"/>
+        <location filename="../../src/mainwindow.ui" line="1063"/>
         <source>Help</source>
         <translation>說明</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1066"/>
+        <location filename="../../src/mainwindow.ui" line="1067"/>
         <source>Language</source>
         <translation>語言</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1074"/>
+        <location filename="../../src/mainwindow.ui" line="1075"/>
         <source>Theme</source>
         <translation>主題</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1090"/>
+        <location filename="../../src/mainwindow.ui" line="1091"/>
         <source>About KDiskMark</source>
         <translation>關於 KDiskMark</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1095"/>
+        <location filename="../../src/mainwindow.ui" line="1096"/>
         <source>Queues &amp;&amp; Threads</source>
         <translation>序列 &amp;&amp; 執行緒</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1100"/>
+        <location filename="../../src/mainwindow.ui" line="1101"/>
         <source>Copy</source>
         <translation>複製</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1105"/>
+        <location filename="../../src/mainwindow.ui" line="1106"/>
         <source>Save</source>
         <translation>儲存</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1110"/>
+        <location filename="../../src/mainwindow.ui" line="1111"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1121"/>
+        <location filename="../../src/mainwindow.ui" line="1122"/>
         <source>Default</source>
         <translation>預設</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1129"/>
+        <location filename="../../src/mainwindow.ui" line="1130"/>
         <source>Peak Performance</source>
         <translation>最佳數據</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1137"/>
+        <location filename="../../src/mainwindow.ui" line="1138"/>
         <source>Real World Performance</source>
         <translation>實際數據</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1145"/>
+        <location filename="../../src/mainwindow.ui" line="1146"/>
         <source>Default [+Mix]</source>
         <translation>預設（混合）</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1153"/>
+        <location filename="../../src/mainwindow.ui" line="1154"/>
         <source>Peak Performance [+Mix]</source>
         <translation>最佳數據（混合）</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1161"/>
+        <location filename="../../src/mainwindow.ui" line="1162"/>
         <source>Real World Performance [+Mix]</source>
         <translation>實際數據（混合）</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1172"/>
+        <location filename="../../src/mainwindow.ui" line="1173"/>
         <source>Flush Pagecache</source>
         <translation>清除頁快取</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1180"/>
+        <location filename="../../src/mainwindow.ui" line="1181"/>
         <source>Demo</source>
         <translation>預覽</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1191"/>
+        <location filename="../../src/mainwindow.ui" line="1192"/>
         <source>Read and Write [+Mix]</source>
         <translation>讀寫（混合）</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1199"/>
+        <location filename="../../src/mainwindow.ui" line="1200"/>
         <source>Read [+Mix]</source>
         <translation>讀取（混合）</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1207"/>
+        <location filename="../../src/mainwindow.ui" line="1208"/>
         <source>Write [+Mix]</source>
         <translation>寫入（混合）</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1218"/>
+        <location filename="../../src/mainwindow.ui" line="1219"/>
         <source>Random</source>
         <translation>隨機</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1226"/>
+        <location filename="../../src/mainwindow.ui" line="1227"/>
         <source>Fill with zeros</source>
         <translation>填入「零」</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1237"/>
+        <location filename="../../src/mainwindow.ui" line="1238"/>
         <source>Standard Preset</source>
         <translation>標準資料</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1245"/>
+        <location filename="../../src/mainwindow.ui" line="1246"/>
         <source>NVMe SSD</source>
         <translation>NVMe 硬碟</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1256"/>
+        <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
         <translation>使用混合</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1264"/>
+        <location filename="../../src/mainwindow.ui" line="1265"/>
         <source>Stylesheet Light</source>
         <translation>明亮樣式表</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1272"/>
+        <location filename="../../src/mainwindow.ui" line="1273"/>
         <source>Stylesheet Dark</source>
         <translation>暗黑樣式表</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1280"/>
+        <location filename="../../src/mainwindow.ui" line="1281"/>
         <source>Do not apply</source>
         <translation>請勿套用</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.ui" line="1291"/>
+        <location filename="../../src/mainwindow.ui" line="1292"/>
         <source>Use O_DIRECT</source>
         <translation>使用 O_DIRECT</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="53"/>
-        <source>This sandboxed version of KDiskMark has limited access to system resources.
-Cache clearing and access to protected directories are not available.
-Read speeds may be overestimated beyond the drive&apos;s specifications due to disabled cache clearing.
-For full functionality, use the native package for your distribution or AppImage.</source>
-        <translation>此容器版本的KDiskMark對系統資源的存取受限。
-無法清除快取及存取受保護的目錄。
-因無法清除快取，讀取速度可能會高於磁碟機的實際規格。
-若需完整功能，請使用您發行版的原生套件或AppImage。</translation>
+        <location filename="../../src/mainwindow.ui" line="1303"/>
+        <source>CoW detection</source>
+        <translation>CoW 偵測</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="92"/>
+        <location filename="../../src/mainwindow.cpp" line="54"/>
         <source>The device is encrypted. Performance may drop.</source>
         <translation>此裝置因已被加密而可能降低磁碟性能。</translation>
     </message>
@@ -324,70 +318,70 @@ For full functionality, use the native package for your distribution or AppImage
         <translation>新增資料夾</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="420"/>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
+        <location filename="../../src/mainwindow.cpp" line="352"/>
+        <location filename="../../src/mainwindow.cpp" line="452"/>
+        <location filename="../../src/mainwindow.cpp" line="520"/>
         <source>MiB</source>
         <translation>MiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="424"/>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
+        <location filename="../../src/mainwindow.cpp" line="356"/>
+        <location filename="../../src/mainwindow.cpp" line="520"/>
         <source>GiB</source>
         <translation>GiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="515"/>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
+        <location filename="../../src/mainwindow.cpp" line="452"/>
+        <location filename="../../src/mainwindow.cpp" line="520"/>
         <source>KiB</source>
         <translation>KiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
+        <location filename="../../src/mainwindow.cpp" line="520"/>
         <source>Bytes</source>
         <translation>位元組</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
+        <location filename="../../src/mainwindow.cpp" line="520"/>
         <source>TiB</source>
         <translation>TiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="583"/>
+        <location filename="../../src/mainwindow.cpp" line="520"/>
         <source>PiB</source>
         <translation>PiB</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="962"/>
-        <location filename="../../src/mainwindow.cpp" line="963"/>
-        <location filename="../../src/mainwindow.cpp" line="964"/>
-        <location filename="../../src/mainwindow.cpp" line="965"/>
-        <location filename="../../src/mainwindow.cpp" line="966"/>
+        <location filename="../../src/mainwindow.cpp" line="892"/>
+        <location filename="../../src/mainwindow.cpp" line="893"/>
+        <location filename="../../src/mainwindow.cpp" line="894"/>
+        <location filename="../../src/mainwindow.cpp" line="895"/>
+        <location filename="../../src/mainwindow.cpp" line="896"/>
         <source>Stop</source>
         <translation>停止</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1017"/>
+        <location filename="../../src/mainwindow.cpp" line="944"/>
         <source>Stopping...</source>
         <translation>正在停止......</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1027"/>
+        <location filename="../../src/mainwindow.cpp" line="954"/>
         <source>Not available</source>
         <translation>目前不可用</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1027"/>
+        <location filename="../../src/mainwindow.cpp" line="954"/>
         <source>Directory is not specified.</source>
         <translation>尚未指定資料夾。</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1132"/>
+        <location filename="../../src/mainwindow.cpp" line="1059"/>
         <source>Copy-on-Write (CoW) is enabled on the selected directory.</source>
         <translation>已在所選目錄啟用寫入時複製 (CoW)。</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1133"/>
+        <location filename="../../src/mainwindow.cpp" line="1060"/>
         <source>This may affect performance results. Would you like to create a new subdirectory with CoW disabled?</source>
         <translation>這可能會影響性能結果。是否要創建一個已禁用 CoW 的新子目錄？</translation>
     </message>
@@ -396,7 +390,7 @@ For full functionality, use the native package for your distribution or AppImage
         <translation type="vanished">確認</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="1037"/>
+        <location filename="../../src/mainwindow.cpp" line="964"/>
         <source>Benchmark Failed</source>
         <translation>測試失敗</translation>
     </message>

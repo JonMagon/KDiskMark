@@ -305,9 +305,11 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         return;
     }
 #endif
-
-    if (!prepareDirectory(getBenchmarkFile())) {
-        setRunning(false);
+   
+    if (AppSettings().getCoWDetectionState()) {
+        if (!prepareDirectory(getBenchmarkFile())) {
+            setRunning(false);
+        }
     }
 
     if (!prepareBenchmarkFile(getBenchmarkFile(), settings.getFileSize())) {
