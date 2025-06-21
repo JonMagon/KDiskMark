@@ -136,6 +136,7 @@ Languages currently available:
 * Czech
 * Dutch
 * English (default)
+* Finnish
 * French
 * German
 * Hindi

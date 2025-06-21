@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     QActionGroup *localesGroup = new QActionGroup(this);
 
     QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
-                                 QLocale(QLocale::Spanish, QLocale::Mexico),
+                                 QLocale(QLocale::Spanish, QLocale::Spain), QLocale(QLocale::Spanish, QLocale::Mexico),
                                  QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Dutch,
                                  QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil), QLocale::Finnish,
                                  QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian, QLocale::Ukrainian,
