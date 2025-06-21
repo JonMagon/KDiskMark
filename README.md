@@ -165,7 +165,4 @@ Thanks to the package maintainers, translators, and all users for supporting the
 **Application Icon**  
 Copyright (c) https://www.iconfinder.com/baitisstudio
 
-**FlagKit**  
-https://github.com/madebybowtie/FlagKit
-
 If you have any ideas, critics, suggestions or whatever you want to call it, please open an issue.

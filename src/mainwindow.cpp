@@ -40,7 +40,6 @@ MainWindow::MainWindow(QWidget *parent)
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
         QAction *lang = new QAction(QStringLiteral("%1%2").arg(langName[0].toUpper(), langName.mid(1)), this);
-        lang->setIcon(QIcon(QStringLiteral(":/icons/flags/%1.svg").arg(locale.name().mid(3))));
         lang->setCheckable(true);
         lang->setData(locale);
         lang->setActionGroup(localesGroup);

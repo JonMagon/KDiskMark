@@ -112,7 +112,6 @@ endif()
 
 add_executable(${PROJECT_NAME}
     ${QM_FILES}
-    data/icons/flags/flags.qrc
     ${HelperInterface_SRCS}
     src/main.cpp
     src/mainwindow.h
