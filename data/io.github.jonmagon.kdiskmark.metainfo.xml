@@ -36,6 +36,27 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.2.0" date="2025-06-21">
+      <description>
+        <p>Changelog:</p>
+        <ul>
+          <li>Removed country flags from language selector</li>
+          <li>Used clat instead of lat for latency measurements</li>
+          <li>Improved translations in .desktop file</li>
+          <li>Added Spanish (es_ES) localization</li>
+          <li>Added Finnish (fi_FI) localization</li>
+          <li>Added Traditional Chinese (zh_TW) localization</li>
+          <li>Added Hindi (hi_IN) localization</li>
+          <li>Added Dutch (nl_NL) localization</li>
+          <li>Storage model name in benchmark reports</li>
+          <li>BTRFS Copy-on-Write (CoW) detection and no-CoW directory support</li>
+          <li>Enhanced error reporting for filesystem operations</li>
+          <li>Icons to menu items</li>
+          <li>Fixed tab order and UI spacing issues</li>
+          <li>Fixed window icon display</li>
+        </ul>
+      </description>
+    </release>
     <release version="3.1.4" date="2023-06-19">
       <description>
         <p>Changelog:</p>
