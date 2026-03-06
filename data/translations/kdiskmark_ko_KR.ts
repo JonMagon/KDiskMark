@@ -279,7 +279,7 @@
     <message>
         <location filename="../../src/mainwindow.ui" line="1257"/>
         <source>Use Fusion</source>
-        <translation>Fusion 사용</translation>
+        <translation>Use Fusion</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1265"/>
