@@ -88,7 +88,7 @@ private:
 public slots:
     void benchmarkStatusUpdate(const QString &name);
     void benchmarkFailed(const QString &error);
-    void handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result);
+    void handleResults(QObject *target, const Benchmark::PerformanceResult &result);
     void localeSelected(QAction* act);
     void profileSelected(QAction* act);
     void modeSelected(QAction* act);

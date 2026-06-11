@@ -13,6 +13,7 @@
 * Configurable block size, queues, and threads count for each test
 * Many languages support
 * Report generation
+* Terminal (TUI) mode for environments without a graphical display
 
 ## Report Example
 ```
@@ -116,6 +117,24 @@ Available in the [openSUSE Factory](https://build.opensuse.org/package/show/open
 sudo zypper install kdiskmark
 ```
 
+## Terminal mode (TUI)
+KDiskMark can be used without a graphical environment (e.g. on a server or a virtual console). When no graphical display is available, an interactive full-screen terminal interface starts automatically; from a desktop terminal it can be forced with the `--tui` option:
+
+```bash
+kdiskmark --tui
+kdiskmark --tui /mnt/data   # adds the directory to the storage list
+```
+
+Everything configurable in the GUI is also editable in the TUI: profile, file size, loops count, storage (including adding an arbitrary directory), comparison unit, mix ratio, and language on the main screen; queues/threads per test, measuring and interval time, mode, test data, page cache flushing, O_DIRECT, CoW detection, and presets on the settings screen. The configuration is shared with the GUI.
+
+Keys: `Up`/`Down` — navigation, `Left`/`Right` — change a value, `Enter` — run all tests or the focused one (on the Storage field — add a directory), `E` — settings screen, `S` — save the report, `R` — rescan storages, `Q` — quit.
+
+Administrator privileges are requested over polkit, as in the GUI. On a virtual console the text agent `pkttyagent` is used automatically. In an SSH session polkit usually denies authentication for non-local users, so run the application as root there:
+
+```bash
+sudo kdiskmark --tui
+```
+
 ## Building
 ### Building a package using CPack
 You can build **KDiskMark** by using the following commands:
@@ -163,7 +182,7 @@ Languages currently available:
 * Ukrainian
 
 ## TODO
-- [ ] Text-based user interface
+- [x] Text-based user interface
 - [x] Performance profiles (mix, peak, real-world)
 
 ## Special Thanks

@@ -128,13 +128,13 @@ void Benchmark::sendResult(const Benchmark::PerformanceResult &result, const int
 {
     const AppSettings settings;
     if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
-        for (auto progressBar : m_progressBars) {
-            emit resultReady(progressBar, result / index);
+        for (auto target : m_targets) {
+            emit resultReady(target, result / index);
         }
     }
     else {
-        for (auto progressBar : m_progressBars) {
-            emit resultReady(progressBar, result);
+        for (auto target : m_targets) {
+            emit resultReady(target, result);
         }
     }
 }
@@ -198,22 +198,22 @@ bool Benchmark::isRunning()
     return m_running;
 }
 
-void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> tests)
+void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> tests)
 {
     setRunning(true);
 
     const AppSettings settings;
 
-    QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>> item;
+    QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>> item;
 
-    QMutableListIterator<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> iter(tests);
-    // Set to 0 all the progressbars for current tests
+    QMutableListIterator<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> iter(tests);
+    // Set to 0 all the targets for current tests
     while (iter.hasNext()) {
         item = iter.next();
         if (item.first.second == Global::BenchmarkIOReadWrite::Read && settings.getBenchmarkMode() == Global::BenchmarkMode::WriteMix) { iter.remove(); continue; }
         if (item.first.second == Global::BenchmarkIOReadWrite::Write && settings.getBenchmarkMode() == Global::BenchmarkMode::ReadMix) { iter.remove(); continue; }
-        auto progressBars = item.second;
-        for (auto obj : progressBars) {
+        auto targets = item.second;
+        for (auto obj : targets) {
             emit resultReady(obj, PerformanceResult());
         }
     }
@@ -239,7 +239,7 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
     while (iter.hasNext() && isRunning()) {
         item = iter.next();
 
-        m_progressBars = item.second;
+        m_targets = item.second;
 
         Global::BenchmarkParams params = settings.getBenchmarkParams(item.first.first, settings.getPerformanceProfile());
 

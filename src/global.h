@@ -1,8 +1,10 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#include <QLocale>
 #include <QObject>
 #include <QString>
+#include <QVector>
 
 namespace Global
 {
@@ -90,6 +92,7 @@ namespace Global
     };
 
     int getOutputColumnsCount();
+    QVector<QLocale> getSupportedLocales();
     QString getBenchmarkButtonText(BenchmarkParams params, QString paramsLine = QStringLiteral());
     QString getBenchmarkButtonToolTip(BenchmarkParams params, bool extraField = false);
     QString getToolTipTemplate();

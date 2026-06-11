@@ -8,6 +8,17 @@ int Global::getOutputColumnsCount()
     return 80;
 }
 
+QVector<QLocale> Global::getSupportedLocales()
+{
+    return { QLocale::English, QLocale::Czech, QLocale::German,
+             QLocale(QLocale::Spanish, QLocale::Spain), QLocale(QLocale::Spanish, QLocale::Mexico),
+             QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Dutch,
+             QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil), QLocale::Finnish,
+             QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian, QLocale::Ukrainian,
+             QLocale(QLocale::Chinese, QLocale::China), QLocale(QLocale::Chinese, QLocale::Taiwan),
+             QLocale::Japanese, QLocale::Hindi, QLocale::Korean };
+}
+
 QString Global::getBenchmarkButtonText(BenchmarkParams params, QString paramsLine)
 {
     QString text = QStringLiteral("%1%2%3\n%4")

@@ -29,13 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     QActionGroup *localesGroup = new QActionGroup(this);
 
-    QVector<QLocale> locales = { QLocale::English, QLocale::Czech, QLocale::German,
-                                 QLocale(QLocale::Spanish, QLocale::Spain), QLocale(QLocale::Spanish, QLocale::Mexico),
-                                 QLocale::French, QLocale::Italian, QLocale::Hungarian, QLocale::Dutch,
-                                 QLocale::Polish, QLocale(QLocale::Portuguese, QLocale::Brazil), QLocale::Finnish,
-                                 QLocale::Slovak, QLocale::Swedish, QLocale::Turkish, QLocale::Russian, QLocale::Ukrainian,
-                                 QLocale(QLocale::Chinese, QLocale::China), QLocale(QLocale::Chinese, QLocale::Taiwan),
-                                 QLocale::Japanese, QLocale::Hindi };
+    const QVector<QLocale> locales = Global::getSupportedLocales();
 
     for (const QLocale &locale : locales) {
         QString langName = locale.nativeLanguageName();
@@ -974,8 +968,11 @@ void MainWindow::benchmarkStatusUpdate(const QString &name)
     setWindowTitle(QStringLiteral("%1 - %2").arg(m_windowTitle, name));
 }
 
-void MainWindow::handleResults(QProgressBar *progressBar, const Benchmark::PerformanceResult &result)
+void MainWindow::handleResults(QObject *target, const Benchmark::PerformanceResult &result)
 {
+    QProgressBar *progressBar = qobject_cast<QProgressBar*>(target);
+    if (!progressBar) return;
+
     QMetaEnum metaEnum = QMetaEnum::fromType<Global::ComparisonUnit>();
 
     progressBar->setProperty(metaEnum.valueToKey(Global::ComparisonUnit::MBPerSec), result.Bandwidth);
@@ -1100,13 +1097,13 @@ bool MainWindow::runCombinedRandomTest()
     const AppSettings settings;
 
     if (settings.getPerformanceProfile() == Global::PerformanceProfile::Peak || settings.getPerformanceProfile() == Global::PerformanceProfile::RealWorld) {
-        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> set {
             { { Global::Test_2, Global::Read  }, { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
             { { Global::Test_2, Global::Write }, { ui->writeBar_2, ui->writeBar_3, ui->writeBar_4 } }
         };
 
         if (settings.getMixedState()) {
-            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>
             { { Global::Test_2, Global::Mix   }, {  ui->mixBar_2,  ui->mixBar_3,   ui->mixBar_4   } };
         }
 
@@ -1121,13 +1118,13 @@ bool MainWindow::runCombinedRandomTest()
 void MainWindow::on_pushButton_Test_1_clicked()
 {
     defineBenchmark([&]() {
-        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> set {
             { { Global::Test_1, Global::Read  }, { ui->readBar_1  } },
             { { Global::Test_1, Global::Write }, { ui->writeBar_1 } }
         };
 
         if (AppSettings().getMixedState()) {
-            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>
             { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } };
         }
 
@@ -1140,13 +1137,13 @@ void MainWindow::on_pushButton_Test_2_clicked()
     defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
-        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> set {
             { { Global::Test_2, Global::Read  }, { ui->readBar_2  } },
             { { Global::Test_2, Global::Write }, { ui->writeBar_2 } }
         };
 
         if (AppSettings().getMixedState()) {
-            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>
             { { Global::Test_2, Global::Mix   }, { ui->mixBar_2   } };
         }
 
@@ -1159,13 +1156,13 @@ void MainWindow::on_pushButton_Test_3_clicked()
     defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
-        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> set {
             { { Global::Test_3, Global::Read  }, { ui->readBar_3  } },
             { { Global::Test_3, Global::Write }, { ui->writeBar_3 } }
         };
 
         if (AppSettings().getMixedState()) {
-            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>
             { { Global::Test_3, Global::Mix   }, { ui->mixBar_3   } };
         }
 
@@ -1178,13 +1175,13 @@ void MainWindow::on_pushButton_Test_4_clicked()
     defineBenchmark([&]() {
         if (runCombinedRandomTest()) return;
 
-        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set {
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> set {
             { { Global::Test_4, Global::Read  }, { ui->readBar_4  } },
             { { Global::Test_4, Global::Write }, { ui->writeBar_4 } }
         };
 
         if (AppSettings().getMixedState()) {
-            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>
+            set << QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>
             { { Global::Test_4, Global::Mix   }, { ui->mixBar_4   } };
         }
 
@@ -1197,10 +1194,10 @@ void MainWindow::on_pushButton_All_clicked()
     defineBenchmark([&]() {
         const AppSettings settings;
 
-        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> set;
+        QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> set;
 
         if (settings.getPerformanceProfile() == Global::PerformanceProfile::Default) {
-            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> {
                 { { Global::Test_1, Global::Read  }, { ui->readBar_1  } },
                 { { Global::Test_2, Global::Read  }, { ui->readBar_2  } },
                 { { Global::Test_3, Global::Read  }, { ui->readBar_3  } },
@@ -1212,7 +1209,7 @@ void MainWindow::on_pushButton_All_clicked()
             };
 
             if (settings.getMixedState()) {
-                set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> {
                 { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } },
                 { { Global::Test_2, Global::Mix   }, { ui->mixBar_2   } },
                 { { Global::Test_3, Global::Mix   }, { ui->mixBar_3   } },
@@ -1221,13 +1218,13 @@ void MainWindow::on_pushButton_All_clicked()
             }
         }
         else if (settings.getPerformanceProfile() == Global::PerformanceProfile::Demo) {
-            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> {
                 { { Global::Test_1, Global::Read  }, { ui->readBar_Demo  } },
                 { { Global::Test_1, Global::Write }, { ui->writeBar_Demo } }
             };
         }
         else {
-            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+            set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> {
                 { { Global::Test_1, Global::Read  }, { ui->readBar_1  } },
                 { { Global::Test_2, Global::Read  }, { ui->readBar_2,  ui->readBar_3,  ui->readBar_4  } },
                 { { Global::Test_1, Global::Write }, { ui->writeBar_1 } },
@@ -1235,7 +1232,7 @@ void MainWindow::on_pushButton_All_clicked()
             };
 
             if (settings.getMixedState()) {
-                set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QProgressBar*>>> {
+                set << QList<QPair<QPair<Global::BenchmarkTest, Global::BenchmarkIOReadWrite>, QVector<QObject*>>> {
                 { { Global::Test_1, Global::Mix   }, { ui->mixBar_1   } },
                 { { Global::Test_2, Global::Mix   }, { ui->mixBar_2,   ui->mixBar_3,   ui->mixBar_4   } }
             };
