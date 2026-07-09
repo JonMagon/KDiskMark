@@ -78,6 +78,8 @@ private:
     void updatePresetsSelection();
     void refreshProgressBars();
     void updateProgressBar(QProgressBar *progressBar);
+    qreal fitProgressBarPointSize(QProgressBar *progressBar);
+    void applyUniformProgressBarFont();
     void updateLabels();
     bool runCombinedRandomTest();
     QString combineOutputTestResult(const QProgressBar *progressBar, const Global::BenchmarkParams &params);

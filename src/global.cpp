@@ -47,7 +47,10 @@ QString Global::getToolTipTemplate()
 
 QString Global::getComparisonLabelTemplate()
 {
-    return QStringLiteral("<p align=\"center\">%1 [%2]</p>");
+    // Plain text (not <p> rich text): the labels are already centre-aligned in the .ui,
+    // and a <p> element's DPI-scaled top/bottom margins would clip the text vertically
+    // inside its fixed-height row on high-DPI displays.
+    return QStringLiteral("%1 [%2]");
 }
 
 QString Global::getRWSequentialRead()

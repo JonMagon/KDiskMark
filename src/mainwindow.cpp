@@ -512,6 +512,8 @@ void MainWindow::refreshProgressBars()
                         )
                     );
     }
+
+    applyUniformProgressBarFont();
 }
 
 QString MainWindow::formatSize(quint64 available, quint64 total)
@@ -1050,6 +1052,95 @@ void MainWindow::updateProgressBar(QProgressBar *progressBar)
         else {
             progressBar->setValue(score <= 0.1 ? 0 : 16.666666666666 * log10(score * 10));
         }
+    }
+
+    applyUniformProgressBarFont();
+}
+
+qreal MainWindow::fitProgressBarPointSize(QProgressBar *progressBar)
+{
+    // The result font is authored at a fixed point size in mainwindow.ui, while the
+    // bars have a fixed pixel width. Point sizes scale with the screen DPI, so on
+    // high-DPI displays (e.g. after a driver reports the panel's real DPI) or with
+    // long/localized numbers the text overflows the box and gets clipped. Return the
+    // largest point size (<= the authored size) at which the current text still fits.
+    QVariant baseSize = progressBar->property("baseFontPointSizeF");
+    if (!baseSize.isValid()) {
+        baseSize = progressBar->font().pointSizeF();
+        progressBar->setProperty("baseFontPointSizeF", baseSize);
+    }
+
+    const qreal basePointSize = baseSize.toReal();
+    if (basePointSize <= 0.0)
+        return basePointSize;
+
+    // Available text width. Fall back to the fixed minimum width so the fit is correct
+    // even before the window is first laid out (the result bars have min == max width).
+    // A QProgressBar's actual text-drawing region is noticeably narrower than its raw
+    // width, so subtracting only the frame lets long numbers still clip on high-DPI
+    // displays. Leave a comfortable margin on each side (~8% of the box, at least 12px)
+    // so the value sits inside the box with breathing room, like the reference layout.
+    const int barWidth = qMax(progressBar->width(), progressBar->minimumWidth());
+    const int frame = progressBar->style()->pixelMetric(QStyle::PM_DefaultFrameWidth, nullptr, progressBar);
+    const int margin = frame + qMax(12, qRound(barWidth * 0.08));
+    const int available = barWidth - 2 * margin;
+    if (available <= 0)
+        return basePointSize;
+
+    // Size against a representative worst-case value, not just the current text. The
+    // startup placeholder ("0.00") and other short values would otherwise fit at the
+    // full authored size and render oversized, then snap smaller once real numbers
+    // arrive. Measuring the widest realistic value keeps the size uniform and stable
+    // from the first frame while still never clipping. Fall back to the current text
+    // if it is somehow wider (locale grouping, unexpected magnitudes).
+    const QString sample = QLocale().toString(999999.99, 'f', 2);
+    const QString text = progressBar->format().size() > sample.size()
+                             ? progressBar->format()
+                             : sample;
+
+    QFont font = progressBar->font();
+    qreal pointSize = basePointSize;
+    font.setPointSizeF(pointSize);
+
+    auto textWidth = [&text](const QFont &f) {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 11, 0)
+        return QFontMetrics(f).horizontalAdvance(text);
+#else
+        return QFontMetrics(f).width(text);
+#endif
+    };
+
+    while (pointSize > 6.0 && textWidth(font) > available) {
+        pointSize -= 0.5;
+        font.setPointSizeF(pointSize);
+    }
+
+    return pointSize;
+}
+
+void MainWindow::applyUniformProgressBarFont()
+{
+    // Keep every result field at a single, consistent font size (like the reference
+    // layout) instead of shrinking each box independently. Use the smallest size any
+    // currently shown bar needs to fit its value, then apply it to all of them.
+    qreal pointSize = -1.0;
+    for (auto const& progressBar: m_progressBars) {
+        if (progressBar->isHidden())
+            continue;
+        const qreal fitted = fitProgressBarPointSize(progressBar);
+        if (fitted > 0.0 && (pointSize < 0.0 || fitted < pointSize))
+            pointSize = fitted;
+    }
+
+    if (pointSize <= 0.0)
+        return;
+
+    for (auto const& progressBar: m_progressBars) {
+        if (qFuzzyCompare(progressBar->font().pointSizeF(), pointSize))
+            continue;
+        QFont font = progressBar->font();
+        font.setPointSizeF(pointSize);
+        progressBar->setFont(font);
     }
 }
 
