@@ -36,6 +36,17 @@
     </screenshot>
   </screenshots>
   <releases>
+    <release version="3.3.0" date="2026-06-12">
+      <description>
+        <p>Changelog:</p>
+        <ul>
+          <li>Implemented interactive terminal interface (TUI)</li>
+          <li>New configuration option to enable/disable --refill_buffers</li>
+          <li>Added Korean (ko_KR) localization</li>
+          <li>Fixed halved results with multiple jobs, now using fio --group_reporting</li>
+        </ul>
+      </description>
+    </release>
     <release version="3.2.0" date="2025-06-21">
       <description>
         <p>Changelog:</p>
