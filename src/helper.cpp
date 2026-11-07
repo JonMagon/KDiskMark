@@ -231,6 +231,7 @@ QVariantMap Helper::startBenchmarkTest(int measuringTime, int fileSize, int rand
                      << QStringLiteral("--zero_buffers=%1").arg(fillZeros)
                      << QStringLiteral("--bs=%1k").arg(blockSize)
                      << QStringLiteral("--runtime=%1").arg(measuringTime)
+                     << QStringLiteral("--time_based")
                      << QStringLiteral("--rw=%1").arg(rw)
                      << QStringLiteral("--iodepth=%1").arg(queueDepth)
                      << QStringLiteral("--numjobs=%1").arg(threads)
