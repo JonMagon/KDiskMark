@@ -654,14 +654,14 @@ QString MainWindow::getTextBenchmarkResult()
            << QStringLiteral("     OS: %1 %2 [%3 %4]").arg(QSysInfo::productType()).arg(QSysInfo::productVersion())
               .arg(QSysInfo::kernelType()).arg(QSysInfo::kernelVersion());
 
-    QString targetInfo = ui->comboBox_Storages->currentText();
-    QString modelName = ui->deviceModel->text();
-    if (!modelName.isEmpty()) {
-        targetInfo += QString(" [%1]").arg(modelName);
-    }
+    Global::Storage target {};
+    target.path = m_benchmark->getBenchmarkFile();
+    const QVariant storageData = ui->comboBox_Storages->currentData();
+    if (storageData.canConvert<Global::Storage>())
+        target = storageData.value<Global::Storage>();
 
-    output << QString(" Target: %1")
-              .arg(targetInfo);
+    output << QStringLiteral(" Target: %1").arg(Global::formatReportTarget(
+                  target.path, target.bytesOccupied, target.bytesTotal, ui->deviceModel->text()));
 
     return output.join("\n");
 }

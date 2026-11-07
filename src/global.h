@@ -91,6 +91,7 @@ namespace Global
         bool permanentInList = false;
     };
 
+    QString formatReportTarget(const QString &path, qlonglong occupied, qlonglong total, const QString &model);
     int getOutputColumnsCount();
     QVector<QLocale> getSupportedLocales();
     QString getBenchmarkButtonText(BenchmarkParams params, QString paramsLine = QStringLiteral());

@@ -1,7 +1,31 @@
 #include "global.h"
 
 #include <QString>
+#include <QStringList>
 #include <QObject>
+
+QString Global::formatReportTarget(const QString &path, qlonglong occupied, qlonglong total, const QString &model)
+{
+    QString target = path;
+    if (total > 0 && occupied >= 0) {
+        const QStringList units = { QStringLiteral("Bytes"), QStringLiteral("KiB"), QStringLiteral("MiB"),
+                                    QStringLiteral("GiB"), QStringLiteral("TiB"), QStringLiteral("PiB") };
+        double usedSize = occupied;
+        double totalSize = total;
+        int unit = 0;
+        while (totalSize >= 1024 && unit < units.size() - 1) {
+            usedSize /= 1024;
+            totalSize /= 1024;
+            ++unit;
+        }
+        target += QStringLiteral(" %1% (%2/%3 %4)")
+                .arg(int(100.0 * occupied / total))
+                .arg(QString::number(usedSize, 'f', 2), QString::number(totalSize, 'f', 2), units.at(unit));
+    }
+    if (!model.isEmpty())
+        target += QStringLiteral(" [%1]").arg(model);
+    return target;
+}
 
 int Global::getOutputColumnsCount()
 {
