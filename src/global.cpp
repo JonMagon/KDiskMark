@@ -3,7 +3,9 @@
 #include <QString>
 #include <QObject>
 
+#ifndef Q_OS_WIN
 #include <unistd.h>
+#endif
 
 int Global::getOutputColumnsCount()
 {
@@ -84,5 +86,9 @@ QString Global::getRWRandomMix()
 
 bool Global::isRunningAsRoot()
 {
+#ifdef Q_OS_WIN
+    return false;
+#else
     return getuid() == 0;
+#endif
 }

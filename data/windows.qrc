@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/icons">
+    <file alias="kdiskmark.png">icons/256-apps-kdiskmark.png</file>
+    <file alias="kdiskmark.ico">kdiskmark.ico</file>
+  </qresource>
+</RCC>

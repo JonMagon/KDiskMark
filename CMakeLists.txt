@@ -52,13 +52,21 @@ set(CPACK_NSIS_DISPLAY_NAME ${APPLICATION_NAME})
 
 option(APPIMAGE_EDITION "Determines whether it can be run as root user" ON)
 option(SNAP_EDITION "Determines whether it can be built for snap package" OFF)
+if(WIN32)
+    set(APPIMAGE_EDITION OFF)
+    set(SNAP_EDITION OFF)
+endif()
+if(NOT WIN32)
 find_package(ECM REQUIRED NO_MODULE)
 list(APPEND CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+endif()
 
 include(CPack)
 include(GNUInstallDirs)
+if(NOT WIN32)
 include(ECMInstallIcons)
 include(KDEInstallDirs)
+endif()
 
 set(TS_FILES
     data/translations/${PROJECT_NAME}_cs_CZ.ts
@@ -85,9 +93,17 @@ set(TS_FILES
 )
 
 if(USE_QT5)
+    if(WIN32)
+    qt5_add_translation(QM_FILES ${TS_FILES})
+    else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    endif()
 else()
+    if(WIN32)
+    qt6_add_translation(QM_FILES ${TS_FILES})
+    else()
     qt6_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
+    endif()
 endif()
 
 add_executable(${PROJECT_NAME}
@@ -119,6 +135,20 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${QT_LIBS})
+if(WIN32)
+    target_sources(${PROJECT_NAME} PRIVATE src/windowscache.cpp src/windowscache.h)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ole32 oleaut32 wbemuuid shell32 advapi32)
+    add_executable(kdiskmark-console src/consolemain.cpp)
+    target_link_libraries(kdiskmark-console PRIVATE ${QT_LIBS})
+    set_target_properties(kdiskmark-console PROPERTIES OUTPUT_NAME kdiskmark SUFFIX ".com")
+    install(TARGETS kdiskmark-console DESTINATION bin)
+    target_sources(${PROJECT_NAME} PRIVATE data/windows.qrc)
+    enable_language(RC)
+    configure_file(data/windows.rc.in windows.rc @ONLY)
+    target_sources(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/windows.rc)
+    set_target_properties(${PROJECT_NAME} PROPERTIES WIN32_EXECUTABLE TRUE)
+
+endif()
 if(APPIMAGE_EDITION)
     target_compile_definitions(${PROJECT_NAME} PRIVATE APPIMAGE_EDITION)
     target_sources(
@@ -146,7 +176,9 @@ set(APP_ICONS
 
 install(TARGETS ${PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_BINDIR})
 install(FILES ${QM_FILES} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}/${PROJECT_NAME}/translations)
+if(NOT WIN32)
 install(FILES data/${DESKTOP_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications)
 install(FILES data/${METAINFO_FILE} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo)
 
 ecm_install_icons(ICONS ${APP_ICONS} DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/icons)
+endif()
