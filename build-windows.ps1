@@ -38,18 +38,31 @@ Run 'windeployqt6' @('--release', '--no-system-d3d-compiler', '--no-opengl-sw', 
 $translationDir = Join-Path $bin 'translations'
 New-Item -ItemType Directory -Path $translationDir -Force | Out-Null
 $languages = @{}
+$catalogs = @{}
 Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'data\translations') -Filter 'kdiskmark_*.ts' | ForEach-Object {
     if ($_.BaseName -match '^kdiskmark_([a-z]+)(_|$)') { $languages[$Matches[1]] = $true }
+    $catalogs[$_.BaseName + '.qm'] = $true
 }
-$qtCatalogs = @{}
 Get-ChildItem -LiteralPath (Join-Path $MsysRoot 'ucrt64\share\qt6\translations') -Filter 'qtbase_*.qm' | ForEach-Object {
     if ($_.BaseName -match '^qtbase_([a-z]+)(_|$)' -and $languages.ContainsKey($Matches[1])) {
         Copy-Item -LiteralPath $_.FullName -Destination $translationDir -Force
-        $qtCatalogs[$_.Name] = $true
+        $catalogs[$_.Name] = $true
     }
 }
-Get-ChildItem -LiteralPath $translationDir -File | Where-Object { !$qtCatalogs.ContainsKey($_.Name) } |
+Get-ChildItem -LiteralPath $translationDir -File | Where-Object { !$catalogs.ContainsKey($_.Name) } |
     ForEach-Object { RemoveGeneratedPath $_ }
+# Prune the former application catalog location after upgrading an existing dist.
+$oldTranslationDir = Join-Path $dist 'share\kdiskmark\kdiskmark\translations'
+if (Test-Path -LiteralPath $oldTranslationDir) {
+    Get-ChildItem -LiteralPath $oldTranslationDir -File -Filter 'kdiskmark_*.qm' |
+        ForEach-Object { RemoveGeneratedPath $_ }
+    foreach ($relative in @('share\kdiskmark\kdiskmark\translations', 'share\kdiskmark\kdiskmark', 'share\kdiskmark', 'share')) {
+        $directory = Join-Path $dist $relative
+        if (!(Get-ChildItem -LiteralPath $directory -Force | Select-Object -First 1)) {
+            RemoveGeneratedPath (Get-Item -LiteralPath $directory)
+        }
+    }
+}
 Set-Content -LiteralPath (Join-Path (Split-Path $exe) 'qt.conf') -Encoding ascii -Value "[Paths]`nPrefix=.`nPlugins=.`nTranslations=translations"
 # Only these plugins are used: native Windows UI/style and embedded ICO icons.
 # PNG support is built into QtGui; the application has no network or JPEG/GIF use.

@@ -47,8 +47,14 @@ void AppSettings::applyLocale(const QLocale &locale)
     QCoreApplication::removeTranslator(&s_qtTranslator);
 
     if (newLocale.language() != QLocale::English) {
+#ifdef Q_OS_WIN
+        const QString translationsPath = qApp->applicationDirPath() + QStringLiteral("/translations");
+#else
+        const QString translationsPath = QStringLiteral("%1/../share/%2/%2/translations/")
+                .arg(qApp->applicationDirPath()).arg(PROJECT_NAME);
+#endif
         bool appTranslatorLoaded = s_appTranslator.load(newLocale, QStringLiteral(PROJECT_NAME), QStringLiteral("_"),
-                         QStringLiteral("%1/../share/%2/%2/translations/").arg(qApp->applicationDirPath()).arg(PROJECT_NAME));
+                         translationsPath);
         if (appTranslatorLoaded) {
             QCoreApplication::installTranslator(&s_appTranslator);
         } else {
