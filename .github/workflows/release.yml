@@ -7,12 +7,13 @@ env:
 
 jobs:
   windows:
-    name: Build Windows ZIP from legacy
+    name: Build Windows ZIP from standalone tag
     permissions:
       contents: read
-    uses: JonMagon/KDiskMark/.github/workflows/windows.yml@legacy
+    # Pin the build workflow as well as the release sources.
+    uses: JonMagon/KDiskMark/.github/workflows/windows.yml@9aa27f458f9312048982924ae27c3ec9c2bb0d5d
     with:
-      source-ref: legacy
+      source-ref: refs/tags/${{ github.event.release.tag_name }}-standalone
 
   windows-upload:
     name: Publish Windows ZIP
@@ -158,7 +159,7 @@ jobs:
     - name: Clone repo
       uses: actions/checkout@v4
       with:
-        ref: 'legacy'
+        ref: refs/tags/${{ github.event.release.tag_name }}-standalone
         submodules: recursive
 
     - name: Install dependent packages
