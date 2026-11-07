@@ -28,10 +28,14 @@ function RemoveGeneratedPath([IO.FileSystemInfo]$Item) {
     }
     Remove-Item -LiteralPath $path
 }
-Run 'cmake' @('-S', $PSScriptRoot, '-B', $build, '-G', 'Ninja', '-DCMAKE_BUILD_TYPE=Release')
+Run 'cmake' @('-S', $PSScriptRoot, '-B', $build, '-G', 'Ninja', '-DCMAKE_BUILD_TYPE=Release', '-DCMAKE_INSTALL_BINDIR=.')
 Run 'cmake' @('--build', $build, '--parallel', '2')
+# Recreate the generated deployment directory so previous layouts are not bundled.
+if (Test-Path -LiteralPath $dist) {
+    Remove-Item -LiteralPath $dist -Recurse -Force
+}
 Run 'cmake' @('--install', $build, '--prefix', $dist)
-$exe = Join-Path $dist 'bin\kdiskmark.exe'
+$exe = Join-Path $dist 'kdiskmark.exe'
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'data\kdiskmark.ico') -Destination (Split-Path $exe)
 Copy-Item -LiteralPath $FioPath -Destination (Split-Path $exe)
 Copy-Item -LiteralPath (Join-Path (Split-Path $FioPath) 'COPYING.txt') -Destination (Join-Path $dist 'FIO-COPYING.txt')
@@ -56,18 +60,6 @@ Get-ChildItem -LiteralPath (Join-Path $MsysRoot 'ucrt64\share\qt6\translations')
 }
 Get-ChildItem -LiteralPath $translationDir -File | Where-Object { !$catalogs.ContainsKey($_.Name) } |
     ForEach-Object { RemoveGeneratedPath $_ }
-# Prune the former application catalog location after upgrading an existing dist.
-$oldTranslationDir = Join-Path $dist 'share\kdiskmark\kdiskmark\translations'
-if (Test-Path -LiteralPath $oldTranslationDir) {
-    Get-ChildItem -LiteralPath $oldTranslationDir -File -Filter 'kdiskmark_*.qm' |
-        ForEach-Object { RemoveGeneratedPath $_ }
-    foreach ($relative in @('share\kdiskmark\kdiskmark\translations', 'share\kdiskmark\kdiskmark', 'share\kdiskmark', 'share')) {
-        $directory = Join-Path $dist $relative
-        if (!(Get-ChildItem -LiteralPath $directory -Force | Select-Object -First 1)) {
-            RemoveGeneratedPath (Get-Item -LiteralPath $directory)
-        }
-    }
-}
 Set-Content -LiteralPath (Join-Path (Split-Path $exe) 'qt.conf') -Encoding ascii -Value "[Paths]`nPrefix=.`nPlugins=.`nTranslations=translations"
 # Only these plugins are used: native Windows UI/style and embedded ICO icons.
 # PNG support is built into QtGui; the application has no network or JPEG/GIF use.
