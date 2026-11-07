@@ -164,9 +164,7 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
                          << QStringLiteral("--zero_buffers=%1").arg(settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
                          << QStringLiteral("--bs=%1k").arg(blockSize)
                          << QStringLiteral("--runtime=%1").arg(settings.getMeasuringTime())
-#ifdef Q_OS_WIN
                          << QStringLiteral("--time_based")
-#endif
                          << QStringLiteral("--rw=%1").arg(rw)
                          << QStringLiteral("--iodepth=%1").arg(queueDepth)
                          << QStringLiteral("--numjobs=%1").arg(threads)
