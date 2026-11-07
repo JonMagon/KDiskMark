@@ -1,0 +1,79 @@
+name: Windows
+
+on:
+  push:
+    branches: [legacy]
+  pull_request:
+    branches: [legacy]
+  workflow_call:
+    inputs:
+      source-ref:
+        description: Git ref containing the Windows sources
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build portable Windows x64
+    runs-on: windows-2022
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      FIO_VERSION: '3.43'
+      # SHA256 of the upstream x64 MSI, also recorded in microsoft/winget-pkgs.
+      FIO_SHA256: '8299E6E6FBC024D3B74AA1CE62FB94EF6960B45629FBFA678B720834B6EB34AA'
+    steps:
+      - name: Check out Windows sources
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source-ref || github.sha }}
+          persist-credentials: false
+
+      - name: Set up MSYS2 UCRT64
+        id: msys2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: >-
+            mingw-w64-ucrt-x86_64-gcc
+            mingw-w64-ucrt-x86_64-cmake
+            mingw-w64-ucrt-x86_64-ninja
+            mingw-w64-ucrt-x86_64-qt6-base
+            mingw-w64-ucrt-x86_64-qt6-tools
+            mingw-w64-ucrt-x86_64-qt6-translations
+
+      - name: Download and extract fio
+        id: fio
+        run: |
+          $installer = Join-Path $env:RUNNER_TEMP 'fio.msi'
+          $destination = Join-Path $env:RUNNER_TEMP 'fio'
+          $url = "https://github.com/axboe/fio/releases/download/fio-$env:FIO_VERSION/fio-$env:FIO_VERSION-x64.msi"
+          Invoke-WebRequest -Uri $url -OutFile $installer
+          if ((Get-FileHash -LiteralPath $installer -Algorithm SHA256).Hash -ne $env:FIO_SHA256) {
+              throw 'fio installer SHA256 mismatch'
+          }
+          $arguments = @('/a', "`"$installer`"", '/qn', "TARGETDIR=`"$destination`"")
+          $process = Start-Process msiexec.exe -ArgumentList $arguments -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "fio extraction failed ($($process.ExitCode))" }
+          $executables = @(Get-ChildItem -LiteralPath $destination -Filter fio.exe -Recurse -File)
+          if ($executables.Count -ne 1) { throw 'Expected exactly one extracted fio.exe' }
+          "path=$($executables[0].FullName)" >> $env:GITHUB_OUTPUT
+
+      - name: Build and package
+        env:
+          MSYS_ROOT: ${{ steps.msys2.outputs.msys2-location }}
+          FIO_PATH: ${{ steps.fio.outputs.path }}
+        run: ./build-windows.ps1 -MsysRoot $env:MSYS_ROOT -FioPath $env:FIO_PATH
+
+      - name: Upload portable ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: KDiskMark-*-Windows-x64.zip
+          if-no-files-found: error
