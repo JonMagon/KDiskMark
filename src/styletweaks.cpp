@@ -1,4 +1,14 @@
 #include "styletweaks.h"
+#ifdef Q_OS_WIN
+#include <QWidget>
+
+int StyleTweaks::styleHint(QStyle::StyleHint hint, const QStyleOption *option, const QWidget *widget, QStyleHintReturn *returnData) const
+{
+    if (hint == QStyle::SH_ComboBox_Popup && widget && widget->objectName() == QStringLiteral("comboBox_Storages"))
+        return 0;
+    return QProxyStyle::styleHint(hint, option, widget, returnData);
+}
+#endif
 
 void StyleTweaks::drawControl(QStyle::ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const
 {

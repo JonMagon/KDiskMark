@@ -12,6 +12,58 @@
 #include <QStyleFactory>
 #include <QTimer>
 #include <QStandardItemModel>
+#ifdef Q_OS_WIN
+#include <QPainter>
+#include <QListView>
+#include <QScreen>
+#include <QIntValidator>
+#include <QLineEdit>
+#include <QSignalBlocker>
+#include <limits>
+
+namespace {
+class LoopCountValidator final : public QIntValidator
+{
+public:
+    explicit LoopCountValidator(QObject *parent)
+        : QIntValidator(1, std::numeric_limits<int>::max(), parent)
+    {
+        auto numericLocale = QLocale::c();
+        numericLocale.setNumberOptions(QLocale::RejectGroupSeparator);
+        setLocale(numericLocale);
+    }
+    void fixup(QString &input) const override
+    {
+        input = QString::number(qMax(1, AppSettings().getLoopsCount()));
+    }
+};
+
+QIcon colorSwatch(const QColor &color)
+{
+    QPixmap pixmap(16, 16);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(QColor(128, 128, 128));
+    painter.setBrush(color);
+    painter.drawEllipse(QRectF(2, 2, 12, 12));
+    return QIcon(pixmap);
+}
+
+QIcon languageIcon(const QColor &color)
+{
+    QPixmap pixmap(16, 16);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setPen(QPen(color, 1.1));
+    painter.drawEllipse(QRectF(1.5, 1.5, 13, 13));
+    painter.drawEllipse(QRectF(5, 1.5, 6, 13));
+    painter.drawLine(QPointF(2, 8), QPointF(14, 8));
+    return QIcon(pixmap);
+}
+}
+#endif
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QActionGroup>
@@ -35,7 +87,7 @@ MainWindow::MainWindow(QWidget *parent)
     paths.prepend(QStringLiteral("%1/../share/icons/").arg(qApp->applicationDirPath()));
     QIcon::setThemeSearchPaths(paths);
 
-#ifndef APPIMAGE_EDITION
+#if !defined(APPIMAGE_EDITION) && !defined(Q_OS_WIN)
     QMenuBar *bar = new QMenuBar(ui->menubar);
 
 #ifdef SNAP_EDITION
@@ -91,10 +143,54 @@ MainWindow::MainWindow(QWidget *parent)
 
     statusBar()->hide();
 
+#ifdef Q_OS_WIN
+    m_loopsCountCombo = new QComboBox(ui->loopsCount->parentWidget());
+    ui->loopsCount->setObjectName(QStringLiteral("loopsCountOriginal"));
+    m_loopsCountCombo->setObjectName(QStringLiteral("loopsCount"));
+    m_loopsCountCombo->setEditable(true);
+    m_loopsCountCombo->setInsertPolicy(QComboBox::NoInsert);
+    m_loopsCountCombo->setMinimumHeight(32);
+    m_loopsCountCombo->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    delete ui->targetLayout->replaceWidget(ui->loopsCount, m_loopsCountCombo);
+    ui->loopsCount->hide();
+    {
+        const QSignalBlocker blocker(m_loopsCountCombo);
+        for (int count = 1; count <= 9; ++count)
+            m_loopsCountCombo->addItem(QString::number(count));
+    }
+    m_loopsCountCombo->setValidator(new LoopCountValidator(m_loopsCountCombo));
+    m_loopsCountCombo->lineEdit()->setAlignment(Qt::AlignCenter);
+    m_loopsCountCombo->setFixedWidth(qMax(52, m_loopsCountCombo->fontMetrics().horizontalAdvance(QStringLiteral("999")) + 28));
+    connect(m_loopsCountCombo, &QComboBox::currentTextChanged, this, [](const QString &text) {
+        bool valid = false;
+        const int count = text.toInt(&valid);
+        if (valid && count > 0) AppSettings().setLoopsCount(count);
+    });
+    QWidget::setTabOrder(ui->pushButton_All, m_loopsCountCombo);
+    QWidget::setTabOrder(m_loopsCountCombo, ui->comboBox_fileSize);
+
+    auto storageView = new QListView(ui->comboBox_Storages);
+    storageView->setUniformItemSizes(false);
+    storageView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    storageView->setTextElideMode(Qt::ElideMiddle);
+    ui->comboBox_Storages->setView(storageView);
+    ui->comboBox_Storages->setItemDelegate(new StorageItemDelegate(storageView));
+    ui->comboBox_Storages->setMaxVisibleItems(8);
+
+    ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy", style()->standardIcon(QStyle::SP_FileIcon)));
+    ui->actionSave->setIcon(QIcon::fromTheme("document-save", style()->standardIcon(QStyle::SP_DialogSaveButton)));
+    ui->actionExit->setIcon(QIcon::fromTheme("application-exit", style()->standardIcon(QStyle::SP_DialogCloseButton)));
+    ui->menuTest_Data->setIcon(QIcon::fromTheme("distribute-randomize", style()->standardIcon(QStyle::SP_FileDialogListView)));
+    ui->actionQueues_Threads->setIcon(QIcon::fromTheme("configure", style()->standardIcon(QStyle::SP_FileDialogDetailedView)));
+    ui->actionTheme_Use_Fusion->setIcon(QIcon::fromTheme("preferences-desktop-color", style()->standardIcon(QStyle::SP_DesktopIcon)));
+    ui->actionTheme_Stylesheet_Light->setIcon(QIcon::fromTheme("color-picker-white", colorSwatch(Qt::white)));
+    ui->actionTheme_Stylesheet_Dark->setIcon(QIcon::fromTheme("color-picker-black", colorSwatch(Qt::black)));
+    ui->actionTheme_Do_not_apply->setIcon(QIcon::fromTheme("edit-undo", style()->standardIcon(QStyle::SP_DialogResetButton)));
+    ui->actionAbout->setIcon(QIcon::fromTheme("kdiskmark", QApplication::windowIcon()));
+    ui->menuLanguage->setIcon(QIcon::fromTheme("language-chooser", languageIcon(QColor(60, 140, 220))));
+#else
     ui->loopsCount->findChild<QLineEdit*>()->setReadOnly(true);
-
     ui->comboBox_Storages->setItemDelegate(new StorageItemDelegate());
-
     ui->actionCopy->setIcon(QIcon::fromTheme("edit-copy"));
     ui->actionSave->setIcon(QIcon::fromTheme("document-save"));
     ui->actionExit->setIcon(QIcon::fromTheme("application-exit"));
@@ -106,6 +202,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionTheme_Do_not_apply->setIcon(QIcon::fromTheme("edit-undo"));
     ui->actionAbout->setIcon(QIcon::fromTheme("kdiskmark"));
     ui->menuLanguage->setIcon(QIcon::fromTheme("language-chooser"));
+#endif
 
     ui->actionDefault->setProperty("profile", Global::PerformanceProfile::Default);
     ui->actionDefault->setProperty("mixed", false);
@@ -206,7 +303,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->actionUse_O_DIRECT->setChecked(settings.getCacheBypassState());
 
-#ifdef APPIMAGE_EDITION
+#if defined(APPIMAGE_EDITION) || defined(Q_OS_WIN)
     ui->actionFlush_Pagecache->setChecked(settings.getFlusingCacheState());
 #else
     ui->actionFlush_Pagecache->setEnabled(false);
@@ -214,7 +311,18 @@ MainWindow::MainWindow(QWidget *parent)
 #endif
 
     ui->actionCoW_detection->setChecked(settings.getCoWDetectionState());
+#ifdef Q_OS_WIN
+    ui->actionCoW_detection->setEnabled(false);
+#endif
+#ifdef Q_OS_WIN
+    applyPlatformActions();
+    const int loopCount = qMax(1, settings.getLoopsCount());
+    m_loopsCountCombo->setCurrentIndex(loopCount <= 9 ? loopCount - 1 : -1);
+    if (loopCount > 9)
+        m_loopsCountCombo->setEditText(QString::number(loopCount));
+#else
     ui->loopsCount->setValue(settings.getLoopsCount());
+#endif
 
     ui->actionTheme_Stylesheet_Light->setChecked(settings.getTheme() == Global::Theme::StyleSheetLight);
     ui->actionTheme_Stylesheet_Dark->setChecked(settings.getTheme() ==Global::Theme::StyleSheetDark);
@@ -251,6 +359,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+#ifdef Q_OS_WIN
+void MainWindow::applyPlatformActions()
+{
+    ui->actionFlush_Pagecache->setVisible(true);
+    ui->actionCoW_detection->setVisible(false);
+    ui->actionUse_O_DIRECT->setText(tr("Bypass filesystem cache"));
+}
+#endif
+
 void MainWindow::closeEvent(QCloseEvent *)
 {
     m_benchmark->setRunning(false);
@@ -266,6 +383,9 @@ void MainWindow::changeEvent(QEvent *event)
     }
     case QEvent::LanguageChange: {
         ui->retranslateUi(this);
+#ifdef Q_OS_WIN
+        applyPlatformActions();
+#endif
         updateFileSizeList();
         updateBenchmarkButtonsContent();
         updateLabels();
@@ -348,9 +468,13 @@ void MainWindow::updateStoragesList()
 
     foreach (const QStorageInfo &volume, QStorageInfo::mountedVolumes()) {
         if (volume.isValid() && volume.isReady() && !volume.isReadOnly()) {
+#ifdef Q_OS_WIN
+            {
+#else
             if (volume.device().indexOf("/dev") != -1) {
+#endif
                 QString rootPath = volume.rootPath();
-#ifndef APPIMAGE_EDITION
+#if !defined(APPIMAGE_EDITION) && !defined(Q_OS_WIN)
                 rootPath = rootPath.replace("/var/lib/snapd/hostfs", "");
                 rootPath = rootPath.replace("/var/lib/snapd", "");
                 if (rootPath.indexOf("/snap/kdiskmark") != -1)
@@ -397,6 +521,10 @@ void MainWindow::addItemToStoragesList(const Global::Storage &storage)
                 .arg(storage.formatedSize),
                 QVariant::fromValue(storage)
                 );
+#ifdef Q_OS_WIN
+    ui->comboBox_Storages->setItemData(ui->comboBox_Storages->count() - 1,
+        QDir::toNativeSeparators(storage.path) + "\n" + storage.formatedSize, Qt::ToolTipRole);
+#endif
 
     if (!QFileInfo(storage.path).isWritable()) {
         const QStandardItemModel* model =
@@ -424,6 +552,13 @@ void MainWindow::updateFileSizeList()
     }
 
     ui->comboBox_fileSize->setCurrentIndex(ui->comboBox_fileSize->findData(fileSize));
+
+#ifdef Q_OS_WIN
+    ui->comboBox_fileSize->setMaximumWidth(QWIDGETSIZE_MAX);
+    ui->comboBox_fileSize->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+    ui->comboBox_fileSize->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+    ui->comboBox_fileSize->setMinimumWidth(qMax(96, ui->comboBox_fileSize->sizeHint().width()));
+#endif
 
     resizeComboBoxItemsPopup(ui->comboBox_fileSize);
 }
@@ -453,6 +588,13 @@ void MainWindow::resizeComboBoxItemsPopup(QComboBox *combobox)
     }
 
     QAbstractItemView *view = combobox->view();
+#ifdef Q_OS_WIN
+    if (combobox == ui->comboBox_Storages) {
+        const int screenWidth = combobox->screen()->availableGeometry().width();
+        view->setMinimumWidth(qMin(qMax(420, combobox->width()), qMax(200, screenWidth - 32)));
+        return;
+    }
+#endif
     if (view->minimumWidth() < maxWidth)
         view->setMinimumWidth(maxWidth + view->autoScrollMargin() + combobox->style()->pixelMetric(QStyle::PM_ScrollBarExtent));
 }
@@ -816,7 +958,13 @@ void MainWindow::on_comboBox_Storages_currentIndexChanged(int index)
         if (variant.canConvert<Global::Storage>()) {
             Global::Storage volumeInfo = variant.value<Global::Storage>();
             m_benchmark->setDir(volumeInfo.path);
+#ifdef Q_OS_WIN
+            const QString deviceModel = DiskDriveInfo::Instance().getModelName(volumeInfo.path);
+            ui->deviceModel->setText(deviceModel);
+            ui->deviceModel->setToolTip(deviceModel);
+#else
             ui->deviceModel->setText(DiskDriveInfo::Instance().getModelName(QStorageInfo(volumeInfo.path).device()));
+#endif
             ui->extraIcon->setVisible(DiskDriveInfo::Instance().isEncrypted(QStorageInfo(volumeInfo.path).device()));
         }
     }
@@ -958,10 +1106,13 @@ void MainWindow::benchmarkStateChanged(bool state)
 {
     if (state) {
         ui->menubar->setEnabled(false);
-#ifndef APPIMAGE_EDITION
+#if !defined(APPIMAGE_EDITION) && !defined(Q_OS_WIN)
         ui->menubar->cornerWidget()->setStyleSheet(QStringLiteral());
 #endif
         ui->loopsCount->setEnabled(false);
+#ifdef Q_OS_WIN
+        m_loopsCountCombo->setEnabled(false);
+#endif
         ui->comboBox_fileSize->setEnabled(false);
         ui->comboBox_Storages->setEnabled(false);
         ui->refreshStoragesButton->setEnabled(false);
@@ -981,10 +1132,13 @@ void MainWindow::benchmarkStateChanged(bool state)
         ui->pushButton_Test_3->setEnabled(true);
         ui->pushButton_Test_4->setEnabled(true);
         ui->menubar->setEnabled(true);
-#ifndef APPIMAGE_EDITION
+#if !defined(APPIMAGE_EDITION) && !defined(Q_OS_WIN)
         ui->menubar->cornerWidget()->setStyleSheet("background-color: orange");
 #endif
         ui->loopsCount->setEnabled(true);
+#ifdef Q_OS_WIN
+        m_loopsCountCombo->setEnabled(true);
+#endif
         ui->comboBox_fileSize->setEnabled(true);
         ui->comboBox_Storages->setEnabled(true);
         ui->refreshStoragesButton->setEnabled(true);

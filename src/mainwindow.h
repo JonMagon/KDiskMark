@@ -68,6 +68,10 @@ private:
     QString m_windowTitle;
 
     void updateFileSizeList();
+#ifdef Q_OS_WIN
+    void applyPlatformActions();
+    QComboBox *m_loopsCountCombo = nullptr;
+#endif
     void updateStoragesList();
     void addItemToStoragesList(const Global::Storage &storage);
     void defineBenchmark(std::function<void()> bodyFunc);
