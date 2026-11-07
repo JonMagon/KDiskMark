@@ -86,6 +86,18 @@
         <source>Could not obtain administrator privileges.</source>
         <translation>관리자 권한을 얻을 수 없습니다.</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>파일 시스템 캐시를 비우지 못했습니다: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>벤치마크 파일을 만들 수 없습니다: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio 실행 실패: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -406,6 +418,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>벤치마크 실패</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>파일 시스템 캐시 우회</translation>
     </message>
 </context>
 <context>
@@ -961,6 +977,22 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">위/아래 선택   왼쪽/오른쪽 변경   Enter 적용   Esc 뒤로</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>간단한 오픈 소스 디스크 벤치마크 도구입니다.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>대화형 터미널 인터페이스를 실행합니다.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>파일 시스템 캐시 우회</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>이 터미널은 가상 터미널 시퀀스를 지원하지 않습니다.</translation>
     </message>
 </context>
 </TS>

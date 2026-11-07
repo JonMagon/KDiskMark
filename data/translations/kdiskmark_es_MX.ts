@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Intervalo de Tiempo %1/%2</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>No se pudo vaciar la caché del sistema de archivos: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>No se puede crear el archivo de prueba: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio falló: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Para una funcionalidad completa, utiliza el paquete nativo para tu distribución
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Benchmark Falló</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Omitir la caché del sistema de archivos</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Para una funcionalidad completa, utiliza el paquete nativo para tu distribución
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Arriba/Abajo Seleccionar   Izq/Der Cambiar   Intro Aplicar   Esc Volver</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Una herramienta sencilla de código abierto para medir el rendimiento de los discos.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Iniciar la interfaz interactiva de terminal.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Omitir la caché del sistema de archivos</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Esta terminal no admite secuencias de terminal virtual.</translation>
     </message>
 </context>
 </TS>

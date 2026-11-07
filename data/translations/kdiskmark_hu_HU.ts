@@ -86,6 +86,18 @@
         <source>Could not obtain administrator privileges.</source>
         <translation>Nem sikerült rendszergazdai jogosultságokat szerezni.</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Nem sikerült kiüríteni a fájlrendszer gyorsítótárát: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Nem hozható létre a tesztfájl: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>A fio futtatása sikertelen: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -407,6 +419,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Mérés sikertelen</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>A fájlrendszer gyorsítótárának megkerülése</translation>
     </message>
 </context>
 <context>
@@ -963,6 +979,22 @@ mérés</translation>
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Fel/Le Kiválasztás   Balra/Jobbra Módosítás   Enter Alkalmazás   Esc Vissza</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Egyszerű, nyílt forráskódú eszköz a lemezek teljesítményének mérésére.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Az interaktív terminálfelület indítása.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>A fájlrendszer gyorsítótárának megkerülése</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Ez a terminál nem támogatja a virtuális terminál vezérlőszekvenciáit.</translation>
     </message>
 </context>
 </TS>

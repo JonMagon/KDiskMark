@@ -86,6 +86,18 @@
         <source>Could not obtain administrator privileges.</source>
         <translation>管理者権限を取得できませんでした。</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>ファイルシステムのキャッシュをクリアできませんでした: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>ベンチマークファイルを作成できません: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio が失敗しました: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -406,6 +418,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>ベンチマーク失敗</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>ファイルシステムのキャッシュをバイパス</translation>
     </message>
 </context>
 <context>
@@ -961,6 +977,22 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">上/下 選択   左/右 変更   Enter 適用   Esc 戻る</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>シンプルなオープンソースのディスクベンチマークツール。</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>対話型ターミナルインターフェースを起動します。</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>ファイルシステムのキャッシュをバイパス</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>このターミナルは仮想ターミナルシーケンスに対応していません。</translation>
     </message>
 </context>
 </TS>

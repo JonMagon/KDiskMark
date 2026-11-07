@@ -42,6 +42,10 @@
 <context>
     <name>Benchmark</name>
     <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Не удалось очистить файловый кеш: %1</translation>
+    </message>
+    <message>
         <location filename="../../src/benchmark.cpp" line="287"/>
         <source>Preparing...</source>
         <translation>Подготовка...</translation>
@@ -85,6 +89,14 @@
         <location filename="../../src/benchmark.cpp" line="359"/>
         <source>Interval Time %1/%2 sec</source>
         <translation>Пауза между тестами %1/%2 сек</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Не удалось создать тестовый файл: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>Ошибка fio: %1</translation>
     </message>
 </context>
 <context>
@@ -300,6 +312,10 @@
         <location filename="../../src/mainwindow.ui" line="1294"/>
         <source>Use O_DIRECT</source>
         <translation>Использовать O_DIRECT</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Обход кэша файловой системы</translation>
     </message>
     <message>
         <location filename="../../src/mainwindow.ui" line="1305"/>
@@ -526,6 +542,22 @@ For full functionality, use the native package for your distribution or AppImage
 </context>
 <context>
     <name>Tui</name>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Простой инструмент с открытым исходным кодом для тестирования накопителей.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Запустить интерактивный терминальный интерфейс.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Обход кэша файловой системы</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Этот терминал не поддерживает управляющие последовательности терминала.</translation>
+    </message>
     <message>
         <location filename="../../src/tui.cpp" line="124"/>
         <source>A simple open source disk benchmark tool for Linux distros.</source>

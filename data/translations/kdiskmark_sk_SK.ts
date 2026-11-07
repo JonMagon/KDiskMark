@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Oneskorenie medzi testami %1/%2 sek</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Nepodarilo sa vymazať vyrovnávaciu pamäť súborového systému: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Nemožno vytvoriť testovací súbor: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio zlyhalo: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Pre plnú funkcionalitu použite natívny balík pre vašu distribúciu alebo Ap
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Test sa nepodaril</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Obísť vyrovnávaciu pamäť súborového systému</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Pre plnú funkcionalitu použite natívny balík pre vašu distribúciu alebo Ap
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Hore/Dole Výber   Vľavo/Vpravo Zmeniť   Enter Použiť   Esc Späť</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Jednoduchý nástroj s otvoreným zdrojovým kódom na meranie výkonu diskov.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Spustiť interaktívne terminálové rozhranie.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Obísť vyrovnávaciu pamäť súborového systému</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Tento terminál nepodporuje riadiace sekvencie virtuálneho terminálu.</translation>
     </message>
 </context>
 </TS>

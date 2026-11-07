@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Pause entre les testes %1/%2 sec</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Impossible de vider le cache du système de fichiers : %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Impossible de créer le fichier de test : %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>Échec de fio : %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Pour une fonctionnalité complète, utilisez le paquet natif de votre distributi
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Échec de l&apos;évaluation comparative</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Contourner le cache du système de fichiers</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Pour une fonctionnalité complète, utilisez le paquet natif de votre distributi
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Haut/Bas Sélectionner   Gauche/Droite Modifier   Entrée Appliquer   Échap Retour</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Un outil simple et libre de mesure des performances des disques.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Lancer l’interface interactive du terminal.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Contourner le cache du système de fichiers</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Ce terminal ne prend pas en charge les séquences de terminal virtuel.</translation>
     </message>
 </context>
 </TS>

@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Przerwa %1/%2 s</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Nie udało się wyczyścić pamięci podręcznej systemu plików: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Nie można utworzyć pliku testowego: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>Błąd fio: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Aby uzyskać pełną funkcjonalność, użyj natywnego pakietu dla swojej dystry
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Testowanie nie powiodło się</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Pomiń pamięć podręczną systemu plików</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Aby uzyskać pełną funkcjonalność, użyj natywnego pakietu dla swojej dystry
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Góra/Dół Wybór   Lewo/Prawo Zmień   Enter Zastosuj   Esc Wstecz</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Proste narzędzie o otwartym kodzie źródłowym do pomiaru wydajności dysków.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Uruchom interaktywny interfejs terminalowy.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Pomiń pamięć podręczną systemu plików</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Ten terminal nie obsługuje sekwencji terminala wirtualnego.</translation>
     </message>
 </context>
 </TS>

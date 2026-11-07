@@ -86,6 +86,18 @@
         <source>Could not obtain administrator privileges.</source>
         <translation>Det gick inte att få administratörsbehörighet.</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Det gick inte att tömma filsystemets cache: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Det går inte att skapa testfilen: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio misslyckades: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -406,6 +418,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Prestandamätning misslyckades</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Kringgå filsystemets cache</translation>
     </message>
 </context>
 <context>
@@ -961,6 +977,22 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Upp/Ner Välj   Vänster/Höger Ändra   Enter Tillämpa   Esc Tillbaka</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Ett enkelt verktyg med öppen källkod för att mäta diskprestanda.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Starta det interaktiva terminalgränssnittet.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Kringgå filsystemets cache</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Den här terminalen stöder inte virtuella terminalsekvenser.</translation>
     </message>
 </context>
 </TS>

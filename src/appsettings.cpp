@@ -56,12 +56,28 @@ void AppSettings::applyLocale(const QLocale &locale)
         }
     }
 
+#ifdef Q_OS_WIN
+    bool qtTranslatorLoaded = false;
+    if (newLocale.language() == QLocale::English) return;
+    // qtbase is the catalog containing the standard Widgets/Core strings.
+    // The portable directory takes priority over the build machine's Qt path.
+    const QString portableTranslations = qApp->applicationDirPath() + QStringLiteral("/translations");
+    qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qtbase"), QStringLiteral("_"), portableTranslations);
+    if (!qtTranslatorLoaded) {
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+        qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qtbase"), QStringLiteral("_"), QLibraryInfo::path(QLibraryInfo::TranslationsPath));
+#else
+        qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qtbase"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+#endif
+    }
+
+#else
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     bool qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::path(QLibraryInfo::TranslationsPath));
 #else
     bool qtTranslatorLoaded = s_qtTranslator.load(newLocale, QStringLiteral("qt"), QStringLiteral("_"), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 #endif
-
+#endif
     if (qtTranslatorLoaded) {
         QCoreApplication::installTranslator(&s_qtTranslator);
     } else {
@@ -252,7 +268,11 @@ bool AppSettings::defaultFlushingCacheState()
 
 bool AppSettings::getCoWDetectionState() const
 {
+#ifdef Q_OS_WIN
+    return false;
+#else
     return m_settings->value(QStringLiteral("Benchmark/CoWDetection"), defaultCoWDetectionState()).toBool();
+#endif
 }
 
 void AppSettings::setCoWDetectionState(bool state)

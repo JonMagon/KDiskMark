@@ -86,6 +86,18 @@
         <source>Could not obtain administrator privileges.</source>
         <translation>Ei saatu järjestelmänvalvojan oikeuksia.</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Tiedostojärjestelmän välimuistin tyhjentäminen epäonnistui: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Testitiedostoa ei voi luoda: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio epäonnistui: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -406,6 +418,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Mittaaminen epäonnistui</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Ohita tiedostojärjestelmän välimuisti</translation>
     </message>
 </context>
 <context>
@@ -961,6 +977,22 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Ylös/Alas Valitse   Vasen/Oikea Muuta   Enter Käytä   Esc Takaisin</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Yksinkertainen avoimen lähdekoodin työkalu levyjen suorituskyvyn mittaamiseen.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Käynnistä vuorovaikutteinen päätekäyttöliittymä.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Ohita tiedostojärjestelmän välimuisti</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Tämä pääte ei tue virtuaalipäätteen ohjaussekvenssejä.</translation>
     </message>
 </context>
 </TS>

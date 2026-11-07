@@ -86,6 +86,18 @@
         <source>Could not obtain administrator privileges.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -395,6 +407,10 @@
         <source>Benchmark Failed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -518,6 +534,25 @@
         <location filename="../../src/settings.cpp" line="79"/>
         <location filename="../../src/settings.cpp" line="81"/>
         <source>MiB</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Tui</name>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

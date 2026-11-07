@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>अंतराल समय %1/%2 सेकंड</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>फ़ाइल सिस्टम कैश साफ़ नहीं किया जा सका: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>बेंचमार्क फ़ाइल नहीं बनाई जा सकती: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio विफल हुआ: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>बेंचमार्क विफल रहा</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>फ़ाइल सिस्टम कैश को बायपास करें</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">ऊपर/नीचे चुनें   बाएँ/दाएँ बदलें   Enter लागू करें   Esc वापस</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>डिस्क का प्रदर्शन मापने के लिए एक सरल ओपन-सोर्स उपकरण।</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>इंटरैक्टिव टर्मिनल इंटरफ़ेस चलाएँ।</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>फ़ाइल सिस्टम कैश को बायपास करें</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>यह टर्मिनल वर्चुअल टर्मिनल अनुक्रमों का समर्थन नहीं करता।</translation>
     </message>
 </context>
 </TS>

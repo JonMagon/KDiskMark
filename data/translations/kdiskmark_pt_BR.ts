@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Tempo de intervalo %1/%2 seg</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Não foi possível limpar o cache do sistema de arquivos: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Não foi possível criar o arquivo de teste: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>Falha no fio: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Para funcionalidade completa, use o pacote nativo para sua distribuição ou App
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Falha no benchmark</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Ignorar o cache do sistema de arquivos</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Para funcionalidade completa, use o pacote nativo para sua distribuição ou App
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Cima/Baixo Selecionar   Esq/Dir Alterar   Enter Aplicar   Esc Voltar</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Uma ferramenta simples e de código aberto para medir o desempenho de discos.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Iniciar a interface interativa do terminal.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Ignorar o cache do sistema de arquivos</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Este terminal não oferece suporte a sequências de terminal virtual.</translation>
     </message>
 </context>
 </TS>

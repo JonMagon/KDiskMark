@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Prodleva mezi testy %1/%2 sek</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Nepodařilo se vymazat mezipaměť souborového systému: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Nelze vytvořit testovací soubor: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio selhalo: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Pro plnou funkčnost použijte nativní balíček pro vaši distribuci nebo AppI
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Test se nezdařil</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Obejít mezipaměť souborového systému</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Pro plnou funkčnost použijte nativní balíček pro vaši distribuci nebo AppI
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Nahoru/Dolů Výběr   Vlevo/Vpravo Změnit   Enter Použít   Esc Zpět</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Jednoduchý nástroj s otevřeným zdrojovým kódem pro měření výkonu disků.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Spustit interaktivní terminálové rozhraní.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Obejít mezipaměť souborového systému</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Tento terminál nepodporuje řídicí sekvence virtuálního terminálu.</translation>
     </message>
 </context>
 </TS>

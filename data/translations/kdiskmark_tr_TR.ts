@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Zaman Aralığı %1/%2 sec</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Dosya sistemi önbelleği temizlenemedi: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Performans testi dosyası oluşturulamıyor: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio başarısız oldu: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Tam işlevsellik için, dağıtımınıza özgü yerel paketi veya AppImage&apos
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Benchmark Başarısız oldu</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Dosya sistemi önbelleğini atla</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Tam işlevsellik için, dağıtımınıza özgü yerel paketi veya AppImage&apos
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Yukarı/Aşağı Seç   Sol/Sağ Değiştir   Enter Uygula   Esc Geri</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Disk performansını ölçmek için basit, açık kaynaklı bir araç.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Etkileşimli terminal arayüzünü başlat.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Dosya sistemi önbelleğini atla</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Bu terminal sanal terminal dizilerini desteklemiyor.</translation>
     </message>
 </context>
 </TS>

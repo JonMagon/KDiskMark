@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>间隔时间 %1/%2 秒</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>无法清空文件系统缓存：%1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>无法创建基准测试文件：%1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio 运行失败：%1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>基准测试失败</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>绕过文件系统缓存</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">上/下 选择   左/右 更改   Enter 应用   Esc 返回</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>一款简单的开源磁盘基准测试工具。</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>启动交互式终端界面。</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>绕过文件系统缓存</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>此终端不支持虚拟终端序列。</translation>
     </message>
 </context>
 </TS>

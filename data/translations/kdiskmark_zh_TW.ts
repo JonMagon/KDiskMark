@@ -86,6 +86,18 @@
         <source>Could not obtain administrator privileges.</source>
         <translation>無法取得管理員權限。</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>無法清空檔案系統快取：%1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>無法建立效能測試檔案：%1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio 執行失敗：%1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -406,6 +418,10 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>測試失敗</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>略過檔案系統快取</translation>
     </message>
 </context>
 <context>
@@ -961,6 +977,22 @@ For full functionality, use the native package for your distribution or AppImage
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">上/下 選擇   左/右 變更   Enter 套用   Esc 返回</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>一款簡單的開放原始碼磁碟效能測試工具。</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>啟動互動式終端機介面。</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>略過檔案系統快取</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>此終端機不支援虛擬終端機序列。</translation>
     </message>
 </context>
 </TS>

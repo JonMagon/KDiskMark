@@ -86,6 +86,18 @@
         <source>Interval Time %1/%2 sec</source>
         <translation>Pause zwischen Überprüfungen %1/%2 sek</translation>
     </message>
+    <message>
+        <source>Failed to clear the filesystem cache: %1</source>
+        <translation>Der Dateisystemcache konnte nicht geleert werden: %1</translation>
+    </message>
+    <message>
+        <source>Cannot create benchmark file: %1</source>
+        <translation>Die Benchmark-Datei kann nicht erstellt werden: %1</translation>
+    </message>
+    <message>
+        <source>fio failed: %1</source>
+        <translation>fio ist fehlgeschlagen: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -409,6 +421,10 @@ Für volle Funktionalität nutzen Sie bitte das native Paket für Ihre Distribut
         <location filename="../../src/mainwindow.cpp" line="1045"/>
         <source>Benchmark Failed</source>
         <translation>Aktion fehlgeschlagen</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Dateisystemcache umgehen</translation>
     </message>
 </context>
 <context>
@@ -964,6 +980,22 @@ Für volle Funktionalität nutzen Sie bitte das native Paket für Ihre Distribut
         <location filename="../../src/tui.cpp" line="1623"/>
         <source>Up/Down Select   Left/Right Change   Enter Apply   Esc Back</source>
         <translation type="unfinished">Auf/Ab Auswählen   Links/Rechts Ändern   Enter Anwenden   Esc Zurück</translation>
+    </message>
+    <message>
+        <source>A simple open source disk benchmark tool.</source>
+        <translation>Ein einfaches Open-Source-Werkzeug zum Messen der Datenträgerleistung.</translation>
+    </message>
+    <message>
+        <source>Run the interactive terminal interface.</source>
+        <translation>Die interaktive Terminaloberfläche starten.</translation>
+    </message>
+    <message>
+        <source>Bypass filesystem cache</source>
+        <translation>Dateisystemcache umgehen</translation>
+    </message>
+    <message>
+        <source>This terminal does not support virtual terminal sequences.</source>
+        <translation>Dieses Terminal unterstützt keine Steuersequenzen für virtuelle Terminals.</translation>
     </message>
 </context>
 </TS>
