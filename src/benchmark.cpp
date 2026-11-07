@@ -1,6 +1,9 @@
 #include "benchmark.h"
 
 #include <QFile>
+#ifdef Q_OS_WIN
+#include <QFileInfo>
+#endif
 #include <QEventLoop>
 #include <QTimer>
 #include <QStorageInfo>
@@ -18,11 +21,23 @@
 
 #include <QStandardPaths>
 
+#ifdef Q_OS_WIN
+#include "windowscache.h"
+#include <atomic>
+#include <thread>
+#endif
+
+#ifndef Q_OS_WIN
 #include <sys/ioctl.h>
 #include <sys/statfs.h>
 #include <linux/fs.h>
 #include <fcntl.h>
 #include <unistd.h>
+#endif
+#ifdef Q_OS_WIN
+#include <QCoreApplication>
+#include <QDir>
+#endif
 
 Benchmark::Benchmark()
 #ifdef APPIMAGE_EDITION
@@ -32,7 +47,13 @@ Benchmark::Benchmark()
     m_running = false;
 
     QProcess process;
+#ifdef Q_OS_WIN
+    m_fioPath = QStandardPaths::findExecutable("fio", {QCoreApplication::applicationDirPath()});
+    if (m_fioPath.isEmpty()) m_fioPath = QStandardPaths::findExecutable("fio");
+    process.start(m_fioPath, {"--version"});
+#else
     process.start("fio", {"--version"});
+#endif
     process.waitForFinished();
 
     m_FIOVersion = process.readAllStandardOutput().simplified();
@@ -79,9 +100,34 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
 
         emit benchmarkStatusUpdate(statusMessage.arg(index + 1).arg(settings.getLoopsCount()));
 
-#ifdef APPIMAGE_EDITION
+#if defined(APPIMAGE_EDITION) || defined(Q_OS_WIN)
         if (settings.getFlusingCacheState()) {
+#ifdef Q_OS_WIN
+            QString error;
+            bool cleared = false;
+            std::atomic<bool> done{false};
+            QEventLoop loop;
+            QTimer timer;
+            std::thread worker([&] {
+                cleared = WindowsCache::clear(error);
+                done.store(true, std::memory_order_release);
+            });
+            connect(&timer, &QTimer::timeout, &loop, [&] {
+                if (done.load(std::memory_order_acquire)) loop.quit();
+            });
+            timer.start(20);
+            loop.exec();
+            worker.join();
+            if (!cleared && m_running) {
+                emit failed(tr("Failed to clear the filesystem cache: %1").arg(error));
+                setRunning(false);
+            }
+#else
             flushPageCache();
+#endif
+#ifdef Q_OS_WIN
+            if (!m_running) return;
+#endif
         }
 #endif
 
@@ -91,31 +137,53 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
             return;
         }
 
+#ifdef Q_OS_WIN
+        QStringList arguments = QStringList()
+#else
         m_process = new QProcess();
         m_process->start("fio", QStringList()
+#endif
                          << QStringLiteral("--output-format=json")
+#ifdef Q_OS_WIN
+                         << QStringLiteral("--ioengine=windowsaio")
+#else
                          << QStringLiteral("--ioengine=libaio")
+#endif
                          << QStringLiteral("--randrepeat=0")
                          << QStringLiteral("--refill_buffers=%1").arg(settings.getContinuousGenerationState())
                          << QStringLiteral("--end_fsync=1")
                          << QStringLiteral("--direct=%1").arg(settings.getCacheBypassState())
                          << QStringLiteral("--rwmixread=%1").arg(settings.getRandomReadPercentage())
+#ifdef Q_OS_WIN
+                         << QStringLiteral("--filename=%1").arg(fioFilename())
+#else
                          << QStringLiteral("--filename=%1").arg(m_benchmarkFile->fileName())
+#endif
                          << QStringLiteral("--name=%1").arg(rw)
                          << QStringLiteral("--size=%1m").arg(settings.getFileSize())
                          << QStringLiteral("--zero_buffers=%1").arg(settings.getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
                          << QStringLiteral("--bs=%1k").arg(blockSize)
                          << QStringLiteral("--runtime=%1").arg(settings.getMeasuringTime())
+#ifdef Q_OS_WIN
+                         << QStringLiteral("--time_based")
+#endif
                          << QStringLiteral("--rw=%1").arg(rw)
                          << QStringLiteral("--iodepth=%1").arg(queueDepth)
                          << QStringLiteral("--numjobs=%1").arg(threads)
-                         << QStringLiteral("--group_reporting"));
+#ifdef Q_OS_WIN
+                         << QStringLiteral("--group_reporting");
 
+        QString output, errorOutput;
+        bool success = executeFio(arguments, output, errorOutput);
+#else
+                         << QStringLiteral("--group_reporting"));
         QEventLoop loop;
+#endif
 
         auto exitLoop = [&] (bool success, QString output, QString errorOutput) {
+#ifndef Q_OS_WIN
             loop.exit();
-
+#endif
             if (!success) {
                 setRunning(false);
             }
@@ -152,13 +220,15 @@ void Benchmark::startTest(int blockSize, int queueDepth, int threads, const QStr
             }
         };
 
+#ifdef Q_OS_WIN
+        exitLoop(success, output, errorOutput);
+#else
         auto conn = QObject::connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [=] (int exitCode, QProcess::ExitStatus exitStatus) {
             exitLoop(exitStatus == QProcess::NormalExit, QString(m_process->readAllStandardOutput()), QString(m_process->readAllStandardError()));
         });
-
         loop.exec();
-
         QObject::disconnect(conn);
+#endif
     }
 }
 
@@ -198,12 +268,20 @@ Benchmark::ParsedJob Benchmark::parseResult(const QString &output, const QString
 
         if (job["error"].toInt() == 0) {
             QJsonObject jobRead = job["read"].toObject();
+#ifdef Q_OS_WIN
+            parsedJob.read.Bandwidth = jobRead.value("bw_bytes").toDouble(jobRead.value("bw").toDouble() * 1024.0) / 1000000.0; // to mb
+#else
             parsedJob.read.Bandwidth = jobRead.value("bw").toInt() / 1000.0; // to mb
+#endif
             parsedJob.read.IOPS = jobRead.value("iops").toDouble();
             parsedJob.read.Latency = jobRead["clat_ns"].toObject().value("mean").toDouble() / 1000.0; // to usec
 
             QJsonObject jobWrite = job["write"].toObject();
+#ifdef Q_OS_WIN
+            parsedJob.write.Bandwidth = jobWrite.value("bw_bytes").toDouble(jobWrite.value("bw").toDouble() * 1024.0) / 1000000.0; // to mb
+#else
             parsedJob.write.Bandwidth = jobWrite.value("bw").toInt() / 1000.0; // to mb
+#endif
             parsedJob.write.IOPS = jobWrite.value("iops").toDouble();
             parsedJob.write.Latency = jobWrite["clat_ns"].toObject().value("mean").toDouble() / 1000.0; // to usec
         }
@@ -230,24 +308,26 @@ void Benchmark::setRunning(bool state)
         QLocalServer::removeServer(m_localServer->serverName());
 #endif
 
+#ifdef Q_OS_WIN
+        if (m_process && m_process->state() != QProcess::NotRunning) {
+            m_process->kill();
+            m_process->waitForFinished(5000);
+        }
+#else
         if (m_process) {
             if (m_process->state() == QProcess::Running || m_process->state() == QProcess::Starting) {
                 m_process->terminate();
-
                 QEventLoop loop;
-
                 auto conn = QObject::connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), [&] (int exitCode, QProcess::ExitStatus exitStatus) {
                     loop.exit();
                 });
-
                 loop.exec();
-
                 QObject::disconnect(conn);
             }
-
             delete m_process;
             m_process = nullptr;
         }
+#endif
     }
 
     emit runningStateChanged(state);
@@ -311,7 +391,11 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         }
     }
 
+#ifdef Q_OS_WIN
+    if (m_running && !prepareBenchmarkFile(getBenchmarkFile(), settings.getFileSize())) {
+#else
     if (!prepareBenchmarkFile(getBenchmarkFile(), settings.getFileSize())) {
+#endif
         setRunning(false);
     }
 
@@ -366,7 +450,11 @@ void Benchmark::runBenchmark(QList<QPair<QPair<Global::BenchmarkTest, Global::Be
         }
     }
 
+#ifdef Q_OS_WIN
+    if (m_benchmarkFile) {
+#else
     if (!m_benchmarkFile->fileName().isNull() || QFile(m_benchmarkFile->fileName()).exists()) {
+#endif
         m_benchmarkFile->close();
         m_benchmarkFile->remove();
         delete m_benchmarkFile;
@@ -530,6 +618,10 @@ bool Benchmark::testFilePath(const QString &benchmarkPath)
 
 bool Benchmark::checkCowStatus(const QString &path)
 {
+#ifdef Q_OS_WIN
+    Q_UNUSED(path);
+    return false;
+#else
     if (!testFilePath(path)) {
         setRunning(false);
         emit failed(QStringLiteral("The path is incorrect."));
@@ -569,10 +661,15 @@ bool Benchmark::checkCowStatus(const QString &path)
 
     close(fd);
     return hasCow;
+#endif
 }
 
 bool Benchmark::createNoCowDirectory(const QString &path)
 {
+#ifdef Q_OS_WIN
+    Q_UNUSED(path);
+    return false;
+#else
     if (!testFilePath(path)) {
         setRunning(false);
         emit failed("The path is incorrect.");
@@ -618,6 +715,7 @@ bool Benchmark::createNoCowDirectory(const QString &path)
     this->setDir(newDir);
 
     return true;
+#endif
 }
 
 bool Benchmark::prepareDirectory(const QString &benchmarkFile)
@@ -662,6 +760,30 @@ bool Benchmark::prepareBenchmarkFile(const QString &benchmarkPath, int fileSize)
         return false;
     }
 
+#ifdef Q_OS_WIN
+    QString filename;
+    {
+        QTemporaryFile reservation(QStringLiteral("%1/kdiskmark-XXXXXX.tmp").arg(benchmarkPath));
+        if (!reservation.open()) {
+            emit failed(tr("Cannot create benchmark file: %1").arg(reservation.errorString()));
+            return false;
+        }
+        filename = reservation.fileName();
+        reservation.setAutoRemove(false);
+    }
+    // Destroy QTemporaryFile to release its native Windows handle: close()
+    // alone keeps the handle alive, preventing fio from recreating the file.
+    m_benchmarkFile = new QFile(filename);
+    QString output, error;
+    prepared = executeFio(QStringList()
+        << "--output-format=json" << "--create_only=1"
+        << QStringLiteral("--filename=%1").arg(fioFilename())
+        << QStringLiteral("--size=%1m").arg(fileSize)
+        << QStringLiteral("--zero_buffers=%1").arg(AppSettings().getBenchmarkTestData() == Global::BenchmarkTestData::Zeros)
+        << "--name=prepare", output, error);
+    if (prepared && m_running) parseResult(output, error);
+    return prepared && m_running;
+#else
     m_benchmarkFile = new QTemporaryFile();
     m_benchmarkFile->setFileTemplate(QStringLiteral("%1/%2").arg(benchmarkPath).arg("kdiskmark-XXXXXX.tmp"));
 
@@ -706,4 +828,51 @@ bool Benchmark::prepareBenchmarkFile(const QString &benchmarkPath, int fileSize)
     QObject::disconnect(conn);
 
     return prepared;
+#endif
 }
+
+#ifdef Q_OS_WIN
+QString Benchmark::fioFilename() const
+{
+    QString path = QDir::fromNativeSeparators(m_benchmarkFile->fileName());
+#ifdef Q_OS_WIN
+    // Run in the target directory so fio's narrow Windows argv never needs
+    // to carry a drive-letter colon or a Unicode directory name.
+    path = QFileInfo(path).fileName();
+#endif
+    return path;
+}
+
+bool Benchmark::executeFio(const QStringList &arguments, QString &output, QString &error)
+{
+    QProcess process;
+    QEventLoop loop;
+    if (m_benchmarkFile)
+        process.setWorkingDirectory(QFileInfo(m_benchmarkFile->fileName()).absolutePath());
+    m_process = &process;
+    connect(&process, qOverload<int, QProcess::ExitStatus>(&QProcess::finished), &loop, &QEventLoop::quit);
+    connect(&process, &QProcess::errorOccurred, &loop, &QEventLoop::quit);
+    QStringList nativeArguments = arguments;
+#ifdef Q_OS_WIN
+    // Windows has no process-shared mutexes; otherwise fio writes a warning
+    // before the JSON document on stdout.
+    nativeArguments.prepend(QStringLiteral("--thread"));
+#endif
+    process.start(m_fioPath, nativeArguments);
+    if (!process.waitForStarted(10000)) {
+        error = process.errorString();
+    } else {
+        if (process.state() != QProcess::NotRunning) loop.exec();
+        output = QString::fromUtf8(process.readAllStandardOutput());
+        error = QString::fromLocal8Bit(process.readAllStandardError());
+    }
+    m_process = nullptr;
+    const bool success = process.error() != QProcess::FailedToStart
+        && process.exitStatus() == QProcess::NormalExit && process.exitCode() == 0;
+    if (!success && m_running) {
+        emit failed(error.isEmpty() ? tr("fio failed: %1").arg(output) : error);
+    }
+    return success;
+}
+
+#endif

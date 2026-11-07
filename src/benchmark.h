@@ -85,9 +85,18 @@ public:
 private:
     bool m_running;
     QString m_FIOVersion;
+#ifdef Q_OS_WIN
+    QString m_fioPath;
+    bool executeFio(const QStringList &arguments, QString &output, QString &error);
+    QString fioFilename() const;
+#endif
     QVector<QObject*> m_targets;
     QString m_dir;
+#ifdef Q_OS_WIN
+    QFile *m_benchmarkFile = nullptr;
+#else
     QTemporaryFile *m_benchmarkFile = nullptr;
+#endif
 
     QProcess *m_process = nullptr;
 #ifdef APPIMAGE_EDITION
