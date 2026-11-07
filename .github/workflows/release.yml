@@ -36,6 +36,7 @@ jobs:
 
   pack:
     name: Pack source tarball
+    if: ${{ !contains(github.event.release.tag_name, '-windows-') }}
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
@@ -55,6 +56,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   release:
+    if: ${{ !contains(github.event.release.tag_name, '-windows-') }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -141,6 +143,7 @@ jobs:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   appimage:
+    if: ${{ !contains(github.event.release.tag_name, '-windows-') }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
