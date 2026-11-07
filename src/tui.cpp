@@ -1444,13 +1444,6 @@ QString Tui::targetInfo() const
     const QString dir = m_benchmark->getBenchmarkFile();
     const QStorageInfo volume(dir);
 
-    QString info = dir;
-    if (volume.bytesTotal() > 0) {
-        const qlonglong occupied = volume.bytesTotal() - volume.bytesFree();
-        info += QStringLiteral(" %1% (%2)").arg(occupied * 100 / volume.bytesTotal())
-                                           .arg(formatSize(occupied, volume.bytesTotal()));
-    }
-
     const QString modelName = DiskDriveInfo::Instance().getModelName(
 #ifdef Q_OS_WIN
                 volume.rootPath()
@@ -1458,10 +1451,8 @@ QString Tui::targetInfo() const
                 volume.device()
 #endif
             );
-    if (!modelName.isEmpty())
-        info += QStringLiteral(" [%1]").arg(modelName);
-
-    return info;
+    return Global::formatReportTarget(dir, volume.bytesTotal() - volume.bytesFree(),
+                                      volume.bytesTotal(), modelName);
 }
 
 QString Tui::formatSize(quint64 occupied, quint64 total) const
