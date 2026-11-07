@@ -1,7 +1,9 @@
 #ifndef TUI_H
 #define TUI_H
 
+#ifndef _WIN32
 #include <termios.h>
+#endif
 
 #include <QHash>
 #include <QObject>
@@ -13,6 +15,9 @@
 
 class QCoreApplication;
 class QSocketNotifier;
+#ifdef Q_OS_WIN
+class QTimer;
+#endif
 
 class Tui : public QObject
 {
@@ -139,7 +144,15 @@ private:
     QVector<StorageEntry> m_storages;
     QVector<SettingsItem> m_settingsItems;
     QSocketNotifier *m_signalNotifier = nullptr;
+#ifdef Q_OS_WIN
+    QTimer *m_keyNotifier = nullptr;
+    unsigned long m_originalInputMode = 0;
+    unsigned long m_originalOutputMode = 0;
+    unsigned int m_originalInputCodePage = 0;
+    unsigned int m_originalOutputCodePage = 0;
+#else
     QSocketNotifier *m_keyNotifier = nullptr;
+#endif
     QString m_status;
     QString m_lastError;
     QString m_infoMessage;
@@ -150,7 +163,9 @@ private:
     int m_termWidth = 80;
     int m_termHeight = 24;
     int m_unitIndex = 0; // Global::ComparisonUnit
+#ifndef Q_OS_WIN
     struct termios m_originalTermios = {};
+#endif
     bool m_screenActive = false;
     bool m_quitRequested = false;
     bool m_stopIssued = false;

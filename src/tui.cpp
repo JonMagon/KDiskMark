@@ -17,10 +17,19 @@
 #include <cmath>
 #include <utility>
 
+#ifdef Q_OS_WIN
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#include <atomic>
+#include <QTimer>
+#else
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#endif
 
 #include "appsettings.h"
 #include "diskdriveinfo.h"
@@ -83,6 +92,17 @@ QString padDisplayLeft(const QString &text, int width) // right-justified
     return padding > 0 ? QString(padding, QLatin1Char(' ')) + text : text;
 }
 
+#ifdef Q_OS_WIN
+std::atomic<bool> consoleStopRequested{false};
+BOOL WINAPI consoleControlHandler(DWORD event)
+{
+    if (event == CTRL_C_EVENT || event == CTRL_BREAK_EVENT) {
+        consoleStopRequested.store(true);
+        return TRUE;
+    }
+    return FALSE;
+}
+#else
 int signalSocketPair[2] = { -1, -1 };
 
 void unixSignalHandler(int signum)
@@ -92,6 +112,8 @@ void unixSignalHandler(int signum)
         // Cannot do anything async-signal-safe about it
     }
 }
+
+#endif
 
 } // namespace
 
@@ -112,6 +134,9 @@ Tui::Tui(QObject *parent)
 Tui::~Tui()
 {
     leaveScreen();
+#ifdef Q_OS_WIN
+    SetConsoleCtrlHandler(consoleControlHandler, FALSE);
+#endif
 }
 
 int Tui::run(QCoreApplication &app)
@@ -121,11 +146,19 @@ int Tui::run(QCoreApplication &app)
     QCommandLineParser parser;
     parser.setApplicationDescription(
         QStringLiteral("\n") +
+#ifdef Q_OS_WIN
+        tr("A simple open source disk benchmark tool."));
+#else
         tr("A simple open source disk benchmark tool for Linux distros."));
+#endif
     parser.addHelpOption();
     parser.addVersionOption();
     parser.addOption(QCommandLineOption(QStringLiteral("tui"),
+#ifdef Q_OS_WIN
+        tr("Run the interactive terminal interface.")));
+#else
         tr("Run the interactive terminal interface (default when no graphical display is available).")));
+#endif
     parser.addPositionalArgument(QStringLiteral("directory"),
                                  tr("Directory to add to the storage list."),
                                  QStringLiteral("[directory]"));
@@ -133,7 +166,19 @@ int Tui::run(QCoreApplication &app)
 
     QTextStream err(stderr);
 
+    #ifdef Q_OS_WIN
+    DWORD inputMode = 0, outputMode = 0;
+    const bool interactive = GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &inputMode)
+        && GetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), &outputMode);
+    if (interactive && !SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), outputMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING)) {
+        err << tr("This terminal does not support virtual terminal sequences.") << "\n";
+        return 2;
+    }
+    if (interactive) SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), outputMode);
+    if (!interactive) {
+#else
     if (!::isatty(STDIN_FILENO) || !::isatty(STDOUT_FILENO)) {
+#endif
         err << tr("The terminal interface requires an interactive terminal.") << "\n";
         return 2;
     }
@@ -180,9 +225,20 @@ int Tui::run(QCoreApplication &app)
 
     rebuildRows();
 
+#ifdef Q_OS_WIN
+    m_keyNotifier = new QTimer(this);
+    m_keyNotifier->setInterval(20);
+    connect(m_keyNotifier, &QTimer::timeout, this, &Tui::handleKeyInput);
+#else
     m_keyNotifier = new QSocketNotifier(STDIN_FILENO, QSocketNotifier::Read, this);
     connect(m_keyNotifier, &QSocketNotifier::activated, this, &Tui::handleKeyInput);
-    m_keyNotifier->setEnabled(false);
+#endif
+
+#ifdef Q_OS_WIN
+        m_keyNotifier->stop();
+#else
+        m_keyNotifier->setEnabled(false);
+#endif
 
     m_status = tr("Ready.");
 
@@ -201,12 +257,24 @@ void Tui::enterScreen()
     if (m_screenActive)
         return;
 
+#ifdef Q_OS_WIN
+    GetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), &m_originalInputMode);
+    GetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), &m_originalOutputMode);
+    m_originalInputCodePage = GetConsoleCP();
+    m_originalOutputCodePage = GetConsoleOutputCP();
+    SetConsoleCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), ENABLE_PROCESSED_INPUT | ENABLE_WINDOW_INPUT | ENABLE_EXTENDED_FLAGS);
+    SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), m_originalOutputMode | ENABLE_PROCESSED_OUTPUT | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+#else
     ::tcgetattr(STDIN_FILENO, &m_originalTermios);
     struct termios raw = m_originalTermios;
     raw.c_lflag &= ~(ICANON | ECHO);
     raw.c_cc[VMIN] = 0;
     raw.c_cc[VTIME] = 0;
     ::tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+
+#endif
 
     // Alternate screen buffer, hidden cursor, no line wrapping
     QTextStream out(stdout);
@@ -215,7 +283,12 @@ void Tui::enterScreen()
 
     m_screenActive = true;
     if (m_keyNotifier)
+
+#ifdef Q_OS_WIN
+        m_keyNotifier->start();
+#else
         m_keyNotifier->setEnabled(true);
+#endif
 
     updateTerminalSize();
 }
@@ -226,19 +299,38 @@ void Tui::leaveScreen()
         return;
 
     if (m_keyNotifier)
+
+#ifdef Q_OS_WIN
+        m_keyNotifier->stop();
+#else
         m_keyNotifier->setEnabled(false);
+#endif
 
     QTextStream out(stdout);
     out << QStringLiteral("\x1b[?7h\x1b[?25h\x1b[?1049l");
     out.flush();
 
+#ifdef Q_OS_WIN
+    SetConsoleMode(GetStdHandle(STD_INPUT_HANDLE), m_originalInputMode);
+    SetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), m_originalOutputMode);
+    SetConsoleCP(m_originalInputCodePage);
+    SetConsoleOutputCP(m_originalOutputCodePage);
+#else
     ::tcsetattr(STDIN_FILENO, TCSAFLUSH, &m_originalTermios);
+#endif
 
     m_screenActive = false;
 }
 
 void Tui::updateTerminalSize()
 {
+#ifdef Q_OS_WIN
+    CONSOLE_SCREEN_BUFFER_INFO info = {};
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info)) {
+        m_termWidth = info.srWindow.Right - info.srWindow.Left + 1;
+        m_termHeight = info.srWindow.Bottom - info.srWindow.Top + 1;
+    }
+#else
     struct winsize size = {};
     if (::ioctl(STDOUT_FILENO, TIOCGWINSZ, &size) == 0 && size.ws_col > 0 && size.ws_row > 0) {
         m_termWidth = size.ws_col;
@@ -248,12 +340,34 @@ void Tui::updateTerminalSize()
         m_termWidth = 80;
         m_termHeight = 24;
     }
+#endif
 }
 
 QString Tui::promptLine(const QString &prompt)
 {
+#ifdef Q_OS_WIN
+    if (m_keyNotifier) m_keyNotifier->stop();
+    QTextStream out(stdout);
+    out << QStringLiteral("\x1b[%1;1H\x1b[K").arg(m_termHeight) << prompt << QStringLiteral("\x1b[?25h");
+    out.flush();
+    HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD mode = 0, count = 0;
+    GetConsoleMode(input, &mode);
+    SetConsoleMode(input, mode | ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT | ENABLE_PROCESSED_INPUT);
+    wchar_t buffer[32768] = {};
+    const bool read = ReadConsoleW(input, buffer, 32767, &count, nullptr);
+    SetConsoleMode(input, mode);
+    out << QStringLiteral("\x1b[?25l"); out.flush();
+    if (m_keyNotifier && m_screenActive) m_keyNotifier->start();
+    return read ? QString::fromWCharArray(buffer, int(count)).trimmed() : QString();
+#else
     if (m_keyNotifier)
+
+#ifdef Q_OS_WIN
+        m_keyNotifier->stop();
+#else
         m_keyNotifier->setEnabled(false);
+#endif
 
     QTextStream out(stdout);
     out << QStringLiteral("\x1b[%1;1H\x1b[K").arg(m_termHeight) << prompt << QStringLiteral("\x1b[?25h");
@@ -277,13 +391,48 @@ QString Tui::promptLine(const QString &prompt)
     out.flush();
 
     if (m_keyNotifier)
+
+#ifdef Q_OS_WIN
+        m_keyNotifier->start();
+#else
         m_keyNotifier->setEnabled(true);
+#endif
 
     return QString::fromUtf8(line).trimmed();
+#endif
 }
 
 void Tui::handleKeyInput()
 {
+#ifdef Q_OS_WIN
+    if (consoleStopRequested.exchange(false)) { handleUnixSignal(); return; }
+    HANDLE input = GetStdHandle(STD_INPUT_HANDLE);
+    DWORD available = 0, read = 0;
+    INPUT_RECORD records[32];
+    if (!GetNumberOfConsoleInputEvents(input, &available) || available == 0) return;
+    if (!ReadConsoleInputW(input, records, qMin(DWORD(32), available), &read)) return;
+    for (DWORD i = 0; i < read; ++i) {
+        const auto &record = records[i];
+        if (record.EventType == WINDOW_BUFFER_SIZE_EVENT) { updateTerminalSize(); render(); continue; }
+        if (record.EventType != KEY_EVENT || !record.Event.KeyEvent.bKeyDown) continue;
+        const auto &event = record.Event.KeyEvent;
+        int key = 0;
+        switch (event.wVirtualKeyCode) {
+        case VK_UP: key = KeyUp; break;
+        case VK_DOWN: key = KeyDown; break;
+        case VK_LEFT: key = KeyLeft; break;
+        case VK_RIGHT: key = KeyRight; break;
+        case VK_ESCAPE: key = KeyEscape; break;
+        case VK_RETURN: key = '\n'; break;
+        default: key = int(event.uChar.UnicodeChar); break;
+        }
+        if (!key) continue;
+        // Run commands outside the polling timer's timeout handler so the
+        // timer can keep reading Stop/Ctrl+C during a benchmark's nested loop.
+        for (WORD repeat = 0; repeat < qMax(WORD(1), event.wRepeatCount); ++repeat)
+            QMetaObject::invokeMethod(this, [this, key] { processKey(key); }, Qt::QueuedConnection);
+    }
+#else
     char buffer[64];
     const ssize_t bytesRead = ::read(STDIN_FILENO, buffer, sizeof(buffer));
     if (bytesRead <= 0)
@@ -321,6 +470,7 @@ void Tui::handleKeyInput()
 
         processKey(key);
     }
+#endif
 }
 
 void Tui::processKey(int key)
@@ -615,13 +765,13 @@ void Tui::buildSettingsItems()
                     << SettingsItem { SettingsItem::Mode }
                     << SettingsItem { SettingsItem::TestData }
                     << SettingsItem { SettingsItem::Continuous }
-#ifdef APPIMAGE_EDITION
-                    // Flushing the page cache requires the privileged helper,
-                    // which only the AppImage edition provides
+#if defined(APPIMAGE_EDITION) || defined(Q_OS_WIN)
                     << SettingsItem { SettingsItem::FlushCache }
 #endif
                     << SettingsItem { SettingsItem::CacheBypass }
+#ifndef Q_OS_WIN
                     << SettingsItem { SettingsItem::CowDetection }
+#endif
                     << SettingsItem { SettingsItem::PresetStandard }
                     << SettingsItem { SettingsItem::PresetNvme }
                     << SettingsItem { SettingsItem::Back };
@@ -781,7 +931,12 @@ void Tui::startBenchmark(int onlyRow)
     if (AppSettings().getFlusingCacheState() && ::geteuid() != 0) {
         m_authPhase = true;
         if (m_keyNotifier)
-            m_keyNotifier->setEnabled(false);
+
+#ifdef Q_OS_WIN
+        m_keyNotifier->stop();
+#else
+        m_keyNotifier->setEnabled(false);
+#endif
     }
 #endif
 
@@ -795,7 +950,12 @@ void Tui::startBenchmark(int onlyRow)
 
     m_authPhase = false;
     if (m_keyNotifier)
+
+#ifdef Q_OS_WIN
+        m_screenActive ? m_keyNotifier->start() : m_keyNotifier->stop();
+#else
         m_keyNotifier->setEnabled(m_screenActive);
+#endif
 
     m_stopRequested = false;
 
@@ -844,7 +1004,11 @@ void Tui::rescanStorages(const QString &preferredPath)
 
     foreach (const QStorageInfo &volume, QStorageInfo::mountedVolumes()) {
         if (volume.isValid() && volume.isReady() && !volume.isReadOnly()
-                && volume.device().indexOf("/dev") != -1) {
+
+#ifndef Q_OS_WIN
+                && volume.device().indexOf("/dev") != -1
+#endif
+                ) {
             StorageEntry entry;
             entry.storage = Global::Storage {
                 volume.rootPath(),
@@ -852,8 +1016,20 @@ void Tui::rescanStorages(const QString &preferredPath)
                 volume.bytesTotal() - volume.bytesFree(),
                 QString()
             };
-            entry.modelName = DiskDriveInfo::Instance().getModelName(volume.device());
-            entry.encrypted = DiskDriveInfo::Instance().isEncrypted(volume.device());
+            entry.modelName = DiskDriveInfo::Instance().getModelName(
+#ifdef Q_OS_WIN
+                volume.rootPath()
+#else
+                volume.device()
+#endif
+            );
+            entry.encrypted = DiskDriveInfo::Instance().isEncrypted(
+#ifdef Q_OS_WIN
+                volume.rootPath()
+#else
+                volume.device()
+#endif
+            );
             m_storages << entry;
         }
     }
@@ -917,8 +1093,20 @@ void Tui::addCustomStorage(const QString &path, bool select)
         QString(),
         true
     };
-    entry.modelName = DiskDriveInfo::Instance().getModelName(volume.device());
-    entry.encrypted = DiskDriveInfo::Instance().isEncrypted(volume.device());
+    entry.modelName = DiskDriveInfo::Instance().getModelName(
+#ifdef Q_OS_WIN
+                volume.rootPath()
+#else
+                volume.device()
+#endif
+            );
+    entry.encrypted = DiskDriveInfo::Instance().isEncrypted(
+#ifdef Q_OS_WIN
+                volume.rootPath()
+#else
+                volume.device()
+#endif
+            );
 
     m_storages << entry;
 
@@ -1017,6 +1205,10 @@ bool Tui::storeResult(QObject *target, const Benchmark::PerformanceResult &resul
 
 void Tui::setupUnixSignalHandlers()
 {
+#ifdef Q_OS_WIN
+    consoleStopRequested.store(false);
+    SetConsoleCtrlHandler(consoleControlHandler, TRUE);
+#else
     if (::socketpair(AF_UNIX, SOCK_STREAM, 0, signalSocketPair) != 0)
         return;
 
@@ -1031,10 +1223,17 @@ void Tui::setupUnixSignalHandlers()
     ::sigaction(SIGTERM, &action, nullptr);
     ::sigaction(SIGHUP, &action, nullptr);
     ::sigaction(SIGWINCH, &action, nullptr);
+#endif
 }
 
 void Tui::handleUnixSignal()
 {
+#ifdef Q_OS_WIN
+    if (m_stopRequested) { leaveScreen(); ExitProcess(130); }
+    m_stopRequested = true;
+    m_exitCode = 130;
+    stopOrQuit(true);
+#else
     char signum = 0;
     if (::read(signalSocketPair[0], &signum, sizeof(signum)) != sizeof(signum)) {
         // Spurious wakeup
@@ -1054,6 +1253,7 @@ void Tui::handleUnixSignal()
     m_stopRequested = true;
     m_exitCode = 130;
     stopOrQuit(true);
+#endif
 }
 
 void Tui::benchmarkStatusUpdate(const QString &name)
@@ -1066,7 +1266,12 @@ void Tui::benchmarkStatusUpdate(const QString &name)
     if (m_authPhase && m_runStatusCount >= 2) {
         m_authPhase = false;
         if (m_keyNotifier && m_screenActive)
-            m_keyNotifier->setEnabled(true);
+
+#ifdef Q_OS_WIN
+        m_keyNotifier->start();
+#else
+        m_keyNotifier->setEnabled(true);
+#endif
     }
 
     render();
@@ -1099,12 +1304,16 @@ void Tui::handleCowCheck()
 
         // Read the cooked-mode line over the raw descriptor, so that no
         // type-ahead ends up in a FILE buffer
+#ifndef Q_OS_WIN
         QByteArray line;
         char ch = 0;
         while (::read(STDIN_FILENO, &ch, 1) == 1 && ch != '\n')
             line += ch;
 
         const QString answer = QString::fromUtf8(line).trimmed().toLower();
+#else
+        const QString answer = promptLine(QString()).toLower();
+#endif
         create = answer.isEmpty() || answer == QStringLiteral("y") || answer == QStringLiteral("yes");
 
         enterScreen();
@@ -1242,7 +1451,13 @@ QString Tui::targetInfo() const
                                            .arg(formatSize(occupied, volume.bytesTotal()));
     }
 
-    const QString modelName = DiskDriveInfo::Instance().getModelName(volume.device());
+    const QString modelName = DiskDriveInfo::Instance().getModelName(
+#ifdef Q_OS_WIN
+                volume.rootPath()
+#else
+                volume.device()
+#endif
+            );
     if (!modelName.isEmpty())
         info += QStringLiteral(" [%1]").arg(modelName);
 
@@ -1588,9 +1803,22 @@ void Tui::buildSettingsLines(QStringList &lines) const
     lines << divider;
 
     int scalarLabelWidth = 0;
+#ifdef Q_OS_WIN
+    QStringList scalarLabels { tr("Measuring time"), tr("Interval time"), tr("Mode"), tr("Test data"), tr("Continuous generation") };
+#if defined(APPIMAGE_EDITION) || defined(Q_OS_WIN)
+    scalarLabels << tr("Flush pagecache");
+#endif
+#ifdef Q_OS_WIN
+    scalarLabels << tr("Bypass filesystem cache");
+#else
+    scalarLabels << tr("Use O_DIRECT") << tr("CoW detection");
+#endif
+    for (const QString &label : scalarLabels)
+#else
     for (const QString &label : { tr("Measuring time"), tr("Interval time"), tr("Mode"), tr("Test data"),
                                   tr("Continuous generation"), tr("Flush pagecache"), tr("Use O_DIRECT"),
                                   tr("CoW detection") })
+#endif
         scalarLabelWidth = qMax(scalarLabelWidth, displayWidth(label));
 
     auto scalarLine = [&](const QString &label, const QString &value) {
@@ -1609,8 +1837,12 @@ void Tui::buildSettingsLines(QStringList &lines) const
                                 ? tr("Random") : tr("All Zeros"));
     scalarLine(tr("Continuous generation"), settings.getContinuousGenerationState() ? tr("On") : tr("Off"));
     scalarLine(tr("Flush pagecache"), settings.getFlusingCacheState() ? tr("On") : tr("Off"));
+#ifdef Q_OS_WIN
+    scalarLine(tr("Bypass filesystem cache"), settings.getCacheBypassState() ? tr("On") : tr("Off"));
+#else
     scalarLine(tr("Use O_DIRECT"), settings.getCacheBypassState() ? tr("On") : tr("Off"));
     scalarLine(tr("CoW detection"), settings.getCoWDetectionState() ? tr("On") : tr("Off"));
+#endif
 
     lines << QString();
 
