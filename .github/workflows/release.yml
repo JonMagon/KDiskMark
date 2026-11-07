@@ -6,12 +6,40 @@ env:
   GPG_KEY_ID: '0D6B2AE90E7FFE6CF5EA46706DAB02FDC999D6E8'
 
 jobs:
+  windows:
+    name: Build Windows ZIP from legacy
+    permissions:
+      contents: read
+    uses: JonMagon/KDiskMark/.github/workflows/windows.yml@legacy
+    with:
+      source-ref: legacy
+
+  windows-upload:
+    name: Publish Windows ZIP
+    needs: windows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows ZIP
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-x64
+          path: windows
+
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" windows/*.zip --clobber
+
   pack:
     name: Pack source tarball
     runs-on: ubuntu-latest
     steps:
       - name: Clone repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: recursive
 
@@ -38,7 +66,7 @@ jobs:
             upload-files: 'build/*.deb;build/*.rpm;package-signing-key.pub'
     steps:
     - name: Clone repo
-      uses: actions/checkout@v2.2.0
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -125,7 +153,7 @@ jobs:
             upload-files: 'build/{*.AppImage,*.AppImage.zsync,*.AppImage.sig}'
     steps:
     - name: Clone repo
-      uses: actions/checkout@v2.2.0
+      uses: actions/checkout@v4
       with:
         ref: 'legacy'
         submodules: recursive
