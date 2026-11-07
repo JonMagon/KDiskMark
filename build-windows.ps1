@@ -9,6 +9,11 @@ if (!(Test-Path -LiteralPath $FioPath -PathType Leaf)) { throw "fio.exe not foun
 $FioPath = (Resolve-Path -LiteralPath $FioPath).Path
 $toolBin = Join-Path $MsysRoot 'ucrt64\bin'
 $env:PATH = "$toolBin;$env:PATH"
+$fioVersionOutput = (& $FioPath --version | Out-String).Trim()
+if ($LASTEXITCODE -ne 0 -or $fioVersionOutput -notmatch '^fio-([0-9]+\.[0-9]+(?:\.[0-9]+)?)$') {
+    throw "Cannot determine the bundled fio version: $fioVersionOutput"
+}
+$fioVersion = $Matches[1]
 function Run([string]$Program, [string[]]$Arguments) {
     & $Program @Arguments
     if ($LASTEXITCODE -ne 0) { throw "$Program failed ($LASTEXITCODE)" }
@@ -142,6 +147,6 @@ $project = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'CMakeLists.txt') -
 if ($project -notmatch 'project\(kdiskmark\s+VERSION\s+([0-9]+\.[0-9]+\.[0-9]+)') {
     throw 'Cannot determine the KDiskMark version from CMakeLists.txt'
 }
-$archive = Join-Path $PSScriptRoot "KDiskMark-$($Matches[1])-Windows-x64.zip"
+$archive = Join-Path $PSScriptRoot "KDiskMark-$($Matches[1])-fio-$fioVersion-Windows-x64.zip"
 Compress-Archive -Path (Join-Path $dist '*') -DestinationPath $archive -Force
 Write-Host "Portable archive: $archive"
