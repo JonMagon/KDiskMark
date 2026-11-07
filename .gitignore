@@ -72,3 +72,7 @@ CMakeLists.txt.user
 *.dll
 *.exe
 
+# Windows portable build outputs
+/build-windows/
+/dist/
+/KDiskMark-*-Windows-x64.zip
