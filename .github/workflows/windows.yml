@@ -55,6 +55,7 @@ jobs:
             mingw-w64-ucrt-x86_64-qt6-base
             mingw-w64-ucrt-x86_64-qt6-tools
             mingw-w64-ucrt-x86_64-qt6-translations
+            mingw-w64-ucrt-x86_64-osslsigncode
 
       - name: Download and extract fio
         id: fio
@@ -103,12 +104,15 @@ jobs:
       - name: Check and label the test-signed ZIP
         timeout-minutes: 2
         if: ${{ inputs.test-signing }}
+        env:
+          MSYS_ROOT: ${{ steps.msys2.outputs.msys2-location }}
         run: |
           $archives = @(Get-ChildItem -LiteralPath signed -Filter 'KDiskMark-*-Windows-x64.zip' -File)
           if ($archives.Count -ne 1) { throw 'Expected one signed portable ZIP' }
           $directory = Join-Path $env:RUNNER_TEMP 'signpath-check'
           Expand-Archive -LiteralPath $archives[0].FullName -DestinationPath $directory
-          ./.github/scripts/check-test-signatures.ps1 -Directory $directory
+          $verifier = Join-Path $env:MSYS_ROOT 'ucrt64\bin\osslsigncode.exe'
+          ./.github/scripts/check-test-signatures.ps1 -Directory $directory -Verifier $verifier
           # The self-signed certificate is for integration checks, not public releases.
           Rename-Item -LiteralPath $archives[0].FullName -NewName ($archives[0].BaseName + '-test-signed.zip')
 
