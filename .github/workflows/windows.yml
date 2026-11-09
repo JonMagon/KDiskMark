@@ -107,17 +107,35 @@ jobs:
           if ($archives.Count -ne 1) { throw 'Expected one signed portable ZIP' }
           $directory = Join-Path $env:RUNNER_TEMP 'signpath-check'
           Expand-Archive -LiteralPath $archives[0].FullName -DestinationPath $directory
-          $thumbprint = $null
-          foreach ($name in @('kdiskmark.exe', 'kdiskmark.com')) {
-              $signature = Get-AuthenticodeSignature -LiteralPath (Join-Path $directory $name)
-              if (!$signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
-                  throw "Invalid test signature on ${name}: $($signature.Status) $($signature.StatusMessage)"
+          $reference = Get-AuthenticodeSignature -LiteralPath (Join-Path $directory 'kdiskmark.exe')
+          $certificate = $reference.SignerCertificate
+          if (!$certificate -or $certificate.Subject -ne $certificate.Issuer) {
+              throw 'Expected a self-signed SignPath test certificate'
+          }
+          # Trust this test certificate only on the disposable runner, then require
+          # full Authenticode validation, including the executable content digest.
+          $store = [Security.Cryptography.X509Certificates.X509Store]::new('Root', 'CurrentUser')
+          $added = $false
+          try {
+              $store.Open([Security.Cryptography.X509Certificates.OpenFlags]::ReadWrite)
+              $existing = $store.Certificates.Find('FindByThumbprint', $certificate.Thumbprint, $false)
+              if ($existing.Count -eq 0) {
+                  $store.Add($certificate)
+                  $added = $true
               }
-              if ($thumbprint -and $signature.SignerCertificate.Thumbprint -ne $thumbprint) {
-                  throw 'EXE and COM have different signing certificates'
+              foreach ($name in @('kdiskmark.exe', 'kdiskmark.com')) {
+                  $signature = Get-AuthenticodeSignature -LiteralPath (Join-Path $directory $name)
+                  if ($signature.Status -ne 'Valid') {
+                      throw "Invalid test signature on ${name}: $($signature.Status) $($signature.StatusMessage)"
+                  }
+                  if ($signature.SignerCertificate.Thumbprint -ne $certificate.Thumbprint) {
+                      throw 'EXE and COM have different signing certificates'
+                  }
+                  Write-Host "${name}: $($signature.Status), signer: $($signature.SignerCertificate.Subject)"
               }
-              $thumbprint = $signature.SignerCertificate.Thumbprint
-              Write-Host "${name}: $($signature.Status), signer: $($signature.SignerCertificate.Subject)"
+          } finally {
+              if ($added) { $store.Remove($certificate) }
+              $store.Close()
           }
           # The self-signed certificate is for integration checks, not public releases.
           Rename-Item -LiteralPath $archives[0].FullName -NewName ($archives[0].BaseName + '-test-signed.zip')
