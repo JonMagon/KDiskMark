@@ -10,9 +10,9 @@ permissions:
 jobs:
   sign:
     name: Build and test-sign Windows ZIP
-    uses: JonMagon/KDiskMark/.github/workflows/windows.yml@3448acf0a63342a0e70d1d9517920303d73a9453
+    uses: JonMagon/KDiskMark/.github/workflows/windows.yml@2da72010efaf5582b3d2999ec0090199f4f42bf0
     with:
-      source-ref: 3448acf0a63342a0e70d1d9517920303d73a9453
+      source-ref: 2da72010efaf5582b3d2999ec0090199f4f42bf0
       test-signing: true
     secrets:
       SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
