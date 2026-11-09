@@ -11,9 +11,17 @@ on:
         description: Git ref containing the Windows sources
         type: string
         required: true
+      test-signing:
+        description: Sign an additional artifact with the SignPath test certificate
+        type: boolean
+        default: false
+    secrets:
+      SIGNPATH_API_TOKEN:
+        required: false
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   build:
@@ -72,8 +80,52 @@ jobs:
         run: ./build-windows.ps1 -MsysRoot $env:MSYS_ROOT -FioPath $env:FIO_PATH
 
       - name: Upload portable ZIP
+        id: unsigned
         uses: actions/upload-artifact@v4
         with:
           name: windows-x64
           path: KDiskMark-*-Windows-x64.zip
+          if-no-files-found: error
+
+      - name: Sign with the SignPath test certificate
+        if: ${{ inputs.test-signing }}
+        uses: signpath/github-action-submit-signing-request@v3
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: '2020814f-20a6-40bf-9c4f-07e83901a5da'
+          project-slug: KDiskMark
+          signing-policy-slug: test-signing
+          artifact-configuration-slug: initial
+          github-artifact-id: ${{ steps.unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: signed
+
+      - name: Check and label the test-signed ZIP
+        if: ${{ inputs.test-signing }}
+        run: |
+          $archives = @(Get-ChildItem -LiteralPath signed -Filter 'KDiskMark-*-Windows-x64.zip' -File)
+          if ($archives.Count -ne 1) { throw 'Expected one signed portable ZIP' }
+          $directory = Join-Path $env:RUNNER_TEMP 'signpath-check'
+          Expand-Archive -LiteralPath $archives[0].FullName -DestinationPath $directory
+          $thumbprint = $null
+          foreach ($name in @('kdiskmark.exe', 'kdiskmark.com')) {
+              $signature = Get-AuthenticodeSignature -LiteralPath (Join-Path $directory $name)
+              if (!$signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
+                  throw "Invalid test signature on ${name}: $($signature.Status) $($signature.StatusMessage)"
+              }
+              if ($thumbprint -and $signature.SignerCertificate.Thumbprint -ne $thumbprint) {
+                  throw 'EXE and COM have different signing certificates'
+              }
+              $thumbprint = $signature.SignerCertificate.Thumbprint
+              Write-Host "${name}: $($signature.Status), signer: $($signature.SignerCertificate.Subject)"
+          }
+          # The self-signed certificate is for integration checks, not public releases.
+          Rename-Item -LiteralPath $archives[0].FullName -NewName ($archives[0].BaseName + '-test-signed.zip')
+
+      - name: Upload test-signed portable ZIP
+        if: ${{ inputs.test-signing }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64-test-signed
+          path: signed/*-test-signed.zip
           if-no-files-found: error

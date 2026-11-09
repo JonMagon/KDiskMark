@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <zip-file>
+    <zip-file path="KDiskMark-*-Windows-x64.zip">
+      <pe-file path="kdiskmark.exe">
+        <authenticode-sign />
+      </pe-file>
+      <pe-file path="kdiskmark.com">
+        <authenticode-sign />
+      </pe-file>
+    </zip-file>
+  </zip-file>
+</artifact-configuration>
